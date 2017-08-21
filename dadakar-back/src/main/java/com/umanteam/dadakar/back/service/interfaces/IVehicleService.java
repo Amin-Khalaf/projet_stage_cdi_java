@@ -2,7 +2,7 @@ package com.umanteam.dadakar.back.service.interfaces;
 
 import java.util.List;
 
-import com.umanteam.dadakar.back.DTO.VehicleDTO;
+import com.umanteam.dadakar.back.dto.VehicleDTO;
 
 public interface IVehicleService {
 

@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.DTO;
+package com.umanteam.dadakar.back.dto;
 
 import java.io.Serializable;
 

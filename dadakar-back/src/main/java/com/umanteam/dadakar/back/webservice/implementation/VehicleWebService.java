@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.umanteam.dadakar.back.DTO.VehicleDTO;
+import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.back.service.implementation.VehicleService;
 import com.umanteam.dadakar.back.webservice.interfaces.IVehicleWebService;
 

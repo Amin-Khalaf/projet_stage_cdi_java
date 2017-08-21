@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.umanteam.dadakar.back.DTO.VehicleDTO;
+import com.umanteam.dadakar.back.dto.VehicleDTO;
 
 public interface IVehicleWebService {
 

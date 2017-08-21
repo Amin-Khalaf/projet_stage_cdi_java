@@ -7,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.umanteam.dadakar.back.DTO.VehicleDTO;
+import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.back.entity.Vehicle;
 import com.umanteam.dadakar.back.repository.VehiculeRepository;
 import com.umanteam.dadakar.back.service.interfaces.IVehicleService;
