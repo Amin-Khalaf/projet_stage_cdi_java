@@ -52,7 +52,7 @@ public class AccountWebService implements IAccountWebService {
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
-	@RequestMapping(value="/id:{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
 	public AccountDTO findById(@PathVariable("id") String id) { // OK
 		return accountService.findById(id);
