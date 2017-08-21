@@ -6,14 +6,20 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.umanteam.dadakar.back.entities.Account;
+import com.umanteam.dadakar.back.entities.Rating;
+import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.back.repository.AccountRepository;
+import com.umanteam.dadakar.back.repository.RatingRepository;
 
 @SpringBootApplication
 public class DadakarBackApplication implements CommandLineRunner {
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private RatingRepository ratingRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DadakarBackApplication.class, args);
@@ -23,6 +29,7 @@ public class DadakarBackApplication implements CommandLineRunner {
 	public void run(String... arg0) throws Exception {
 		
 		AccountTest();
+		RatingTest();
 		
 	}
 	
@@ -47,4 +54,14 @@ public class DadakarBackApplication implements CommandLineRunner {
 		}
 		
 	}
+	
+	private void RatingTest() {
+		ratingRepository.deleteAll();
+		for(int i = 0; i < 10; i++) {
+			Rating rating = new Rating(i, new User("user" + i), "test" + i);
+			rating = ratingRepository.insert(rating);
+			System.out.println(rating);
+		}
+	}
+	
 }
