@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.entity;
+package com.umanteam.dadakar.back.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -9,19 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.back.entities.Account;
-<<<<<<< HEAD
 import com.umanteam.dadakar.back.entities.Rating;
 import com.umanteam.dadakar.back.entities.User;
+import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.back.repository.AccountRepository;
 import com.umanteam.dadakar.back.repository.RatingRepository;
-=======
-import com.umanteam.dadakar.back.entity.Vehicle;
-import com.umanteam.dadakar.back.enums.Role;
-import com.umanteam.dadakar.back.repository.AccountRepository;
 import com.umanteam.dadakar.back.repository.VehiculeRepository;
 import com.umanteam.dadakar.back.service.implementation.VehicleService;
->>>>>>> 73072f97631cf70ab5cf3def686426ee82d22cb9
+
 
 @SpringBootApplication
 public class DadakarBackApplication implements CommandLineRunner {
@@ -47,14 +43,10 @@ public class DadakarBackApplication implements CommandLineRunner {
 	public void run(String... arg0) throws Exception {
 
 		AccountTest();
-<<<<<<< HEAD
 		RatingTest();
-		
-=======
 		testVehicleRepo();
 		testVehicleService();
-
->>>>>>> 73072f97631cf70ab5cf3def686426ee82d22cb9
+		
 	}
 
 	private void AccountTest() {
@@ -120,7 +112,6 @@ public class DadakarBackApplication implements CommandLineRunner {
 		System.out.println("deleteAll");
 		vehicleRepository.deleteAll();
 	}
-<<<<<<< HEAD
 	
 	private void RatingTest() {
 		ratingRepository.deleteAll();
@@ -131,8 +122,6 @@ public class DadakarBackApplication implements CommandLineRunner {
 		}
 	}
 	
-=======
-
 	public void testVehicleService() {
 		System.out.println("=== test vehicle service ===");
 		// save1
@@ -169,5 +158,4 @@ public class DadakarBackApplication implements CommandLineRunner {
 		System.out.println(vehicles);
 	}
 
->>>>>>> 73072f97631cf70ab5cf3def686426ee82d22cb9
 }
