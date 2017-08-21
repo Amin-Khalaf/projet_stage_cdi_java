@@ -18,7 +18,7 @@ import com.umanteam.dadakar.back.service.interfaces.IAccountService;
 import com.umanteam.dadakar.back.webservice.interfaces.IAccountWebService;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/accounts")
 @CrossOrigin(origins="*")
 public class AccountWebService implements IAccountWebService {
 	
@@ -27,27 +27,26 @@ public class AccountWebService implements IAccountWebService {
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
-	public AccountDTO add(@RequestBody AccountDTO accountDTO) {
+	public AccountDTO add(@RequestBody AccountDTO accountDTO) { // OK
 		return accountService.add(accountDTO);
 	}
 
-	// TODO : verifier le RequestMethod.PUT, peut être à remplacer par RequestMethod.POST
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
-	public AccountDTO update(@RequestBody AccountDTO accountDTO) {
+	public AccountDTO update(@RequestBody AccountDTO accountDTO) { // OK
 		return accountService.update(accountDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)
 	@Override
-	public void delete(@PathVariable("id") String id) {
+	public void delete(@PathVariable("id") String id) { // OK
 		accountService.delete(id);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AccountDTO>> findAll() {
+	public ResponseEntity<List<AccountDTO>> findAll() { // OK
 		List<AccountDTO> accounts = accountService.findAll();
 		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
@@ -55,20 +54,20 @@ public class AccountWebService implements IAccountWebService {
 
 	@RequestMapping(value="/id:{id}", method=RequestMethod.GET)
 	@Override
-	public AccountDTO findById(@PathVariable("id") String id) {
+	public AccountDTO findById(@PathVariable("id") String id) { // OK
 		return accountService.findById(id);
 	}
 	
 	@RequestMapping(value="/username:{username}", method=RequestMethod.GET)
 	@Override
-	public AccountDTO findByUsername(@PathVariable("username") String username) {
+	public AccountDTO findByUsername(@PathVariable("username") String username) { // OK
 		return accountService.findByUsername(username);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/users", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AccountDTO>> findUsers() {
+	public ResponseEntity<List<AccountDTO>> findUsers() { // OK
 		List<AccountDTO> accounts = accountService.findByRole(Role.USER);
 		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
@@ -77,7 +76,7 @@ public class AccountWebService implements IAccountWebService {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/admins", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AccountDTO>> findAdmins() {
+	public ResponseEntity<List<AccountDTO>> findAdmins() { // OK
 		List<AccountDTO> accounts = accountService.findByRole(Role.ADMIN);
 		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
@@ -86,26 +85,26 @@ public class AccountWebService implements IAccountWebService {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/superusers", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AccountDTO>> findSuperUsers() {
+	public ResponseEntity<List<AccountDTO>> findSuperUsers() { // OK
 		List<AccountDTO> accounts = accountService.findByRole(Role.SUPERUSER);
 		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/banned", method=RequestMethod.GET)
+	@RequestMapping(value="/banned:{banned}", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AccountDTO>> findBanned() {
-		List<AccountDTO> accounts = accountService.findBanned();
+	public ResponseEntity<List<AccountDTO>> findByBanned(@PathVariable("banned") boolean banned) { // OK
+		List<AccountDTO> accounts = accountService.findByBanned(banned);
 		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/deleted", method=RequestMethod.GET)
+	@RequestMapping(value="/deleted:{deleted}", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AccountDTO>> findDeleted() {
-		List<AccountDTO> accounts = accountService.findDeleted();
+	public ResponseEntity<List<AccountDTO>> findByDeleted(@PathVariable("deleted") boolean deleted) { // OK
+		List<AccountDTO> accounts = accountService.findByDeleted(deleted);
 		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}

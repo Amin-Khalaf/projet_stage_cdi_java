@@ -13,6 +13,6 @@ public interface IAccountService {
 	AccountDTO findById(String id);
 	AccountDTO findByUsername(String username);
 	List<AccountDTO> findByRole(Role role);
-	List<AccountDTO> findBanned();
-	List<AccountDTO> findDeleted();
+	List<AccountDTO> findByBanned(boolean banned);
+	List<AccountDTO> findByDeleted(boolean deleted);
 }

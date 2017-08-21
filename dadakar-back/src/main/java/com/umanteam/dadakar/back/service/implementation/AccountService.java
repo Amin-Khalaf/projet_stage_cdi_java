@@ -81,9 +81,9 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public List<AccountDTO> findBanned() {
+	public List<AccountDTO> findByBanned(boolean banned) {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		for(Account account: accountRepository.findByBanned()) {
+		for(Account account: accountRepository.findByBanned(banned)) {
 			AccountDTO accountDTO = new AccountDTO();
 			BeanUtils.copyProperties(account, accountDTO);
 			accountDTOs.add(accountDTO);
@@ -92,9 +92,9 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public List<AccountDTO> findDeleted() {
+	public List<AccountDTO> findByDeleted(boolean deleted) {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		for(Account account: accountRepository.findByDeleted()) {
+		for(Account account: accountRepository.findByDeleted(deleted)) {
 			AccountDTO accountDTO = new AccountDTO();
 			BeanUtils.copyProperties(account, accountDTO);
 			accountDTOs.add(accountDTO);

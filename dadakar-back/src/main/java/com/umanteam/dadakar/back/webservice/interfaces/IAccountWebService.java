@@ -16,6 +16,6 @@ public interface IAccountWebService {
 	ResponseEntity<List<AccountDTO>> findUsers();
 	ResponseEntity<List<AccountDTO>> findAdmins();
 	ResponseEntity<List<AccountDTO>> findSuperUsers();
-	ResponseEntity<List<AccountDTO>> findBanned();
-	ResponseEntity<List<AccountDTO>> findDeleted();
+	ResponseEntity<List<AccountDTO>> findByBanned(boolean banned);
+	ResponseEntity<List<AccountDTO>> findByDeleted(boolean deleted);
 }
