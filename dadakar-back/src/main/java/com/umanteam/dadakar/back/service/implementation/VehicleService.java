@@ -37,10 +37,8 @@ public class VehicleService implements IVehicleService {
 	}
 
 	@Override
-	public void delete(VehicleDTO vehicle) {
-		Vehicle entity = new Vehicle();
-		BeanUtils.copyProperties(vehicle, entity);
-		vehicleRepository.delete(entity);
+	public void delete(String id) {
+		vehicleRepository.delete(id);
 	}
 
 	@Override
@@ -55,7 +53,7 @@ public class VehicleService implements IVehicleService {
 	}
 
 	@Override
-	public VehicleDTO findOne(String vehicleId) {
+	public VehicleDTO findById(String vehicleId) {
 		Vehicle entity = vehicleRepository.findOne(vehicleId);
 		VehicleDTO vehicle = new VehicleDTO();
 		BeanUtils.copyProperties(entity, vehicle);

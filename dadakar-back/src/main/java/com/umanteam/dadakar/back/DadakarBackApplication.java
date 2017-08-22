@@ -1,5 +1,6 @@
 package com.umanteam.dadakar.back;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.back.repository.AccountRepository;
 import com.umanteam.dadakar.back.repository.RatingRepository;
+import com.umanteam.dadakar.back.repository.UserRepository;
 import com.umanteam.dadakar.back.repository.VehiculeRepository;
 import com.umanteam.dadakar.back.service.implementation.VehicleService;
 
@@ -33,6 +35,9 @@ public class DadakarBackApplication implements CommandLineRunner {
 
 	@Autowired
 	VehicleService vehicleService;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DadakarBackApplication.class, args);
@@ -42,14 +47,15 @@ public class DadakarBackApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
-		AccountTest();
-		RatingTest();
+		accountTest();
+		ratingTest();
 		testVehicleRepo();
 		testVehicleService();
+		userTest();
 		
 	}
 
-	private void AccountTest() {
+	private void accountTest() {
 		accountRepository.deleteAll();
 		for (int i = 0; i < 10; i++) {
 			Role role = Role.USER;
@@ -113,10 +119,10 @@ public class DadakarBackApplication implements CommandLineRunner {
 		vehicleRepository.deleteAll();
 	}
 	
-	private void RatingTest() {
+	private void ratingTest() {
 		ratingRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
-			Rating rating = new Rating(i, new User("user" + i), "test" + i);
+			Rating rating = new Rating(i, new User(), "test" + i);
 			rating = ratingRepository.insert(rating);
 			System.out.println(rating);
 		}
@@ -149,13 +155,27 @@ public class DadakarBackApplication implements CommandLineRunner {
 		System.out.println("findOne");
 		String id = vehicle2.getVehicleId();
 		vehicle2 = null;
-		vehicle2 = vehicleService.findOne(id);
+		vehicle2 = vehicleService.findById(id);
 		System.out.println(vehicle2);
 		// delete
 		System.out.println("delete");
-		vehicleService.delete(vehicle2);
+		vehicleService.delete(vehicle2.getVehicleId());
 		vehicles = vehicleService.findAll();
 		System.out.println(vehicles);
 	}
 
+	private void userTest() {
+		userRepository.deleteAll();
+		for(int i = 0; i < 10; i++) {
+			User user = new User(accountRepository.findByUsername("username" + i), "firstName" + i, "lastName" + i, "", "", "", "");
+			List<Vehicle> vehicles = new ArrayList<>();
+			List<Rating> ratings = new ArrayList<>();
+			vehicles.add(vehicleRepository.save(new Vehicle("V" + i, "peugeot", "206", "rouge", "", "", "ab-123-cd", 5)));
+			user.setVehicles(vehicles);
+			user.setRatings(ratings);
+			user = userRepository.insert(user);
+			System.out.println(user);
+		}
+		
+	}
 }

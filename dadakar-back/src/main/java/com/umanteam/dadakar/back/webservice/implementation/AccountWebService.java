@@ -18,7 +18,7 @@ import com.umanteam.dadakar.back.service.interfaces.IAccountService;
 import com.umanteam.dadakar.back.webservice.interfaces.IAccountWebService;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("${appli.path}/accounts")
 @CrossOrigin(origins="*")
 public class AccountWebService implements IAccountWebService {
 	
