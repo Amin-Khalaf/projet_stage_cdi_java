@@ -1,11 +1,13 @@
 package com.umanteam.dadakar.back.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class UserDTO {
+public class UserDTO implements Serializable {
 	
 	/* Variables */
 	
+	private static final long serialVersionUID = -6446152663524628141L;
 	private String userId;
 	private AccountDTO account;
 	private String firstName;

@@ -1,11 +1,14 @@
 package com.umanteam.dadakar.back.dto;
 
+import java.io.Serializable;
+
 import com.umanteam.dadakar.back.enums.Role;
 
-public class AccountDTO {
-
+public class AccountDTO implements Serializable {
+	
 	/* Variables */
 	
+	private static final long serialVersionUID = 2061274277087891498L;
 	private String accountId;
 	private String username;
 	private String password;

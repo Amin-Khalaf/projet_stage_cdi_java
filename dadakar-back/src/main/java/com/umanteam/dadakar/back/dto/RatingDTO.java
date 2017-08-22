@@ -1,9 +1,12 @@
 package com.umanteam.dadakar.back.dto;
 
-public class RatingDTO {
+import java.io.Serializable;
+
+public class RatingDTO implements Serializable {
 
 	/* Variables */
 	
+	private static final long serialVersionUID = -4770346576478780702L;
 	private String ratingId;
 	private int value;
 	private UserDTO rater;
