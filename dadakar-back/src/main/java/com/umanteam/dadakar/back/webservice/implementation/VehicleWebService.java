@@ -18,7 +18,7 @@ import com.umanteam.dadakar.back.service.implementation.VehicleService;
 import com.umanteam.dadakar.back.webservice.interfaces.IVehicleWebService;
 
 @RestController
-@RequestMapping("/ws/vehicles")
+@RequestMapping("${appli.path}/vehicles")
 @CrossOrigin(origins="*")
 public class VehicleWebService implements IVehicleWebService {
 
@@ -38,9 +38,9 @@ public class VehicleWebService implements IVehicleWebService {
 	}
 
 	@Override
-	@RequestMapping(value="/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void deleteVehicle(@RequestBody VehicleDTO vehicle) {
-		vehicleService.delete(vehicle);
+	@RequestMapping(value="/del/{id}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void deleteVehicle(@PathVariable("id") String id) {
+		vehicleService.delete(id);
 		//return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
@@ -56,8 +56,8 @@ public class VehicleWebService implements IVehicleWebService {
 
 	@Override
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public VehicleDTO findVehicle(@PathVariable("id") String vehicleId) {
-		return vehicleService.findOne(vehicleId);
+	public VehicleDTO findVehicle(@PathVariable("id") String id) {
+		return vehicleService.findById(id);
 	}
 
 }

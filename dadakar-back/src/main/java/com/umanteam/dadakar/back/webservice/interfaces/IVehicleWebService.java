@@ -10,8 +10,8 @@ public interface IVehicleWebService {
 
 	public VehicleDTO addVehicle(VehicleDTO vehicle);
 	public VehicleDTO updateVehicle(VehicleDTO vehicle);
-	public void deleteVehicle(VehicleDTO vehicle);
+	public void deleteVehicle(String id);
 	public ResponseEntity<List<VehicleDTO>> findAllVehicle();
-	public VehicleDTO findVehicle(String vehicleId);
+	public VehicleDTO findVehicle(String id);
 
 }

@@ -17,7 +17,7 @@ import com.umanteam.dadakar.back.service.interfaces.IRatingService;
 import com.umanteam.dadakar.back.webservice.interfaces.IRatingWebService;
 
 @RestController
-@RequestMapping("/ratings")
+@RequestMapping("${appli.path}/ratings")
 @CrossOrigin(origins="*")
 public class RatingWebService implements IRatingWebService {
 	
