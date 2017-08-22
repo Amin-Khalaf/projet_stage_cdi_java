@@ -1,8 +1,8 @@
 package com.umanteam.dadakarimg.back.webservice.implementation;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
