@@ -3,7 +3,6 @@ package com.umanteam.dadakar.back.repository;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-
 import com.umanteam.dadakar.back.entities.Account;
 import com.umanteam.dadakar.back.entities.User;
 
