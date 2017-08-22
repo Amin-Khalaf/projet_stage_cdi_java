@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -47,36 +48,48 @@ public class ImageStorageWebService implements IImageStorageWebService {
 	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ResponseEntity<InputStreamResource> getImageAsResource(@PathVariable("id") String id) {
 		GridFSDBFile gridFsFile = imageStorageService.getById(id);
+		if (gridFsFile == null) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
 		return ResponseEntity.ok().contentLength(gridFsFile.getLength())
 				.contentType(MediaType.parseMediaType(gridFsFile.getContentType()))
 				.body(new InputStreamResource(gridFsFile.getInputStream()));
 	}
 
-	@RequestMapping(value = "/name/{filename}", method = RequestMethod.GET)
+	// need ":.+" in pathvariable so the extension is kept 
+	@RequestMapping(value = "/name/{filename:.+}", method = RequestMethod.GET)
 	@ResponseBody
 	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ResponseEntity<InputStreamResource> getImageByFileName(@PathVariable("filename") String filename) {
 		GridFSDBFile gridFsFile = imageStorageService.getByFilename(filename);
+		if (gridFsFile == null) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
 		return ResponseEntity.ok().contentLength(gridFsFile.getLength())
 				.contentType(MediaType.parseMediaType(gridFsFile.getContentType()))
 				.body(new InputStreamResource(gridFsFile.getInputStream()));
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	@ResponseBody
-	@Override
-	public ResponseEntity<List<InputStreamResource>> getAllImages() {
-		List<GridFSDBFile> listFiles = imageStorageService.findAll();
-		List<InputStreamResource> listStream = new ArrayList<>();
-		long streamLength = 0;
-		for (GridFSDBFile file : listFiles){
-			listStream.add(new InputStreamResource(file.getInputStream()));
-			streamLength += file.getLength();
-		}
-		return ResponseEntity.ok().contentLength(streamLength)
-				.body(listStream);
-	}
+	// TODO implement getAllImages
+	
+//	@RequestMapping(method = RequestMethod.GET)
+//	@ResponseBody
+//	@Override
+//	public ResponseEntity<List<InputStreamResource>> getAllImages() {
+//		List<GridFSDBFile> listFiles = imageStorageService.findAll();
+//		List<InputStreamResource> listStream = new ArrayList<>();
+////		long streamLength = 0;
+//		for (GridFSDBFile file : listFiles){
+//			listStream.add(new InputStreamResource(file.getInputStream()));
+////			streamLength += file.getLength();
+//		}
+//		return new ResponseEntity<List<InputStreamResource>>(listStream, HttpStatus.OK);
+////		return ResponseEntity.ok().contentLength(streamLength)
+////				.body(listStream);
+//	}
 
 }
