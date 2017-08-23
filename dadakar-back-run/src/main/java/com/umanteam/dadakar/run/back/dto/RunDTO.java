@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.umanteam.dadakar.back.dto.UserDTO;
+import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 
 public class RunDTO implements Serializable {
@@ -11,6 +12,7 @@ public class RunDTO implements Serializable {
 	private static final long serialVersionUID = 7867532309907390114L;
 	private String runId;
 	private UserDTO driver;
+	private VehicleDTO vehicle;
 	private List<WayPointDTO> wayPoints;
 	private List<PassengerDTO> passengers;
 	private List<TollDTO> tolls;
@@ -21,10 +23,18 @@ public class RunDTO implements Serializable {
 		super();
 	}
 
-	public RunDTO(UserDTO driver, List<WayPointDTO> wayPoints, List<PassengerDTO> passengers, List<TollDTO> tolls,
+	public RunDTO(UserDTO driver, VehicleDTO vehicle, Luggage luggageType) {
+		super();
+		this.driver = driver;
+		this.vehicle = vehicle;
+		this.luggageType = luggageType;
+	}
+
+	public RunDTO(UserDTO driver, VehicleDTO vehicle, List<WayPointDTO> wayPoints, List<PassengerDTO> passengers, List<TollDTO> tolls,
 			Luggage luggageType) {
 		super();
 		this.driver = driver;
+		this.vehicle = vehicle;
 		this.wayPoints = wayPoints;
 		this.passengers = passengers;
 		this.tolls = tolls;
@@ -38,6 +48,10 @@ public class RunDTO implements Serializable {
 
 	public UserDTO getDriver() {
 		return driver;
+	}
+
+	public VehicleDTO getVehicle() {
+		return vehicle;
 	}
 
 	public List<WayPointDTO> getWayPoints() {
@@ -65,6 +79,10 @@ public class RunDTO implements Serializable {
 		this.driver = driver;
 	}
 
+	public void setVehicle(VehicleDTO vehicle) {
+		this.vehicle = vehicle;
+	}
+
 	public void setWayPoints(List<WayPointDTO> wayPoints) {
 		this.wayPoints = wayPoints;
 	}
@@ -84,7 +102,7 @@ public class RunDTO implements Serializable {
 	// toString
 	@Override
 	public String toString() {
-		return "RunDTO [runId=" + runId + ", driver=" + driver + ", wayPoints=" + wayPoints + ", passengers="
+		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicle=" + vehicle + ", wayPoints=" + wayPoints + ", passengers="
 				+ passengers + ", tolls=" + tolls + ", luggageType=" + luggageType + "]";
 	}
 	

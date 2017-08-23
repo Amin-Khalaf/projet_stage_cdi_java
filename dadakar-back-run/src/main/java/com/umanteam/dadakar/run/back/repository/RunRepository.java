@@ -1,5 +1,6 @@
 package com.umanteam.dadakar.run.back.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -12,9 +13,13 @@ import com.umanteam.dadakar.run.back.entities.WayPoint;
 
 public interface RunRepository extends MongoRepository<Run, String> {
 
-	public Run findByDriver(User driver);
+	public List<Run> findByDriver(User driver);
 	public List<Run> findByWayPointsExists(WayPoint waypoint1);
 	public List<Run> findByWayPointsExists(WayPoint waypoint1, WayPoint waypoint2);
 	public List<Run> findByPassengersExists(Passenger passenger);
+	public List<Run> findByPassengersUser(User user);
+//	public List<Run> findByPassengersUserAndPassengers
 	public List<Run> findByTollsExists(Toll toll);
+	public List<Run> findByWayPointsDistrictAndWayPointsTownAndWayPointsEstimatedDate(String district, String town, LocalDateTime date);
+	public List<Run> findByWayPointsDistrictAndWayPointsTown(String district, String town);
 }

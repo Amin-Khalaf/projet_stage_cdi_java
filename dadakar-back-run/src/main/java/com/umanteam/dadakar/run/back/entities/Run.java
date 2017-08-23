@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Repository;
 
 import com.umanteam.dadakar.back.entities.User;
+import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 
 @Repository
@@ -14,6 +15,7 @@ public class Run {
 	@Id
 	private String runId;
 	private User driver;
+	private Vehicle vehicle;
 	private List<WayPoint> wayPoints;
 	private List<Passenger> passengers;
 	private List<Toll> tolls;
@@ -24,10 +26,18 @@ public class Run {
 		super();
 	}
 
-	public Run(User driver, List<WayPoint> wayPoints, List<Passenger> passengers, List<Toll> tolls,
+	public Run(User driver, Vehicle vehicle, Luggage luggageType) {
+		super();
+		this.driver = driver;
+		this.vehicle = vehicle;
+		this.luggageType = luggageType;
+	}
+
+	public Run(User driver, Vehicle vehicle, List<WayPoint> wayPoints, List<Passenger> passengers, List<Toll> tolls,
 			Luggage luggageType) {
 		super();
 		this.driver = driver;
+		this.vehicle = vehicle;
 		this.wayPoints = wayPoints;
 		this.passengers = passengers;
 		this.tolls = tolls;
@@ -41,6 +51,10 @@ public class Run {
 
 	public User getDriver() {
 		return driver;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 
 	public List<WayPoint> getWayPoints() {
@@ -68,6 +82,10 @@ public class Run {
 		this.driver = driver;
 	}
 
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
 	public void setWayPoints(List<WayPoint> wayPoints) {
 		this.wayPoints = wayPoints;
 	}
@@ -87,7 +105,7 @@ public class Run {
 	// toString
 	@Override
 	public String toString() {
-		return "Run [runId=" + runId + ", driver=" + driver + ", wayPoints=" + wayPoints + ", passengers=" + passengers
+		return "Run [runId=" + runId + ", driver=" + driver + " ,vehicle=" + vehicle + ", wayPoints=" + wayPoints + ", passengers=" + passengers
 				+ ", tolls=" + tolls + ", luggageType=" + luggageType + "]";
 	}
 	
