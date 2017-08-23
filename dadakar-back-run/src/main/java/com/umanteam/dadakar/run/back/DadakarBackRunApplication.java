@@ -9,29 +9,33 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.umanteam.dadakar.run.back.dto.WaypointDTO;
-import com.umanteam.dadakar.run.back.entities.Waypoint;
-import com.umanteam.dadakar.run.back.repository.WaypointRepository;
-import com.umanteam.dadakar.run.back.service.interfaces.IWaypointService;
+import com.umanteam.dadakar.run.back.dto.WayPointDTO;
+import com.umanteam.dadakar.run.back.entities.WayPoint;
+import com.umanteam.dadakar.run.back.repository.WayPointRepository;
+import com.umanteam.dadakar.run.back.service.interfaces.IWayPointService;
 import com.umanteam.dadakar.back.entities.Account;
 import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.entities.Passenger;
-import com.umanteam.dadakar.run.back.entities.WayPoint;
+import com.umanteam.dadakar.run.back.entities.RunPrice;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
+import com.umanteam.dadakar.run.back.repository.RunPriceRepository;
 
 @SpringBootApplication
 public class DadakarBackRunApplication implements CommandLineRunner {
 	@Autowired
-	WaypointRepository waypointRepository;
+	WayPointRepository waypointRepository;
 	
 	@Autowired
-	IWaypointService waypointService;
+	IWayPointService waypointService;
 	
 	
 	@Autowired
 	private PassengerRepository passengerRepository;
+	
+	@Autowired
+	private RunPriceRepository runPriceRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DadakarBackRunApplication.class, args);
@@ -43,6 +47,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		testWaypointRepository();
 		testWaypointService();
 		passengerTest();
+		runPriceTest();
 		
 	}
 	
@@ -54,13 +59,13 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		
 		// save1
 		System.out.println("save1 ---");
-		Waypoint entity = new Waypoint(1, LocalDateTime.of(2017, 7, 21, 13, 15), java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 1", "Dakar", "20040", 3);
+		WayPoint entity = new WayPoint(1, LocalDateTime.of(2017, 7, 21, 13, 15), java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 1", "Dakar", "20040", 3);
 		entity = waypointRepository.insert(entity);
 		System.out.println(entity);
 		
 		// save2
 		System.out.println("save2 ---");
-		Waypoint entity2 = new Waypoint(1, LocalDateTime.of(2017, 7, 21, 13, 15), java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 2", "Dakar", "20040", 3);
+		WayPoint entity2 = new WayPoint(1, LocalDateTime.of(2017, 7, 21, 13, 15), java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 2", "Dakar", "20040", 3);
 		entity2 = waypointRepository.insert(entity2);
 		System.out.println(entity2);
 		
@@ -71,7 +76,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// findAll
 		System.out.println("find all ---");
-		List<Waypoint> waypoints = waypointRepository.findAll();
+		List<WayPoint> waypoints = waypointRepository.findAll();
 		System.out.println(waypoints);
 		
 		// findByID
@@ -112,13 +117,13 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		
 		// save1
 		System.out.println("save1 ---");
-		WaypointDTO waypoint = new WaypointDTO(1, LocalDateTime.of(2017, 7, 21, 13, 15), java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 1", "Dakar", "20040", 3);
+		WayPointDTO waypoint = new WayPointDTO(1, LocalDateTime.of(2017, 7, 21, 13, 15), java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 1", "Dakar", "20040", 3);
 		waypoint = waypointService.add(waypoint);
 		System.out.println(waypoint);
 		
 		// save2
 		System.out.println("save2 ---");
-		WaypointDTO waypoint2 = new WaypointDTO(1, LocalDateTime.of(2017, 7, 21, 13, 15), java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 2", "Dakar", "20040", 3);
+		WayPointDTO waypoint2 = new WayPointDTO(1, LocalDateTime.of(2017, 7, 21, 13, 15), java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 2", "Dakar", "20040", 3);
 		waypoint2 = waypointService.add(waypoint2);
 		System.out.println(waypoint2);
 		
@@ -129,7 +134,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// findAll
 		System.out.println("find all ---");
-		List<WaypointDTO> waypoints = waypointService.findAll();
+		List<WayPointDTO> waypoints = waypointService.findAll();
 		System.out.println(waypoints);
 		
 		// findByID
@@ -167,9 +172,18 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		for(int i = 1; i < 10; i++) {
 			Account account = new Account("username" + i, "password" + i, Role.USER);
 			User user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
-			Passenger passenger = passengerRepository.insert(new Passenger(user, new WayPoint("1234" + i), new WayPoint("5678" + i), Luggage.PETIT, 35.20));
+			Passenger passenger = passengerRepository.insert(new Passenger(user, new WayPoint(), new WayPoint(), Luggage.PETIT, 35.20));
 			System.out.println(passenger);
 		}
 		
+	}
+
+	private void runPriceTest() {
+		runPriceRepository.deleteAll();
+		for(int i = 0; i < 10; i++) {
+			RunPrice runPrice = new RunPrice(i, i*3, i*5, i*2, 0.35);
+			runPrice = runPriceRepository.insert(runPrice);
+			System.out.println(runPrice);
+		}
 	}
 }
