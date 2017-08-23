@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.umanteam.dadakar.run.back.dto.RunPriceDTO;
 import com.umanteam.dadakar.run.back.entities.RunPrice;
 import com.umanteam.dadakar.run.back.repository.RunPriceRepository;
 import com.umanteam.dadakar.run.back.service.interfaces.IRunPriceService;
 
+@Service("runPriceService")
 public class RunPriceService implements IRunPriceService {
 	
 	@Autowired
