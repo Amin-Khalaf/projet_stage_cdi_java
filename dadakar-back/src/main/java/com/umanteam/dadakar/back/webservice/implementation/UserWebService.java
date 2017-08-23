@@ -36,7 +36,7 @@ public class UserWebService implements IUserWebService {
 //	@Value("${appli.path}")
 //	private String appliPath;
 //	
-//	private String url = serverPath + appliPath + "/accounts";
+//	private String url = serverPath + appliPath + "/accounts/";
 	private String url = "http://localhost:8080/dadakar/accounts/";
 
 	@RequestMapping(value="/save", method=RequestMethod.POST)
@@ -81,10 +81,10 @@ public class UserWebService implements IUserWebService {
 		return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
 	}
 
-	@RequestMapping(value="/account:{accountid}", method=RequestMethod.GET)
+	@RequestMapping(value="/account:{id}", method=RequestMethod.GET)
 	@Override
-	public UserDTO findByAccountId(@PathVariable("accountid") String accountid) { // OK
-		ResponseEntity<AccountDTO> accountEntity = restTemplate.getForEntity(url + accountid, AccountDTO.class);
+	public UserDTO findByAccountId(@PathVariable("id") String id) { // OK
+		ResponseEntity<AccountDTO> accountEntity = restTemplate.getForEntity(url + id, AccountDTO.class);
 		AccountDTO accountDTO = accountEntity.getBody();
 		return userService.findByAccount(accountDTO);
 	}

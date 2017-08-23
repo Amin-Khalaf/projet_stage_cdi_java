@@ -25,6 +25,13 @@
 	</properties>
 
 	<dependencies>
+		
+		<dependency>
+			<groupId>com.umanteam</groupId>
+			<artifactId>dadakar-back</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -33,6 +40,7 @@
 <!-- 			<groupId>org.springframework.boot</groupId> -->
 <!-- 			<artifactId>spring-boot-starter-security</artifactId> -->
 <!-- 		</dependency> -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
@@ -43,11 +51,19 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.security</groupId> -->
+<!-- 			<artifactId>spring-security-test</artifactId> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
+		
+		<!-- Java JSON Web Token dependency -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>io.jsonwebtoken</groupId> -->
+<!-- 			<artifactId>jjwt</artifactId> -->
+<!-- 			<version>0.7.0</version> -->
+<!-- 		</dependency> -->
+
 	</dependencies>
 
 	<build>
