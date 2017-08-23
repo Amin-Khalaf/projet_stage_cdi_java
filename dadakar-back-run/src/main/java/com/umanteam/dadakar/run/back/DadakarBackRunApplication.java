@@ -17,8 +17,10 @@ import com.umanteam.dadakar.back.entities.Account;
 import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.entities.Passenger;
+import com.umanteam.dadakar.run.back.entities.RunPrice;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
+import com.umanteam.dadakar.run.back.repository.RunPriceRepository;
 
 @SpringBootApplication
 public class DadakarBackRunApplication implements CommandLineRunner {
@@ -32,6 +34,9 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	@Autowired
 	private PassengerRepository passengerRepository;
 	
+	@Autowired
+	private RunPriceRepository runPriceRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DadakarBackRunApplication.class, args);
 	}
@@ -42,6 +47,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		testWaypointRepository();
 		testWaypointService();
 		passengerTest();
+		runPriceTest();
 		
 	}
 	
@@ -170,5 +176,14 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 			System.out.println(passenger);
 		}
 		
+	}
+
+	private void runPriceTest() {
+		runPriceRepository.deleteAll();
+		for(int i = 0; i < 10; i++) {
+			RunPrice runPrice = new RunPrice(i, i*3, i*5, i*2, 0.35);
+			runPrice = runPriceRepository.insert(runPrice);
+			System.out.println(runPrice);
+		}
 	}
 }

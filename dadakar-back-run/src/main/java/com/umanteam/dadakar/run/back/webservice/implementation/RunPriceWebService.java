@@ -26,26 +26,26 @@ public class RunPriceWebService implements IRunPriceWebService {
 
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
-	public RunPriceDTO add(@RequestBody RunPriceDTO runPriceDTO) {
+	public RunPriceDTO add(@RequestBody RunPriceDTO runPriceDTO) { // OK
 		return runPriceService.add(runPriceDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
-	public RunPriceDTO update(@RequestBody RunPriceDTO runPriceDTO) {
+	public RunPriceDTO update(@RequestBody RunPriceDTO runPriceDTO) { // OK
 		return runPriceService.update(runPriceDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)
 	@Override
-	public void delete(@PathVariable("id") String id) {
+	public void delete(@PathVariable("id") String id) { // OK
 		runPriceService.delete(id);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<RunPriceDTO>> findAll() {
+	public ResponseEntity<List<RunPriceDTO>> findAll() { // OK
 		List<RunPriceDTO> runPriceDTOs = runPriceService.findAll();
 		if(runPriceDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<RunPriceDTO>>(runPriceDTOs, HttpStatus.OK);
@@ -53,13 +53,13 @@ public class RunPriceWebService implements IRunPriceWebService {
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public RunPriceDTO findById(@PathVariable("id") String id) {
+	public RunPriceDTO findById(@PathVariable("id") String id) { // OK
 		return runPriceService.findById(id);
 	}
 
 	@RequestMapping(value="/power:{power}", method=RequestMethod.GET)
 	@Override
-	public RunPriceDTO findByPower(@PathVariable("power") int power) {
+	public RunPriceDTO findByPower(@PathVariable("power") int power) { // OK
 		return runPriceService.findByPower(power);
 	}
 
