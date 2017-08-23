@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.umanteam.dadakar.back.entities.Account;
 import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.enums.Role;
-import com.umanteam.dadakar.back.repository.AccountRepository;
-import com.umanteam.dadakar.back.repository.UserRepository;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.Luggage;
@@ -20,12 +18,6 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PassengerRepository passengerRepository;
-	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private AccountRepository accountRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DadakarBackRunApplication.class, args);
@@ -41,9 +33,9 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	private void passengerTest() {
 		
 		for(int i = 1; i < 10; i++) {
-			Account account = accountRepository.insert(new Account("username" + i, "password" + i, Role.USER));
-			User user = userRepository.insert(new User(account, "firstName" + i, "lastName" + i, "", "", "", ""));
-			Passenger passenger = passengerRepository.insert(new Passenger(user, new WayPoint(), new WayPoint(), Luggage.PETIT, 35.20));
+			Account account = new Account("username" + i, "password" + i, Role.USER);
+			User user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
+			Passenger passenger = passengerRepository.insert(new Passenger(user, new WayPoint("1234" + i), new WayPoint("5678" + i), Luggage.PETIT, 35.20));
 			System.out.println(passenger);
 		}
 		

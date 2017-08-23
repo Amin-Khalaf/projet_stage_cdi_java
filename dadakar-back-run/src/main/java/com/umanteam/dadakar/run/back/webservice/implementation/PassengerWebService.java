@@ -40,26 +40,26 @@ public class PassengerWebService implements IPassengerWebService {
 
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
-	public PassengerDTO add(@RequestBody PassengerDTO passengerDTO) {
+	public PassengerDTO add(@RequestBody PassengerDTO passengerDTO) { // OK
 		return passengerService.add(passengerDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
-	public PassengerDTO update(@RequestBody PassengerDTO passengerDTO) {
+	public PassengerDTO update(@RequestBody PassengerDTO passengerDTO) { // OK
 		return passengerService.update(passengerDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)
 	@Override
-	public void delete(@PathVariable("id") String id) {
+	public void delete(@PathVariable("id") String id) { // OK
 		passengerService.delete(id);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<PassengerDTO>> findAll() {
+	public ResponseEntity<List<PassengerDTO>> findAll() { // OK
 		List<PassengerDTO> passengers = passengerService.findAll();
 		if(passengers.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<PassengerDTO>>(passengers, HttpStatus.OK);
@@ -67,13 +67,13 @@ public class PassengerWebService implements IPassengerWebService {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public PassengerDTO findById(@PathVariable("id") String id) {
+	public PassengerDTO findById(@PathVariable("id") String id) { // OK
 		return passengerService.findById(id);
 	}
 
 	@RequestMapping(value="/user:{id}", method=RequestMethod.GET)
 	@Override
-	public PassengerDTO findByUserId(@PathVariable("id") String id) {
+	public PassengerDTO findByUserId(@PathVariable("id") String id) { //KO
 		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + id, UserDTO.class);
 		UserDTO userDTO = userEntity.getBody();
 		return passengerService.findByUser(userDTO);

@@ -7,9 +7,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.umanteam.dadakar.back.dto.RatingDTO;
 import com.umanteam.dadakar.back.dto.UserDTO;
+import com.umanteam.dadakar.back.dto.VehicleDTO;
+import com.umanteam.dadakar.back.entities.Account;
+import com.umanteam.dadakar.back.entities.Rating;
 import com.umanteam.dadakar.back.entities.User;
-import com.umanteam.dadakar.back.repository.UserRepository;
+import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.dto.PassengerDTO;
 import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 import com.umanteam.dadakar.run.back.entities.Passenger;
@@ -23,9 +27,6 @@ public class PassengerService implements IPassengerService {
 	@Autowired
 	private PassengerRepository passengerRepository;
 	
-	@Autowired
-	private UserRepository userRepository;
-
 	@Override
 	public PassengerDTO add(PassengerDTO passengerDTO) {
 		Passenger passenger = new Passenger();
@@ -124,8 +125,27 @@ public class PassengerService implements IPassengerService {
 
 	@Override
 	public PassengerDTO findByUser(UserDTO userDTO) {
-		User user = userRepository.findOne(userDTO.getUserId());
+		User user = new User();
+		Account account = new Account();
+		List<Vehicle> vehicles = new ArrayList<>();
+		List<Rating> ratings = new ArrayList<>();
+		BeanUtils.copyProperties(userDTO, user);
+		BeanUtils.copyProperties(userDTO.getAccount(), account);
+		user.setAccount(account);
+		for(VehicleDTO vehicleDTO: userDTO.getVehicles()) {
+			Vehicle vehicle = new Vehicle();
+			BeanUtils.copyProperties(vehicleDTO, vehicle);
+			vehicles.add(vehicle);
+		}
+		user.setVehicles(vehicles);
+		for(RatingDTO ratingDTO: userDTO.getRatings()) {
+			Rating rating = new Rating();
+			BeanUtils.copyProperties(ratingDTO, rating);
+			ratings.add(rating);
+		}
+		user.setRatings(ratings);
 		Passenger passenger = passengerRepository.findByUser(user);
+		System.out.println(">>>" + passenger + "<<<");
 		PassengerDTO passengerDTO = new PassengerDTO();
 		BeanUtils.copyProperties(passenger, passengerDTO);
 		userDTO = new UserDTO();
