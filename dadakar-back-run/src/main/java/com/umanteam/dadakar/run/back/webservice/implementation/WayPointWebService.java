@@ -17,7 +17,7 @@ import com.umanteam.dadakar.run.back.service.interfaces.IWayPointService;
 import com.umanteam.dadakar.run.back.webservice.interfaces.IWayPointWebService;
 
 @RestController
-@RequestMapping("/waypoints")
+@RequestMapping("${appli.path}//waypoints")
 @CrossOrigin(origins="*")
 public class WayPointWebService implements IWayPointWebService {
 
