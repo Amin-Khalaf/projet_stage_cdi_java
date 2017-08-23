@@ -1,22 +1,17 @@
-package com.umanteam.dadakar.run.back.dto;
+package com.umanteam.dadakar.run.back.entities;
 
-import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.data.annotation.Id;
+import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+@Repository
+public class WayPoint {
 
-public class WaypointDTO implements Serializable {
-
-	private static final long serialVersionUID = -6852065494792942275L;
-	
+	@Id
 	private String id;
 	private int order;
-	@DateTimeFormat(iso = ISO.DATE_TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime estimatedDateTime;
 	private Duration flexibility;
 	private String meetingPoint;
@@ -24,14 +19,14 @@ public class WaypointDTO implements Serializable {
 	private String town;
 	private String postcode;
 	private int availableSeats;
-
-	// Constructors
-	public WaypointDTO() {
+	
+	//constructors
+	public WayPoint() {
 		super();
 	}
 
-	public WaypointDTO(int order, LocalDateTime estimatedDateTime, Duration flexibility,
-			String meetingPoint, String district, String town, String postcode, int availableSeats) {
+	public WayPoint(int order, LocalDateTime estimatedDateTime, Duration flexibility, String meetingPoint,
+			String district, String town, String postcode, int availableSeats) {
 		super();
 		this.order = order;
 		this.estimatedDateTime = estimatedDateTime;
@@ -120,10 +115,10 @@ public class WaypointDTO implements Serializable {
 	// toString
 	@Override
 	public String toString() {
-		return "WaypointDTO [id=" + id + ", order=" + order + ", estimatedDateTime=" + estimatedDateTime
-				+ ", flexibility=" + flexibility + ", meetingPoint=" + meetingPoint + ", district=" + district
-				+ ", town=" + town + ", postcode=" + postcode + ", availableSeats=" + availableSeats + "]";
+		return "Waypoint [id=" + id + ", order=" + order + ", estimatedDateTime=" + estimatedDateTime + ", flexibility="
+				+ flexibility + ", meetingPoint=" + meetingPoint + ", district=" + district + ", town=" + town
+				+ ", postcode=" + postcode + ", availableSeats=" + availableSeats + "]";
 	}
-
+	
 	
 }
