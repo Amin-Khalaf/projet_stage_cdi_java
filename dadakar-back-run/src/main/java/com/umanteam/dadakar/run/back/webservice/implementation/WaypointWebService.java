@@ -17,12 +17,12 @@ import com.umanteam.dadakar.run.back.service.interfaces.IWaypointService;
 import com.umanteam.dadakar.run.back.webservice.interfaces.IWaypointWebService;
 
 @RestController
-@RequestMapping("${appli.path}/waypoints")
+@RequestMapping("/waypoints")
 @CrossOrigin(origins="*")
 public class WaypointWebService implements IWaypointWebService {
 
 	@Autowired
-	IWaypointService waypointService;
+	private IWaypointService waypointService;
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
@@ -65,6 +65,7 @@ public class WaypointWebService implements IWaypointWebService {
 	@RequestMapping(value="/district/{district}", method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<WaypointDTO>> findByDistrict(@PathVariable("district") String district) {
+		System.out.println(district);
 		List<WaypointDTO> waypoints = waypointService.findByDistrict(district);
 		if (waypoints == null) {
 			return new ResponseEntity<List<WaypointDTO>>(HttpStatus.NOT_FOUND);
@@ -75,6 +76,7 @@ public class WaypointWebService implements IWaypointWebService {
 	@RequestMapping(value="/town/{town}", method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<WaypointDTO>> findByTown(@PathVariable("town") String town) {
+		System.out.println(town);
 		List<WaypointDTO> waypoints = waypointService.findByTown(town);
 		if (waypoints == null) {
 			return new ResponseEntity<List<WaypointDTO>>(HttpStatus.NOT_FOUND);
@@ -85,6 +87,7 @@ public class WaypointWebService implements IWaypointWebService {
 	@RequestMapping(value="/postcode/{postcode}", method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<WaypointDTO>> findByPostcode(@PathVariable("postcode") String postcode) {
+		System.out.println(postcode);
 		List<WaypointDTO> waypoints = waypointService.findByPostcode(postcode);
 		if (waypoints == null) {
 			return new ResponseEntity<List<WaypointDTO>>(HttpStatus.NOT_FOUND);

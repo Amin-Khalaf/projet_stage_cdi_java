@@ -4,12 +4,19 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class WaypointDTO implements Serializable {
 
 	private static final long serialVersionUID = -6852065494792942275L;
 	
 	private String id;
 	private int order;
+	@DateTimeFormat(iso = ISO.DATE_TIME)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime estimatedDateTime;
 	private Duration flexibility;
 	private String meetingPoint;
@@ -23,10 +30,9 @@ public class WaypointDTO implements Serializable {
 		super();
 	}
 
-	public WaypointDTO(String id, int order, LocalDateTime estimatedDateTime, Duration flexibility,
+	public WaypointDTO(int order, LocalDateTime estimatedDateTime, Duration flexibility,
 			String meetingPoint, String district, String town, String postcode, int availableSeats) {
 		super();
-		this.id = id;
 		this.order = order;
 		this.estimatedDateTime = estimatedDateTime;
 		this.flexibility = flexibility;
