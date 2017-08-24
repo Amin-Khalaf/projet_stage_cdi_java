@@ -10,13 +10,13 @@ public interface IRunService {
 
 	public RunDTO addRun(RunDTO run);
 	public RunDTO updateRun(RunDTO run);
-	public void deleteRun(RunDTO run);
+	public void deleteRun(String id);
 	public List<RunDTO> findAllRuns();
 	public RunDTO findRunsById(String id);
 	public List<RunDTO> findRunsByDriver(UserDTO driver);
 	public List<RunDTO> findRunsNotCancelledByDriver(UserDTO driver);
 	public List<RunDTO> findRunsByPassenger(UserDTO passenger);
-	public List<RunDTO> fundRunsNotCancelledByPassenger(UserDTO passenger);
+	public List<RunDTO> findRunsNotCancelledByPassenger(UserDTO passenger);
 	public List<RunDTO> findRunsByUser(UserDTO user);
 	public List<RunDTO> findRunsNotCancelledByUser(UserDTO user);
 	public List<RunDTO> findCurrentRunsbyUser(UserDTO user);

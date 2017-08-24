@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.entities.User;
+import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
@@ -25,6 +26,13 @@ public class RunService implements IRunService {
 	public RunDTO addRun(RunDTO run) {
 		Run entity = new Run();
 		BeanUtils.copyProperties(run, entity);
+		User userEntity = new User();
+		BeanUtils.copyProperties(run.getDriver(), userEntity);
+		entity.setDriver(userEntity);
+		Vehicle vehicleEntity = new Vehicle();
+		BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
+		entity.setVehicle(vehicleEntity);
+		// SubRun copy
 		entity = runRepository.insert(entity);
 		BeanUtils.copyProperties(entity, run);
 		return run;
@@ -36,14 +44,19 @@ public class RunService implements IRunService {
 		BeanUtils.copyProperties(run, entity);
 		entity = runRepository.save(entity);
 		BeanUtils.copyProperties(entity, run);
+		User userEntity = new User();
+		BeanUtils.copyProperties(run.getDriver(), userEntity);
+		entity.setDriver(userEntity);
+		Vehicle vehicleEntity = new Vehicle();
+		BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
+		entity.setVehicle(vehicleEntity);
+		// SubRun copy
 		return run;
 	}
 
 	@Override
-	public void deleteRun(RunDTO run) {
-		Run entity = new Run();
-		BeanUtils.copyProperties(run, entity);
-		runRepository.delete(entity);
+	public void deleteRun(String id) {
+		runRepository.delete(id);
 	}
 
 	@Override
@@ -99,7 +112,7 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> fundRunsNotCancelledByPassenger(UserDTO passenger) {
+	public List<RunDTO> findRunsNotCancelledByPassenger(UserDTO passenger) {
 		// TODO Auto-generated method stub
 		return null;
 	}

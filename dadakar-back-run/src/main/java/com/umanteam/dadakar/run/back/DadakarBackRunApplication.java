@@ -11,10 +11,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.umanteam.dadakar.run.back.dto.RunDTO;
+import com.umanteam.dadakar.run.back.dto.SubRunDTO;
 import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.repository.WayPointRepository;
+import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
 import com.umanteam.dadakar.run.back.service.interfaces.IWayPointService;
+import com.umanteam.dadakar.back.dto.AccountDTO;
+import com.umanteam.dadakar.back.dto.UserDTO;
+import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.back.entities.Account;
 import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.entities.Vehicle;
@@ -44,6 +50,9 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 	@Autowired
 	private RunRepository runRepository;
+	
+	@Autowired
+	private IRunService runService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DadakarBackRunApplication.class, args);
@@ -52,11 +61,12 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
-		//testWaypointRepository();
-		//testWaypointService();
-		//passengerTest();
-		//runPriceTest();
+		testWaypointRepository();
+		testWaypointService();
+		passengerTest();
+		runPriceTest();
 		testRunRepository();
+		testRunService();
 
 	}
 
@@ -256,4 +266,63 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		for(Run var : runs)
 			System.out.println(var);
 	}
+	
+	private void testRunService(){
+		runRepository.deleteAll();
+		
+		System.out.println("=== test run service ===");
+		System.out.println("--- Add run ---");
+		AccountDTO account = new AccountDTO("username", "password", Role.USER);
+		List<VehicleDTO> vehicles = new ArrayList<>();
+		VehicleDTO vehicle = new VehicleDTO("vehicule1", "Renault", "25", "grise", null, null, "ab123cd", 6);
+		vehicles.add(vehicle);
+		UserDTO user = new UserDTO(account, "firstname", "lastname", "", "", "", "");
+		user.setVehicles(vehicles);
+		
+		// other infos to be managed
+		
+		List<SubRunDTO> subruns = new ArrayList<>();
+		SubRunDTO subrun = new SubRunDTO();
+		subruns.add(subrun);
+		RunDTO run = new RunDTO(user, vehicle, subruns, Luggage.PETIT);
+		//RunDTO run = new RunDTO(user, vehicle, subruns, Luggage.PETIT);
+		run = runService.addRun(run);
+		System.out.println(run);
+		user = run.getDriver();
+		
+		System.out.println("--- save 2 ---");
+		RunDTO run2 = new RunDTO(user, vehicle, subruns, Luggage.MOYEN);
+		run2 = runService.addRun(run2);
+		System.out.println(run2);
+		
+		String id = run2.getRunId();
+		
+		System.out.println("--- update run ---");
+		run2.setLuggageType(Luggage.GRAND);
+		run2 = runService.updateRun(run2);
+		System.out.println(run2);
+		
+		System.out.println("--- find all ---");
+		List<RunDTO> runs = runService.findAllRuns();
+		for(RunDTO var : runs)
+			System.out.println(var);
+		
+		System.out.println("--- findbyid ---");
+		run2 = null;
+		run2 = runService.findRunsById(id);
+		System.out.println(run2);
+		
+		System.out.println("--- findByDriver ---");
+		runs = null;
+		runs = runService.findRunsByDriver(user);
+		for(RunDTO var : runs)
+			System.out.println(var);
+		
+		System.out.println("--- delete ---");
+		runService.deleteRun(id);;
+		runs = runService.findAllRuns();
+		for(RunDTO var : runs)
+			System.out.println(var);
+	}
+	
 }

@@ -13,9 +13,7 @@ public class RunDTO implements Serializable {
 	private String runId;
 	private UserDTO driver;
 	private VehicleDTO vehicle;
-	private List<WayPointDTO> wayPoints;
-	private List<PassengerDTO> passengers;
-	private List<TollDTO> tolls;
+	private List<SubRunDTO> subruns;
 	private Luggage luggageType;
 	
 	// Constructors
@@ -30,14 +28,11 @@ public class RunDTO implements Serializable {
 		this.luggageType = luggageType;
 	}
 
-	public RunDTO(UserDTO driver, VehicleDTO vehicle, List<WayPointDTO> wayPoints, List<PassengerDTO> passengers, List<TollDTO> tolls,
-			Luggage luggageType) {
+	public RunDTO(UserDTO driver, VehicleDTO vehicle, List<SubRunDTO> subruns, Luggage luggageType) {
 		super();
 		this.driver = driver;
 		this.vehicle = vehicle;
-		this.wayPoints = wayPoints;
-		this.passengers = passengers;
-		this.tolls = tolls;
+		this.subruns = subruns;
 		this.luggageType = luggageType;
 	}
 
@@ -54,16 +49,8 @@ public class RunDTO implements Serializable {
 		return vehicle;
 	}
 
-	public List<WayPointDTO> getWayPoints() {
-		return wayPoints;
-	}
-
-	public List<PassengerDTO> getPassengers() {
-		return passengers;
-	}
-
-	public List<TollDTO> getTolls() {
-		return tolls;
+	public List<SubRunDTO> getSubruns() {
+		return subruns;
 	}
 
 	public Luggage getLuggageType() {
@@ -83,16 +70,8 @@ public class RunDTO implements Serializable {
 		this.vehicle = vehicle;
 	}
 
-	public void setWayPoints(List<WayPointDTO> wayPoints) {
-		this.wayPoints = wayPoints;
-	}
-
-	public void setPassengers(List<PassengerDTO> passengers) {
-		this.passengers = passengers;
-	}
-
-	public void setTolls(List<TollDTO> tolls) {
-		this.tolls = tolls;
+	public void setSubruns(List<SubRunDTO> subruns) {
+		this.subruns = subruns;
 	}
 
 	public void setLuggageType(Luggage luggageType) {
@@ -102,9 +81,7 @@ public class RunDTO implements Serializable {
 	// toString
 	@Override
 	public String toString() {
-		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicle=" + vehicle + ", wayPoints=" + wayPoints + ", passengers="
-				+ passengers + ", tolls=" + tolls + ", luggageType=" + luggageType + "]";
+		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicle=" + vehicle + ", subruns=" + subruns + ", luggageType=" + luggageType + "]";
 	}
-	
 	
 }
