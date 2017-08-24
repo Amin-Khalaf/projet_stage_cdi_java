@@ -29,9 +29,11 @@ import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.entities.RunPrice;
 import com.umanteam.dadakar.run.back.entities.SubRun;
+import com.umanteam.dadakar.run.back.entities.Toll;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.repository.RunPriceRepository;
+import com.umanteam.dadakar.run.back.repository.SubRunRepository;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
 
 @SpringBootApplication
@@ -52,6 +54,9 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	private RunRepository runRepository;
 	
 	@Autowired
+	private SubRunRepository subRunRepository;
+	
+	@Autowired
 	private IRunService runService;
 
 	public static void main(String[] args) {
@@ -65,6 +70,8 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		testWaypointService();
 		passengerTest();
 		runPriceTest();
+		subRunTest();
+		
 		testRunRepository();
 		testRunService();
 
@@ -191,8 +198,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		for (int i = 1; i < 10; i++) {
 			Account account = new Account("username" + i, "password" + i, Role.USER);
 			User user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
-			Passenger passenger = passengerRepository
-					.insert(new Passenger(user, new WayPoint(), new WayPoint(), Luggage.PETIT, 35.20));
+			Passenger passenger = passengerRepository.insert(new Passenger(user, Luggage.PETIT, 35.20));
 			System.out.println(passenger);
 		}
 
@@ -206,6 +212,16 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 			System.out.println(runPrice);
 		}
 	}
+	
+	private void subRunTest() {
+		subRunRepository.deleteAll();
+		for(int i = 0; i < 10; i++) {
+			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint(i, LocalDateTime.now(), Duration.ofMinutes(15), "notre dame", "15e", "paris", "75020", 4)), waypointRepository.insert(new WayPoint(i + 10, LocalDateTime.now().plusMinutes(35), Duration.ofMinutes(15), "la chapelle", "5e", "paris", "75020", 4)), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
+			subRun = subRunRepository.insert(subRun);
+			System.out.println(subRun);
+		}
+	}
+	
 
 	private void testRunRepository() {
 		runRepository.deleteAll();

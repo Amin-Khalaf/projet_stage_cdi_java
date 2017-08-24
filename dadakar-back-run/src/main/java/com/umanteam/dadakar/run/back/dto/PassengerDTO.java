@@ -4,29 +4,28 @@ import java.io.Serializable;
 
 import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.run.back.enums.Luggage;
+import com.umanteam.dadakar.run.back.enums.ResState;
 
 public class PassengerDTO implements Serializable {
 
 	/* Variables */
 	
-	private static final long serialVersionUID = 4576498159074526737L;
+	private static final long serialVersionUID = 992673263048314047L;
 	private String passengerId;
 	private UserDTO user;
-	private WayPointDTO startPlace;
-	private WayPointDTO endPlace;
 	private Luggage luggage;
-	private double price;
+	private Double price;
+	private ResState reservationState;
 	
 	/* Constructors */
 	
 	public PassengerDTO() {}
 
-	public PassengerDTO(UserDTO user, WayPointDTO startPlace, WayPointDTO endPlace, Luggage luggage, double price) {
+	public PassengerDTO(UserDTO user, Luggage luggage, Double price) {
 		this.user = user;
-		this.startPlace = startPlace;
-		this.endPlace = endPlace;
 		this.luggage = luggage;
 		this.price = price;
+		this.reservationState = ResState.PENDING;
 	}
 
 	/* Getters and Setters */
@@ -47,22 +46,6 @@ public class PassengerDTO implements Serializable {
 		this.user = user;
 	}
 
-	public WayPointDTO getStartPlace() {
-		return startPlace;
-	}
-
-	public void setStartPlace(WayPointDTO startPlace) {
-		this.startPlace = startPlace;
-	}
-
-	public WayPointDTO getEndPlace() {
-		return endPlace;
-	}
-
-	public void setEndPlace(WayPointDTO endPlace) {
-		this.endPlace = endPlace;
-	}
-
 	public Luggage getLuggage() {
 		return luggage;
 	}
@@ -71,20 +54,28 @@ public class PassengerDTO implements Serializable {
 		this.luggage = luggage;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public ResState getReservationState() {
+		return reservationState;
+	}
+
+	public void setReservationState(ResState reservationState) {
+		this.reservationState = reservationState;
 	}
 
 	/* Methods */
 	
 	@Override
 	public String toString() {
-		return "PassengerDTO [passengerId=" + passengerId + ", user=" + user + ", startPlace=" + startPlace
-				+ ", endPlace=" + endPlace + ", luggage=" + luggage + ", price=" + price + "]";
+		return "PassengerDTO [passengerId=" + passengerId + ", user=" + user + ", luggage=" + luggage + ", price="
+				+ price + ", reservationState=" + reservationState + "]";
 	}
 	
 }

@@ -4,8 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.umanteam.dadakar.back.entities.User;
-import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.Luggage;
+import com.umanteam.dadakar.run.back.enums.ResState;
 
 @Document(collection="passengers")
 public class Passenger {
@@ -15,22 +15,19 @@ public class Passenger {
 	@Id
 	private String passengerId;
 	private User user;
-	private WayPoint startPlace;
-	private WayPoint endPlace;
 	private Luggage luggage;
-	private double price;
+	private Double price;
+	private ResState reservationState;
 	
 	/* Constructors */
 	
 	public Passenger() {}
 
-	public Passenger(User user, WayPoint startPlace,
-			WayPoint endPlace, Luggage luggage, double price) {
+	public Passenger(User user, Luggage luggage, Double price) {
 		this.user = user;
-		this.startPlace = startPlace;
-		this.endPlace = endPlace;
 		this.luggage = luggage;
 		this.price = price;
+		this.reservationState = ResState.PENDING;
 	}
 
 	/* Getters and Setters */
@@ -51,22 +48,6 @@ public class Passenger {
 		this.user = user;
 	}
 
-	public WayPoint getStartPlace() {
-		return startPlace;
-	}
-
-	public void setStartPlace(WayPoint startPlace) {
-		this.startPlace = startPlace;
-	}
-
-	public WayPoint getEndPlace() {
-		return endPlace;
-	}
-
-	public void setEndPlace(WayPoint endPlace) {
-		this.endPlace = endPlace;
-	}
-
 	public Luggage getLuggage() {
 		return luggage;
 	}
@@ -75,20 +56,28 @@ public class Passenger {
 		this.luggage = luggage;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
+	}
+	
+	public ResState getReservationState() {
+		return reservationState;
+	}
+
+	public void setReservationState(ResState reservationState) {
+		this.reservationState = reservationState;
 	}
 
 	/* Methods */
-	
+
 	@Override
 	public String toString() {
-		return "Passenger [passengerId=" + passengerId + ", user=" + user + ", startPlace=" + startPlace + ", endPlace="
-				+ endPlace + ", luggage=" + luggage + ", price=" + price + "]";
+		return "Passenger [passengerId=" + passengerId + ", user=" + user + ", luggage=" + luggage + ", price=" + price
+				+ ", reservationState=" + reservationState + "]";
 	}
 
 }

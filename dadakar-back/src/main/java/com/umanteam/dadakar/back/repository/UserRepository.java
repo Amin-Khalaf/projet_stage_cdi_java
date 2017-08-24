@@ -9,4 +9,5 @@ import com.umanteam.dadakar.back.entities.User;
 public interface UserRepository extends MongoRepository<User, String> {
 	List<User> findByLastName(String lastName);
 	User findByAccount(Account account);
+	User findByAccountUsername(String username);
 }

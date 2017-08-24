@@ -89,4 +89,10 @@ public class UserWebService implements IUserWebService {
 		return userService.findByAccount(accountDTO);
 	}
 
+	@RequestMapping(value="/username:{username}", method=RequestMethod.GET)
+	@Override
+	public UserDTO findByAccountUsername(@PathVariable("username") String username) {
+		return userService.findByAccountUsername(username);
+	}
+
 }
