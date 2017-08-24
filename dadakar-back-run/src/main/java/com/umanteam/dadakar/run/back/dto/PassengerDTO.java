@@ -10,18 +10,18 @@ public class PassengerDTO implements Serializable {
 
 	/* Variables */
 	
-	private static final long serialVersionUID = 5072891816502548191L;
+	private static final long serialVersionUID = 992673263048314047L;
 	private String passengerId;
 	private UserDTO user;
 	private Luggage luggage;
-	private double price;
+	private Double price;
 	private ResState reservationState;
 	
 	/* Constructors */
 	
 	public PassengerDTO() {}
 
-	public PassengerDTO(UserDTO user, Luggage luggage, double price) {
+	public PassengerDTO(UserDTO user, Luggage luggage, Double price) {
 		this.user = user;
 		this.luggage = luggage;
 		this.price = price;
@@ -54,11 +54,11 @@ public class PassengerDTO implements Serializable {
 		this.luggage = luggage;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
