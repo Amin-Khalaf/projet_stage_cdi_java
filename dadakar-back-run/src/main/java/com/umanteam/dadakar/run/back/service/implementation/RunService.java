@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.umanteam.dadakar.back.dto.UserDTO;
+import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
@@ -33,6 +34,7 @@ public class RunService implements IRunService {
 		BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
 		entity.setVehicle(vehicleEntity);
 		// SubRun copy
+		// save
 		entity = runRepository.insert(entity);
 		BeanUtils.copyProperties(entity, run);
 		return run;
@@ -40,17 +42,21 @@ public class RunService implements IRunService {
 
 	@Override
 	public RunDTO updateRun(RunDTO run) {
+		// copy run dto to entity
 		Run entity = new Run();
 		BeanUtils.copyProperties(run, entity);
-		entity = runRepository.save(entity);
 		BeanUtils.copyProperties(entity, run);
+		// copy driver to entity and assign to run entity
 		User userEntity = new User();
 		BeanUtils.copyProperties(run.getDriver(), userEntity);
 		entity.setDriver(userEntity);
+		// copy vehicle to entity and assign to run entity
 		Vehicle vehicleEntity = new Vehicle();
 		BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
 		entity.setVehicle(vehicleEntity);
-		// SubRun copy
+		// TODO SubRun copy
+		// save
+		entity = runRepository.save(entity);
 		return run;
 	}
 
@@ -63,8 +69,23 @@ public class RunService implements IRunService {
 	public List<RunDTO> findAllRuns() {
 		List<RunDTO> runs = new ArrayList<>();
 		for (Run entity : runRepository.findAll()){
+			// copy run entity to DTO
 			RunDTO run = new RunDTO();
 			BeanUtils.copyProperties(entity, run);
+			// copy driver entity to DTO and assign to run 
+			if (entity.getDriver() != null){
+				UserDTO user = new UserDTO();
+				BeanUtils.copyProperties(entity.getDriver(), user);
+				run.setDriver(user);
+			}
+			// copy vehicle entity to dto and assign to run
+			if(entity.getVehicle() != null){
+				VehicleDTO vehicle = new VehicleDTO();
+				BeanUtils.copyProperties(entity.getVehicle(), vehicle);
+				run.setVehicle(vehicle);
+			}
+			// TODO subrun copy
+			// add run to list
 			runs.add(run);
 		}
 		return runs;
@@ -73,7 +94,21 @@ public class RunService implements IRunService {
 	@Override
 	public RunDTO findRunsById(String id) {
 		RunDTO run = new RunDTO();
-		BeanUtils.copyProperties(runRepository.findOne(id), run);
+		Run entity = runRepository.findOne(id);
+		BeanUtils.copyProperties(entity, run);
+		// copy driver entity to DTO and assign to run 
+		if (entity.getDriver() != null){
+			UserDTO user = new UserDTO();
+			BeanUtils.copyProperties(entity.getDriver(), user);
+			run.setDriver(user);
+		}
+		// copy vehicle entity to dto and assign to run
+		if(entity.getVehicle() != null){
+			VehicleDTO vehicle = new VehicleDTO();
+			BeanUtils.copyProperties(entity.getVehicle(), vehicle);
+			run.setVehicle(vehicle);
+		}
+		// TODO subrun copy
 		return run;
 	}
 
@@ -85,6 +120,19 @@ public class RunService implements IRunService {
 		for (Run entity : runRepository.findByDriver(driverEntity)){
 			RunDTO run = new RunDTO();
 			BeanUtils.copyProperties(entity, run);
+			// copy driver entity to DTO and assign to run 
+			if (entity.getDriver() != null){
+				UserDTO user = new UserDTO();
+				BeanUtils.copyProperties(entity.getDriver(), user);
+				run.setDriver(user);
+			}
+			// copy vehicle entity to dto and assign to run
+			if(entity.getVehicle() != null){
+				VehicleDTO vehicle = new VehicleDTO();
+				BeanUtils.copyProperties(entity.getVehicle(), vehicle);
+				run.setVehicle(vehicle);
+			}
+			// TODO subrun copy
 			runs.add(run);
 		}
 		return runs;

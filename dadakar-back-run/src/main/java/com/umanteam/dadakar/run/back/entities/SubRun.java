@@ -32,8 +32,23 @@ public class SubRun {
 	
 	public SubRun() {}
 
-	}
 
+	public SubRun(Duration flexibility, WayPoint startPlace, WayPoint endPlace, LocalDate startDate,
+			LocalTime startTime, LocalDate estimatedEndDate, LocalTime estimatedEndTime, Integer availableSeats,
+			List<Passenger> passengers, List<WayPoint> startingPoints, List<Toll> tolls, Double price) {
+		this.flexibility = flexibility;
+		this.startPlace = startPlace;
+		this.endPlace = endPlace;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.estimatedEndDate = estimatedEndDate;
+		this.estimatedEndTime = estimatedEndTime;
+		this.availableSeats = availableSeats;
+		this.passengers = passengers;
+		this.startingPoints = startingPoints;
+		this.tolls = tolls;
+		this.price = price;
+	}
 	/* Getters and Setters */
 	
 	public String getSubRunId() {

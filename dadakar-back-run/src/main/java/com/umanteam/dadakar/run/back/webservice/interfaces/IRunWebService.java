@@ -15,16 +15,16 @@ public interface IRunWebService {
 	public void deleteRun(String id);
 	public ResponseEntity<List<RunDTO>> findAllRuns();
 	public ResponseEntity<RunDTO> findRunsById(String id);
-	public ResponseEntity<List<RunDTO>> findRunsByDriver(UserDTO driver);
-	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByDriver(UserDTO driver);
-	public ResponseEntity<List<RunDTO>> findRunsByPassenger(UserDTO passenger);
-	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByPassenger(UserDTO passenger);
-	public ResponseEntity<List<RunDTO>> findRunsByUser(UserDTO user);
-	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByUser(UserDTO user);
-	public ResponseEntity<List<RunDTO>> findCurrentRunsbyUser(UserDTO user);
-	public ResponseEntity<List<RunDTO>> findCurrentRunsNotCancelledByUser(UserDTO user);
-	public ResponseEntity<List<RunDTO>> findPassedRunsbyUser(UserDTO user);
-	public ResponseEntity<List<RunDTO>> findPassedRunsNotCancelledByUser(UserDTO user);
+	public ResponseEntity<List<RunDTO>> findRunsByDriverId(String userid);
+	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByDriverId(String userid);
+	public ResponseEntity<List<RunDTO>> findRunsByPassengerId(String userid);
+	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByPassengerId(String userid);
+	public ResponseEntity<List<RunDTO>> findRunsByUserId(String userid);
+	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByUserId(String userid);
+	public ResponseEntity<List<RunDTO>> findCurrentRunsbyUserId(String userid);
+	public ResponseEntity<List<RunDTO>> findCurrentRunsNotCancelledByUserId(String userid);
+	public ResponseEntity<List<RunDTO>> findPassedRunsbyUserId(String userid);
+	public ResponseEntity<List<RunDTO>> findPassedRunsNotCancelledByUserId(String userid);
 	public ResponseEntity<List<RunDTO>> findRuns(String districtFrom, String townFrom, LocalDate dateStart, String districtTo, String townTo);
 
 }

@@ -2,6 +2,7 @@ package com.umanteam.dadakar.run.back;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -216,7 +217,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	private void subRunTest() {
 		subRunRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
-			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint(i, LocalDateTime.now(), Duration.ofMinutes(15), "notre dame", "15e", "paris", "75020", 4)), waypointRepository.insert(new WayPoint(i + 10, LocalDateTime.now().plusMinutes(35), Duration.ofMinutes(15), "la chapelle", "5e", "paris", "75020", 4)), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
+			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint("notre dame", "15e", "paris", "75020")), waypointRepository.insert(new WayPoint("la chapelle", "5e", "paris", "75020")), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
 			subRun = subRunRepository.insert(subRun);
 			System.out.println(subRun);
 		}
@@ -301,10 +302,9 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		SubRunDTO subrun = new SubRunDTO();
 		subruns.add(subrun);
 		RunDTO run = new RunDTO(user, vehicle, subruns, Luggage.PETIT);
-		//RunDTO run = new RunDTO(user, vehicle, subruns, Luggage.PETIT);
 		run = runService.addRun(run);
 		System.out.println(run);
-		user = run.getDriver();
+//		user = run.getDriver();
 		
 		System.out.println("--- save 2 ---");
 		RunDTO run2 = new RunDTO(user, vehicle, subruns, Luggage.MOYEN);
