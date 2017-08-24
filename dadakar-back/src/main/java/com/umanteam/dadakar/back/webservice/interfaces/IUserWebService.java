@@ -14,4 +14,5 @@ public interface IUserWebService {
 	UserDTO findById(String id);
 	ResponseEntity<List<UserDTO>> findByLastName(String lastName);
 	UserDTO findByAccountId(String id);
+	UserDTO findByAccountUsername(String username);
 }

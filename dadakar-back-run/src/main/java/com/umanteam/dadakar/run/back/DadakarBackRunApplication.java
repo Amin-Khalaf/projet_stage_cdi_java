@@ -1,7 +1,10 @@
 package com.umanteam.dadakar.run.back;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +21,12 @@ import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.RunPrice;
+import com.umanteam.dadakar.run.back.entities.SubRun;
+import com.umanteam.dadakar.run.back.entities.Toll;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.repository.RunPriceRepository;
+import com.umanteam.dadakar.run.back.repository.SubRunRepository;
 
 @SpringBootApplication
 public class DadakarBackRunApplication implements CommandLineRunner {
@@ -37,6 +43,9 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	@Autowired
 	private RunPriceRepository runPriceRepository;
 	
+	@Autowired
+	private SubRunRepository subRunRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DadakarBackRunApplication.class, args);
 	}
@@ -48,6 +57,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		testWaypointService();
 		passengerTest();
 		runPriceTest();
+		subRunTest();
 		
 	}
 	
@@ -186,4 +196,14 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 			System.out.println(runPrice);
 		}
 	}
+	
+	private void subRunTest() {
+		subRunRepository.deleteAll();
+		for(int i = 0; i < 10; i++) {
+			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint(i, LocalDateTime.now(), Duration.ofMinutes(15), "notre dame", "15e", "paris", "75020", 4)), waypointRepository.insert(new WayPoint(i + 10, LocalDateTime.now().plusMinutes(35), Duration.ofMinutes(15), "la chapelle", "5e", "paris", "75020", 4)), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
+			subRun = subRunRepository.insert(subRun);
+			System.out.println(subRun);
+		}
+	}
+	
 }

@@ -16,14 +16,14 @@ public class Passenger {
 	private String passengerId;
 	private User user;
 	private Luggage luggage;
-	private double price;
+	private Double price;
 	private ResState reservationState;
 	
 	/* Constructors */
 	
 	public Passenger() {}
 
-	public Passenger(User user, Luggage luggage, double price) {
+	public Passenger(User user, Luggage luggage, Double price) {
 		this.user = user;
 		this.luggage = luggage;
 		this.price = price;
@@ -56,11 +56,11 @@ public class Passenger {
 		this.luggage = luggage;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	

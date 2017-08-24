@@ -222,4 +222,29 @@ public class UserService implements IUserService {
 		return userDTO;
 	}
 
+	@Override
+	public UserDTO findByAccountUsername(String username) {
+		User user = userRepository.findByAccountUsername(username);
+		UserDTO userDTO = new UserDTO();
+		AccountDTO accountDTO = new AccountDTO();
+		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
+		List<RatingDTO> ratingDTOs = new ArrayList<>();
+		BeanUtils.copyProperties(user, userDTO);
+		BeanUtils.copyProperties(user.getAccount(), accountDTO);
+		userDTO.setAccount(accountDTO);
+		for(Vehicle vehicle: user.getVehicles()) {
+			VehicleDTO vehicleDTO = new VehicleDTO();
+			BeanUtils.copyProperties(vehicle, vehicleDTO);
+			vehicleDTOs.add(vehicleDTO);
+		}
+		userDTO.setVehicles(vehicleDTOs);
+		for(Rating rating: user.getRatings()) {
+			RatingDTO ratingDTO = new RatingDTO();
+			BeanUtils.copyProperties(rating, ratingDTO);
+			ratingDTOs.add(ratingDTO);
+		}
+		userDTO.setRatings(ratingDTOs);
+		return userDTO;
+	}
+
 }
