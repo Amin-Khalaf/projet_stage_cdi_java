@@ -20,34 +20,34 @@ public class RatingService implements IRatingService {
 	@Autowired
 	private RatingRepository ratingRepository;
 	
-	@Override
-	public RatingDTO add(RatingDTO ratingDTO) {
+	/* copy from RatingDTO to Rating */
+	private Rating ratingDTOToRating(RatingDTO ratingDTO) {
 		Rating rating = new Rating();
 		User rater = new User();
 		BeanUtils.copyProperties(ratingDTO, rating);
 		BeanUtils.copyProperties(ratingDTO.getRater(), rater);
 		rating.setRater(rater);
-		rating = ratingRepository.insert(rating);
+		return rating;
+	}
+	
+	/* copy from Rating to RatingDTO */
+	private RatingDTO ratingToRatingDTO(Rating rating) {
+		RatingDTO ratingDTO = new RatingDTO();
 		UserDTO raterDTO = new UserDTO();
 		BeanUtils.copyProperties(rating, ratingDTO);
 		BeanUtils.copyProperties(rating.getRater(), raterDTO);
 		ratingDTO.setRater(raterDTO);
 		return ratingDTO;
 	}
+	
+	@Override
+	public RatingDTO add(RatingDTO ratingDTO) {
+		return ratingToRatingDTO(ratingRepository.insert(ratingDTOToRating(ratingDTO)));
+	}
 
 	@Override
 	public RatingDTO update(RatingDTO ratingDTO) {
-		Rating rating = new Rating();
-		User rater = new User();
-		BeanUtils.copyProperties(ratingDTO, rating);
-		BeanUtils.copyProperties(ratingDTO.getRater(), rater);
-		rating.setRater(rater);
-		rating = ratingRepository.save(rating);
-		UserDTO raterDTO = new UserDTO();
-		BeanUtils.copyProperties(rating, ratingDTO);
-		BeanUtils.copyProperties(rating.getRater(), raterDTO);
-		ratingDTO.setRater(raterDTO);
-		return ratingDTO;
+		return ratingToRatingDTO(ratingRepository.save(ratingDTOToRating(ratingDTO)));
 	}
 
 	@Override
@@ -58,26 +58,13 @@ public class RatingService implements IRatingService {
 	@Override
 	public List<RatingDTO> findAll() {
 		List<RatingDTO> ratingDTOs = new ArrayList<>();
-		for(Rating rating: ratingRepository.findAll()) {
-			RatingDTO ratingDTO = new RatingDTO();
-			UserDTO userDTO = new UserDTO();
-			BeanUtils.copyProperties(rating, ratingDTO);
-			BeanUtils.copyProperties(rating.getRater(), userDTO);
-			ratingDTO.setRater(userDTO);
-			ratingDTOs.add(ratingDTO);
-		}
+		for(Rating rating: ratingRepository.findAll()) ratingDTOs.add(ratingToRatingDTO(rating));
 		return ratingDTOs;
 	}
 
 	@Override
 	public RatingDTO findById(String id) {
-		RatingDTO ratingDTO = new RatingDTO();
-		Rating rating = ratingRepository.findOne(id);
-		UserDTO userDTO = new UserDTO();
-		BeanUtils.copyProperties(rating, ratingDTO);
-		BeanUtils.copyProperties(rating.getRater(), userDTO);
-		ratingDTO.setRater(userDTO);
-		return ratingDTO;
+		return ratingToRatingDTO(ratingRepository.findOne(id));
 	}
 
 }

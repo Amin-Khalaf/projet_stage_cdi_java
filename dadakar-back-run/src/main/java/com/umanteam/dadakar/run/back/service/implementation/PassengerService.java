@@ -25,68 +25,28 @@ public class PassengerService implements IPassengerService {
 	@Autowired
 	private PassengerRepository passengerRepository;
 	
-	@Override
-	public PassengerDTO add(PassengerDTO passengerDTO) {
+	/* copy from PassengerDTO to Passenger */
+	private Passenger passengerDTOToPassenger(PassengerDTO passengerDTO) {
 		Passenger passenger = new Passenger();
 		User user = new User();
 		BeanUtils.copyProperties(passengerDTO, passenger);
 		BeanUtils.copyProperties(passengerDTO.getUser(), user);
 		passenger.setUser(user);
-		passenger = passengerRepository.insert(passenger);
-		UserDTO userDTO = new UserDTO();
-		BeanUtils.copyProperties(passenger, passengerDTO);
-		BeanUtils.copyProperties(passenger.getUser(), userDTO);
-		passengerDTO.setUser(userDTO);
-		return passengerDTO;
+		return passenger;
 	}
-
-	@Override
-	public PassengerDTO update(PassengerDTO passengerDTO) {
-		Passenger passenger = new Passenger();
-		User user = new User();
-		BeanUtils.copyProperties(passengerDTO, passenger);
-		BeanUtils.copyProperties(passengerDTO.getUser(), user);
-		passenger.setUser(user);
-		passenger = passengerRepository.save(passenger);
-		UserDTO userDTO = new UserDTO();
-		BeanUtils.copyProperties(passenger, passengerDTO);
-		BeanUtils.copyProperties(passenger.getUser(), userDTO);
-		passengerDTO.setUser(userDTO);
-		return passengerDTO;
-	}
-
-	@Override
-	public void delete(String id) {
-		passengerRepository.delete(id);
-	}
-
-	@Override
-	public List<PassengerDTO> findAll() {
-		List<PassengerDTO> passengerDTOs = new ArrayList<>();
-		for(Passenger passenger: passengerRepository.findAll()) {
-			PassengerDTO passengerDTO = new PassengerDTO();
-			BeanUtils.copyProperties(passenger, passengerDTO);
-			UserDTO user = new UserDTO();
-			BeanUtils.copyProperties(passenger.getUser(), user);
-			passengerDTO.setUser(user);
-			passengerDTOs.add(passengerDTO);
-		}
-		return passengerDTOs;
-	}
-
-	@Override
-	public PassengerDTO findById(String id) {
-		Passenger passenger = passengerRepository.findOne(id);
+	
+	/* copy form Passenger to PassengerDTO */
+	private PassengerDTO passengerToPassengerDTO(Passenger passenger) {
 		PassengerDTO passengerDTO = new PassengerDTO();
+		UserDTO userDTO = new UserDTO();
 		BeanUtils.copyProperties(passenger, passengerDTO);
-		UserDTO user = new UserDTO();
-		BeanUtils.copyProperties(passenger.getUser(), user);
-		passengerDTO.setUser(user);
+		BeanUtils.copyProperties(passenger.getUser(), userDTO);
+		passengerDTO.setUser(userDTO);
 		return passengerDTO;
 	}
-
-	@Override
-	public PassengerDTO findByUser(UserDTO userDTO) {
+	
+	/* copy from UserDTO to User */
+	private User userDTOToUser(UserDTO userDTO) {
 		User user = new User();
 		Account account = new Account();
 		List<Vehicle> vehicles = new ArrayList<>();
@@ -106,13 +66,39 @@ public class PassengerService implements IPassengerService {
 			ratings.add(rating);
 		}
 		user.setRatings(ratings);
-		Passenger passenger = passengerRepository.findByUser(user);
-		PassengerDTO passengerDTO = new PassengerDTO();
-		BeanUtils.copyProperties(passenger, passengerDTO);
-		userDTO = new UserDTO();
-		BeanUtils.copyProperties(passenger.getUser(), userDTO);
-		passengerDTO.setUser(userDTO);
-		return passengerDTO;
+		return user;
+	}
+	
+	@Override
+	public PassengerDTO add(PassengerDTO passengerDTO) {
+		return passengerToPassengerDTO(passengerRepository.insert(passengerDTOToPassenger(passengerDTO)));
+	}
+
+	@Override
+	public PassengerDTO update(PassengerDTO passengerDTO) {
+		return passengerToPassengerDTO(passengerRepository.save(passengerDTOToPassenger(passengerDTO)));
+	}
+
+	@Override
+	public void delete(String id) {
+		passengerRepository.delete(id);
+	}
+
+	@Override
+	public List<PassengerDTO> findAll() {
+		List<PassengerDTO> passengerDTOs = new ArrayList<>();
+		for(Passenger passenger: passengerRepository.findAll()) passengerDTOs.add(passengerToPassengerDTO(passenger));
+		return passengerDTOs;
+	}
+
+	@Override
+	public PassengerDTO findById(String id) {
+		return passengerToPassengerDTO(passengerRepository.findOne(id));
+	}
+
+	@Override
+	public PassengerDTO findByUser(UserDTO userDTO) {
+		return passengerToPassengerDTO(passengerRepository.findByUser(userDTOToUser(userDTO)));
 	}
 
 }

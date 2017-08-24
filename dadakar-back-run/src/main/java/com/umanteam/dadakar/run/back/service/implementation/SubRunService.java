@@ -26,8 +26,7 @@ public class SubRunService implements ISubRunService {
 	@Autowired
 	private SubRunRepository subRunRepository;
 	
-	/* copy from DTO to Entity */
-	
+	/* copy from SubRunDTO to SubRun */
 	private SubRun subRunDTOToSubRun(SubRunDTO subRunDTO) {
 		SubRun subRun = new SubRun();
 		WayPoint wp = new WayPoint();
@@ -64,8 +63,7 @@ public class SubRunService implements ISubRunService {
 		return subRun;
 	}
 	
-	/* copy from Entity to DTO */
-	
+	/* copy from SubRun to SubRunDTO */
 	private SubRunDTO subRunToSubRunDTO(SubRun subRun) {
 		SubRunDTO subRunDTO = new SubRunDTO();
 		WayPointDTO wpDTO = new WayPointDTO();
@@ -104,18 +102,12 @@ public class SubRunService implements ISubRunService {
 
 	@Override
 	public SubRunDTO add(SubRunDTO subRunDTO) {
-		SubRun subRun = subRunDTOToSubRun(subRunDTO);
-		subRun = subRunRepository.insert(subRun);
-		subRunDTO = subRunToSubRunDTO(subRun);
-		return subRunDTO;
+		return subRunToSubRunDTO(subRunRepository.insert(subRunDTOToSubRun(subRunDTO)));
 	}
 
 	@Override
 	public SubRunDTO update(SubRunDTO subRunDTO) {
-		SubRun subRun = subRunDTOToSubRun(subRunDTO);
-		subRun = subRunRepository.save(subRun);
-		subRunDTO = subRunToSubRunDTO(subRun);
-		return subRunDTO;
+		return subRunToSubRunDTO(subRunRepository.save(subRunDTOToSubRun(subRunDTO)));
 	}
 
 	@Override
@@ -126,17 +118,13 @@ public class SubRunService implements ISubRunService {
 	@Override
 	public List<SubRunDTO> findAll() {
 		List<SubRunDTO> subRunDTOs = new ArrayList<>();
-		for(SubRun subRun: subRunRepository.findAll()) {
-			SubRunDTO subRunDTO = subRunToSubRunDTO(subRun);
-			subRunDTOs.add(subRunDTO);
-		}
+		for(SubRun subRun: subRunRepository.findAll()) subRunDTOs.add(subRunToSubRunDTO(subRun));
 		return subRunDTOs;
 	}
 
 	@Override
 	public SubRunDTO findById(String id) {
-		SubRunDTO subRunDTO = subRunToSubRunDTO(subRunRepository.findOne(id));
-		return subRunDTO;
+		return subRunToSubRunDTO(subRunRepository.findOne(id));
 	}
 
 }
