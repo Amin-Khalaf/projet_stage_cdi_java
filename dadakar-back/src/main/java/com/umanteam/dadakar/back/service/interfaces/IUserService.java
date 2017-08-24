@@ -13,4 +13,5 @@ public interface IUserService {
 	UserDTO findById(String id);
 	List<UserDTO> findByLastName(String lastName);
 	UserDTO findByAccount(AccountDTO accountDTO);
+	UserDTO findByAccountUsername(String username);
 }
