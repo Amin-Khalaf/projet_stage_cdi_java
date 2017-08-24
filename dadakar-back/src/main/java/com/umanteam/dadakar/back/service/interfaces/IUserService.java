@@ -5,8 +5,7 @@ import java.util.List;
 import com.umanteam.dadakar.back.dto.UserDTO;
 
 public interface IUserService {
-	UserDTO add(UserDTO userDTO);
-	UserDTO update(UserDTO userDTO);
+	UserDTO addOrUpdate(UserDTO userDTO);
 	void delete(String id);
 	List<UserDTO> findAll();
 	UserDTO findById(String id);

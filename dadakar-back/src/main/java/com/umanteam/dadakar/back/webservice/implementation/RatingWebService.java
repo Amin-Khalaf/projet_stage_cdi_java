@@ -27,13 +27,13 @@ public class RatingWebService implements IRatingWebService {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public RatingDTO add(@RequestBody RatingDTO ratingDTO) { // OK
-		return ratingService.add(ratingDTO);
+		return ratingService.addOrUpdate(ratingDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public RatingDTO update(@RequestBody RatingDTO ratingDTO) { // OK
-		return ratingService.update(ratingDTO);
+		return ratingService.addOrUpdate(ratingDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)

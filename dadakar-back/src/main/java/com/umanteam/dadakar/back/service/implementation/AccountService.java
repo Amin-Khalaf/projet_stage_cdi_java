@@ -34,12 +34,7 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
-	public AccountDTO add(AccountDTO accountDTO) {
-		return accountToAccountDTO(accountRepository.insert(accountDTOToAccount(accountDTO)));
-	}
-
-	@Override
-	public AccountDTO update(AccountDTO accountDTO) {
+	public AccountDTO addOrUpdate(AccountDTO accountDTO) {
 		return accountToAccountDTO(accountRepository.save(accountDTOToAccount(accountDTO)));
 	}
 

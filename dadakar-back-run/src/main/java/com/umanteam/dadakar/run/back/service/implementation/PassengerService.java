@@ -70,12 +70,7 @@ public class PassengerService implements IPassengerService {
 	}
 	
 	@Override
-	public PassengerDTO add(PassengerDTO passengerDTO) {
-		return passengerToPassengerDTO(passengerRepository.insert(passengerDTOToPassenger(passengerDTO)));
-	}
-
-	@Override
-	public PassengerDTO update(PassengerDTO passengerDTO) {
+	public PassengerDTO addOrUpdate(PassengerDTO passengerDTO) {
 		return passengerToPassengerDTO(passengerRepository.save(passengerDTOToPassenger(passengerDTO)));
 	}
 

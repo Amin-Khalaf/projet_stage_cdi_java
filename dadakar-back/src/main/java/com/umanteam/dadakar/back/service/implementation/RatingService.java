@@ -41,12 +41,7 @@ public class RatingService implements IRatingService {
 	}
 	
 	@Override
-	public RatingDTO add(RatingDTO ratingDTO) {
-		return ratingToRatingDTO(ratingRepository.insert(ratingDTOToRating(ratingDTO)));
-	}
-
-	@Override
-	public RatingDTO update(RatingDTO ratingDTO) {
+	public RatingDTO addOrUpdate(RatingDTO ratingDTO) {
 		return ratingToRatingDTO(ratingRepository.save(ratingDTOToRating(ratingDTO)));
 	}
 

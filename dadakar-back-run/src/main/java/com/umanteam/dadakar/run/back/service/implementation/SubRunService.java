@@ -101,12 +101,7 @@ public class SubRunService implements ISubRunService {
 	}
 
 	@Override
-	public SubRunDTO add(SubRunDTO subRunDTO) {
-		return subRunToSubRunDTO(subRunRepository.insert(subRunDTOToSubRun(subRunDTO)));
-	}
-
-	@Override
-	public SubRunDTO update(SubRunDTO subRunDTO) {
+	public SubRunDTO addOrUpdate(SubRunDTO subRunDTO) {
 		return subRunToSubRunDTO(subRunRepository.save(subRunDTOToSubRun(subRunDTO)));
 	}
 

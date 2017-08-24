@@ -33,12 +33,7 @@ public class RunPriceService implements IRunPriceService {
 	}
 
 	@Override
-	public RunPriceDTO add(RunPriceDTO runPriceDTO) {
-		return runPriceToRunPriceDTO(runPriceRepository.insert(runPriceDTOToRunPrice(runPriceDTO)));
-	}
-
-	@Override
-	public RunPriceDTO update(RunPriceDTO runPriceDTO) {
+	public RunPriceDTO addOrUpdate(RunPriceDTO runPriceDTO) {
 		return runPriceToRunPriceDTO(runPriceRepository.save(runPriceDTOToRunPrice(runPriceDTO)));
 	}
 

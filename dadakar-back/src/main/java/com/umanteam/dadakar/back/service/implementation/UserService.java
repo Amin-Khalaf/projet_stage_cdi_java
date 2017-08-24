@@ -73,12 +73,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public UserDTO add(UserDTO userDTO) {
-		return userToUserDTO(userRepository.insert(userDTOToUser(userDTO)));
-	}
-
-	@Override
-	public UserDTO update(UserDTO userDTO) {
+	public UserDTO addOrUpdate(UserDTO userDTO) {
 		return userToUserDTO(userRepository.save(userDTOToUser(userDTO)));
 	}
 

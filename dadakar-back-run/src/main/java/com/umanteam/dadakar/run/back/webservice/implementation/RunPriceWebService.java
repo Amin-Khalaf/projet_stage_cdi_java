@@ -27,13 +27,13 @@ public class RunPriceWebService implements IRunPriceWebService {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public RunPriceDTO add(@RequestBody RunPriceDTO runPriceDTO) { // OK
-		return runPriceService.add(runPriceDTO);
+		return runPriceService.addOrUpdate(runPriceDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public RunPriceDTO update(@RequestBody RunPriceDTO runPriceDTO) { // OK
-		return runPriceService.update(runPriceDTO);
+		return runPriceService.addOrUpdate(runPriceDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)

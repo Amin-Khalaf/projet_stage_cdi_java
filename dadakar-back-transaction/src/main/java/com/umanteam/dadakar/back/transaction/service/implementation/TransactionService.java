@@ -35,13 +35,8 @@ public class TransactionService implements ITransactionService {
 	}
 	
 	@Override
-	public TransactionDTO add(TransactionDTO transactionDTO) {
+	public TransactionDTO addOrUpdate(TransactionDTO transactionDTO) {
 		return transactionToTransactionDTO(transactionRepository.saveAndFlush(transactionDTOToTransaction(transactionDTO)));
-	}
-
-	@Override
-	public TransactionDTO update(TransactionDTO transactionDTO) {
-		return add(transactionDTO);
 	}
 
 	@Override

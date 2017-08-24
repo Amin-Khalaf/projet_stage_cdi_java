@@ -7,8 +7,7 @@ import com.umanteam.dadakar.back.transaction.dto.TransactionDTO;
 import com.umanteam.dadakar.back.transaction.enums.TxState;
 
 public interface ITransactionService {
-	TransactionDTO add(TransactionDTO transactionDTO);
-	TransactionDTO update(TransactionDTO transactionDTO);
+	TransactionDTO addOrUpdate(TransactionDTO transactionDTO);
 	void delete(Integer id);
 	List<TransactionDTO> findAll();
 	TransactionDTO findById(Integer id);

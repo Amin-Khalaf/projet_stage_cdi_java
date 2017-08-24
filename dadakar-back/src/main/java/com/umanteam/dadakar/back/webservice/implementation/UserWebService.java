@@ -27,13 +27,13 @@ public class UserWebService implements IUserWebService {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public UserDTO add(@RequestBody UserDTO userDTO) { // OK
-		return userService.add(userDTO);
+		return userService.addOrUpdate(userDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public UserDTO update(@RequestBody UserDTO userDTO) { // OK
-		return userService.update(userDTO);
+		return userService.addOrUpdate(userDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)
