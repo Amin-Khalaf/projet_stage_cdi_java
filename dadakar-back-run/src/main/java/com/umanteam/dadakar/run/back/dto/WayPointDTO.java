@@ -2,10 +2,10 @@ package com.umanteam.dadakar.run.back.dto;
 
 import java.io.Serializable;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,50 +14,27 @@ public class WayPointDTO implements Serializable {
 	private static final long serialVersionUID = -6852065494792942275L;
 	
 	private String id;
-	private int order;
-	@DateTimeFormat(iso = ISO.DATE_TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-	private LocalDateTime estimatedDateTime;
-	private Duration flexibility;
 	private String meetingPoint;
 	private String district;
 	private String town;
 	private String postcode;
-	private int availableSeats;
 
 	// Constructors
 	public WayPointDTO() {
 		super();
 	}
 
-	public WayPointDTO(int order, LocalDateTime estimatedDateTime, Duration flexibility,
-			String meetingPoint, String district, String town, String postcode, int availableSeats) {
+	public WayPointDTO(String meetingPoint, String district, String town, String postcode) {
 		super();
-		this.order = order;
-		this.estimatedDateTime = estimatedDateTime;
-		this.flexibility = flexibility;
 		this.meetingPoint = meetingPoint;
 		this.district = district;
 		this.town = town;
 		this.postcode = postcode;
-		this.availableSeats = availableSeats;
 	}
 
 	// Getters
 	public String getId() {
 		return id;
-	}
-
-	public int getOrder() {
-		return order;
-	}
-
-	public LocalDateTime getEstimatedDateTime() {
-		return estimatedDateTime;
-	}
-
-	public Duration getFlexibility() {
-		return flexibility;
 	}
 
 	public String getMeetingPoint() {
@@ -76,25 +53,9 @@ public class WayPointDTO implements Serializable {
 		return postcode;
 	}
 
-	public int getAvailableSeats() {
-		return availableSeats;
-	}
-
 	// Setters
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public void setOrder(int order) {
-		this.order = order;
-	}
-
-	public void setEstimatedDateTime(LocalDateTime estimatedDateTime) {
-		this.estimatedDateTime = estimatedDateTime;
-	}
-
-	public void setFlexibility(Duration flexibility) {
-		this.flexibility = flexibility;
 	}
 
 	public void setMeetingPoint(String meetingPoint) {
@@ -113,17 +74,11 @@ public class WayPointDTO implements Serializable {
 		this.postcode = postcode;
 	}
 
-	public void setAvailableSeats(int availableSeats) {
-		this.availableSeats = availableSeats;
-	}
-
 	// toString
 	@Override
 	public String toString() {
-		return "WaypointDTO [id=" + id + ", order=" + order + ", estimatedDateTime=" + estimatedDateTime
-				+ ", flexibility=" + flexibility + ", meetingPoint=" + meetingPoint + ", district=" + district
-				+ ", town=" + town + ", postcode=" + postcode + ", availableSeats=" + availableSeats + "]";
+		return "WaypointDTO [id=" + id + ", meetingPoint=" + meetingPoint + ", district=" + district
+				+ ", town=" + town + ", postcode=" + postcode + "]";
 	}
 
-	
 }

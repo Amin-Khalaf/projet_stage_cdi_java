@@ -17,7 +17,7 @@ import com.umanteam.dadakar.run.back.service.interfaces.IWayPointService;
 import com.umanteam.dadakar.run.back.webservice.interfaces.IWayPointWebService;
 
 @RestController
-@RequestMapping("/waypoints")
+@RequestMapping("${appli.path}//waypoints")
 @CrossOrigin(origins="*")
 public class WayPointWebService implements IWayPointWebService {
 
@@ -47,7 +47,7 @@ public class WayPointWebService implements IWayPointWebService {
 	public ResponseEntity<List<WayPointDTO>> findAll() {
 		List<WayPointDTO> waypoints = waypointService.findAll();
 		if (waypoints == null) {
-			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<WayPointDTO>>(waypoints, HttpStatus.OK);
 	}
@@ -57,7 +57,7 @@ public class WayPointWebService implements IWayPointWebService {
 	public ResponseEntity<WayPointDTO> findById(@PathVariable("id") String id) {
 		WayPointDTO waypoint = waypointService.findById(id);
 		if (waypoint == null) {
-			return new ResponseEntity<WayPointDTO>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<WayPointDTO>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<WayPointDTO>(waypoint, HttpStatus.OK);
 	}
@@ -68,7 +68,7 @@ public class WayPointWebService implements IWayPointWebService {
 		System.out.println(district);
 		List<WayPointDTO> waypoints = waypointService.findByDistrict(district);
 		if (waypoints == null) {
-			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<WayPointDTO>>(waypoints, HttpStatus.OK);
 	}
@@ -79,7 +79,7 @@ public class WayPointWebService implements IWayPointWebService {
 		System.out.println(town);
 		List<WayPointDTO> waypoints = waypointService.findByTown(town);
 		if (waypoints == null) {
-			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<WayPointDTO>>(waypoints, HttpStatus.OK);
 	}
@@ -90,7 +90,7 @@ public class WayPointWebService implements IWayPointWebService {
 		System.out.println(postcode);
 		List<WayPointDTO> waypoints = waypointService.findByPostcode(postcode);
 		if (waypoints == null) {
-			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<WayPointDTO>>(waypoints, HttpStatus.OK);
 	}
