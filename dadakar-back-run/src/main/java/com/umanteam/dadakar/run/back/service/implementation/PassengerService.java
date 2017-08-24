@@ -15,9 +15,7 @@ import com.umanteam.dadakar.back.entities.Rating;
 import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.dto.PassengerDTO;
-import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 import com.umanteam.dadakar.run.back.entities.Passenger;
-import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.service.interfaces.IPassengerService;
 
@@ -31,26 +29,14 @@ public class PassengerService implements IPassengerService {
 	public PassengerDTO add(PassengerDTO passengerDTO) {
 		Passenger passenger = new Passenger();
 		User user = new User();
-		WayPoint wayPoint = new WayPoint();
 		BeanUtils.copyProperties(passengerDTO, passenger);
 		BeanUtils.copyProperties(passengerDTO.getUser(), user);
 		passenger.setUser(user);
-		BeanUtils.copyProperties(passengerDTO.getStartPlace(), wayPoint);
-		passenger.setStartPlace(wayPoint);
-		wayPoint = new WayPoint();
-		BeanUtils.copyProperties(passengerDTO.getEndPlace(), wayPoint);
-		passenger.setEndPlace(wayPoint);
 		passenger = passengerRepository.insert(passenger);
 		UserDTO userDTO = new UserDTO();
-		WayPointDTO wayPointDTO = new WayPointDTO();
 		BeanUtils.copyProperties(passenger, passengerDTO);
 		BeanUtils.copyProperties(passenger.getUser(), userDTO);
 		passengerDTO.setUser(userDTO);
-		BeanUtils.copyProperties(passenger.getStartPlace(), wayPointDTO);
-		passengerDTO.setStartPlace(wayPointDTO);
-		wayPointDTO = new WayPointDTO();
-		BeanUtils.copyProperties(passenger.getEndPlace(), wayPointDTO);
-		passengerDTO.setEndPlace(wayPointDTO);
 		return passengerDTO;
 	}
 
@@ -58,26 +44,14 @@ public class PassengerService implements IPassengerService {
 	public PassengerDTO update(PassengerDTO passengerDTO) {
 		Passenger passenger = new Passenger();
 		User user = new User();
-		WayPoint wayPoint = new WayPoint();
 		BeanUtils.copyProperties(passengerDTO, passenger);
 		BeanUtils.copyProperties(passengerDTO.getUser(), user);
 		passenger.setUser(user);
-		BeanUtils.copyProperties(passengerDTO.getStartPlace(), wayPoint);
-		passenger.setStartPlace(wayPoint);
-		wayPoint = new WayPoint();
-		BeanUtils.copyProperties(passengerDTO.getEndPlace(), wayPoint);
-		passenger.setEndPlace(wayPoint);
 		passenger = passengerRepository.save(passenger);
 		UserDTO userDTO = new UserDTO();
-		WayPointDTO wayPointDTO = new WayPointDTO();
 		BeanUtils.copyProperties(passenger, passengerDTO);
 		BeanUtils.copyProperties(passenger.getUser(), userDTO);
 		passengerDTO.setUser(userDTO);
-		BeanUtils.copyProperties(passenger.getStartPlace(), wayPointDTO);
-		passengerDTO.setStartPlace(wayPointDTO);
-		wayPointDTO = new WayPointDTO();
-		BeanUtils.copyProperties(passenger.getEndPlace(), wayPointDTO);
-		passengerDTO.setEndPlace(wayPointDTO);
 		return passengerDTO;
 	}
 
@@ -95,12 +69,6 @@ public class PassengerService implements IPassengerService {
 			UserDTO user = new UserDTO();
 			BeanUtils.copyProperties(passenger.getUser(), user);
 			passengerDTO.setUser(user);
-			WayPointDTO wayPoint = new WayPointDTO();
-			BeanUtils.copyProperties(passenger.getStartPlace(), wayPoint);
-			passengerDTO.setStartPlace(wayPoint);
-			wayPoint = new WayPointDTO();
-			BeanUtils.copyProperties(passenger.getEndPlace(), wayPoint);
-			passengerDTO.setEndPlace(wayPoint);
 			passengerDTOs.add(passengerDTO);
 		}
 		return passengerDTOs;
@@ -114,12 +82,6 @@ public class PassengerService implements IPassengerService {
 		UserDTO user = new UserDTO();
 		BeanUtils.copyProperties(passenger.getUser(), user);
 		passengerDTO.setUser(user);
-		WayPointDTO wayPoint = new WayPointDTO();
-		BeanUtils.copyProperties(passenger.getStartPlace(), wayPoint);
-		passengerDTO.setStartPlace(wayPoint);
-		wayPoint = new WayPointDTO();
-		BeanUtils.copyProperties(passenger.getEndPlace(), wayPoint);
-		passengerDTO.setEndPlace(wayPoint);
 		return passengerDTO;
 	}
 
@@ -145,18 +107,11 @@ public class PassengerService implements IPassengerService {
 		}
 		user.setRatings(ratings);
 		Passenger passenger = passengerRepository.findByUser(user);
-		System.out.println(">>>" + passenger + "<<<");
 		PassengerDTO passengerDTO = new PassengerDTO();
 		BeanUtils.copyProperties(passenger, passengerDTO);
 		userDTO = new UserDTO();
 		BeanUtils.copyProperties(passenger.getUser(), userDTO);
 		passengerDTO.setUser(userDTO);
-		WayPointDTO wayPoint = new WayPointDTO();
-		BeanUtils.copyProperties(passenger.getStartPlace(), wayPoint);
-		passengerDTO.setStartPlace(wayPoint);
-		wayPoint = new WayPointDTO();
-		BeanUtils.copyProperties(passenger.getEndPlace(), wayPoint);
-		passengerDTO.setEndPlace(wayPoint);
 		return passengerDTO;
 	}
 

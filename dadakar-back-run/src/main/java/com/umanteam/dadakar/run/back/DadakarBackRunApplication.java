@@ -172,7 +172,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		for(int i = 1; i < 10; i++) {
 			Account account = new Account("username" + i, "password" + i, Role.USER);
 			User user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
-			Passenger passenger = passengerRepository.insert(new Passenger(user, new WayPoint(), new WayPoint(), Luggage.PETIT, 35.20));
+			Passenger passenger = passengerRepository.insert(new Passenger(user, Luggage.PETIT, 35.20));
 			System.out.println(passenger);
 		}
 		
