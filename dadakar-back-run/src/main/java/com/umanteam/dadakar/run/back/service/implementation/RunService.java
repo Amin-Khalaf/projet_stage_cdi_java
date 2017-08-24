@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.entities.User;
-import com.umanteam.dadakar.run.back.dto.PassengerDTO;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
-import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
 import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
@@ -80,23 +78,74 @@ public class RunService implements IRunService {
 	}
 
 	@Override
+	public List<RunDTO> findRunsNotCancelledByDriver(UserDTO driver) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<RunDTO> findRunsByPassenger(UserDTO passenger) {
 		User passengerEntity = new User();
 		BeanUtils.copyProperties(passenger, passengerEntity);
 		List<RunDTO> runs = new ArrayList<>();
-		// TODO : change to method that sends back only runs when passenger is not refused or canceled
-		for (Run entity : runRepository.findByPassengersUser(passengerEntity)) {
-			RunDTO run = new RunDTO();
-			BeanUtils.copyProperties(entity, run);
-			runs.add(run);
-		}
+		// TODO : implement method when subrun available
+//		for (Run entity : runRepository.findBySubRunPassengerUserExists(passengerEntity)) {
+//			if passenger not refused, canceled or run-canceled
+//				RunDTO run = new RunDTO();
+//				BeanUtils.copyProperties(entity, run);
+//				runs.add(run);
+//		}
 		return runs;
+	}
+
+	@Override
+	public List<RunDTO> fundRunsNotCancelledByPassenger(UserDTO passenger) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RunDTO> findRunsByUser(UserDTO user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RunDTO> findRunsNotCancelledByUser(UserDTO user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RunDTO> findCurrentRunsbyUser(UserDTO user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RunDTO> findCurrentRunsNotCancelledByUser(UserDTO user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RunDTO> findPassedRunsbyUser(UserDTO user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RunDTO> findPassedRunsNotCancelledByUser(UserDTO user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public List<RunDTO> findRuns(String districtFrom, String townFrom, LocalDate dateStart, String districtTo,
 			String townTo) {
-		// TODO Auto-generated method stub
+		List<RunDTO> runs = new ArrayList<>();
+		// search for runs that have a matching subrun
+		// implement method when subrun available
 		return null;
 	}
 

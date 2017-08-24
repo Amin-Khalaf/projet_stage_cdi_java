@@ -1,25 +1,26 @@
 package com.umanteam.dadakar.run.back.repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.umanteam.dadakar.back.entities.User;
-import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.Run;
-import com.umanteam.dadakar.run.back.entities.Toll;
-import com.umanteam.dadakar.run.back.entities.WayPoint;
+import com.umanteam.dadakar.run.back.entities.SubRun;
 
 public interface RunRepository extends MongoRepository<Run, String> {
 
 	public List<Run> findByDriver(User driver);
-	public List<Run> findByWayPointsExists(WayPoint waypoint1);
-	public List<Run> findByWayPointsExists(WayPoint waypoint1, WayPoint waypoint2);
-	public List<Run> findByPassengersExists(Passenger passenger);
-	public List<Run> findByPassengersUser(User user);
-//	public List<Run> findByPassengersUserAndPassengers
-	public List<Run> findByTollsExists(Toll toll);
-	public List<Run> findByWayPointsDistrictAndWayPointsTownAndWayPointsEstimatedDate(String district, String town, LocalDateTime date);
-	public List<Run> findByWayPointsDistrictAndWayPointsTown(String district, String town);
+	// find by driver not cancelled runs
+	
+	public List<Run> findBySubRunsExists(SubRun subRun);
+	
+//	public List<Run> findBySubRunPassengerUserExists(User passenger);
+	// find by passenger user and run not cancelled and passenger not cancelled
+	
+	// find by driver or passenger
+	// find by driver or passenger and run not cancelled and passenger not cancelled 
+	
+//	method to find runs with subrun that match the request start point and date and the end point and run not cancelled and subrun available seat gt 0
+	
 }

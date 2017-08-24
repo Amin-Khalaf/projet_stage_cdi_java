@@ -12,56 +12,27 @@ public class WayPoint {
 
 	@Id
 	private String id;
-	private int order;
-	private LocalDate estimatedDate;
-	private LocalTime estimatedTime;
-	private Duration flexibility;
 	private String meetingPoint;
 	private String district;
 	private String town;
 	private String postcode;
-	private int availableSeats;
-	private double priceToNextPoint;
-	
-	//constructors
+
+	// constructors
 	public WayPoint() {
 		super();
 	}
 
-	public WayPoint(int order, LocalDate estimatedDate, LocalTime estimatedTime, Duration flexibility, String meetingPoint,
-			String district, String town, String postcode, int availableSeats, double priceToNextPoint) {
+	public WayPoint(String meetingPoint, String district, String town, String postcode) {
 		super();
-		this.order = order;
-		this.estimatedDate = estimatedDate;
-		this.estimatedTime = estimatedTime;
-		this.flexibility = flexibility;
 		this.meetingPoint = meetingPoint;
 		this.district = district;
 		this.town = town;
 		this.postcode = postcode;
-		this.availableSeats = availableSeats;
-		this.priceToNextPoint = priceToNextPoint;
 	}
 
 	// Getters
 	public String getId() {
 		return id;
-	}
-
-	public int getOrder() {
-		return order;
-	}
-
-	public LocalDate getEstimatedDate() {
-		return estimatedDate;
-	}
-	
-	public LocalTime getEstimatedTime() {
-		return estimatedTime;
-	}
-
-	public Duration getFlexibility() {
-		return flexibility;
 	}
 
 	public String getMeetingPoint() {
@@ -80,33 +51,9 @@ public class WayPoint {
 		return postcode;
 	}
 
-	public int getAvailableSeats() {
-		return availableSeats;
-	}
-
-	public double getPriceToNextPoint() {
-		return priceToNextPoint;
-	}
-
 	// Setters
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public void setOrder(int order) {
-		this.order = order;
-	}
-
-	public void setEstimatedDate(LocalDate estimatedDate) {
-		this.estimatedDate = estimatedDate;
-	}
-
-	public void setEstimatedTime(LocalTime estimatedTime) {
-		this.estimatedTime = estimatedTime;
-	}
-
-	public void setFlexibility(Duration flexibility) {
-		this.flexibility = flexibility;
 	}
 
 	public void setMeetingPoint(String meetingPoint) {
@@ -125,21 +72,11 @@ public class WayPoint {
 		this.postcode = postcode;
 	}
 
-	public void setAvailableSeats(int availableSeats) {
-		this.availableSeats = availableSeats;
-	}
-
-	public void setPriceToNextPoint(double priceToNextPoint) {
-		this.priceToNextPoint = priceToNextPoint;
-	}
-
 	// toString
 	@Override
 	public String toString() {
-		return "Waypoint [id=" + id + ", order=" + order + ", estimatedDate=" + estimatedDate + ", estimatedTime=" + estimatedTime + ", flexibility="
-				+ flexibility + ", meetingPoint=" + meetingPoint + ", district=" + district + ", town=" + town
-				+ ", postcode=" + postcode + ", availableSeats=" + availableSeats + ", priceToNextPoint=" + priceToNextPoint + "]";
+		return "Waypoint [id=" + id + ", meetingPoint=" + meetingPoint + ", district=" + district + ", town=" + town
+				+ ", postcode=" + postcode + "]";
 	}
-	
-	
+
 }

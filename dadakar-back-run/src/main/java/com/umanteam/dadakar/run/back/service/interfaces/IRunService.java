@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.umanteam.dadakar.back.dto.UserDTO;
-import com.umanteam.dadakar.run.back.dto.PassengerDTO;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 
 public interface IRunService {
@@ -15,6 +14,14 @@ public interface IRunService {
 	public List<RunDTO> findAllRuns();
 	public RunDTO findRunsById(String id);
 	public List<RunDTO> findRunsByDriver(UserDTO driver);
+	public List<RunDTO> findRunsNotCancelledByDriver(UserDTO driver);
 	public List<RunDTO> findRunsByPassenger(UserDTO passenger);
+	public List<RunDTO> fundRunsNotCancelledByPassenger(UserDTO passenger);
+	public List<RunDTO> findRunsByUser(UserDTO user);
+	public List<RunDTO> findRunsNotCancelledByUser(UserDTO user);
+	public List<RunDTO> findCurrentRunsbyUser(UserDTO user);
+	public List<RunDTO> findCurrentRunsNotCancelledByUser(UserDTO user);
+	public List<RunDTO> findPassedRunsbyUser(UserDTO user);
+	public List<RunDTO> findPassedRunsNotCancelledByUser(UserDTO user);
 	public List<RunDTO> findRuns(String districtFrom, String townFrom, LocalDate dateStart, String districtTo, String townTo);
 }

@@ -16,9 +16,7 @@ public class Run {
 	private String runId;
 	private User driver;
 	private Vehicle vehicle;
-	private List<WayPoint> wayPoints;
-	private List<Passenger> passengers;
-	private List<Toll> tolls;
+	private List<SubRun> subRuns;
 	private Luggage luggageType;
 	
 	// Constructors
@@ -33,14 +31,11 @@ public class Run {
 		this.luggageType = luggageType;
 	}
 
-	public Run(User driver, Vehicle vehicle, List<WayPoint> wayPoints, List<Passenger> passengers, List<Toll> tolls,
-			Luggage luggageType) {
+	public Run(User driver, Vehicle vehicle, List<SubRun> subRuns, Luggage luggageType) {
 		super();
 		this.driver = driver;
 		this.vehicle = vehicle;
-		this.wayPoints = wayPoints;
-		this.passengers = passengers;
-		this.tolls = tolls;
+		this.subRuns = subRuns;
 		this.luggageType = luggageType;
 	}
 
@@ -57,16 +52,8 @@ public class Run {
 		this.vehicle = vehicle;
 	}
 
-	public List<WayPoint> getWayPoints() {
-		return wayPoints;
-	}
-
-	public List<Passenger> getPassengers() {
-		return passengers;
-	}
-
-	public List<Toll> getTolls() {
-		return tolls;
+	public List<SubRun> getSubRuns() {
+		return subRuns;
 	}
 
 	public Luggage getLuggageType() {
@@ -86,16 +73,8 @@ public class Run {
 		return vehicle;
 	}
 
-	public void setWayPoints(List<WayPoint> wayPoints) {
-		this.wayPoints = wayPoints;
-	}
-
-	public void setPassengers(List<Passenger> passengers) {
-		this.passengers = passengers;
-	}
-
-	public void setTolls(List<Toll> tolls) {
-		this.tolls = tolls;
+	public void setSubRuns(List<SubRun> subRuns) {
+		this.subRuns = subRuns;
 	}
 
 	public void setLuggageType(Luggage luggageType) {
@@ -105,8 +84,7 @@ public class Run {
 	// toString
 	@Override
 	public String toString() {
-		return "Run [runId=" + runId + ", driver=" + driver + " ,vehicle=" + vehicle + ", wayPoints=" + wayPoints + ", passengers=" + passengers
-				+ ", tolls=" + tolls + ", luggageType=" + luggageType + "]";
+		return "Run [runId=" + runId + ", driver=" + driver + " ,vehicle=" + vehicle + ", subRuns=" + subRuns + ", luggageType=" + luggageType + "]";
 	}
 	
 }

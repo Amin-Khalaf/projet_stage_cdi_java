@@ -22,6 +22,7 @@ import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.entities.RunPrice;
+import com.umanteam.dadakar.run.back.entities.SubRun;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.repository.RunPriceRepository;
@@ -51,10 +52,10 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
-		testWaypointRepository();
-		testWaypointService();
-		passengerTest();
-		runPriceTest();
+		//testWaypointRepository();
+		//testWaypointService();
+		//passengerTest();
+		//runPriceTest();
 		testRunRepository();
 
 	}
@@ -67,21 +68,19 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// save1
 		System.out.println("save1 ---");
-		WayPoint entity = new WayPoint(1, LocalDate.of(2017, 7, 21), LocalTime.of(13, 15),
-				java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 1", "Dakar", "20040", 3, 150);
+		WayPoint entity = new WayPoint("rue du chemin", "Dakar - district 1", "Daker", "20040");
 		entity = waypointRepository.insert(entity);
 		System.out.println(entity);
 
 		// save2
 		System.out.println("save2 ---");
-		WayPoint entity2 = new WayPoint(1, LocalDate.of(2017, 7, 21), LocalTime.of(13, 15),
-				java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 2", "Dakar", "20040", 3, 150);
+		WayPoint entity2 = new WayPoint("rue du chemin", "Dakar - district 1", "Daker", "20040");
 		entity2 = waypointRepository.insert(entity2);
 		System.out.println(entity2);
 
 		// update
 		System.out.println("update ---");
-		entity2.setFlexibility(Duration.ofMinutes(60));
+		entity2.setDistrict("Dakar - district2");
 		entity2 = waypointRepository.save(entity2);
 
 		// findAll
@@ -127,21 +126,19 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// save1
 		System.out.println("save1 ---");
-		WayPointDTO waypoint = new WayPointDTO(1, LocalDate.of(2017, 7, 21), LocalTime.of(13, 15),
-				java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 1", "Dakar", "20040", 3, 150);
+		WayPointDTO waypoint = new WayPointDTO("rue de la mosquée", "Dakar - district 1", "Dakar", "20040");
 		waypoint = waypointService.add(waypoint);
 		System.out.println(waypoint);
 
 		// save2
 		System.out.println("save2 ---");
-		WayPointDTO waypoint2 = new WayPointDTO(1, LocalDate.of(2017, 7, 21), LocalTime.of(13, 15),
-				java.time.Duration.ofMinutes(15), "rue de la mosquée", "Dakar - district 2", "Dakar", "20040", 3, 150);
+		WayPointDTO waypoint2 = new WayPointDTO("rue de la mosquée", "Dakar - district 2", "Dakar", "20040");
 		waypoint2 = waypointService.add(waypoint2);
 		System.out.println(waypoint2);
 
 		// update
 		System.out.println("update ---");
-		waypoint2.setFlexibility(Duration.ofMinutes(60));
+		waypoint2.setDistrict("Dakar - District3");
 		waypoint2 = waypointService.update(waypoint2);
 
 		// findAll
@@ -202,24 +199,61 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 	private void testRunRepository() {
 		runRepository.deleteAll();
-		System.out.println("test RunRepository");
+		System.out.println("=== test RunRepository ===");
+		System.out.println("--- Add run ---");
 		Account account = new Account("username", "password", Role.USER);
 		List<Vehicle> vehicles = new ArrayList<>();
 		Vehicle vehicle = new Vehicle("vehicule1", "Renault", "25", "grise", null, null, "ab123cd", 6);
 		vehicles.add(vehicle);
 		User user = new User(account, "firstname", "lastname", "", "", "", "");
 		user.setVehicles(vehicles);
-		List<WayPoint> waypoints = new ArrayList<>();
-		WayPoint waypoint = new WayPoint(1, LocalDate.of(2017, 7, 26), LocalTime.of(7, 30), Duration.ofMinutes(15),
-				"rue de la mairie", "Dakar - district1", "Dakar", "", 3, 150);
-		WayPoint waypoint1 = new WayPoint(2, LocalDate.of(2017, 7, 26), LocalTime.of(7, 45), Duration.ofMinutes(15),
-				"rue de la mairie", "Dakar - district2", "Dakar", "", 3, 200);
-		WayPoint waypoint2 = new WayPoint(3, LocalDate.of(2017, 7, 26), LocalTime.of(8, 00), Duration.ofMinutes(15),
-				"rue de la mairie", "Dakar - district3", "Dakar", "", 3, 100);
+/*		List<WayPoint> waypoints = new ArrayList<>();
+		WayPoint waypoint = new WayPoint("rue de la mairie", "Dakar - district1", "Dakar", "");
+		WayPoint waypoint1 = new WayPoint("rue de la mairie", "Dakar - district2", "Dakar", "");
+		WayPoint waypoint2 = new WayPoint("rue de la mairie", "Dakar - district3", "Dakar", "");
 		waypoints.add(waypoint);
 		waypoints.add(waypoint1);
 		waypoints.add(waypoint2);
-		Run run = new Run(user, vehicle, waypoints, null, null, Luggage.PETIT);
-		runRepository.insert(run);
+*/		
+		List<SubRun> subruns = new ArrayList<>();
+		SubRun subrun = new SubRun();
+		subruns.add(subrun);
+		Run run = new Run(user, vehicle, subruns, Luggage.PETIT);
+		run = runRepository.insert(run);
+		System.out.println(run);
+		
+		System.out.println("--- save 2 ---");
+		Run run2 = new Run(user, vehicle, subruns, Luggage.MOYEN);
+		run2 = runRepository.insert(run2);
+		System.out.println(run2);
+		
+		String id = run2.getRunId();
+		
+		System.out.println("--- update run ---");
+		run2.setLuggageType(Luggage.GRAND);
+		run2 = runRepository.save(run2);
+		System.out.println(run2);
+		
+		System.out.println("--- find all ---");
+		List<Run> runs = runRepository.findAll();
+		for(Run var : runs)
+			System.out.println(var);
+		
+		System.out.println("--- findbyid ---");
+		run2 = null;
+		run2 = runRepository.findOne(id);
+		System.out.println(run2);
+		
+		System.out.println("--- findByDriver ---");
+		runs = null;
+		runs = runRepository.findByDriver(user);
+		for(Run var : runs)
+			System.out.println(var);
+		
+		System.out.println("--- delete ---");
+		runRepository.delete(id);
+		runs = runRepository.findAll();
+		for(Run var : runs)
+			System.out.println(var);
 	}
 }
