@@ -28,13 +28,13 @@ public class AccountWebService implements IAccountWebService {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public AccountDTO add(@RequestBody AccountDTO accountDTO) { // OK
-		return accountService.add(accountDTO);
+		return accountService.addOrUpdate(accountDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public AccountDTO update(@RequestBody AccountDTO accountDTO) { // OK
-		return accountService.update(accountDTO);
+		return accountService.addOrUpdate(accountDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)

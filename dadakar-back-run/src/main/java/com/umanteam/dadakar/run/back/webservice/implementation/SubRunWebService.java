@@ -27,13 +27,13 @@ public class SubRunWebService implements ISubRunWebService {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public SubRunDTO add(@RequestBody SubRunDTO subRunDTO) { // OK
-		return subRunService.add(subRunDTO);
+		return subRunService.addOrUpdate(subRunDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public SubRunDTO update(@RequestBody SubRunDTO subRunDTO) { // OK
-		return subRunService.update(subRunDTO);
+		return subRunService.addOrUpdate(subRunDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)

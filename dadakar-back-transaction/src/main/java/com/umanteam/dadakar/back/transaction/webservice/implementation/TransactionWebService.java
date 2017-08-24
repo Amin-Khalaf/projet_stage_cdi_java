@@ -27,13 +27,13 @@ public class TransactionWebService implements ITransactionWebService {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public TransactionDTO add(@RequestBody TransactionDTO transactionDTO) { // OK
-		return transactionService.add(transactionDTO);
+		return transactionService.addOrUpdate(transactionDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public TransactionDTO update(@RequestBody TransactionDTO transactionDTO) { // OK
-		return transactionService.update(transactionDTO);
+		return transactionService.addOrUpdate(transactionDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)

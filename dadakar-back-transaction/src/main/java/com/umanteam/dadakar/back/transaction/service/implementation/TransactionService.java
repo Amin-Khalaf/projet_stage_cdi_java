@@ -20,18 +20,23 @@ public class TransactionService implements ITransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 
-	@Override
-	public TransactionDTO add(TransactionDTO transactionDTO) {
+	/* copy from TransactionDTO to Transaction */
+	private Transaction transactionDTOToTransaction(TransactionDTO transactionDTO) {
 		Transaction transaction = new Transaction();
 		BeanUtils.copyProperties(transactionDTO, transaction);
-		transaction = transactionRepository.saveAndFlush(transaction);
+		return transaction;
+	}
+	
+	/* copy from Transaction to TransactionDTO */
+	private TransactionDTO transactionToTransactionDTO(Transaction transaction) {
+		TransactionDTO transactionDTO = new TransactionDTO();
 		BeanUtils.copyProperties(transaction, transactionDTO);
 		return transactionDTO;
 	}
-
+	
 	@Override
-	public TransactionDTO update(TransactionDTO transactionDTO) {
-		return add(transactionDTO);
+	public TransactionDTO addOrUpdate(TransactionDTO transactionDTO) {
+		return transactionToTransactionDTO(transactionRepository.saveAndFlush(transactionDTOToTransaction(transactionDTO)));
 	}
 
 	@Override
@@ -42,115 +47,73 @@ public class TransactionService implements ITransactionService {
 	@Override
 	public List<TransactionDTO> findAll() {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findAll()) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findAll()) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public TransactionDTO findById(Integer id) {
-		TransactionDTO transactionDTO = new TransactionDTO();
-		Transaction transaction = transactionRepository.getOne(id);
-		BeanUtils.copyProperties(transaction, transactionDTO);
-		return transactionDTO;
+		return transactionToTransactionDTO(transactionRepository.getOne(id));
 	}
 
 	@Override
 	public TransactionDTO findBytransactionNumber(String transactionNumber) {
-		TransactionDTO transactionDTO = new TransactionDTO();
-		Transaction transaction = transactionRepository.findBytransactionNumber(transactionNumber);
-		BeanUtils.copyProperties(transaction, transactionDTO);
-		return transactionDTO;
+		return transactionToTransactionDTO(transactionRepository.findBytransactionNumber(transactionNumber));
 	}
 
 	@Override
 	public List<TransactionDTO> findByTransactionDate(LocalDateTime transactionDate) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByTransactionDate(transactionDate)) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findByTransactionDate(transactionDate)) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findBySenderId(String senderId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findBySenderId(senderId)) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findBySenderId(senderId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByReceiverId(String receiverId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByReceiverId(receiverId)) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findByReceiverId(receiverId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByState(TxState state) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByState(state)) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findByState(state)) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByTransactionDateAndSenderId(LocalDateTime transactionDate, String senderId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByTransactionDateAndSenderId(transactionDate, senderId)) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findByTransactionDateAndSenderId(transactionDate, senderId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByTransactionDateAndReceiverId(LocalDateTime transactionDate, String receiverId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByTransactionDateAndReceiverId(transactionDate, receiverId)) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findByTransactionDateAndReceiverId(transactionDate, receiverId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findBySenderIdAndReceiverId(String senderId, String receiverId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findBySenderIdAndReceiverId(senderId, receiverId)) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findBySenderIdAndReceiverId(senderId, receiverId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByTransactionDateAndState(LocalDateTime transactionDate, TxState state) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByTransactionDateAndState(transactionDate, state)) {
-			TransactionDTO transactionDTO = new TransactionDTO();
-			BeanUtils.copyProperties(transaction, transactionDTO);
-			transactionDTOs.add(transactionDTO);
-		}
+		for(Transaction transaction: transactionRepository.findByTransactionDateAndState(transactionDate, state)) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 

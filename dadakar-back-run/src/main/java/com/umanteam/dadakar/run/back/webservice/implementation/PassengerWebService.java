@@ -41,13 +41,13 @@ public class PassengerWebService implements IPassengerWebService {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public PassengerDTO add(@RequestBody PassengerDTO passengerDTO) { // OK
-		return passengerService.add(passengerDTO);
+		return passengerService.addOrUpdate(passengerDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public PassengerDTO update(@RequestBody PassengerDTO passengerDTO) { // OK
-		return passengerService.update(passengerDTO);
+		return passengerService.addOrUpdate(passengerDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)

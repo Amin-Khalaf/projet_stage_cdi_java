@@ -6,8 +6,7 @@ import com.umanteam.dadakar.back.dto.AccountDTO;
 import com.umanteam.dadakar.back.enums.Role;
 
 public interface IAccountService {
-	AccountDTO add(AccountDTO accountDTO);
-	AccountDTO update(AccountDTO accountDTO);
+	AccountDTO addOrUpdate(AccountDTO accountDTO);
 	void delete(String id);
 	List<AccountDTO> findAll();
 	AccountDTO findById(String id);

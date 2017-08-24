@@ -18,22 +18,23 @@ public class VehicleService implements IVehicleService {
 	@Autowired
 	private VehiculeRepository vehicleRepository;
 	
-	@Override
-	public VehicleDTO add(VehicleDTO vehicle) {
+	/* copy from VehicleDTO to Vehicle */
+	private Vehicle vehicleDTOToVehicle(VehicleDTO vehicleDTO) {
 		Vehicle entity = new Vehicle();
-		BeanUtils.copyProperties(vehicle, entity);
-		entity = vehicleRepository.insert(entity);
+		BeanUtils.copyProperties(vehicleDTO, entity);
+		return entity;
+	}
+	
+	/* copy form Vehicle to VehicleDTO */
+	private VehicleDTO vehicleToVehicleDTO(Vehicle entity) {
+		VehicleDTO vehicle = new VehicleDTO();
 		BeanUtils.copyProperties(entity, vehicle);
 		return vehicle;
 	}
-
+	
 	@Override
-	public VehicleDTO update(VehicleDTO vehicle) {
-		Vehicle entity = new Vehicle();
-		BeanUtils.copyProperties(vehicle, entity);
-		entity = vehicleRepository.save(entity);
-		BeanUtils.copyProperties(entity, vehicle);
-		return vehicle;
+	public VehicleDTO addOrUpdate(VehicleDTO vehicle) {
+		return vehicleToVehicleDTO(vehicleRepository.save(vehicleDTOToVehicle(vehicle)));
 	}
 
 	@Override
@@ -44,20 +45,13 @@ public class VehicleService implements IVehicleService {
 	@Override
 	public List<VehicleDTO> findAll() {
 		List<VehicleDTO> vehicles = new ArrayList<>();
-		for (Vehicle entity : vehicleRepository.findAll()){
-			VehicleDTO vehicle = new VehicleDTO();
-			BeanUtils.copyProperties(entity, vehicle);
-			vehicles.add(vehicle);
-		}
+		for (Vehicle entity : vehicleRepository.findAll()) vehicles.add(vehicleToVehicleDTO(entity));
 		return vehicles;
 	}
 
 	@Override
 	public VehicleDTO findById(String vehicleId) {
-		Vehicle entity = vehicleRepository.findOne(vehicleId);
-		VehicleDTO vehicle = new VehicleDTO();
-		BeanUtils.copyProperties(entity, vehicle);
-		return vehicle;
+		return vehicleToVehicleDTO(vehicleRepository.findOne(vehicleId));
 	}
 
 }

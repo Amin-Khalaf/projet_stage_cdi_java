@@ -5,8 +5,7 @@ import java.util.List;
 import com.umanteam.dadakar.run.back.dto.RunPriceDTO;
 
 public interface IRunPriceService {
-	RunPriceDTO add(RunPriceDTO runPriceDTO);
-	RunPriceDTO update(RunPriceDTO runPriceDTO);
+	RunPriceDTO addOrUpdate(RunPriceDTO runPriceDTO);
 	void delete(String id);
 	List<RunPriceDTO> findAll();
 	RunPriceDTO findById(String id);
