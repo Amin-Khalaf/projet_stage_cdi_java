@@ -147,7 +147,7 @@ public class RunWebService implements IRunWebService {
 	public ResponseEntity<List<RunDTO>> findCurrentRunsbyUserId(@PathVariable("userid") String userid) {
 		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
 		UserDTO user = userEntity.getBody();
-		List<RunDTO> runs = runService.findCurrentRunsbyUser(user);
+		List<RunDTO> runs = runService.findCurrentRunsByUser(user);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -171,7 +171,7 @@ public class RunWebService implements IRunWebService {
 	public ResponseEntity<List<RunDTO>> findPassedRunsbyUserId(@PathVariable("userid") String userid) {
 		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
 		UserDTO user = userEntity.getBody();
-		List<RunDTO> runs = runService.findPassedRunsbyUser(user);
+		List<RunDTO> runs = runService.findPassedRunsByUser(user);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}

@@ -178,7 +178,7 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findCurrentRunsbyUser(UserDTO user) {
+	public List<RunDTO> findCurrentRunsByUser(UserDTO user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -190,7 +190,7 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findPassedRunsbyUser(UserDTO user) {
+	public List<RunDTO> findPassedRunsByUser(UserDTO user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
