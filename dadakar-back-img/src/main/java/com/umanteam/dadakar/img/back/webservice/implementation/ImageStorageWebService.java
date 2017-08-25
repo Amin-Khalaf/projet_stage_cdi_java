@@ -23,7 +23,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.umanteam.dadakar.img.back.service.interfaces.IImageStorageService;
-import com.umanteam.dadakar.img.back.webservice.IImageStorageWebService;
+import com.umanteam.dadakar.img.back.webservice.interfaces.IImageStorageWebService;
 
 @RestController
 @RequestMapping("/img")
