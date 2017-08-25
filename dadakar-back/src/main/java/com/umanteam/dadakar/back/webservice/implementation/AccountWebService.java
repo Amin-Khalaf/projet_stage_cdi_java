@@ -91,20 +91,83 @@ public class AccountWebService implements IAccountWebService {
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/banned:{banned}", method=RequestMethod.GET)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/adminsandsuperusers", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AccountDTO>> findByBanned(@PathVariable("banned") boolean banned) { // OK
-		List<AccountDTO> accounts = accountService.findByBanned(banned);
+	public ResponseEntity<List<AccountDTO>> findAdminsAndSuperUsers() {
+		List<AccountDTO> accounts = accountService.findAdminsAndSuperUsers();
+		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/banned", method=RequestMethod.GET)
+	@Override
+	public ResponseEntity<List<AccountDTO>> findBanned() {
+		List<AccountDTO> accounts = accountService.findByBanned(true);
+		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/notbanned", method=RequestMethod.GET)
+	@Override
+	public ResponseEntity<List<AccountDTO>> findNotBanned() {
+		List<AccountDTO> accounts = accountService.findByBanned(false);
 		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/deleted:{deleted}", method=RequestMethod.GET)
+	@RequestMapping(value="/deleted", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AccountDTO>> findByDeleted(@PathVariable("deleted") boolean deleted) { // OK
-		List<AccountDTO> accounts = accountService.findByDeleted(deleted);
+	public ResponseEntity<List<AccountDTO>> findDeleted() {
+		List<AccountDTO> accounts = accountService.findByDeleted(true);
+		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/deleted:users", method=RequestMethod.GET)
+	@Override
+	public ResponseEntity<List<AccountDTO>> findUsersDeleted() {
+		List<AccountDTO> accounts = accountService.findByDeletedAndRole(true, Role.USER);
+		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/deleted:admins", method=RequestMethod.GET)
+	@Override
+	public ResponseEntity<List<AccountDTO>> findAdminsDeleted() {
+		List<AccountDTO> accounts = accountService.findByDeletedAndRole(true, Role.ADMIN);
+		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value="/notdeleted", method=RequestMethod.GET)
+	@Override
+	public ResponseEntity<List<AccountDTO>> findNotDeleted() {
+		List<AccountDTO> accounts = accountService.findByDeleted(false);
+		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/notdeleted:users", method=RequestMethod.GET)
+	@Override
+	public ResponseEntity<List<AccountDTO>> findUsersNotDeleted() {
+		List<AccountDTO> accounts = accountService.findByDeletedAndRole(false, Role.USER);
+		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/notdeleted:admins", method=RequestMethod.GET)
+	@Override
+	public ResponseEntity<List<AccountDTO>> findAdminsNotDeleted() {
+		List<AccountDTO> accounts = accountService.findByDeletedAndRole(false, Role.ADMIN);
 		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}

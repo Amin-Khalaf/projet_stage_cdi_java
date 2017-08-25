@@ -12,6 +12,8 @@ public interface IAccountService {
 	AccountDTO findById(String id);
 	AccountDTO findByUsername(String username);
 	List<AccountDTO> findByRole(Role role);
+	List<AccountDTO> findAdminsAndSuperUsers();
 	List<AccountDTO> findByBanned(boolean banned);
 	List<AccountDTO> findByDeleted(boolean deleted);
+	List<AccountDTO> findByDeletedAndRole(boolean deleted, Role role);
 }
