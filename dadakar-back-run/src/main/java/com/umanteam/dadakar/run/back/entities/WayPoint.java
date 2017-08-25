@@ -1,13 +1,9 @@
 package com.umanteam.dadakar.run.back.entities;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import org.springframework.data.annotation.Id;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Repository
+@Document(collection="waypoints")
 public class WayPoint {
 
 	@Id

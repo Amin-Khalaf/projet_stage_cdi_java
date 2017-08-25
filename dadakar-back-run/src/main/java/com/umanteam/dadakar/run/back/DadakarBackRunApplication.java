@@ -67,14 +67,14 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
-		testWaypointRepository();
-		testWaypointService();
-		passengerTest();
-		runPriceTest();
-		subRunTest();
+//		testWaypointRepository();
+//		testWaypointService();
+//		passengerTest();
+//		runPriceTest();
+//		subRunTest();
 		
 		testRunRepository();
-		testRunService();
+//		testRunService();
 
 	}
 
@@ -225,63 +225,103 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	
 
 	private void testRunRepository() {
-		runRepository.deleteAll();
-		System.out.println("=== test RunRepository ===");
-		System.out.println("--- Add run ---");
-		Account account = new Account("username", "password", Role.USER);
-		List<Vehicle> vehicles = new ArrayList<>();
-		Vehicle vehicle = new Vehicle("vehicule1", "Renault", "25", "grise", null, null, "ab123cd", 6);
-		vehicles.add(vehicle);
-		User user = new User(account, "firstname", "lastname", "", "", "", "");
-		user.setVehicles(vehicles);
-/*		List<WayPoint> waypoints = new ArrayList<>();
-		WayPoint waypoint = new WayPoint("rue de la mairie", "Dakar - district1", "Dakar", "");
-		WayPoint waypoint1 = new WayPoint("rue de la mairie", "Dakar - district2", "Dakar", "");
-		WayPoint waypoint2 = new WayPoint("rue de la mairie", "Dakar - district3", "Dakar", "");
-		waypoints.add(waypoint);
-		waypoints.add(waypoint1);
-		waypoints.add(waypoint2);
-*/		
-		List<SubRun> subruns = new ArrayList<>();
-		SubRun subrun = new SubRun();
-		subruns.add(subrun);
-		Run run = new Run(user, vehicle, subruns, Luggage.PETIT);
-		run = runRepository.insert(run);
-		System.out.println(run);
-		
-		System.out.println("--- save 2 ---");
-		Run run2 = new Run(user, vehicle, subruns, Luggage.MOYEN);
-		run2 = runRepository.insert(run2);
-		System.out.println(run2);
-		
-		String id = run2.getRunId();
-		
-		System.out.println("--- update run ---");
-		run2.setLuggageType(Luggage.GRAND);
-		run2 = runRepository.save(run2);
-		System.out.println(run2);
+//		runRepository.deleteAll();
+//		System.out.println("=== test RunRepository ===");
+//		System.out.println("--- Add run ---");
+//		Account account = new Account("username", "password", Role.USER);
+//		List<Vehicle> vehicles = new ArrayList<>();
+//		Vehicle vehicle = new Vehicle("vehicule1", "Renault", "25", "grise", null, null, "ab123cd", 6);
+//		vehicles.add(vehicle);
+//		User user = new User(account, "firstname", "lastname", "", "", "", "");
+//		user.setVehicles(vehicles);
+//		User user2 = new User(new Account("username2", "password", Role.USER), "firstname2", "lastname2", "", "", "", "");
+//		// create waypoints
+//		WayPoint waypoint0 = new WayPoint("rue de la mairie", "Dakar - district1", "Dakar", "");
+//		WayPoint waypoint1 = new WayPoint("rue de la mairie", "Dakar - district2", "Dakar", "");
+//		WayPoint waypoint2 = new WayPoint("rue de la mairie", "Dakar - district3", "Dakar", "");
+//		List<WayPoint> waypoints1 = new ArrayList<>();
+//		waypoints1.add(waypoint1);
+//		List<WayPoint> waypoints2 = new ArrayList<>();
+//		waypoints2.add(waypoint2);
+//		List<WayPoint> waypoints3 = new ArrayList<>();
+//		waypoints3.add(waypoint1);
+//		waypoints3.add(waypoint2);
+//		// create passengers
+//		List<Passenger> passengers = new ArrayList<>();
+//		Passenger passenger = new Passenger(user2, Luggage.PETIT, 200.0);
+//		passengers.add(passenger);
+//		// Create subruns
+//		SubRun subrun0 = new SubRun(Duration.ofMinutes(15), waypoint0, waypoint1, LocalDate.of(2017, 8, 31), LocalTime.of(12, 30), 
+//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 3, passengers, waypoints1, null, 200.0);
+//		SubRun subrun1 = new SubRun(Duration.ofMinutes(15), waypoint1, waypoint2, LocalDate.of(2017, 8, 31), LocalTime.of(12, 30), 
+//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 3, passengers, waypoints2, null, 200.0);
+//		SubRun subrun2 = new SubRun(Duration.ofMinutes(15), waypoint0, waypoint2, LocalDate.of(2017, 8, 31), LocalTime.of(12, 30), 
+//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 3, passengers, waypoints3, null, 400.0);
+//		List<SubRun> subruns = new ArrayList<>();
+//		subruns.add(subrun0);
+//		subruns.add(subrun1);
+//		subruns.add(subrun2);
+//		Run run = new Run(user, vehicle, subruns, Luggage.PETIT);
+//		run = runRepository.insert(run);
+//		System.out.println(run);
+//		
+//		System.out.println("--- save 2 ---");
+//		Run run2 = new Run(user, vehicle, subruns, Luggage.MOYEN);
+//		run2 = runRepository.insert(run2);
+//		System.out.println(run2);
+//		
+//		String id = run2.getRunId();
+//		
+//		System.out.println("--- update run ---");
+//		run2.setLuggageType(Luggage.GRAND);
+//		run2 = runRepository.save(run2);
+//		System.out.println(run2);
 		
 		System.out.println("--- find all ---");
 		List<Run> runs = runRepository.findAll();
 		for(Run var : runs)
 			System.out.println(var);
-		
-		System.out.println("--- findbyid ---");
-		run2 = null;
-		run2 = runRepository.findOne(id);
-		System.out.println(run2);
+//		
+//		System.out.println("--- findbyid ---");
+//		run2 = null;
+//		run2 = runRepository.findOne(id);
+//		System.out.println(run2);
 		
 		System.out.println("--- findByDriver ---");
 		runs = null;
-		runs = runRepository.findByDriver(user);
+		runs = runRepository.findByDriverUserId("59a01a4a68dfb1112823fe0c");
 		for(Run var : runs)
 			System.out.println(var);
-		
-		System.out.println("--- delete ---");
-		runRepository.delete(id);
-		runs = runRepository.findAll();
+
+		System.out.println("--- findByDriver ---");
+		runs = null;
+		runs = runRepository.findByDriverLastName("lastName0");
 		for(Run var : runs)
 			System.out.println(var);
+
+//		System.out.println("--- findByPassenger ---");
+//		runs = null;
+//		runs = runRepository.findBySubRunsPassengersUser(user2);
+//		for(Run var : runs)
+//			System.out.println(var);
+//		
+//		System.out.println("--- findByUser ---");
+//		runs = null;
+//		runs = runRepository.findByDriverOrSubRunsPassengersUser(user2, user2);
+//		for(Run var : runs)
+//			System.out.println(var);
+//		
+//		System.out.println("--- findRuns ---");
+//		runs = null;
+//		runs = runRepository.findBySubRunsStartingPointsDistrictAndSubRunsStartingPointsTownAndSubRunsStartDateAndSubRunsEndPlaceDistrictAndSubRunsEndPlaceTownAndSubRunsAvailableSeatsGreaterThan("Dakar - district2", "Dakar", LocalDate.of(2017,8,31), "Dakar - district3", "Dakar", 0);
+//		for(Run var : runs)
+//			System.out.println(var);
+//		
+//		System.out.println("--- delete ---");
+//		runRepository.delete(id);
+//		runs = runRepository.findAll();
+//		for(Run var : runs)
+//			System.out.println(var);
 	}
 	
 	private void testRunService(){
