@@ -72,6 +72,13 @@ public class AccountService implements IAccountService {
 	}
 
 	@Override
+	public List<AccountDTO> findAdminsAndSuperUsers() {
+		List<AccountDTO> accountDTOs = new ArrayList<>();
+		for(Account account: accountRepository.findByRoleIsAndRoleIs(Role.ADMIN, Role.SUPERUSER)) accountDTOs.add(accountToAccountDTO(account));
+		return accountDTOs;
+	}
+	
+	@Override
 	public List<AccountDTO> findByBanned(boolean banned) {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
 		for(Account account: accountRepository.findByBanned(banned)) accountDTOs.add(accountToAccountDTO(account));
@@ -82,6 +89,13 @@ public class AccountService implements IAccountService {
 	public List<AccountDTO> findByDeleted(boolean deleted) {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
 		for(Account account: accountRepository.findByDeleted(deleted)) accountDTOs.add(accountToAccountDTO(account));
+		return accountDTOs;
+	}
+
+	@Override
+	public List<AccountDTO> findByDeletedAndRole(boolean deleted, Role role) {
+		List<AccountDTO> accountDTOs = new ArrayList<>();
+		for(Account account: accountRepository.findByDeletedAndRole(deleted, role)) accountDTOs.add(accountToAccountDTO(account));
 		return accountDTOs;
 	}
 
