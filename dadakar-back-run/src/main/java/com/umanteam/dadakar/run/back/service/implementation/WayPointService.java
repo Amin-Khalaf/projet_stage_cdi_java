@@ -19,16 +19,7 @@ public class WayPointService implements IWayPointService {
 	WayPointRepository waypointRepository;
 	
 	@Override
-	public WayPointDTO add(WayPointDTO waypoint) {
-		WayPoint entity = new WayPoint();
-		BeanUtils.copyProperties(waypoint, entity);
-		entity = waypointRepository.insert(entity);
-		BeanUtils.copyProperties(entity, waypoint);
-		return waypoint;
-	}
-
-	@Override
-	public WayPointDTO update(WayPointDTO waypoint) {
+	public WayPointDTO addOrUpdate(WayPointDTO waypoint) {
 		WayPoint entity = new WayPoint();
 		BeanUtils.copyProperties(waypoint, entity);
 		entity = waypointRepository.save(entity);

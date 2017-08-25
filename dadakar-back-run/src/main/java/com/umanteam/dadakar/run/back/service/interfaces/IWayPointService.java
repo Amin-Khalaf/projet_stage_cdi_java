@@ -6,8 +6,7 @@ import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 
 public interface IWayPointService {
 
-	public WayPointDTO add(WayPointDTO waypoint);
-	public WayPointDTO update(WayPointDTO waypoint);
+	public WayPointDTO addOrUpdate(WayPointDTO waypoint);
 	public void delete(String id);
 	public List<WayPointDTO> findAll();
 	public WayPointDTO findById(String id);

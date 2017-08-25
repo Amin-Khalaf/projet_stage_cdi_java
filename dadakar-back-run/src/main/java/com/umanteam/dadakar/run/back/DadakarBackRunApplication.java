@@ -144,19 +144,19 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		// save1
 		System.out.println("save1 ---");
 		WayPointDTO waypoint = new WayPointDTO("rue de la mosquée", "Dakar - district 1", "Dakar", "20040");
-		waypoint = waypointService.add(waypoint);
+		waypoint = waypointService.addOrUpdate(waypoint);
 		System.out.println(waypoint);
 
 		// save2
 		System.out.println("save2 ---");
 		WayPointDTO waypoint2 = new WayPointDTO("rue de la mosquée", "Dakar - district 2", "Dakar", "20040");
-		waypoint2 = waypointService.add(waypoint2);
+		waypoint2 = waypointService.addOrUpdate(waypoint2);
 		System.out.println(waypoint2);
 
 		// update
 		System.out.println("update ---");
 		waypoint2.setDistrict("Dakar - District3");
-		waypoint2 = waypointService.update(waypoint2);
+		waypoint2 = waypointService.addOrUpdate(waypoint2);
 
 		// findAll
 		System.out.println("find all ---");

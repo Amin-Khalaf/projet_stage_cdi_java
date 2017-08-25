@@ -27,13 +27,13 @@ public class WayPointWebService implements IWayPointWebService {
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public WayPointDTO add(@RequestBody WayPointDTO waypoint) {
-		return waypointService.add(waypoint);
+		return waypointService.addOrUpdate(waypoint);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	@Override
 	public WayPointDTO update(@RequestBody WayPointDTO waypoint) {
-		return waypointService.update(waypoint);
+		return waypointService.addOrUpdate(waypoint);
 	}
 
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
