@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.transaction.webservice.implementation;
+package com.umanteam.dadakar.transaction.back.webservice.implementation;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.umanteam.dadakar.back.transaction.dto.TransactionDTO;
-import com.umanteam.dadakar.back.transaction.enums.TxState;
-import com.umanteam.dadakar.back.transaction.service.interfaces.ITransactionService;
-import com.umanteam.dadakar.back.transaction.webservice.interfaces.ITransactionWebService;
+import com.umanteam.dadakar.transaction.back.dto.TransactionDTO;
+import com.umanteam.dadakar.transaction.back.enums.TxState;
+import com.umanteam.dadakar.transaction.back.service.interfaces.ITransactionService;
+import com.umanteam.dadakar.transaction.back.webservice.interfaces.ITransactionWebService;
 
 @RestController
 @RequestMapping("${appli.path}/transactions")

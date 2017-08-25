@@ -1,12 +1,12 @@
-package com.umanteam.dadakar.back.transaction.repository;
+package com.umanteam.dadakar.transaction.back.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.umanteam.dadakar.back.transaction.entities.Transaction;
-import com.umanteam.dadakar.back.transaction.enums.TxState;
+import com.umanteam.dadakar.transaction.back.entities.Transaction;
+import com.umanteam.dadakar.transaction.back.enums.TxState;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 	Transaction findBytransactionNumber(String transactionNumber);

@@ -1,10 +1,10 @@
-package com.umanteam.dadakar.back.transaction.webservice.interfaces;
+package com.umanteam.dadakar.transaction.back.webservice.interfaces;
 
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.umanteam.dadakar.back.transaction.dto.TransactionDTO;
+import com.umanteam.dadakar.transaction.back.dto.TransactionDTO;
 
 public interface ITransactionWebService {
 	TransactionDTO add(TransactionDTO transactionDTO);

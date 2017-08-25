@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.transaction.enums;
+package com.umanteam.dadakar.transaction.back.enums;
 
 public enum TxState {
 	DONE,

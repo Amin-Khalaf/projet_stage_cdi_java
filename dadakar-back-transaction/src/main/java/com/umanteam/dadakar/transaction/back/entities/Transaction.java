@@ -1,33 +1,38 @@
-package com.umanteam.dadakar.back.transaction.dto;
+package com.umanteam.dadakar.transaction.back.entities;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.umanteam.dadakar.back.transaction.enums.TxState;
+import com.umanteam.dadakar.transaction.back.enums.TxState;
 
-public class TransactionDTO implements Serializable {
-
+@Entity(name="transaction")
+public class Transaction {
+	
 	/* Variables */
 	
-	private static final long serialVersionUID = 5853914459493650465L;
+	@Id
+	@GeneratedValue
+	@Column(name="transaction_id")
 	private Integer transactionId;
+	@Column(name="transaction_number", unique=true)
 	private String transactionNumber;
-	@DateTimeFormat(iso = ISO.DATE_TIME)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name="transaction_date")
 	private LocalDateTime transactionDate;
+	@Column(name="sender_id")
 	private String senderId;
+	@Column(name="receiver_id")
 	private String receiverId;
 	private TxState state;
 	
 	/* Constructors */
 	
-	public TransactionDTO() {}
+	public Transaction() {}
 
-	public TransactionDTO(String transactionNumber, LocalDateTime transactionDate, String senderId, String receiverId, TxState state) {
+	public Transaction(String transactionNumber, LocalDateTime transactionDate, String senderId, String receiverId, TxState state) {
 		this.transactionNumber = transactionNumber;
 		this.transactionDate = transactionDate;
 		this.senderId = senderId;
@@ -89,9 +94,9 @@ public class TransactionDTO implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "TransactionDTO [transactionId=" + transactionId + ", transactionNumber=" + transactionNumber
+		return "Transaction [transactionId=" + transactionId + ", transactionNumber=" + transactionNumber
 				+ ", transactionDate=" + transactionDate + ", senderId=" + senderId + ", receiverId=" + receiverId
 				+ ", state=" + state + "]";
 	}
-	
+
 }

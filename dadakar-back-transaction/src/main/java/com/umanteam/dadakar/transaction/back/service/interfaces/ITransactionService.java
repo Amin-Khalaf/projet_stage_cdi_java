@@ -1,10 +1,10 @@
-package com.umanteam.dadakar.back.transaction.service.interfaces;
+package com.umanteam.dadakar.transaction.back.service.interfaces;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.umanteam.dadakar.back.transaction.dto.TransactionDTO;
-import com.umanteam.dadakar.back.transaction.enums.TxState;
+import com.umanteam.dadakar.transaction.back.dto.TransactionDTO;
+import com.umanteam.dadakar.transaction.back.enums.TxState;
 
 public interface ITransactionService {
 	TransactionDTO addOrUpdate(TransactionDTO transactionDTO);

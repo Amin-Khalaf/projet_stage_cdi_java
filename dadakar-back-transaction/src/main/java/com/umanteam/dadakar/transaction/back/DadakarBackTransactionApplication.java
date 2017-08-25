@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.transaction;
+package com.umanteam.dadakar.transaction.back;
 
 import java.time.LocalDateTime;
 
@@ -7,9 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.umanteam.dadakar.back.transaction.entities.Transaction;
-import com.umanteam.dadakar.back.transaction.enums.TxState;
-import com.umanteam.dadakar.back.transaction.repository.TransactionRepository;
+import com.umanteam.dadakar.transaction.back.entities.Transaction;
+import com.umanteam.dadakar.transaction.back.enums.TxState;
+import com.umanteam.dadakar.transaction.back.repository.TransactionRepository;
 
 @SpringBootApplication
 public class DadakarBackTransactionApplication implements CommandLineRunner {
