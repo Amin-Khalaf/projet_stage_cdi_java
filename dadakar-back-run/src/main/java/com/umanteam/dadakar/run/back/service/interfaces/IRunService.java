@@ -20,9 +20,9 @@ public interface IRunService {
 	public List<RunDTO> findRunsNotCancelledByPassenger(UserDTO passenger);
 	public List<RunDTO> findRunsByUser(UserDTO user);
 	public List<RunDTO> findRunsNotCancelledByUser(UserDTO user);
-	public List<RunDTO> findCurrentRunsbyUser(UserDTO user);
+	public List<RunDTO> findCurrentRunsByUser(UserDTO user);
 	public List<RunDTO> findCurrentRunsNotCancelledByUser(UserDTO user);
-	public List<RunDTO> findPassedRunsbyUser(UserDTO user);
+	public List<RunDTO> findPassedRunsByUser(UserDTO user);
 	public List<RunDTO> findPassedRunsNotCancelledByUser(UserDTO user);
 	public List<RunDTO> findRuns(String districtFrom, String townFrom, LocalDate dateStart, String districtTo, String townTo);
 }

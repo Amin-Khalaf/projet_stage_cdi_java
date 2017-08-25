@@ -28,13 +28,13 @@ public class VehicleWebService implements IVehicleWebService {
 	@Override
 	@RequestMapping(value="/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public VehicleDTO addVehicle(@RequestBody VehicleDTO vehicle) {
-		return vehicleService.add(vehicle);
+		return vehicleService.addOrUpdate(vehicle);
 	}
 
 	@Override
 	@RequestMapping(value="/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public VehicleDTO updateVehicle(@RequestBody VehicleDTO vehicle) {
-		return vehicleService.update(vehicle);
+		return vehicleService.addOrUpdate(vehicle);
 	}
 
 	@Override

@@ -17,23 +17,24 @@ public class RunPriceService implements IRunPriceService {
 	
 	@Autowired
 	private RunPriceRepository runPriceRepository;
-
-	@Override
-	public RunPriceDTO add(RunPriceDTO runPriceDTO) {
+	
+	/* copy from RunPriceDTO to RunPrice */
+	private RunPrice runPriceDTOToRunPrice(RunPriceDTO runPriceDTO) {
 		RunPrice runPrice = new RunPrice();
 		BeanUtils.copyProperties(runPriceDTO, runPrice);
-		runPrice = runPriceRepository.insert(runPrice);
+		return runPrice;
+	}
+	
+	/* copy from RunPrice to RunPriceDTO */
+	private RunPriceDTO runPriceToRunPriceDTO(RunPrice runPrice) {
+		RunPriceDTO runPriceDTO = new RunPriceDTO();
 		BeanUtils.copyProperties(runPrice, runPriceDTO);
 		return runPriceDTO;
 	}
 
 	@Override
-	public RunPriceDTO update(RunPriceDTO runPriceDTO) {
-		RunPrice runPrice = new RunPrice();
-		BeanUtils.copyProperties(runPriceDTO, runPrice);
-		runPrice = runPriceRepository.save(runPrice);
-		BeanUtils.copyProperties(runPrice, runPriceDTO);
-		return runPriceDTO;
+	public RunPriceDTO addOrUpdate(RunPriceDTO runPriceDTO) {
+		return runPriceToRunPriceDTO(runPriceRepository.save(runPriceDTOToRunPrice(runPriceDTO)));
 	}
 
 	@Override
@@ -44,26 +45,18 @@ public class RunPriceService implements IRunPriceService {
 	@Override
 	public List<RunPriceDTO> findAll() {
 		List<RunPriceDTO> runPriceDTOs = new ArrayList<>();
-		for(RunPrice runPrice: runPriceRepository.findAll()) {
-			RunPriceDTO runPriceDTO = new RunPriceDTO();
-			BeanUtils.copyProperties(runPrice, runPriceDTO);
-			runPriceDTOs.add(runPriceDTO);
-		}
+		for(RunPrice runPrice: runPriceRepository.findAll()) runPriceDTOs.add(runPriceToRunPriceDTO(runPrice));
 		return runPriceDTOs;
 	}
 
 	@Override
 	public RunPriceDTO findById(String id) {
-		RunPriceDTO runPriceDTO = new RunPriceDTO();
-		BeanUtils.copyProperties(runPriceRepository.findOne(id), runPriceDTO);
-		return runPriceDTO;
+		return runPriceToRunPriceDTO(runPriceRepository.findOne(id));
 	}
 
 	@Override
 	public RunPriceDTO findByPower(int power) {
-		RunPriceDTO runPriceDTO = new RunPriceDTO();
-		BeanUtils.copyProperties(runPriceRepository.findByPower(power), runPriceDTO);
-		return runPriceDTO;
+		return runPriceToRunPriceDTO(runPriceRepository.findByPower(power));
 	}
 
 }

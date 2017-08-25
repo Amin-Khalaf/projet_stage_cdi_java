@@ -1,13 +1,6 @@
 package com.umanteam.dadakar.run.back.dto;
 
 import java.io.Serializable;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class WayPointDTO implements Serializable {
 

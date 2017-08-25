@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 
 public interface IRunWebService {

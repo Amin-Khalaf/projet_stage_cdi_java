@@ -374,7 +374,7 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findCurrentRunsbyUser(UserDTO user) {
+	public List<RunDTO> findCurrentRunsByUser(UserDTO user) {
 		User userEntity = copyUserDTOtoEntity(user);
 		List<RunDTO> runs = new ArrayList<>();
 		List<Run> entity = runRepository.findByDriverOrSubRunsPassengersUser(userEntity, userEntity);
@@ -421,7 +421,7 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findPassedRunsbyUser(UserDTO user) {
+	public List<RunDTO> findPassedRunsByUser(UserDTO user) {
 		User userEntity = copyUserDTOtoEntity(user);
 		List<RunDTO> runs = new ArrayList<>();
 		List<Run> entity = runRepository.findByDriverOrSubRunsPassengersUser(userEntity, userEntity);

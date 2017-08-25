@@ -10,6 +10,8 @@ import com.umanteam.dadakar.back.enums.Role;
 public interface AccountRepository extends MongoRepository<Account, String> {
 	Account findByUsername(String username);
 	List<Account> findByRole(Role role);
+	List<Account> findByRoleIsAndRoleIs(Role role1, Role role2);
 	List<Account> findByBanned(boolean banned);
 	List<Account> findByDeleted(boolean deleted);
+	List<Account> findByDeletedAndRole(boolean deleted, Role role);
 }

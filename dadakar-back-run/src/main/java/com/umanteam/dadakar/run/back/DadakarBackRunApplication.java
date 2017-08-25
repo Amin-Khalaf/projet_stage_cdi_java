@@ -2,7 +2,6 @@ package com.umanteam.dadakar.run.back;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.umanteam.dadakar.run.back.dto.RunDTO;
-import com.umanteam.dadakar.run.back.dto.SubRunDTO;
-import com.umanteam.dadakar.run.back.dto.WayPointDTO;
-import com.umanteam.dadakar.run.back.entities.WayPoint;
-import com.umanteam.dadakar.run.back.repository.WayPointRepository;
-import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
-import com.umanteam.dadakar.run.back.service.interfaces.IWayPointService;
 import com.umanteam.dadakar.back.dto.AccountDTO;
 import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.dto.VehicleDTO;
@@ -26,16 +18,23 @@ import com.umanteam.dadakar.back.entities.Account;
 import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.back.enums.Role;
+import com.umanteam.dadakar.run.back.dto.RunDTO;
+import com.umanteam.dadakar.run.back.dto.SubRunDTO;
+import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.entities.RunPrice;
 import com.umanteam.dadakar.run.back.entities.SubRun;
 import com.umanteam.dadakar.run.back.entities.Toll;
+import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.repository.RunPriceRepository;
-import com.umanteam.dadakar.run.back.repository.SubRunRepository;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
+import com.umanteam.dadakar.run.back.repository.SubRunRepository;
+import com.umanteam.dadakar.run.back.repository.WayPointRepository;
+import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
+import com.umanteam.dadakar.run.back.service.interfaces.IWayPointService;
 
 @SpringBootApplication
 public class DadakarBackRunApplication implements CommandLineRunner {
@@ -145,19 +144,19 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		// save1
 		System.out.println("save1 ---");
 		WayPointDTO waypoint = new WayPointDTO("rue de la mosquée", "Dakar - district 1", "Dakar", "20040");
-		waypoint = waypointService.add(waypoint);
+		waypoint = waypointService.addOrUpdate(waypoint);
 		System.out.println(waypoint);
 
 		// save2
 		System.out.println("save2 ---");
 		WayPointDTO waypoint2 = new WayPointDTO("rue de la mosquée", "Dakar - district 2", "Dakar", "20040");
-		waypoint2 = waypointService.add(waypoint2);
+		waypoint2 = waypointService.addOrUpdate(waypoint2);
 		System.out.println(waypoint2);
 
 		// update
 		System.out.println("update ---");
 		waypoint2.setDistrict("Dakar - District3");
-		waypoint2 = waypointService.update(waypoint2);
+		waypoint2 = waypointService.addOrUpdate(waypoint2);
 
 		// findAll
 		System.out.println("find all ---");
@@ -195,10 +194,15 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	}
 
 	private void passengerTest() {
-
+		passengerRepository.deleteAll();
+		Account account = new Account();
+		User user = new User();
 		for (int i = 1; i < 10; i++) {
-			Account account = new Account("username" + i, "password" + i, Role.USER);
-			User user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
+			if(i%2 == 1) {
+				account = new Account("username" + i, "password" + i, Role.USER);
+				user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
+				user.setUserId("userId" + i);
+			}
 			Passenger passenger = passengerRepository.insert(new Passenger(user, Luggage.PETIT, 35.20));
 			System.out.println(passenger);
 		}

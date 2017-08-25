@@ -134,18 +134,18 @@ public class DadakarBackApplication implements CommandLineRunner {
 		System.out.println("save1");
 		VehicleDTO vehicle = new VehicleDTO("vehicule1", "Renault", "Clio", "Bleue", "photo1id", "carreg1id",
 				"abc 1234 def", 5);
-		vehicle = vehicleService.add(vehicle);
+		vehicle = vehicleService.addOrUpdate(vehicle);
 		System.out.println(vehicle);
 		// save2
 		System.out.println("save2");
 		VehicleDTO vehicle2 = new VehicleDTO("vehicule2", "Peugeot", "404", "Rouge", "photo2id", "carreg2id",
 				"abc 1237 def", 6);
-		vehicle2 = vehicleService.add(vehicle2);
+		vehicle2 = vehicleService.addOrUpdate(vehicle2);
 		System.out.println(vehicle2);
 		// update
 		System.out.println("update");
 		vehicle2.setColor("Jaune");
-		vehicle2 = vehicleService.update(vehicle2);
+		vehicle2 = vehicleService.addOrUpdate(vehicle2);
 		System.out.println(vehicle2);
 		// findAll
 		System.out.println("findAll");

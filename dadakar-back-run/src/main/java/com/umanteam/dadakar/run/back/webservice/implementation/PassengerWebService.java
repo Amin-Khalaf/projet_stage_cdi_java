@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.run.back.dto.PassengerDTO;
 import com.umanteam.dadakar.run.back.service.interfaces.IPassengerService;
 import com.umanteam.dadakar.run.back.webservice.interfaces.IPassengerWebService;
@@ -24,30 +22,18 @@ import com.umanteam.dadakar.run.back.webservice.interfaces.IPassengerWebService;
 public class PassengerWebService implements IPassengerWebService {
 	
 	@Autowired
-	private RestTemplate restTemplate;
-	
-	@Autowired
 	private IPassengerService passengerService;
 	
-//	@Value("${server.path}")
-//	private String serverPath;
-//	
-//	@Value("${appli.path}")
-//	private String appliPath;
-//	
-//	private String url = serverPath + appliPath + "/users/";
-	private String url = "http://localhost:8080/dadakar/users/";
-
-	@RequestMapping(value="/save", method=RequestMethod.POST)
+@RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
 	public PassengerDTO add(@RequestBody PassengerDTO passengerDTO) { // OK
-		return passengerService.add(passengerDTO);
+		return passengerService.addOrUpdate(passengerDTO);
 	}
 
 	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public PassengerDTO update(@RequestBody PassengerDTO passengerDTO) { // OK
-		return passengerService.update(passengerDTO);
+		return passengerService.addOrUpdate(passengerDTO);
 	}
 
 	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)
@@ -71,12 +57,13 @@ public class PassengerWebService implements IPassengerWebService {
 		return passengerService.findById(id);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/user:{id}", method=RequestMethod.GET)
 	@Override
-	public PassengerDTO findByUserId(@PathVariable("id") String id) { //KO
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + id, UserDTO.class);
-		UserDTO userDTO = userEntity.getBody();
-		return passengerService.findByUser(userDTO);
+	public ResponseEntity<List<PassengerDTO>> findByUserId(@PathVariable("id") String id) { // OK
+		List<PassengerDTO> passengerDTOs = passengerService.findByUserId(id);
+		if(passengerDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<List<PassengerDTO>>(passengerDTOs, HttpStatus.OK);
 	}
 
 }
