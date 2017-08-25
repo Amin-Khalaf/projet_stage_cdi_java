@@ -1,4 +1,4 @@
-package com.umanteam.dadakarimg.back;
+package com.umanteam.dadakar.img.back;
 
 import java.io.IOException;
 
@@ -12,8 +12,8 @@ import org.springframework.core.io.ResourceLoader;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
-import com.umanteam.dadakarimg.back.repository.interfaces.IImageStorageRepository;
-import com.umanteam.dadakarimg.back.service.interfaces.IImageStorageService;
+import com.umanteam.dadakar.img.back.repository.interfaces.IImageStorageRepository;
+import com.umanteam.dadakar.img.back.service.interfaces.IImageStorageService;
 
 @SpringBootApplication
 public class DadakarBackImgApplication implements CommandLineRunner {

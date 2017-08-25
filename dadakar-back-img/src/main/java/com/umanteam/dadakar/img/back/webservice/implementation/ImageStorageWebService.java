@@ -1,4 +1,4 @@
-package com.umanteam.dadakarimg.back.webservice.implementation;
+package com.umanteam.dadakar.img.back.webservice.implementation;
 
 import java.io.IOException;
 //import java.util.ArrayList;
@@ -22,8 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
-import com.umanteam.dadakarimg.back.service.interfaces.IImageStorageService;
-import com.umanteam.dadakarimg.back.webservice.IImageStorageWebService;
+import com.umanteam.dadakar.img.back.service.interfaces.IImageStorageService;
+import com.umanteam.dadakar.img.back.webservice.IImageStorageWebService;
 
 @RestController
 @RequestMapping("/img")

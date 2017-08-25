@@ -1,4 +1,4 @@
-package com.umanteam.dadakarimg.back.webservice;
+package com.umanteam.dadakar.img.back.webservice;
 
 //import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.umanteam.dadakarimg.back.repository.implementation;
+package com.umanteam.dadakar.img.back.repository.implementation;
 
 import java.io.InputStream;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
-import com.umanteam.dadakarimg.back.repository.interfaces.IImageStorageRepository;
+import com.umanteam.dadakar.img.back.repository.interfaces.IImageStorageRepository;
 
 @Repository
 public class ImageStorageRepository implements IImageStorageRepository {

@@ -1,4 +1,4 @@
-package com.umanteam.dadakarimg.back.service.implementation;
+package com.umanteam.dadakar.img.back.service.implementation;
 
 import java.io.InputStream;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
-import com.umanteam.dadakarimg.back.repository.interfaces.IImageStorageRepository;
-import com.umanteam.dadakarimg.back.service.interfaces.IImageStorageService;
+import com.umanteam.dadakar.img.back.repository.interfaces.IImageStorageRepository;
+import com.umanteam.dadakar.img.back.service.interfaces.IImageStorageService;
 
 @Service
 public class ImageStorageService implements IImageStorageService {

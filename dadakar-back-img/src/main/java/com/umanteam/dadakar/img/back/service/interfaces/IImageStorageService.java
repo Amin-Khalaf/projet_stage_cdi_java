@@ -1,4 +1,4 @@
-package com.umanteam.dadakarimg.back.service.interfaces;
+package com.umanteam.dadakar.img.back.service.interfaces;
 
 import java.io.InputStream;
 import java.util.List;
