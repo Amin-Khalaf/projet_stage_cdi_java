@@ -194,10 +194,15 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	}
 
 	private void passengerTest() {
-
+		passengerRepository.deleteAll();
+		Account account = new Account();
+		User user = new User();
 		for (int i = 1; i < 10; i++) {
-			Account account = new Account("username" + i, "password" + i, Role.USER);
-			User user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
+			if(i%2 == 1) {
+				account = new Account("username" + i, "password" + i, Role.USER);
+				user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
+				user.setUserId("userId" + i);
+			}
 			Passenger passenger = passengerRepository.insert(new Passenger(user, Luggage.PETIT, 35.20));
 			System.out.println(passenger);
 		}
