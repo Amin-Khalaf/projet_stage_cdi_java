@@ -93,25 +93,31 @@ public class UserService implements IUserService {
 	@Override
 	public List<UserDTO> findAll() {
 		List<UserDTO> userDTOs = new ArrayList<>();
-		for(User user: userRepository.findAll()) userDTOs.add(userToUserDTO(user));
+		List<User> users = userRepository.findAll();
+		if(users != null) for(User user: users) userDTOs.add(userToUserDTO(user));
 		return userDTOs;
 	}
 
 	@Override
 	public UserDTO findById(String id) {
-		return userToUserDTO(userRepository.findOne(id));
+		User user = userRepository.findOne(id);
+		if(user != null) return userToUserDTO(user);
+		else return new UserDTO();
 	}
 
 	@Override
 	public List<UserDTO> findByLastName(String lastName) {
 		List<UserDTO> userDTOs = new ArrayList<>();
-		for(User user: userRepository.findByLastName(lastName)) userDTOs.add(userToUserDTO(user));
+		List<User> users = userRepository.findByLastName(lastName);
+		if(users != null) for(User user: users) userDTOs.add(userToUserDTO(user));
 		return userDTOs;
 	}
 
 	@Override
 	public UserDTO findByAccountUsername(String username) {
-		return userToUserDTO(userRepository.findByAccountUsername(username));
+		User user = userRepository.findByAccountUsername(username);
+		if(user != null) return userToUserDTO(userRepository.findByAccountUsername(username));
+		else return new UserDTO();
 	}
 
 }

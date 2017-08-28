@@ -53,13 +53,16 @@ public class RatingService implements IRatingService {
 	@Override
 	public List<RatingDTO> findAll() {
 		List<RatingDTO> ratingDTOs = new ArrayList<>();
-		for(Rating rating: ratingRepository.findAll()) ratingDTOs.add(ratingToRatingDTO(rating));
+		List<Rating> ratings = ratingRepository.findAll();
+		if(ratings != null) for(Rating rating: ratings) ratingDTOs.add(ratingToRatingDTO(rating));
 		return ratingDTOs;
 	}
 
 	@Override
 	public RatingDTO findById(String id) {
-		return ratingToRatingDTO(ratingRepository.findOne(id));
+		Rating rating = ratingRepository.findOne(id);
+		if(rating != null) return ratingToRatingDTO(rating);
+		else return new RatingDTO();
 	}
 
 }

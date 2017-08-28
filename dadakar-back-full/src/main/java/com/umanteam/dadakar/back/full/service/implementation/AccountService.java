@@ -46,56 +46,62 @@ public class AccountService implements IAccountService {
 	@Override
 	public List<AccountDTO> findAll() {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		for(Account account: accountRepository.findAll()) {
-			AccountDTO accountDTO = new AccountDTO();
-			BeanUtils.copyProperties(account, accountDTO);
-			accountDTOs.add(accountDTO);
-		}
+		List<Account> accounts = accountRepository.findAll();
+		if(accounts != null) for(Account account: accounts) accountDTOs.add(accountToAccountDTO(account));
 		return accountDTOs;
 	}
 
 	@Override
 	public AccountDTO findById(String id) {
-		return accountToAccountDTO(accountRepository.findOne(id));
+		Account account = accountRepository.findOne(id);
+		if(account != null) return accountToAccountDTO(account);
+		else return new AccountDTO();
 	}
 
 	@Override
 	public AccountDTO findByUsername(String username) {
-		return accountToAccountDTO(accountRepository.findByUsername(username));
+		Account account = accountRepository.findByUsername(username);
+		if(account != null) return accountToAccountDTO(account);
+		else return new AccountDTO();
 	}
 
 	@Override
 	public List<AccountDTO> findByRole(Role role) {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		for(Account account: accountRepository.findByRole(role)) accountDTOs.add(accountToAccountDTO(account));
+		List<Account> accounts = accountRepository.findByRole(role);
+		if(accounts != null) for(Account account: accounts) accountDTOs.add(accountToAccountDTO(account));
 		return accountDTOs;
 	}
 
 	@Override
 	public List<AccountDTO> findAdminsAndSuperUsers() {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		for(Account account: accountRepository.findByRoleIsAndRoleIs(Role.ADMIN, Role.SUPERUSER)) accountDTOs.add(accountToAccountDTO(account));
+		List<Account> accounts =  accountRepository.findByRoleIsAndRoleIs(Role.ADMIN, Role.SUPERUSER);
+		if(accounts != null) for(Account account: accounts) accountDTOs.add(accountToAccountDTO(account));
 		return accountDTOs;
 	}
 	
 	@Override
 	public List<AccountDTO> findByBanned(boolean banned) {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		for(Account account: accountRepository.findByBanned(banned)) accountDTOs.add(accountToAccountDTO(account));
+		List<Account> accounts = accountRepository.findByBanned(banned);
+		if(accounts != null) for(Account account: accounts) accountDTOs.add(accountToAccountDTO(account));
 		return accountDTOs;
 	}
 
 	@Override
 	public List<AccountDTO> findByDeleted(boolean deleted) {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		for(Account account: accountRepository.findByDeleted(deleted)) accountDTOs.add(accountToAccountDTO(account));
+		List<Account> accounts = accountRepository.findByDeleted(deleted);
+		if(accounts != null) for(Account account: accounts) accountDTOs.add(accountToAccountDTO(account));
 		return accountDTOs;
 	}
 
 	@Override
 	public List<AccountDTO> findByDeletedAndRole(boolean deleted, Role role) {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		for(Account account: accountRepository.findByDeletedAndRole(deleted, role)) accountDTOs.add(accountToAccountDTO(account));
+		List<Account> accounts = accountRepository.findByDeletedAndRole(deleted, role);
+		if(accounts != null) for(Account account: accounts) accountDTOs.add(accountToAccountDTO(account));
 		return accountDTOs;
 	}
 
