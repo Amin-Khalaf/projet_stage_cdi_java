@@ -47,7 +47,8 @@ public class WayPointService implements IWayPointService {
 	public WayPointDTO findById(String id) {
 		WayPoint entity = waypointRepository.findOne(id);
 		WayPointDTO waypoint = new WayPointDTO();
-		BeanUtils.copyProperties(entity, waypoint);
+		if (waypoint != null)
+			BeanUtils.copyProperties(entity, waypoint);
 		return waypoint;
 	}
 

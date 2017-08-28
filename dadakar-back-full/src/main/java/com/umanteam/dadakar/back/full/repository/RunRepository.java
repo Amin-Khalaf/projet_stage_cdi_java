@@ -13,7 +13,8 @@ public interface RunRepository extends MongoRepository<Run, String> {
 
 	// find all run by driver
 	public List<Run> findByDriver(User driver);
-	public List<Run> findByDriverUserId(String userid);
+	// KO
+//	public List<Run> findByDriverUserId(String userid);
 	public List<Run> findByDriverLastName(String lastname);
 	// find all run by subrun
 	public List<Run> findBySubRunsExists(SubRun subRun);
@@ -21,7 +22,7 @@ public interface RunRepository extends MongoRepository<Run, String> {
 	// find all run by passenger user
 	public List<Run> findBySubRunsPassengersUser(User passenger);
 	
-	// find by user (as driver or as passenger
+	// find by user (as driver or as passenger)
 	public List<Run> findByDriverOrSubRunsPassengersUser(User user, User user2);
 	
 //	method to find runs with subrun that match the request start point and date and the end point and run not cancelled and subrun available seat gt 0

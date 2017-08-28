@@ -53,8 +53,11 @@ public class SubRunWebService implements ISubRunWebService {
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public SubRunDTO findById(@PathVariable("id") String id) { // OK
-		return subRunService.findById(id);
+	public ResponseEntity<SubRunDTO> findById(@PathVariable("id") String id) { // OK
+		SubRunDTO subrun = subRunService.findById(id);
+		if (subrun == null )
+			return new ResponseEntity<SubRunDTO>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<SubRunDTO>(subrun, HttpStatus.OK);
 	}
 
 }

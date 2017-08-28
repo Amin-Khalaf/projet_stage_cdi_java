@@ -119,7 +119,11 @@ public class SubRunService implements ISubRunService {
 
 	@Override
 	public SubRunDTO findById(String id) {
-		return subRunToSubRunDTO(subRunRepository.findOne(id));
+		SubRunDTO subrun = new SubRunDTO();
+		SubRun entity = subRunRepository.findOne(id);
+		if (entity != null) 
+			subrun = subRunToSubRunDTO(entity);
+		return subrun;
 	}
 
 }

@@ -294,7 +294,8 @@ public class RunService implements IRunService {
 	public RunDTO findRunsById(String id) {
 		RunDTO run = new RunDTO();
 		Run entity = runRepository.findOne(id);
-		run = copyEntityToDto(entity);
+		if (entity != null)
+			run = copyEntityToDto(entity);
 		return run;
 	}
 
@@ -309,15 +310,15 @@ public class RunService implements IRunService {
 		return runs;
 	}
 
-	@Override
-	public List<RunDTO> findRunsByDriverUserId(String userid) {
-		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findByDriverUserId(userid)) {
-			RunDTO run = copyEntityToDto(entity);
-			runs.add(run);
-		}
-		return runs;
-	}
+//	@Override
+//	public List<RunDTO> findRunsByDriverUserId(String userid) {
+//		List<RunDTO> runs = new ArrayList<>();
+//		for (Run entity : runRepository.findByDriverUserId(userid)) {
+//			RunDTO run = copyEntityToDto(entity);
+//			runs.add(run);
+//		}
+//		return runs;
+//	}
 
 	@Override
 	public List<RunDTO> findRunsNotCancelledByDriver(UserDTO driver) {

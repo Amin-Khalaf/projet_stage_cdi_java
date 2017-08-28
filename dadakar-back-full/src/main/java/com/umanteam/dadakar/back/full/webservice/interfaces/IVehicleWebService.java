@@ -12,6 +12,6 @@ public interface IVehicleWebService {
 	public VehicleDTO updateVehicle(VehicleDTO vehicle);
 	public void deleteVehicle(String id);
 	public ResponseEntity<List<VehicleDTO>> findAllVehicle();
-	public VehicleDTO findVehicle(String id);
+	public ResponseEntity<VehicleDTO> findVehicle(String id);
 
 }
