@@ -14,7 +14,7 @@ public interface IRunService {
 	public List<RunDTO> findAllRuns();
 	public RunDTO findRunsById(String id);
 	public List<RunDTO> findRunsByDriver(UserDTO driver);
-	public List<RunDTO> findRunsByDriverUserId(String userid);
+//	public List<RunDTO> findRunsByDriverUserId(String userid);
 	public List<RunDTO> findRunsNotCancelledByDriver(UserDTO driver);
 	public List<RunDTO> findRunsByPassenger(UserDTO passenger);
 	public List<RunDTO> findRunsNotCancelledByPassenger(UserDTO passenger);

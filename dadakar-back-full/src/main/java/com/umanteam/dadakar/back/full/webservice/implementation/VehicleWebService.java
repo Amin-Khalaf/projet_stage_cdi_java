@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.umanteam.dadakar.back.full.dto.VehicleDTO;
+import com.umanteam.dadakar.back.full.entities.Vehicle;
 import com.umanteam.dadakar.back.full.service.implementation.VehicleService;
 import com.umanteam.dadakar.back.full.webservice.interfaces.IVehicleWebService;
 
@@ -56,8 +57,12 @@ public class VehicleWebService implements IVehicleWebService {
 
 	@Override
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public VehicleDTO findVehicle(@PathVariable("id") String id) {
-		return vehicleService.findById(id);
+	public ResponseEntity<VehicleDTO> findVehicle(@PathVariable("id") String id) {
+		VehicleDTO vehicle = vehicleService.findById(id);
+		if (vehicle == null) {
+			return new ResponseEntity<VehicleDTO>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<VehicleDTO>(vehicle, HttpStatus.OK);
 	}
 
 }

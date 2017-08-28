@@ -11,5 +11,5 @@ public interface ISubRunWebService {
 	SubRunDTO update(SubRunDTO subRunDTO);
 	void delete(String id);
 	ResponseEntity<List<SubRunDTO>> findAll();
-	SubRunDTO findById(String id);
+	ResponseEntity<SubRunDTO> findById(String id);
 }

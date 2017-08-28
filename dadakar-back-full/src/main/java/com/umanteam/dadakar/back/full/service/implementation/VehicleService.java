@@ -51,7 +51,11 @@ public class VehicleService implements IVehicleService {
 
 	@Override
 	public VehicleDTO findById(String vehicleId) {
-		return vehicleToVehicleDTO(vehicleRepository.findOne(vehicleId));
+		VehicleDTO vehicle = new VehicleDTO();
+		Vehicle entity = vehicleRepository.findOne(vehicleId);
+		if (entity != null)
+			vehicle = vehicleToVehicleDTO(entity);
+		return vehicle;
 	}
 
 }
