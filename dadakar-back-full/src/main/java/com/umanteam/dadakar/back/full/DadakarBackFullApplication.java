@@ -378,7 +378,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 
 	}
 
-	private void accountTest() {
+	public void accountTest() {
 		accountRepository.deleteAll();
 		for (int i = 0; i < 10; i++) {
 			Role role = Role.USER;
@@ -442,7 +442,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 		vehicleRepository.deleteAll();
 	}
 	
-	private void ratingTest() {
+	public void ratingTest() {
 		ratingRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
 			Rating rating = new Rating(i, new User(), "test" + i);
@@ -487,7 +487,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 		System.out.println(vehicles);
 	}
 
-	private void userTest() {
+	public void userTest() {
 		userRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
 			User user = new User(accountRepository.findByUsername("username" + i), "firstName" + i, "lastName" + i, "", "", "", "");
@@ -618,7 +618,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 
 	}
 
-	private void passengerTest() {
+	public void passengerTest() {
 		passengerRepository.deleteAll();
 		for (int i = 1; i < 10; i++) {
 			User user = userRepository.save(new User(accountRepository.findByUsername("username" + 1), "firstName" + i * 2, "lastName" + i * 2, "", "", "", ""));
@@ -630,7 +630,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 
 	}
 
-	private void runPriceTest() {
+	public void runPriceTest() {
 		runPriceRepository.deleteAll();
 		for (int i = 0; i < 10; i++) {
 			RunPrice runPrice = new RunPrice(i, i * 3, i * 5, i * 2, 0.35);
@@ -639,7 +639,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 		}
 	}
 	
-	private void subRunTest() {
+	public void subRunTest() {
 		subRunRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
 			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint("notre dame", "15e", "paris", "75020")), waypointRepository.insert(new WayPoint("la chapelle", "5e", "paris", "75020")), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
@@ -649,7 +649,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 	}
 	
 
-	private void testRunRepository() {
+	public void testRunRepository() {
 		runRepository.deleteAll();
 		System.out.println("=== test RunRepository ===");
 		System.out.println("--- Add run ---");
@@ -709,7 +709,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 			System.out.println(var);
 	}
 	
-	private void testRunService(){
+	public void testRunService(){
 		runRepository.deleteAll();
 		
 		System.out.println("=== test run service ===");
