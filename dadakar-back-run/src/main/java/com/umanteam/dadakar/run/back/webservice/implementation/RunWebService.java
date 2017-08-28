@@ -138,6 +138,7 @@ public class RunWebService implements IRunWebService {
 	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
 		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
 		UserDTO user = userEntity.getBody();
+		System.out.println(user);
 		// TODO Auto-generated method stub
 		return null;
 	}

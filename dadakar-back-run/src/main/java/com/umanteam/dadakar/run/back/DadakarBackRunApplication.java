@@ -16,7 +16,6 @@ import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.back.entities.Account;
 import com.umanteam.dadakar.back.entities.User;
-import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
@@ -193,7 +192,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 	}
 
-	private void passengerTest() {
+	public void passengerTest() {
 		passengerRepository.deleteAll();
 		Account account = new Account();
 		User user = new User();
@@ -209,7 +208,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 	}
 
-	private void runPriceTest() {
+	public void runPriceTest() {
 		runPriceRepository.deleteAll();
 		for (int i = 0; i < 10; i++) {
 			RunPrice runPrice = new RunPrice(i, i * 3, i * 5, i * 2, 0.35);
@@ -218,7 +217,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		}
 	}
 	
-	private void subRunTest() {
+	public void subRunTest() {
 		subRunRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
 			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint("notre dame", "15e", "paris", "75020")), waypointRepository.insert(new WayPoint("la chapelle", "5e", "paris", "75020")), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
@@ -228,7 +227,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	}
 	
 
-	private void testRunRepository() {
+	public void testRunRepository() {
 //		runRepository.deleteAll();
 //		System.out.println("=== test RunRepository ===");
 //		System.out.println("--- Add run ---");
@@ -328,7 +327,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 //			System.out.println(var);
 	}
 	
-	private void testRunService(){
+	public void testRunService(){
 		runRepository.deleteAll();
 		
 		System.out.println("=== test run service ===");
