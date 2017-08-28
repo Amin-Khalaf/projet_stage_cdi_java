@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.umanteam.dadakar.back.full.dto.VehicleDTO;
-import com.umanteam.dadakar.back.full.entities.Vehicle;
 import com.umanteam.dadakar.back.full.service.implementation.VehicleService;
 import com.umanteam.dadakar.back.full.webservice.interfaces.IVehicleWebService;
 
