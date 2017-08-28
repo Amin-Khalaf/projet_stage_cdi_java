@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.run.back.webservice.implementation;
+package com.umanteam.dadakar.back.full.webservice.implementation;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.umanteam.dadakar.run.back.dto.PassengerDTO;
-import com.umanteam.dadakar.run.back.service.interfaces.IPassengerService;
-import com.umanteam.dadakar.run.back.webservice.interfaces.IPassengerWebService;
+import com.umanteam.dadakar.back.full.dto.PassengerDTO;
+import com.umanteam.dadakar.back.full.service.interfaces.IPassengerService;
+import com.umanteam.dadakar.back.full.webservice.interfaces.IPassengerWebService;
 
 @RestController
 @RequestMapping("${appli.path}/passengers")
