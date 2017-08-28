@@ -54,14 +54,22 @@ public class AccountWebService implements IAccountWebService {
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public AccountDTO findById(@PathVariable("id") String id) { // OK
-		return accountService.findById(id);
+	public ResponseEntity<AccountDTO> findById(@PathVariable("id") String id) { // OK
+		AccountDTO account = accountService.findById(id);
+		if (account == null) {
+			return new ResponseEntity<AccountDTO>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<AccountDTO>(account, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/username:{username}", method=RequestMethod.GET)
 	@Override
-	public AccountDTO findByUsername(@PathVariable("username") String username) { // OK
-		return accountService.findByUsername(username);
+	public ResponseEntity<AccountDTO> findByUsername(@PathVariable("username") String username) { // OK
+		AccountDTO account = accountService.findByUsername(username);
+		if (account == null) {
+			return new ResponseEntity<AccountDTO>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<AccountDTO>(account, HttpStatus.OK);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

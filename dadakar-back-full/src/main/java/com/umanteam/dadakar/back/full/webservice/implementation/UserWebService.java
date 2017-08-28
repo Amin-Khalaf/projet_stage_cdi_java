@@ -53,8 +53,12 @@ public class UserWebService implements IUserWebService {
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public UserDTO findById(@PathVariable("id") String id) { // OK
-		return userService.findById(id);
+	public ResponseEntity<UserDTO> findById(@PathVariable("id") String id) { // OK
+		UserDTO user = userService.findById(id);
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -68,8 +72,12 @@ public class UserWebService implements IUserWebService {
 
 	@RequestMapping(value="/username:{username}", method=RequestMethod.GET)
 	@Override
-	public UserDTO findByAccountUsername(@PathVariable("username") String username) {
-		return userService.findByAccountUsername(username);
+	public ResponseEntity<UserDTO> findByAccountUsername(@PathVariable("username") String username) {
+		UserDTO user = userService.findByAccountUsername(username);
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
 
 }

@@ -55,8 +55,12 @@ public class PassengerWebService implements IPassengerWebService {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public PassengerDTO findById(@PathVariable("id") String id) { // OK
-		return passengerService.findById(id);
+	public ResponseEntity<PassengerDTO> findById(@PathVariable("id") String id) { // OK
+		PassengerDTO passenger = passengerService.findById(id);
+		if (passenger == null) {
+			return new ResponseEntity<PassengerDTO>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<PassengerDTO>(passenger, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

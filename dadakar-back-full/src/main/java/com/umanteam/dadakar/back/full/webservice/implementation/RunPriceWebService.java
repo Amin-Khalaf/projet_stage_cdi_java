@@ -53,14 +53,22 @@ public class RunPriceWebService implements IRunPriceWebService {
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public RunPriceDTO findById(@PathVariable("id") String id) { // OK
-		return runPriceService.findById(id);
+	public ResponseEntity<RunPriceDTO> findById(@PathVariable("id") String id) { // OK
+		RunPriceDTO runprice = runPriceService.findById(id);
+		if (runprice == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<RunPriceDTO>(runprice, HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/power:{power}", method=RequestMethod.GET)
 	@Override
-	public RunPriceDTO findByPower(@PathVariable("power") int power) { // OK
-		return runPriceService.findByPower(power);
+	public ResponseEntity<RunPriceDTO> findByPower(@PathVariable("power") int power) { // OK
+		RunPriceDTO runprice = runPriceService.findByPower(power); 
+		if (runprice == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<RunPriceDTO>(runprice, HttpStatus.OK);
 	}
 
 }

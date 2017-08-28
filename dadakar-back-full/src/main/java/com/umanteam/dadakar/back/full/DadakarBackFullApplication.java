@@ -35,27 +35,10 @@ import com.umanteam.dadakar.back.full.dto.SubRunDTO;
 import com.umanteam.dadakar.back.full.dto.UserDTO;
 import com.umanteam.dadakar.back.full.dto.VehicleDTO;
 import com.umanteam.dadakar.back.full.dto.WayPointDTO;
-import com.umanteam.dadakar.back.full.entities.Account;
-import com.umanteam.dadakar.back.full.entities.Passenger;
 import com.umanteam.dadakar.back.full.entities.Rating;
-import com.umanteam.dadakar.back.full.entities.Run;
 import com.umanteam.dadakar.back.full.entities.RunPrice;
-import com.umanteam.dadakar.back.full.entities.SubRun;
 import com.umanteam.dadakar.back.full.entities.Toll;
-import com.umanteam.dadakar.back.full.entities.User;
-import com.umanteam.dadakar.back.full.entities.Vehicle;
-import com.umanteam.dadakar.back.full.entities.WayPoint;
-import com.umanteam.dadakar.back.full.enums.Luggage;
-import com.umanteam.dadakar.back.full.enums.Role;
-import com.umanteam.dadakar.back.full.repository.AccountRepository;
-import com.umanteam.dadakar.back.full.repository.PassengerRepository;
-import com.umanteam.dadakar.back.full.repository.RatingRepository;
 import com.umanteam.dadakar.back.full.repository.RunPriceRepository;
-import com.umanteam.dadakar.back.full.repository.RunRepository;
-import com.umanteam.dadakar.back.full.repository.SubRunRepository;
-import com.umanteam.dadakar.back.full.repository.UserRepository;
-import com.umanteam.dadakar.back.full.repository.VehiculeRepository;
-import com.umanteam.dadakar.back.full.repository.WayPointRepository;
 import com.umanteam.dadakar.back.full.service.implementation.VehicleService;
 import com.umanteam.dadakar.back.full.service.interfaces.IRunService;
 import com.umanteam.dadakar.back.full.service.interfaces.IWayPointService;
@@ -129,22 +112,23 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		
 		createSampleData();
 
-		accountTest();
-		ratingTest();
-		testVehicleRepo();
-		testVehicleService();
-		userTest();
-		
-		testWaypointRepository();
-		testWaypointService();
-		passengerTest();
-		runPriceTest();
-		subRunTest();
-		
-		testRunRepository();
-		testRunService();
+//		accountTest();
+//		ratingTest();
+//		testVehicleRepo();
+//		testVehicleService();
+//		userTest();
+//		
+//		testWaypointRepository();
+//		testWaypointService();
+//		passengerTest();
+//		runPriceTest();
+//		subRunTest();
+//		
+//		testRunRepository();
+//		testRunService();
 
 	}
 
@@ -158,6 +142,15 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 		userRepo.deleteAll();
 		vehicleRepo.deleteAll();
 		waypointRepo.deleteAll();
+		runPriceRepository.deleteAll();
+		ratingRepository.deleteAll();
+		
+		// create runprices
+		for (int i = 0; i < 10; i++) {
+			RunPrice runPrice = new RunPrice(i, i * 3, i * 5, i * 2, 0.35);
+			runPrice = runPriceRepository.insert(runPrice);
+			System.out.println(runPrice);
+		}
 
 		// create accounts
 		Account account1 = new Account("user1", "pass1", Role.USER);
@@ -199,6 +192,17 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 		user2 = userRepo.save(user2);
 		System.out.println(user2);
 
+		// create ratings
+		Rating rating = new Rating(5, user2, "Trop cool");
+		rating = ratingRepo.insert(rating);
+		System.out.println(rating);
+		// set rating to user1
+		List<Rating> ratings = new ArrayList<>();
+		ratings.add(rating);
+		user1.setRatings(ratings);
+		user1 = userRepo.save(user1);
+		System.out.println(user1);
+		
 		// create run with user1
 		// create waypoints
 		WayPoint waypoint1 = new WayPoint("rue de la mairie", "Dakar - district1", "Dakar", "");
@@ -280,7 +284,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 			System.out.println(account);
 		}
 
-		// KO
+	// KO
 //		System.out.println("--- account by role1 and role2--");
 //		for (Account account : accountRepo.findByRoleIsAndRoleIs(Role.SUPERUSER, Role.ADMIN)) {
 //			System.out.println(account);
@@ -344,7 +348,7 @@ public class DadakarBackFullApplication implements CommandLineRunner {
 			System.out.println(run);
 		}
 
-		// KO 
+	// KO 
 //		System.out.println("---run by driver user id--");
 //		for (Run run : runRepo.findByDriverUserId(user1.getUserId())) {
 //			System.out.println(run);

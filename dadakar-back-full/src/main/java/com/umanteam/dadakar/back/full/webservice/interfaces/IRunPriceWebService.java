@@ -11,6 +11,6 @@ public interface IRunPriceWebService {
 	RunPriceDTO update(RunPriceDTO runPriceDTO);
 	void delete(String id);
 	ResponseEntity<List<RunPriceDTO>> findAll();
-	RunPriceDTO findById(String id);
-	RunPriceDTO findByPower(int power);
+	ResponseEntity<RunPriceDTO> findById(String id);
+	ResponseEntity<RunPriceDTO> findByPower(int power);
 }
