@@ -100,10 +100,9 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/passenger:{userid}", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsByPassengerId(@PathVariable("userid") String userid) {
-//		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-//		UserDTO passenger = userEntity.getBody();
-//		List<RunDTO> runs = runService.findRunsByPassenger(passenger);
-		List<RunDTO> runs = runService.findRunsByDriverUserId(userid);
+		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
+		UserDTO passenger = userEntity.getBody();
+		List<RunDTO> runs = runService.findRunsByPassenger(passenger);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
