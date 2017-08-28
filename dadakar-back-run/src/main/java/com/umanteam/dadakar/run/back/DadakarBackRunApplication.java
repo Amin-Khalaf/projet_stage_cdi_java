@@ -68,7 +68,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 //		testWaypointRepository();
 //		testWaypointService();
-//		passengerTest();
+		passengerTest();
 //		runPriceTest();
 //		subRunTest();
 		

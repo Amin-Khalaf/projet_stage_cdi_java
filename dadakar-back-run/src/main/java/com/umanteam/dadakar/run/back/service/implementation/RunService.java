@@ -27,7 +27,10 @@ import com.umanteam.dadakar.run.back.entities.SubRun;
 import com.umanteam.dadakar.run.back.entities.Toll;
 import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.ResState;
+import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
+import com.umanteam.dadakar.run.back.repository.SubRunRepository;
+import com.umanteam.dadakar.run.back.repository.WayPointRepository;
 import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
 
 @Service
@@ -35,8 +38,17 @@ public class RunService implements IRunService {
 
 	@Autowired
 	RunRepository runRepository;
-
-	private Run copyDtoToEntity(RunDTO run) {
+	
+	@Autowired
+	WayPointRepository waypointRepository;
+	
+	@Autowired
+	PassengerRepository passengerRepository;
+	
+	@Autowired
+	SubRunRepository subrunRepository;
+	
+		private Run copyDtoToEntity(RunDTO run) {
 		Run entity = new Run();
 		BeanUtils.copyProperties(run, entity);
 		// copy driver dto to entity
@@ -54,10 +66,20 @@ public class RunService implements IRunService {
 			// copy startPlace
 			WayPoint startplaceEntity = new WayPoint();
 			BeanUtils.copyProperties(subrun.getStartPlace(), startplaceEntity);
+			// save waypoint if doesn't exists in DB
+			if (startplaceEntity.getId() == null || waypointRepository.findOne(startplaceEntity.getId()) == null) {
+				startplaceEntity = waypointRepository.save(startplaceEntity);
+			}
+			// assign it to subrun
 			subrunEntity.setStartPlace(startplaceEntity);
 			// copy endPlace
 			WayPoint endplaceEntity = new WayPoint();
 			BeanUtils.copyProperties(subrun.getEndPlace(), endplaceEntity);
+			// save waypoint if doesn't exists in DB
+			if (endplaceEntity.getId() == null || waypointRepository.findOne(endplaceEntity.getId()) == null) {
+				endplaceEntity = waypointRepository.save(endplaceEntity);
+			}
+			// assign it to subrun
 			subrunEntity.setEndPlace(endplaceEntity);
 			// copy passengers entity to dto and assign to subrun
 			if (subrun.getPassengers() != null) {
@@ -69,6 +91,10 @@ public class RunService implements IRunService {
 					User userEntity = new User();
 					BeanUtils.copyProperties(passenger.getUser(), userEntity);
 					passengerEntity.setUser(userEntity);
+					// save passenger if doesn't exist
+					if (passengerEntity.getPassengerId() == null || passengerRepository.findOne(passenger.getPassengerId()) == null) {
+						passengerEntity = passengerRepository.save(passengerEntity);
+					}
 					// add to list
 					passengersEntity.add(passengerEntity);
 				}
@@ -79,6 +105,10 @@ public class RunService implements IRunService {
 			for (WayPointDTO waypoint : subrun.getStartingPoints()) {
 				WayPoint waypointEntity = new WayPoint();
 				BeanUtils.copyProperties(waypoint, waypointEntity);
+				// save waypoint if doesn't exists
+				if (waypointEntity.getId() == null || waypointRepository.findOne(waypointEntity.getId()) == null) {
+					waypointEntity = waypointRepository.save(waypointEntity);
+				}
 				waypointsEntity.add(waypointEntity);
 			}
 			subrunEntity.setStartingPoints(waypointsEntity);
@@ -88,9 +118,14 @@ public class RunService implements IRunService {
 				for (TollDTO toll : subrun.getTolls()) {
 					Toll tollEntity = new Toll();
 					BeanUtils.copyProperties(toll, tollEntity);
+					// TODO : save toll if doesn't exists
 					tollsEntity.add(tollEntity);
 				}
 				subrunEntity.setTolls(tollsEntity);
+			}
+			// save subrun if doesn't exists
+			if (subrunEntity.getSubRunId() == null || subrunRepository.findOne(subrunEntity.getSubRunId()) == null) {
+				subrunRepository.save(subrunEntity);
 			}
 			// add subrun to list
 			subrunsentity.add(subrunEntity);
