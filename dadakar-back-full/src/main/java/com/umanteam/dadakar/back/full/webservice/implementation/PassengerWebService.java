@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.umanteam.dadakar.back.full.dto.PassengerDTO;
 import com.umanteam.dadakar.back.full.service.interfaces.IPassengerService;
+import com.umanteam.dadakar.back.full.service.interfaces.IUserService;
 import com.umanteam.dadakar.back.full.webservice.interfaces.IPassengerWebService;
 
 @RestController
@@ -22,6 +23,8 @@ public class PassengerWebService implements IPassengerWebService {
 	
 	@Autowired
 	private IPassengerService passengerService;
+	
+	@Autowired IUserService userService;
 	
 @RequestMapping(value="/save", method=RequestMethod.POST)
 	@Override
@@ -60,7 +63,7 @@ public class PassengerWebService implements IPassengerWebService {
 	@RequestMapping(value="/user:{id}", method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<PassengerDTO>> findByUserId(@PathVariable("id") String id) { // OK
-		List<PassengerDTO> passengerDTOs = passengerService.findByUserId(id);
+		List<PassengerDTO> passengerDTOs = passengerService.findByUser(userService.findById(id));
 		if(passengerDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<PassengerDTO>>(passengerDTOs, HttpStatus.OK);
 	}

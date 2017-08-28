@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.umanteam.dadakar.back.full.dto.UserDTO;
+import com.umanteam.dadakar.back.full.dto.VehicleDTO;
 import com.umanteam.dadakar.back.full.entities.User;
+import com.umanteam.dadakar.back.full.entities.Vehicle;
 import com.umanteam.dadakar.back.full.dto.PassengerDTO;
+import com.umanteam.dadakar.back.full.dto.RatingDTO;
+import com.umanteam.dadakar.back.full.entities.Account;
 import com.umanteam.dadakar.back.full.entities.Passenger;
+import com.umanteam.dadakar.back.full.entities.Rating;
 import com.umanteam.dadakar.back.full.repository.PassengerRepository;
 import com.umanteam.dadakar.back.full.service.interfaces.IPassengerService;
 
@@ -41,28 +46,28 @@ public class PassengerService implements IPassengerService {
 	}
 	
 	/* copy from UserDTO to User */
-//	private User userDTOToUser(UserDTO userDTO) {
-//		User user = new User();
-//		Account account = new Account();
-//		List<Vehicle> vehicles = new ArrayList<>();
-//		List<Rating> ratings = new ArrayList<>();
-//		BeanUtils.copyProperties(userDTO, user);
-//		BeanUtils.copyProperties(userDTO.getAccount(), account);
-//		user.setAccount(account);
-//		for(VehicleDTO vehicleDTO: userDTO.getVehicles()) {
-//			Vehicle vehicle = new Vehicle();
-//			BeanUtils.copyProperties(vehicleDTO, vehicle);
-//			vehicles.add(vehicle);
-//		}
-//		user.setVehicles(vehicles);
-//		for(RatingDTO ratingDTO: userDTO.getRatings()) {
-//			Rating rating = new Rating();
-//			BeanUtils.copyProperties(ratingDTO, rating);
-//			ratings.add(rating);
-//		}
-//		user.setRatings(ratings);
-//		return user;
-//	}
+	private User userDTOToUser(UserDTO userDTO) {
+		User user = new User();
+		Account account = new Account();
+		List<Vehicle> vehicles = new ArrayList<>();
+		List<Rating> ratings = new ArrayList<>();
+		BeanUtils.copyProperties(userDTO, user);
+		BeanUtils.copyProperties(userDTO.getAccount(), account);
+		user.setAccount(account);
+		for(VehicleDTO vehicleDTO: userDTO.getVehicles()) {
+			Vehicle vehicle = new Vehicle();
+			BeanUtils.copyProperties(vehicleDTO, vehicle);
+			vehicles.add(vehicle);
+		}
+		user.setVehicles(vehicles);
+		for(RatingDTO ratingDTO: userDTO.getRatings()) {
+			Rating rating = new Rating();
+			BeanUtils.copyProperties(ratingDTO, rating);
+			ratings.add(rating);
+		}
+		user.setRatings(ratings);
+		return user;
+	}
 	
 	@Override
 	public PassengerDTO addOrUpdate(PassengerDTO passengerDTO) {
@@ -87,9 +92,9 @@ public class PassengerService implements IPassengerService {
 	}
 
 	@Override
-	public List<PassengerDTO> findByUserId(String id) {
+	public List<PassengerDTO> findByUser(UserDTO userDTO) {
 		List<PassengerDTO> passengerDTOs = new ArrayList<>();
-		for(Passenger passenger: passengerRepository.findByUserUserId(id)) passengerDTOs.add(passengerToPassengerDTO(passenger));
+		for(Passenger passenger: passengerRepository.findByUser(userDTOToUser(userDTO))) passengerDTOs.add(passengerToPassengerDTO(passenger));
 		return passengerDTOs;
 	}
 

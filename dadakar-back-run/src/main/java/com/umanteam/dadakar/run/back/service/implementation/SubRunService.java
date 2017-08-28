@@ -39,25 +39,31 @@ public class SubRunService implements ISubRunService {
 		wp = new WayPoint();
 		BeanUtils.copyProperties(subRunDTO.getEndPlace(), wp);
 		subRun.setEndPlace(wp);
-		for(PassengerDTO passengerDTO: subRunDTO.getPassengers()) {
-			Passenger passenger = new Passenger();
-			BeanUtils.copyProperties(passengerDTO, passenger);
-			User user = new User();
-			BeanUtils.copyProperties(passengerDTO.getUser(), user);
-			passenger.setUser(user);
-			passengers.add(passenger);
+		if(subRunDTO.getPassengers() != null) {
+			for(PassengerDTO passengerDTO: subRunDTO.getPassengers()) {
+				Passenger passenger = new Passenger();
+				BeanUtils.copyProperties(passengerDTO, passenger);
+				User user = new User();
+				BeanUtils.copyProperties(passengerDTO.getUser(), user);
+				passenger.setUser(user);
+				passengers.add(passenger);
+			}
 		}
 		subRun.setPassengers(passengers);
-		for(WayPointDTO wayPointDTO: subRunDTO.getStartingPoints()) {
-			wp = new WayPoint();
-			BeanUtils.copyProperties(wayPointDTO, wp);
-			wayPoints.add(wp);
+		if(subRunDTO.getStartingPoints() != null) {
+			for(WayPointDTO wayPointDTO: subRunDTO.getStartingPoints()) {
+				wp = new WayPoint();
+				BeanUtils.copyProperties(wayPointDTO, wp);
+				wayPoints.add(wp);
+			}
 		}
 		subRun.setStartingPoints(wayPoints);
-		for(TollDTO tollDTO: subRunDTO.getTolls()) {
-			Toll toll = new Toll();
-			BeanUtils.copyProperties(tollDTO, toll);
-			tolls.add(toll);
+		if(subRunDTO.getTolls() != null) {
+			for(TollDTO tollDTO: subRunDTO.getTolls()) {
+				Toll toll = new Toll();
+				BeanUtils.copyProperties(tollDTO, toll);
+				tolls.add(toll);
+			}
 		}
 		subRun.setTolls(tolls);
 		return subRun;
@@ -76,25 +82,31 @@ public class SubRunService implements ISubRunService {
 		wpDTO = new WayPointDTO();
 		BeanUtils.copyProperties(subRun.getEndPlace(), wpDTO);
 		subRunDTO.setEndPlace(wpDTO);
-		for(Passenger passenger: subRun.getPassengers()) {
-			PassengerDTO passengerDTO = new PassengerDTO();
-			BeanUtils.copyProperties(passenger, passengerDTO);
-			UserDTO userDTO = new UserDTO();
-			BeanUtils.copyProperties(passenger.getUser(), userDTO);
-			passengerDTO.setUser(userDTO);
-			passengerDTOs.add(passengerDTO);
+		if(subRun.getPassengers() != null) {
+			for(Passenger passenger: subRun.getPassengers()) {
+				PassengerDTO passengerDTO = new PassengerDTO();
+				BeanUtils.copyProperties(passenger, passengerDTO);
+				UserDTO userDTO = new UserDTO();
+				BeanUtils.copyProperties(passenger.getUser(), userDTO);
+				passengerDTO.setUser(userDTO);
+				passengerDTOs.add(passengerDTO);
+			}
 		}
 		subRunDTO.setPassengers(passengerDTOs);
-		for(WayPoint wayPoint: subRun.getStartingPoints()) {
-			wpDTO = new WayPointDTO();
-			BeanUtils.copyProperties(wayPoint, wpDTO);
-			wayPointDTOs.add(wpDTO);
+		if(subRun.getStartingPoints() != null) {
+			for(WayPoint wayPoint: subRun.getStartingPoints()) {
+				wpDTO = new WayPointDTO();
+				BeanUtils.copyProperties(wayPoint, wpDTO);
+				wayPointDTOs.add(wpDTO);
+			}
 		}
 		subRunDTO.setStartingPoints(wayPointDTOs);
-		for(Toll toll: subRun.getTolls()) {
-			TollDTO tollDTO = new TollDTO();
-			BeanUtils.copyProperties(toll, tollDTO);
-			tollDTOs.add(tollDTO);
+		if(subRun.getTolls() != null) {
+			for(Toll toll: subRun.getTolls()) {
+				TollDTO tollDTO = new TollDTO();
+				BeanUtils.copyProperties(toll, tollDTO);
+				tollDTOs.add(tollDTO);
+			}
 		}
 		subRunDTO.setTolls(tollDTOs);
 		return subRunDTO;
