@@ -14,8 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.umanteam.dadakar.back.dto.AccountDTO;
 import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.dto.VehicleDTO;
-import com.umanteam.dadakar.back.entities.Account;
-import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
@@ -194,15 +192,8 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 	public void passengerTest() {
 		passengerRepository.deleteAll();
-		Account account = new Account();
-		User user = new User();
 		for (int i = 1; i < 10; i++) {
-			if(i%2 == 1) {
-				account = new Account("username" + i, "password" + i, Role.USER);
-				user = new User(account, "firstName" + i, "lastName" + i, "", "", "", "");
-				user.setUserId("userId" + i);
-			}
-			Passenger passenger = passengerRepository.insert(new Passenger(user, Luggage.PETIT, 35.20));
+			Passenger passenger = passengerRepository.insert(new Passenger("user", Luggage.PETIT, 35.20));
 			System.out.println(passenger);
 		}
 
@@ -292,15 +283,15 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		
 		System.out.println("--- findByDriver ---");
 		runs = null;
-		runs = runRepository.findByDriverUserId("59a01a4a68dfb1112823fe0c");
+		runs = runRepository.findByDriverId("59a01a4a68dfb1112823fe0c");
 		for(Run var : runs)
 			System.out.println(var);
 
-		System.out.println("--- findByDriver ---");
-		runs = null;
-		runs = runRepository.findByDriverLastName("lastName0");
-		for(Run var : runs)
-			System.out.println(var);
+//		System.out.println("--- findByDriver ---");
+//		runs = null;
+//		runs = runRepository.findByDriverLastName("lastName0");
+//		for(Run var : runs)
+//			System.out.println(var);
 
 //		System.out.println("--- findByPassenger ---");
 //		runs = null;
@@ -344,13 +335,13 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		List<SubRunDTO> subruns = new ArrayList<>();
 		SubRunDTO subrun = new SubRunDTO();
 		subruns.add(subrun);
-		RunDTO run = new RunDTO(user, vehicle, subruns, Luggage.PETIT);
+		RunDTO run = new RunDTO("user", vehicle, subruns, Luggage.PETIT);
 		run = runService.addRun(run);
 		System.out.println(run);
 //		user = run.getDriver();
 		
 		System.out.println("--- save 2 ---");
-		RunDTO run2 = new RunDTO(user, vehicle, subruns, Luggage.MOYEN);
+		RunDTO run2 = new RunDTO("user", vehicle, subruns, Luggage.MOYEN);
 		run2 = runService.addRun(run2);
 		System.out.println(run2);
 		
@@ -373,7 +364,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		
 		System.out.println("--- findByDriver ---");
 		runs = null;
-		runs = runService.findRunsByDriver(user);
+		runs = runService.findRunsByDriverId("user");
 		for(RunDTO var : runs)
 			System.out.println(var);
 		

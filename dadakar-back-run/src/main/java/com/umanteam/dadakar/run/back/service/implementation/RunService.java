@@ -8,13 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.umanteam.dadakar.back.dto.AccountDTO;
-import com.umanteam.dadakar.back.dto.RatingDTO;
-import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.dto.VehicleDTO;
-import com.umanteam.dadakar.back.entities.Account;
-import com.umanteam.dadakar.back.entities.Rating;
-import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.dto.PassengerDTO;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
@@ -51,9 +45,6 @@ public class RunService implements IRunService {
 		private Run copyDtoToEntity(RunDTO run) {
 		Run entity = new Run();
 		BeanUtils.copyProperties(run, entity);
-		// copy driver dto to entity
-		User driverEntity = copyUserDTOtoEntity(run.getDriver());
-		entity.setDriver(driverEntity);
 		// copy vehicle dto to entity
 		Vehicle vehicleEntity = new Vehicle();
 		BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
@@ -87,10 +78,6 @@ public class RunService implements IRunService {
 				for (PassengerDTO passenger : subrun.getPassengers()) {
 					Passenger passengerEntity = new Passenger();
 					BeanUtils.copyProperties(passenger, passengerEntity);
-					// copy user entity to dto and assign to passenger
-					User userEntity = new User();
-					BeanUtils.copyProperties(passenger.getUser(), userEntity);
-					passengerEntity.setUser(userEntity);
 					// save passenger if doesn't exist
 					if (passengerEntity.getPassengerId() == null || passengerRepository.findOne(passenger.getPassengerId()) == null) {
 						passengerEntity = passengerRepository.save(passengerEntity);
@@ -138,11 +125,6 @@ public class RunService implements IRunService {
 		// copy run entity to DTO
 		RunDTO run = new RunDTO();
 		BeanUtils.copyProperties(entity, run);
-		// copy driver entity to DTO and assign to run
-		if (entity.getDriver() != null) {
-			UserDTO user = copyUserEntityToDto(entity.getDriver());
-			run.setDriver(user);
-		}
 		// copy vehicle entity to dto and assign to run
 		if (entity.getVehicle() != null) {
 			VehicleDTO vehicle = new VehicleDTO();
@@ -168,10 +150,6 @@ public class RunService implements IRunService {
 				for (Passenger passengerEntity : subrunEntity.getPassengers()) {
 					PassengerDTO passenger = new PassengerDTO();
 					BeanUtils.copyProperties(passengerEntity, passenger);
-					// copy user entity to dto and assign to passenger
-					UserDTO passengerUser = new UserDTO();
-					BeanUtils.copyProperties(passengerEntity.getUser(), passengerUser);
-					passenger.setUser(passengerUser);
 					passengers.add(passenger);
 				}
 				subrun.setPassengers(passengers);
@@ -201,60 +179,6 @@ public class RunService implements IRunService {
 		return run;
 	}
 	
-	private User copyUserDTOtoEntity(UserDTO user){
-		User userEntity = new User();
-		BeanUtils.copyProperties(user, userEntity);
-		Account account = new Account();
-		BeanUtils.copyProperties(user.getAccount(), account);
-		userEntity.setAccount(account);
-		if (user.getVehicles() != null){
-			List<Vehicle> vehicles = new ArrayList<>();
-			for (VehicleDTO vehicleDTO : user.getVehicles()){
-				Vehicle vehicle = new Vehicle();
-				BeanUtils.copyProperties(vehicleDTO, vehicle);
-				vehicles.add(vehicle);
-			}
-			userEntity.setVehicles(vehicles);
-		}
-		if (user.getRatings() != null) {
-			List<Rating> ratings = new ArrayList<>();
-			for(RatingDTO ratingDTO: user.getRatings()) {
-				Rating rating = new Rating();
-				BeanUtils.copyProperties(ratingDTO, rating);
-				ratings.add(rating);
-			}
-			userEntity.setRatings(ratings);
-		}
-		return userEntity;
-	}
-
-	private UserDTO copyUserEntityToDto(User entity){
-		UserDTO user = new UserDTO();
-		BeanUtils.copyProperties(entity, user);
-		AccountDTO account = new AccountDTO();
-		BeanUtils.copyProperties(entity.getAccount(), account);
-		user.setAccount(account);
-		if (entity.getVehicles() != null){
-			List<VehicleDTO> vehicles = new ArrayList<>();
-			for (Vehicle vehicle : entity.getVehicles()){
-				VehicleDTO vehicledto = new VehicleDTO();
-				BeanUtils.copyProperties(vehicle, vehicledto);
-				vehicles.add(vehicledto);
-			}
-			user.setVehicles(vehicles);
-		}
-		if (entity.getRatings() != null) {
-			List<RatingDTO> ratings = new ArrayList<>();
-			for(Rating rating: entity.getRatings()) {
-				RatingDTO ratingDTO = new RatingDTO();
-				BeanUtils.copyProperties(rating, ratingDTO);
-				ratings.add(ratingDTO);
-			}
-			user.setRatings(ratings);
-		}
-		return user;
-	}
-
 	@Override
 	public RunDTO addRun(RunDTO run) {
 		Run entity = copyDtoToEntity(run);
@@ -299,10 +223,9 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findRunsByDriver(UserDTO driver) {
-		User driverEntity = copyUserDTOtoEntity(driver);
+	public List<RunDTO> findRunsByDriverId(String driverId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findByDriver(driverEntity)) {
+		for (Run entity : runRepository.findByDriverId(driverId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -310,20 +233,9 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findRunsByDriverUserId(String userid) {
+	public List<RunDTO> findRunsNotCancelledByDriverId(String driverId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findByDriverUserId(userid)) {
-			RunDTO run = copyEntityToDto(entity);
-			runs.add(run);
-		}
-		return runs;
-	}
-
-	@Override
-	public List<RunDTO> findRunsNotCancelledByDriver(UserDTO driver) {
-		User driverEntity = copyUserDTOtoEntity(driver);
-		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entities = runRepository.findByDriver(driverEntity);
+		List<Run> entities = runRepository.findByDriverId(driverId);
 		// remove cancelled runs
 		for (Run entity : entities) {
 			if (entity.getSubRuns().get(0).getPassengers().get(0).getReservationState() == ResState.RUN_CANCELED) {
@@ -339,10 +251,9 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findRunsByPassenger(UserDTO passenger) {
-		User passengerEntity = copyUserDTOtoEntity(passenger);
+	public List<RunDTO> findRunsByPassengerId(String passengerId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findBySubRunsPassengersUser(passengerEntity)) {
+		for (Run entity : runRepository.findBySubRunsPassengersUserId(passengerId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -350,17 +261,15 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findRunsNotCancelledByPassenger(UserDTO passenger) {
-		User passengerEntity = copyUserDTOtoEntity(passenger);
+	public List<RunDTO> findRunsNotCancelledByPassengerId(String passengerId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findBySubRunsPassengersUser(passengerEntity);
+		List<Run> entity = runRepository.findBySubRunsPassengersUserId(passengerId);
 		// remove runs with run_cancelled or canceled by this passenger status
 		RunLoop: for (Run run : entity) {
 			for (SubRun subrun : run.getSubRuns()) {
 				for (Passenger passengerTest : subrun.getPassengers())
-					if ((passengerTest.getReservationState() == ResState.RUN_CANCELED)
-							|| ((passengerTest.getUser().equals(passengerEntity)
-									&& passengerTest.getReservationState() == ResState.CANCELLED))) {
+					if (passengerTest.getReservationState() == ResState.RUN_CANCELED
+							|| passengerTest.getReservationState() == ResState.CANCELLED) {
 						entity.remove(run);
 						continue RunLoop;
 					}
@@ -374,10 +283,9 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findRunsByUser(UserDTO user) {
-		User userEntity = copyUserDTOtoEntity(user);
+	public List<RunDTO> findRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findByDriverOrSubRunsPassengersUser(userEntity, userEntity)) {
+		for (Run entity : runRepository.findByDriverIdOrSubRunsPassengersUserId(userId, userId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -385,17 +293,15 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findRunsNotCancelledByUser(UserDTO user) {
-		User userEntity = copyUserDTOtoEntity(user);
+	public List<RunDTO> findRunsNotCancelledByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverOrSubRunsPassengersUser(userEntity, userEntity);
+		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserId(userId, userId);
 		// remove runs with run_cancelled or canceled by this passenger status
 		RunLoop: for (Run run : entity) {
 			for (SubRun subrun : run.getSubRuns()) {
 				for (Passenger passengerTest : subrun.getPassengers())
-					if ((passengerTest.getReservationState() == ResState.RUN_CANCELED)
-							|| ((passengerTest.getUser().equals(userEntity)
-									&& passengerTest.getReservationState() == ResState.CANCELLED))) {
+					if (passengerTest.getReservationState() == ResState.RUN_CANCELED
+							|| passengerTest.getReservationState() == ResState.CANCELLED) {
 						entity.remove(run);
 						continue RunLoop;
 					}
@@ -409,10 +315,9 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findCurrentRunsByUser(UserDTO user) {
-		User userEntity = copyUserDTOtoEntity(user);
+	public List<RunDTO> findCurrentRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverOrSubRunsPassengersUser(userEntity, userEntity);
+		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserId(userId, userId);
 		// remove runs with endDate < today
 		for (Run run : entity) {
 			if (run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) {
@@ -427,10 +332,9 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findCurrentRunsNotCancelledByUser(UserDTO user) {
-		User userEntity = copyUserDTOtoEntity(user);
+	public List<RunDTO> findCurrentRunsNotCancelledByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverOrSubRunsPassengersUser(userEntity, userEntity);
+		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserId(userId, userId);
 		// remove runs with endDate < today and with status run_cancelled or
 		// canceled by this passenger
 		RunLoop: for (Run run : entity) {
@@ -439,9 +343,8 @@ public class RunService implements IRunService {
 			} else {
 				for (SubRun subrun : run.getSubRuns()) {
 					for (Passenger passengerTest : subrun.getPassengers())
-						if ((passengerTest.getReservationState() == ResState.RUN_CANCELED)
-								|| ((passengerTest.getUser().equals(userEntity)
-										&& passengerTest.getReservationState() == ResState.CANCELLED))) {
+						if (passengerTest.getReservationState() == ResState.RUN_CANCELED
+								|| passengerTest.getReservationState() == ResState.CANCELLED) {
 							entity.remove(run);
 							continue RunLoop;
 						}
@@ -456,10 +359,9 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findPassedRunsByUser(UserDTO user) {
-		User userEntity = copyUserDTOtoEntity(user);
+	public List<RunDTO> findPassedRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverOrSubRunsPassengersUser(userEntity, userEntity);
+		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserId(userId, userId);
 		// remove runs with endDate >= today
 		for (Run run : entity) {
 			if (!run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) {
@@ -474,10 +376,9 @@ public class RunService implements IRunService {
 	}
 
 	@Override
-	public List<RunDTO> findPassedRunsNotCancelledByUser(UserDTO user) {
-		User userEntity = copyUserDTOtoEntity(user);
+	public List<RunDTO> findPassedRunsNotCancelledByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverOrSubRunsPassengersUser(userEntity, userEntity);
+		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserId(userId, userId);
 		// remove runs with endDate < today and with status run_cancelled or
 		// canceled by this passenger
 		RunLoop: for (Run run : entity) {
@@ -486,9 +387,8 @@ public class RunService implements IRunService {
 			} else {
 				for (SubRun subrun : run.getSubRuns()) {
 					for (Passenger passengerTest : subrun.getPassengers())
-						if ((passengerTest.getReservationState() == ResState.RUN_CANCELED)
-								|| ((passengerTest.getUser().equals(userEntity)
-										&& passengerTest.getReservationState() == ResState.CANCELLED))) {
+						if (passengerTest.getReservationState() == ResState.RUN_CANCELED
+								||  passengerTest.getReservationState() == ResState.CANCELLED) {
 							entity.remove(run);
 							continue RunLoop;
 						}

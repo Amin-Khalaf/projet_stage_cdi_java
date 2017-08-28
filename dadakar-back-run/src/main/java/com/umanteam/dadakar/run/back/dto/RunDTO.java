@@ -3,15 +3,14 @@ package com.umanteam.dadakar.run.back.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 
 public class RunDTO implements Serializable {
 
-	private static final long serialVersionUID = 7867532309907390114L;
+	private static final long serialVersionUID = -5996339903659028184L;
 	private String runId;
-	private UserDTO driver;
+	private String driverId;
 	private VehicleDTO vehicle;
 	private List<SubRunDTO> subruns;
 	private Luggage luggageType;
@@ -21,16 +20,16 @@ public class RunDTO implements Serializable {
 		super();
 	}
 
-	public RunDTO(UserDTO driver, VehicleDTO vehicle, Luggage luggageType) {
+	public RunDTO(String driverId, VehicleDTO vehicle, Luggage luggageType) {
 		super();
-		this.driver = driver;
+		this.driverId = driverId;
 		this.vehicle = vehicle;
 		this.luggageType = luggageType;
 	}
 
-	public RunDTO(UserDTO driver, VehicleDTO vehicle, List<SubRunDTO> subruns, Luggage luggageType) {
+	public RunDTO(String driverId, VehicleDTO vehicle, List<SubRunDTO> subruns, Luggage luggageType) {
 		super();
-		this.driver = driver;
+		this.driverId = driverId;
 		this.vehicle = vehicle;
 		this.subruns = subruns;
 		this.luggageType = luggageType;
@@ -41,8 +40,8 @@ public class RunDTO implements Serializable {
 		return runId;
 	}
 
-	public UserDTO getDriver() {
-		return driver;
+	public String getDriverId() {
+		return driverId;
 	}
 
 	public VehicleDTO getVehicle() {
@@ -62,8 +61,8 @@ public class RunDTO implements Serializable {
 		this.runId = runId;
 	}
 
-	public void setDriver(UserDTO driver) {
-		this.driver = driver;
+	public void setDriverId(String driverId) {
+		this.driverId = driverId;
 	}
 
 	public void setVehicle(VehicleDTO vehicle) {
@@ -81,7 +80,7 @@ public class RunDTO implements Serializable {
 	// toString
 	@Override
 	public String toString() {
-		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicle=" + vehicle + ", subruns=" + subruns + ", luggageType=" + luggageType + "]";
+		return "RunDTO [runId=" + runId + ", driverId=" + driverId + ", vehicle=" + vehicle + ", subruns=" + subruns + ", luggageType=" + luggageType + "]";
 	}
 	
 }

@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
 import com.umanteam.dadakar.run.back.webservice.interfaces.IRunWebService;
@@ -28,12 +26,7 @@ import com.umanteam.dadakar.run.back.webservice.interfaces.IRunWebService;
 public class RunWebService implements IRunWebService {
 
 	@Autowired
-	private RestTemplate restTemplate;
-	
-	@Autowired
 	IRunService runService;
-
-	private String url = "http://localhost:8080/dadakar/users/";
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@Override
@@ -76,9 +69,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value="/driver:{userid}", method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsByDriverId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO driver = userEntity.getBody();
-		List<RunDTO> runs = runService.findRunsByDriver(driver);
+		List<RunDTO> runs = runService.findRunsByDriverId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -88,9 +79,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/driver:{userid}/notcancelled", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByDriverId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO driver = userEntity.getBody();
-		List<RunDTO> runs = runService.findRunsNotCancelledByDriver(driver);
+		List<RunDTO> runs = runService.findRunsNotCancelledByDriverId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -100,9 +89,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/passenger:{userid}", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsByPassengerId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO passenger = userEntity.getBody();
-		List<RunDTO> runs = runService.findRunsByPassenger(passenger);
+		List<RunDTO> runs = runService.findRunsByPassengerId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -112,9 +99,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/passenger:{userid}/notcancelled", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByPassengerId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO passenger = userEntity.getBody();
-		List<RunDTO> runs = runService.findRunsNotCancelledByPassenger(passenger);
+		List<RunDTO> runs = runService.findRunsNotCancelledByPassengerId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -124,9 +109,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/user:{userid}", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsByUserId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO user = userEntity.getBody();
-		List<RunDTO> runs = runService.findRunsByUser(user);
+		List<RunDTO> runs = runService.findRunsByUserId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -136,9 +119,6 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/user:{userid}/notcancelled", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO user = userEntity.getBody();
-		System.out.println(user);
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -146,9 +126,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/user:{userid}/current", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findCurrentRunsbyUserId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO user = userEntity.getBody();
-		List<RunDTO> runs = runService.findCurrentRunsByUser(user);
+		List<RunDTO> runs = runService.findCurrentRunsByUserId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -158,9 +136,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/user:{userid}/current/notcanceled", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findCurrentRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO user = userEntity.getBody();
-		List<RunDTO> runs = runService.findCurrentRunsNotCancelledByUser(user);
+		List<RunDTO> runs = runService.findCurrentRunsNotCancelledByUserId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -170,9 +146,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/user:{userid}/passed", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findPassedRunsbyUserId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO user = userEntity.getBody();
-		List<RunDTO> runs = runService.findPassedRunsByUser(user);
+		List<RunDTO> runs = runService.findPassedRunsByUserId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -182,9 +156,7 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/user:{userid}/passed/notcanceled", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findPassedRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
-		ResponseEntity<UserDTO> userEntity = restTemplate.getForEntity(url + userid, UserDTO.class);
-		UserDTO user = userEntity.getBody();
-		List<RunDTO> runs = runService.findPassedRunsNotCancelledByUser(user);
+		List<RunDTO> runs = runService.findPassedRunsNotCancelledByUserId(userid);
 		if (runs == null) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}

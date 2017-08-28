@@ -2,7 +2,6 @@ package com.umanteam.dadakar.run.back.dto;
 
 import java.io.Serializable;
 
-import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.enums.ResState;
 
@@ -10,9 +9,9 @@ public class PassengerDTO implements Serializable {
 
 	/* Variables */
 	
-	private static final long serialVersionUID = 992673263048314047L;
+	private static final long serialVersionUID = 1311439521320518471L;
 	private String passengerId;
-	private UserDTO user;
+	private String userId;
 	private Luggage luggage;
 	private Double price;
 	private ResState reservationState;
@@ -21,8 +20,8 @@ public class PassengerDTO implements Serializable {
 	
 	public PassengerDTO() {}
 
-	public PassengerDTO(UserDTO user, Luggage luggage, Double price) {
-		this.user = user;
+	public PassengerDTO(String userId, Luggage luggage, Double price) {
+		this.userId = userId;
 		this.luggage = luggage;
 		this.price = price;
 		this.reservationState = ResState.PENDING;
@@ -38,12 +37,12 @@ public class PassengerDTO implements Serializable {
 		this.passengerId = passengerId;
 	}
 
-	public UserDTO getUser() {
-		return user;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser(UserDTO user) {
-		this.user = user;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public Luggage getLuggage() {
@@ -74,7 +73,7 @@ public class PassengerDTO implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "PassengerDTO [passengerId=" + passengerId + ", user=" + user + ", luggage=" + luggage + ", price="
+		return "PassengerDTO [passengerId=" + passengerId + ", userId=" + userId + ", luggage=" + luggage + ", price="
 				+ price + ", reservationState=" + reservationState + "]";
 	}
 	

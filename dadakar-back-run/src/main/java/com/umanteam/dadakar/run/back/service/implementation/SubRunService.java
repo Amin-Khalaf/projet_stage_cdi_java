@@ -7,8 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.umanteam.dadakar.back.dto.UserDTO;
-import com.umanteam.dadakar.back.entities.User;
 import com.umanteam.dadakar.run.back.dto.PassengerDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
 import com.umanteam.dadakar.run.back.dto.TollDTO;
@@ -43,9 +41,6 @@ public class SubRunService implements ISubRunService {
 			for(PassengerDTO passengerDTO: subRunDTO.getPassengers()) {
 				Passenger passenger = new Passenger();
 				BeanUtils.copyProperties(passengerDTO, passenger);
-				User user = new User();
-				BeanUtils.copyProperties(passengerDTO.getUser(), user);
-				passenger.setUser(user);
 				passengers.add(passenger);
 			}
 		}
@@ -86,9 +81,6 @@ public class SubRunService implements ISubRunService {
 			for(Passenger passenger: subRun.getPassengers()) {
 				PassengerDTO passengerDTO = new PassengerDTO();
 				BeanUtils.copyProperties(passenger, passengerDTO);
-				UserDTO userDTO = new UserDTO();
-				BeanUtils.copyProperties(passenger.getUser(), userDTO);
-				passengerDTO.setUser(userDTO);
 				passengerDTOs.add(passengerDTO);
 			}
 		}
