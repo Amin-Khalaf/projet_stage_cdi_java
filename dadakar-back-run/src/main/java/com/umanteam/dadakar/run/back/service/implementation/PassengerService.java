@@ -7,8 +7,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//import com.umanteam.dadakar.back.dto.RatingDTO;
 import com.umanteam.dadakar.back.dto.UserDTO;
+//import com.umanteam.dadakar.back.dto.VehicleDTO;
+//import com.umanteam.dadakar.back.entities.Account;
+//import com.umanteam.dadakar.back.entities.Rating;
 import com.umanteam.dadakar.back.entities.User;
+//import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.dto.PassengerDTO;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
@@ -49,16 +54,20 @@ public class PassengerService implements IPassengerService {
 //		BeanUtils.copyProperties(userDTO, user);
 //		BeanUtils.copyProperties(userDTO.getAccount(), account);
 //		user.setAccount(account);
-//		for(VehicleDTO vehicleDTO: userDTO.getVehicles()) {
-//			Vehicle vehicle = new Vehicle();
-//			BeanUtils.copyProperties(vehicleDTO, vehicle);
-//			vehicles.add(vehicle);
+//		if(userDTO.getVehicles() != null) {
+//			for(VehicleDTO vehicleDTO: userDTO.getVehicles()) {
+//				Vehicle vehicle = new Vehicle();
+//				BeanUtils.copyProperties(vehicleDTO, vehicle);
+//				vehicles.add(vehicle);
+//			}
 //		}
 //		user.setVehicles(vehicles);
-//		for(RatingDTO ratingDTO: userDTO.getRatings()) {
-//			Rating rating = new Rating();
-//			BeanUtils.copyProperties(ratingDTO, rating);
-//			ratings.add(rating);
+//		if(userDTO.getRatings() != null) {
+//			for(RatingDTO ratingDTO: userDTO.getRatings()) {
+//				Rating rating = new Rating();
+//				BeanUtils.copyProperties(ratingDTO, rating);
+//				ratings.add(rating);
+//			}
 //		}
 //		user.setRatings(ratings);
 //		return user;

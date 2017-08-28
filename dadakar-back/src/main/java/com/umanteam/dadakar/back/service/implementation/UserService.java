@@ -33,16 +33,20 @@ public class UserService implements IUserService {
 		BeanUtils.copyProperties(userDTO, user);
 		BeanUtils.copyProperties(userDTO.getAccount(), account);
 		user.setAccount(account);
-		for(VehicleDTO vehicleDTO: userDTO.getVehicles()) {
-			Vehicle vehicle = new Vehicle();
-			BeanUtils.copyProperties(vehicleDTO, vehicle);
-			vehicles.add(vehicle);
+		if(userDTO.getVehicles() != null) {
+			for(VehicleDTO vehicleDTO: userDTO.getVehicles()) {
+				Vehicle vehicle = new Vehicle();
+				BeanUtils.copyProperties(vehicleDTO, vehicle);
+				vehicles.add(vehicle);
+			}
 		}
 		user.setVehicles(vehicles);
-		for(RatingDTO ratingDTO: userDTO.getRatings()) {
-			Rating rating = new Rating();
-			BeanUtils.copyProperties(ratingDTO, rating);
-			ratings.add(rating);
+		if(userDTO.getRatings() != null) {
+			for(RatingDTO ratingDTO: userDTO.getRatings()) {
+				Rating rating = new Rating();
+				BeanUtils.copyProperties(ratingDTO, rating);
+				ratings.add(rating);
+			}
 		}
 		user.setRatings(ratings);
 		return user;
@@ -57,16 +61,20 @@ public class UserService implements IUserService {
 		BeanUtils.copyProperties(user, userDTO);
 		BeanUtils.copyProperties(user.getAccount(), accountDTO);
 		userDTO.setAccount(accountDTO);
-		for(Vehicle vehicle: user.getVehicles()) {
-			VehicleDTO vehicleDTO = new VehicleDTO();
-			BeanUtils.copyProperties(vehicle, vehicleDTO);
-			vehicleDTOs.add(vehicleDTO);
+		if(user.getVehicles() != null) {
+			for(Vehicle vehicle: user.getVehicles()) {
+				VehicleDTO vehicleDTO = new VehicleDTO();
+				BeanUtils.copyProperties(vehicle, vehicleDTO);
+				vehicleDTOs.add(vehicleDTO);
+			}
 		}
 		userDTO.setVehicles(vehicleDTOs);
-		for(Rating rating: user.getRatings()) {
-			RatingDTO ratingDTO = new RatingDTO();
-			BeanUtils.copyProperties(rating, ratingDTO);
-			ratingDTOs.add(ratingDTO);
+		if(user.getRatings() != null) {
+			for(Rating rating: user.getRatings()) {
+				RatingDTO ratingDTO = new RatingDTO();
+				BeanUtils.copyProperties(rating, ratingDTO);
+				ratingDTOs.add(ratingDTO);
+			}
 		}
 		userDTO.setRatings(ratingDTOs);
 		return userDTO;
@@ -91,27 +99,7 @@ public class UserService implements IUserService {
 
 	@Override
 	public UserDTO findById(String id) {
-		User user = userRepository.findOne(id);
-		UserDTO userDTO = new UserDTO();
-		AccountDTO accountDTO = new AccountDTO();
-		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
-		List<RatingDTO> ratingDTOs = new ArrayList<>();
-		BeanUtils.copyProperties(user, userDTO);
-		BeanUtils.copyProperties(user.getAccount(), accountDTO);
-		userDTO.setAccount(accountDTO);
-		for(Vehicle vehicle: user.getVehicles()) {
-			VehicleDTO vehicleDTO = new VehicleDTO();
-			BeanUtils.copyProperties(vehicle, vehicleDTO);
-			vehicleDTOs.add(vehicleDTO);
-		}
-		userDTO.setVehicles(vehicleDTOs);
-		for(Rating rating: user.getRatings()) {
-			RatingDTO ratingDTO = new RatingDTO();
-			BeanUtils.copyProperties(rating, ratingDTO);
-			ratingDTOs.add(ratingDTO);
-		}
-		userDTO.setRatings(ratingDTOs);
-		return userDTO;
+		return userToUserDTO(userRepository.findOne(id));
 	}
 
 	@Override
