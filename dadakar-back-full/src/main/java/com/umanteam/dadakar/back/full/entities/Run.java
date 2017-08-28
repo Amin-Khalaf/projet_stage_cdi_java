@@ -3,13 +3,12 @@ package com.umanteam.dadakar.back.full.entities;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.mongodb.core.mapping.Document;
 import com.umanteam.dadakar.back.full.entities.User;
 import com.umanteam.dadakar.back.full.entities.Vehicle;
 import com.umanteam.dadakar.back.full.enums.Luggage;
 
-@Repository
+@Document(collection="runs")
 public class Run {
 
 	@Id
