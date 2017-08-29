@@ -51,16 +51,22 @@ public class TransactionWebService implements ITransactionWebService {
 		return new ResponseEntity<List<TransactionDTO>>(transactions, HttpStatus.OK);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/{id}" ,method=RequestMethod.GET)
 	@Override
-	public TransactionDTO findById(@PathVariable("id") Integer id) { // OK
-		return transactionService.findById(id);
+	public ResponseEntity<TransactionDTO> findById(@PathVariable("id") Integer id) { // OK
+		TransactionDTO transactionDTO = transactionService.findById(id);
+		if(transactionDTO.getTransactionId() < 1) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<TransactionDTO>(transactionDTO, HttpStatus.OK);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/txnumber:{txnumber}", method=RequestMethod.GET)
 	@Override
-	public TransactionDTO findBytransactionNumber(@PathVariable("txnumber") String transactionNumber) { // OK
-		return transactionService.findBytransactionNumber(transactionNumber);
+	public ResponseEntity<TransactionDTO> findBytransactionNumber(@PathVariable("txnumber") String transactionNumber) { // OK
+		TransactionDTO transactionDTO = transactionService.findBytransactionNumber(transactionNumber);
+		if(transactionDTO.getTransactionId() < 1) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<TransactionDTO>(transactionDTO, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -53,8 +53,10 @@ public class RatingWebService implements IRatingWebService {
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public RatingDTO findById(@PathVariable("id") String id) { // OK
-		return ratingService.findById(id);
+	public ResponseEntity<RatingDTO> findById(@PathVariable("id") String id) { // OK
+		RatingDTO ratingDTO = ratingService.findById(id);
+		if(ratingDTO.getRatingId().equals("")) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<RatingDTO>(ratingDTO, HttpStatus.OK);
 	}
 
 }

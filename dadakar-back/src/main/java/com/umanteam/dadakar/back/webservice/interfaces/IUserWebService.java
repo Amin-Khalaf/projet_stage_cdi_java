@@ -11,7 +11,7 @@ public interface IUserWebService {
 	UserDTO update(UserDTO userDTO);
 	void delete(String id);
 	ResponseEntity<List<UserDTO>> findAll();
-	UserDTO findById(String id);
+	ResponseEntity<UserDTO> findById(String id);
 	ResponseEntity<List<UserDTO>> findByLastName(String lastName);
-	UserDTO findByAccountUsername(String username);
+	ResponseEntity<UserDTO> findByAccountUsername(String username);
 }

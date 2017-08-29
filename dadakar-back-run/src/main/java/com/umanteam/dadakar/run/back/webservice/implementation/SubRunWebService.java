@@ -51,10 +51,13 @@ public class SubRunWebService implements ISubRunWebService {
 		return new ResponseEntity<List<SubRunDTO>>(subRunDTOs, HttpStatus.OK);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public SubRunDTO findById(@PathVariable("id") String id) { // OK
-		return subRunService.findById(id);
+	public ResponseEntity<SubRunDTO> findById(@PathVariable("id") String id) { // OK
+		SubRunDTO subRunDTO = subRunService.findById(id);
+		if(subRunDTO.getSubRunId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<SubRunDTO>(subRunDTO, HttpStatus.OK);
 	}
 
 }

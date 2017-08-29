@@ -54,10 +54,13 @@ public class VehicleWebService implements IVehicleWebService {
 		return new ResponseEntity<List<VehicleDTO>>(vehicles, HttpStatus.OK);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public VehicleDTO findVehicle(@PathVariable("id") String id) {
-		return vehicleService.findById(id);
+	public ResponseEntity<VehicleDTO> findVehicle(@PathVariable("id") String id) {
+		VehicleDTO vehicleDTO = vehicleService.findById(id);
+		if(vehicleDTO.getVehicleId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<VehicleDTO>(vehicleDTO, HttpStatus.OK);
 	}
 
 }

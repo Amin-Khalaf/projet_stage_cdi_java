@@ -117,13 +117,16 @@ public class SubRunService implements ISubRunService {
 	@Override
 	public List<SubRunDTO> findAll() {
 		List<SubRunDTO> subRunDTOs = new ArrayList<>();
-		for(SubRun subRun: subRunRepository.findAll()) subRunDTOs.add(subRunToSubRunDTO(subRun));
+		List<SubRun> subRuns = subRunRepository.findAll();
+		if(subRuns != null) for(SubRun subRun: subRuns) subRunDTOs.add(subRunToSubRunDTO(subRun));
 		return subRunDTOs;
 	}
 
 	@Override
 	public SubRunDTO findById(String id) {
-		return subRunToSubRunDTO(subRunRepository.findOne(id));
+		SubRun subRun = subRunRepository.findOne(id);
+		if(subRun != null) return subRunToSubRunDTO(subRun);
+		return new SubRunDTO();
 	}
 
 }
