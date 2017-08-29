@@ -40,7 +40,7 @@ public class RunWebService implements IRunWebService {
 		return runService.updateRun(run);
 	}
 
-	@RequestMapping(value = "/delete/{id}")
+	@RequestMapping(value = "/del/{id}")
 	@Override
 	public void deleteRun(@PathVariable("id") String id) {
 		runService.deleteRun(id);

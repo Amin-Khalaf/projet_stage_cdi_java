@@ -74,7 +74,7 @@ public class ImageStorageWebService implements IImageStorageWebService {
 				.body(new InputStreamResource(gridFsFile.getInputStream()));
 	}
 
-	// TODO implement getAllImages
+	// TODO if necessary implement getAllImages
 	
 //	@RequestMapping(method = RequestMethod.GET)
 //	@ResponseBody
