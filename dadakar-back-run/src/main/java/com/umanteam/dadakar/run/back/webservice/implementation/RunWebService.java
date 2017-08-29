@@ -66,7 +66,7 @@ public class RunWebService implements IRunWebService {
 		return new ResponseEntity<RunDTO>(run, HttpStatus.OK);
 	}
 
-	@RequestMapping(value="/driver:{userid}", method=RequestMethod.GET)
+	@RequestMapping(value = "/driver:{userid}", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsByDriverId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findRunsByDriverId(userid);
@@ -163,11 +163,11 @@ public class RunWebService implements IRunWebService {
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
 	}
 
-	@RequestMapping(value="/searchrun", method = RequestMethod.GET)
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-	@JsonFormat(pattern = "yyyy-MM-dd")	@Override
+	@RequestMapping(value = "/searchrun", method = RequestMethod.GET)
+	@Override
 	public ResponseEntity<List<RunDTO>> findRuns(@RequestParam("districtFrom") String districtFrom,
-			@RequestParam("townFrom") String townFrom, @RequestParam("dateFrom") LocalDate dateStart,
+			@RequestParam("townFrom") String townFrom,
+			@RequestParam("dateFrom") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dateStart,
 			@RequestParam("districtTo") String districtTo, @RequestParam("townTo") String townTo) {
 		List<RunDTO> runs = runService.findRuns(districtFrom, townFrom, dateStart, districtTo, townTo);
 		if (runs == null) {

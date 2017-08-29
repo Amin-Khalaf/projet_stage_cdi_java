@@ -14,7 +14,8 @@ public class RunDTO implements Serializable {
 	private VehicleDTO vehicle;
 	private List<SubRunDTO> subruns;
 	private Luggage luggageType;
-	
+	private boolean canceled;
+
 	// Constructors
 	public RunDTO() {
 		super();
@@ -25,6 +26,7 @@ public class RunDTO implements Serializable {
 		this.driverId = driverId;
 		this.vehicle = vehicle;
 		this.luggageType = luggageType;
+		this.canceled = false;
 	}
 
 	public RunDTO(String driverId, VehicleDTO vehicle, List<SubRunDTO> subruns, Luggage luggageType) {
@@ -33,6 +35,7 @@ public class RunDTO implements Serializable {
 		this.vehicle = vehicle;
 		this.subruns = subruns;
 		this.luggageType = luggageType;
+		this.canceled = false;
 	}
 
 	// Getters
@@ -56,6 +59,10 @@ public class RunDTO implements Serializable {
 		return luggageType;
 	}
 
+	public boolean isCanceled() {
+		return canceled;
+	}
+
 	// Setters
 	public void setRunId(String runId) {
 		this.runId = runId;
@@ -77,10 +84,15 @@ public class RunDTO implements Serializable {
 		this.luggageType = luggageType;
 	}
 
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
+	}
+
 	// toString
 	@Override
 	public String toString() {
-		return "RunDTO [runId=" + runId + ", driverId=" + driverId + ", vehicle=" + vehicle + ", subruns=" + subruns + ", luggageType=" + luggageType + "]";
+		return "RunDTO [runId=" + runId + ", driverId=" + driverId + ", vehicle=" + vehicle + ", subruns=" + subruns
+				+ ", luggageType=" + luggageType + ", canceled=" + canceled + "]";
 	}
-	
+
 }

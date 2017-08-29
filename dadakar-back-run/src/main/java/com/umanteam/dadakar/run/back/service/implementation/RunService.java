@@ -48,8 +48,8 @@ public class RunService implements IRunService {
 	private WayPoint saveUnicWaypoints(WayPointDTO waypoint, Map<String, WayPoint> waypoints) {
 		String waypointKey = "";
 		WayPoint entity = new WayPoint();
-		waypointKey = waypoint.getMeetingPoint() + "|" + waypoint.getDistrict() + "|" + waypoint.getTown()
-				+ "|" + waypoint.getPostcode();
+		waypointKey = waypoint.getMeetingPoint() + "|" + waypoint.getDistrict() + "|" + waypoint.getTown() + "|"
+				+ waypoint.getPostcode();
 		if (waypoints.containsKey(waypointKey)) {
 			// the waypoint has already been recorded
 			entity = waypoints.get(waypointKey);
@@ -92,7 +92,7 @@ public class RunService implements IRunService {
 				for (PassengerDTO passenger : subrun.getPassengers()) {
 					Passenger passengerEntity = new Passenger();
 					BeanUtils.copyProperties(passenger, passengerEntity);
-					// save passenger	
+					// save passenger
 					passengerEntity = passengerRepository.save(passengerEntity);
 					// add to list
 					passengersEntity.add(passengerEntity);
@@ -116,7 +116,7 @@ public class RunService implements IRunService {
 				}
 				subrunEntity.setTolls(tollsEntity);
 			}
-			// save subrun 
+			// save subrun
 			subrunRepository.save(subrunEntity);
 			// add subrun to list
 			subrunsentity.add(subrunEntity);
@@ -242,15 +242,17 @@ public class RunService implements IRunService {
 		List<RunDTO> runs = new ArrayList<>();
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.RUN_CANCELED);
-		List<Run> entities = runRepository.findByDriverIdAndSubRunsPassengersReservationStateNotIn(driverId, resStates);
+		List<Run> entities = runRepository.findByDriverIdAndCanceled(driverId, false);
 		// remove cancelled runs
-//		for (Run entity : entities) {
-//			if (entity.getSubRuns().get(0).getPassengers().get(0).getReservationState() == ResState.RUN_CANCELED) {
-//				entities.remove(entity);
-//			}
-//		}
+		// for (Run entity : entities) {
+		// if
+		// (entity.getSubRuns().get(0).getPassengers().get(0).getReservationState()
+		// == ResState.RUN_CANCELED) {
+		// entities.remove(entity);
+		// }
+		// }
 		// Copy run entity to dto
-		if(entities != null) {
+		if (entities != null) {
 			for (Run entity : entities) {
 				RunDTO run = copyEntityToDto(entity);
 				runs.add(run);
@@ -268,7 +270,7 @@ public class RunService implements IRunService {
 		}
 		return runs;
 	}
-	
+
 	// TODO: TEST
 	@Override
 	public List<RunDTO> findRunsNotCancelledByPassengerId(String passengerId) {
@@ -276,19 +278,20 @@ public class RunService implements IRunService {
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
-		List<Run> entity = runRepository.findBySubRunsPassengersUserIdAndSubRunsPassengersReservationStateNotIn(passengerId, resStates);
+		List<Run> entity = runRepository
+				.findBySubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn(passengerId, false, resStates);
 		// remove runs with run_cancelled or canceled by this passenger status
-//		RunLoop: for (Run run : entity) {
-//			for (SubRun subrun : run.getSubRuns()) {
-//				for (Passenger passengerTest : subrun.getPassengers())
-//					if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-//							|| passengerTest.getReservationState() == ResState.CANCELLED) {
-//						entity.remove(run);
-//						continue RunLoop;
-//					}
-//			}
-//		}
-		if(entity != null) {
+		// RunLoop: for (Run run : entity) {
+		// for (SubRun subrun : run.getSubRuns()) {
+		// for (Passenger passengerTest : subrun.getPassengers())
+		// if (passengerTest.getReservationState() == ResState.RUN_CANCELED
+		// || passengerTest.getReservationState() == ResState.CANCELLED) {
+		// entity.remove(run);
+		// continue RunLoop;
+		// }
+		// }
+		// }
+		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
 				runs.add(run);
@@ -314,19 +317,21 @@ public class RunService implements IRunService {
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
-		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsPassengersReservationStateNotIn(userId, userId, resStates);
+		List<Run> entity = runRepository
+				.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn(userId, userId,
+						false, resStates);
 		// remove runs with run_cancelled or canceled by this passenger status
-//		RunLoop: for (Run run : entity) {
-//			for (SubRun subrun : run.getSubRuns()) {
-//				for (Passenger passengerTest : subrun.getPassengers())
-//					if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-//							|| passengerTest.getReservationState() == ResState.CANCELLED) {
-//						entity.remove(run);
-//						continue RunLoop;
-//					}
-//			}
-//		}
-		if(entity != null) {
+		// RunLoop: for (Run run : entity) {
+		// for (SubRun subrun : run.getSubRuns()) {
+		// for (Passenger passengerTest : subrun.getPassengers())
+		// if (passengerTest.getReservationState() == ResState.RUN_CANCELED
+		// || passengerTest.getReservationState() == ResState.CANCELLED) {
+		// entity.remove(run);
+		// continue RunLoop;
+		// }
+		// }
+		// }
+		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
 				runs.add(run);
@@ -339,14 +344,18 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findCurrentRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(userId, userId, LocalDate.now(), LocalTime.now());
+		List<Run> entity = runRepository
+				.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+						userId, userId, LocalDate.now(), LocalTime.now());
 		// remove runs with endDate < today
-//		for (Run run : entity) {
-//			if (run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) {
-//				entity.remove(run);
-//			}
-//		}
-		if(entity != null) {
+		// for (Run run : entity) {
+		// if
+		// (run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now()))
+		// {
+		// entity.remove(run);
+		// }
+		// }
+		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
 				runs.add(run);
@@ -354,7 +363,7 @@ public class RunService implements IRunService {
 		}
 		return runs;
 	}
-	
+
 	// TODO: TEST
 	@Override
 	public List<RunDTO> findCurrentRunsNotCancelledByUserId(String userId) {
@@ -362,24 +371,28 @@ public class RunService implements IRunService {
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
-		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(userId, userId, resStates, LocalDate.now(), LocalTime.now());
+		List<Run> entity = runRepository
+				.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+						userId, userId, false, resStates, LocalDate.now(), LocalTime.now());
 		// remove runs with endDate < today and with status run_cancelled or
 		// canceled by this passenger
-//		RunLoop: for (Run run : entity) {
-//			if (run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) {
-//				entity.remove(run);
-//			} else {
-//				for (SubRun subrun : run.getSubRuns()) {
-//					for (Passenger passengerTest : subrun.getPassengers())
-//						if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-//								|| passengerTest.getReservationState() == ResState.CANCELLED) {
-//							entity.remove(run);
-//							continue RunLoop;
-//						}
-//				}
-//			}
-//		}
-		if(entity != null) {
+		// RunLoop: for (Run run : entity) {
+		// if
+		// (run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now()))
+		// {
+		// entity.remove(run);
+		// } else {
+		// for (SubRun subrun : run.getSubRuns()) {
+		// for (Passenger passengerTest : subrun.getPassengers())
+		// if (passengerTest.getReservationState() == ResState.RUN_CANCELED
+		// || passengerTest.getReservationState() == ResState.CANCELLED) {
+		// entity.remove(run);
+		// continue RunLoop;
+		// }
+		// }
+		// }
+		// }
+		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
 				runs.add(run);
@@ -392,14 +405,17 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findPassedRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateLessThan(userId, userId, LocalDate.now());
+		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateLessThan(
+				userId, userId, LocalDate.now());
 		// remove runs with endDate >= today
-//		for (Run run : entity) {
-//			if (!run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) {
-//				entity.remove(run);
-//			}
-//		}
-		if(entity != null) {
+		// for (Run run : entity) {
+		// if
+		// (!run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now()))
+		// {
+		// entity.remove(run);
+		// }
+		// }
+		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
 				runs.add(run);
@@ -415,24 +431,28 @@ public class RunService implements IRunService {
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
-		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(userId, userId, resStates, LocalDate.now());
+		List<Run> entity = runRepository
+				.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
+						userId, userId, false, resStates, LocalDate.now());
 		// remove runs with endDate < today and with status run_cancelled or
 		// canceled by this passenger
-//		RunLoop: for (Run run : entity) {
-//			if (!run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) {
-//				entity.remove(run);
-//			} else {
-//				for (SubRun subrun : run.getSubRuns()) {
-//					for (Passenger passengerTest : subrun.getPassengers())
-//						if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-//								||  passengerTest.getReservationState() == ResState.CANCELLED) {
-//							entity.remove(run);
-//							continue RunLoop;
-//						}
-//				}
-//			}
-//		}
-		if(entity != null) {
+		// RunLoop: for (Run run : entity) {
+		// if
+		// (!run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now()))
+		// {
+		// entity.remove(run);
+		// } else {
+		// for (SubRun subrun : run.getSubRuns()) {
+		// for (Passenger passengerTest : subrun.getPassengers())
+		// if (passengerTest.getReservationState() == ResState.RUN_CANCELED
+		// || passengerTest.getReservationState() == ResState.CANCELLED) {
+		// entity.remove(run);
+		// continue RunLoop;
+		// }
+		// }
+		// }
+		// }
+		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
 				runs.add(run);
@@ -447,18 +467,20 @@ public class RunService implements IRunService {
 		List<RunDTO> runs = new ArrayList<>();
 		// search for runs that have a matching subrun
 		List<Run> entity = runRepository
-				.findBySubRunsStartingPointsDistrictAndSubRunsStartingPointsTownAndSubRunsStartDateAndSubRunsEndPlaceDistrictAndSubRunsEndPlaceTownAndSubRunsAvailableSeatsGreaterThan(
-						districtFrom, townFrom, dateStart, districtTo, townTo, 0);
-		// remove runs with endDate < today and with status run_cancelled
-		for (Run run : entity) {
-			if ((run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) || (run.getSubRuns().get(0)
-					.getPassengers().get(0).getReservationState() == ResState.RUN_CANCELED)) {
-				entity.remove(run);
+				.findBySubRunsStartingPointsDistrictAndSubRunsStartingPointsTownAndSubRunsStartDateAndSubRunsEndPlaceDistrictAndSubRunsEndPlaceTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
+						districtFrom, townFrom, dateStart, districtTo, townTo, 0, false);
+		if (entity != null) {
+//			// remove runs with endDate < today and with status run_cancelled
+//			for (Run run : entity) {
+//				if ((run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) || (run.getSubRuns()
+//						.get(0).getPassengers().get(0).getReservationState() == ResState.RUN_CANCELED)) {
+//					entity.remove(run);
+//				}
+//			}
+			for (Run runEntity : entity) {
+				RunDTO run = copyEntityToDto(runEntity);
+				runs.add(run);
 			}
-		}
-		for (Run runEntity : entity) {
-			RunDTO run = copyEntityToDto(runEntity);
-			runs.add(run);
 		}
 		return runs;
 	}

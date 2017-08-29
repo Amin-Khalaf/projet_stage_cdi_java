@@ -6,14 +6,20 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import com.umanteam.dadakar.back.dto.AccountDTO;
 import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.dto.VehicleDTO;
+import com.umanteam.dadakar.back.entities.Account;
+import com.umanteam.dadakar.back.entities.User;
+import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
@@ -25,6 +31,7 @@ import com.umanteam.dadakar.run.back.entities.SubRun;
 import com.umanteam.dadakar.run.back.entities.Toll;
 import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.Luggage;
+import com.umanteam.dadakar.run.back.enums.ResState;
 import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.repository.RunPriceRepository;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
@@ -69,7 +76,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 //		runPriceTest();
 //		subRunTest();
 		
-//		testRunRepository();
+		testRunRepository();
 //		testRunService();
 
 	}
@@ -219,16 +226,52 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	
 
 	public void testRunRepository() {
-//		runRepository.deleteAll();
-//		System.out.println("=== test RunRepository ===");
+		//runRepository.deleteAll();
+		System.out.println("=== test RunRepository ===");
+//		// get users and vehicles
+//		RestTemplate restTemplate = new RestTemplate();
+//		ResponseEntity<List> response = restTemplate.getForEntity("http://localhost:8080/dadakar/users", List.class);
+//		List<UserDTO> usersDTO = response.getBody().;
+//		UserDTO userDTO = usersDTO.get(0);
+//		User user1 = new User();
+//		Vehicle vehicle = new Vehicle();
+//		BeanUtils.copyProperties(userDTO, user1);
+//		if (userDTO.getAccount() != null) {
+//			Account account = new Account();
+//			BeanUtils.copyProperties(userDTO.getAccount(), account);
+//			user1.setAccount(account);
+//		}
+//		if (userDTO.getVehicles() != null) {
+//			List<Vehicle> vehicles = new ArrayList<>();
+//			for (VehicleDTO vehicleDTO : userDTO.getVehicles()){
+//				Vehicle var = new Vehicle();
+//				BeanUtils.copyProperties(vehicleDTO, var);
+//				vehicles.add(var);
+//			}
+//			user1.setVehicles(vehicles);
+//			vehicle = vehicles.get(0);
+//		}
+//		User user2 = new User();
+//		userDTO = usersDTO.get(1);
+//		BeanUtils.copyProperties(userDTO, user2);
+//		if (userDTO.getAccount() != null) {
+//			Account account = new Account();
+//			BeanUtils.copyProperties(userDTO.getAccount(), account);
+//			user2.setAccount(account);
+//		}
+//		if (userDTO.getVehicles() != null) {
+//			List<Vehicle> vehicles = new ArrayList<>();
+//			for (VehicleDTO vehicleDTO : userDTO.getVehicles()){
+//				Vehicle var = new Vehicle();
+//				BeanUtils.copyProperties(vehicleDTO, var);
+//				vehicles.add(var);
+//			}
+//			user2.setVehicles(vehicles);
+//		}
+//		BeanUtils.copyProperties(usersDTO.get(1), user2);
 //		System.out.println("--- Add run ---");
-//		Account account = new Account("username", "password", Role.USER);
 //		List<Vehicle> vehicles = new ArrayList<>();
-//		Vehicle vehicle = new Vehicle("vehicule1", "Renault", "25", "grise", null, null, "ab123cd", 6);
 //		vehicles.add(vehicle);
-//		User user = new User(account, "firstname", "lastname", "", "", "", "");
-//		user.setVehicles(vehicles);
-//		User user2 = new User(new Account("username2", "password", Role.USER), "firstname2", "lastname2", "", "", "", "");
 //		// create waypoints
 //		WayPoint waypoint0 = new WayPoint("rue de la mairie", "Dakar - district1", "Dakar", "");
 //		WayPoint waypoint1 = new WayPoint("rue de la mairie", "Dakar - district2", "Dakar", "");
@@ -242,25 +285,25 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 //		waypoints3.add(waypoint2);
 //		// create passengers
 //		List<Passenger> passengers = new ArrayList<>();
-//		Passenger passenger = new Passenger(user2, Luggage.PETIT, 200.0);
+//		Passenger passenger = new Passenger(user2.getUserId(), Luggage.PETIT, 200.0);
 //		passengers.add(passenger);
 //		// Create subruns
 //		SubRun subrun0 = new SubRun(Duration.ofMinutes(15), waypoint0, waypoint1, LocalDate.of(2017, 8, 31), LocalTime.of(12, 30), 
-//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 3, passengers, waypoints1, null, 200.0);
+//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 2, passengers, waypoints1, null, 200.0);
 //		SubRun subrun1 = new SubRun(Duration.ofMinutes(15), waypoint1, waypoint2, LocalDate.of(2017, 8, 31), LocalTime.of(12, 30), 
-//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 3, passengers, waypoints2, null, 200.0);
+//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 3, null, waypoints2, null, 200.0);
 //		SubRun subrun2 = new SubRun(Duration.ofMinutes(15), waypoint0, waypoint2, LocalDate.of(2017, 8, 31), LocalTime.of(12, 30), 
-//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 3, passengers, waypoints3, null, 400.0);
+//				LocalDate.of(2017, 8, 31), LocalTime.of(18, 30), 2, null, waypoints3, null, 400.0);
 //		List<SubRun> subruns = new ArrayList<>();
 //		subruns.add(subrun0);
 //		subruns.add(subrun1);
 //		subruns.add(subrun2);
-//		Run run = new Run(user, vehicle, subruns, Luggage.PETIT);
+//		Run run = new Run(user1.getUserId(), vehicle, subruns, Luggage.PETIT);
 //		run = runRepository.insert(run);
 //		System.out.println(run);
 //		
 //		System.out.println("--- save 2 ---");
-//		Run run2 = new Run(user, vehicle, subruns, Luggage.MOYEN);
+//		Run run2 = new Run(user2.getUserId(), vehicle, subruns, Luggage.MOYEN);
 //		run2 = runRepository.insert(run2);
 //		System.out.println(run2);
 //		
@@ -270,7 +313,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 //		run2.setLuggageType(Luggage.GRAND);
 //		run2 = runRepository.save(run2);
 //		System.out.println(run2);
-		
+//		
 		System.out.println("--- find all ---");
 		List<Run> runs = runRepository.findAll();
 		for(Run var : runs)
@@ -280,42 +323,80 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 //		run2 = null;
 //		run2 = runRepository.findOne(id);
 //		System.out.println(run2);
-		
+//		
 		System.out.println("--- findByDriver ---");
 		runs = null;
-		runs = runRepository.findByDriverId("59a01a4a68dfb1112823fe0c");
+		runs = runRepository.findByDriverId("59a42acf68dfb111b40deb19");
 		for(Run var : runs)
 			System.out.println(var);
 
-//		System.out.println("--- findByDriver ---");
-//		runs = null;
-//		runs = runRepository.findByDriverLastName("lastName0");
-//		for(Run var : runs)
-//			System.out.println(var);
+		// find run not cancelled by driver
+		System.out.println("--- find not canceled By Driver ---");
+		for (Run var : runRepository.findByDriverIdAndCanceled("59a42acf68dfb111b40deb19", false)){
+			System.out.println(var);
+		}
+		// find all run by passenger userId
+		System.out.println("--- find By passenger ---");
+		for (Run var : runRepository.findBySubRunsPassengersUserId("59a42acf68dfb111b40deb1b")){
+			System.out.println(var);
+		}
 
-//		System.out.println("--- findByPassenger ---");
-//		runs = null;
-//		runs = runRepository.findBySubRunsPassengersUser(user2);
-//		for(Run var : runs)
-//			System.out.println(var);
-//		
-//		System.out.println("--- findByUser ---");
-//		runs = null;
-//		runs = runRepository.findByDriverOrSubRunsPassengersUser(user2, user2);
-//		for(Run var : runs)
-//			System.out.println(var);
-//		
-//		System.out.println("--- findRuns ---");
-//		runs = null;
-//		runs = runRepository.findBySubRunsStartingPointsDistrictAndSubRunsStartingPointsTownAndSubRunsStartDateAndSubRunsEndPlaceDistrictAndSubRunsEndPlaceTownAndSubRunsAvailableSeatsGreaterThan("Dakar - district2", "Dakar", LocalDate.of(2017,8,31), "Dakar - district3", "Dakar", 0);
-//		for(Run var : runs)
-//			System.out.println(var);
-//		
-//		System.out.println("--- delete ---");
-//		runRepository.delete(id);
-//		runs = runRepository.findAll();
-//		for(Run var : runs)
-//			System.out.println(var);
+		// find run not cancelled by passenger userId
+		System.out.println("--- find not canceled By passenger ---");
+		List<ResState> resStates = new ArrayList<>();
+		resStates.add(ResState.CANCELLED);
+		for (Run var : runRepository.findBySubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn("59a42acf68dfb111b40deb1b", false, resStates)){
+			System.out.println(var);
+		}
+
+		// find all run by user (as driver or as passenger)
+		System.out.println("--- find By user ---");
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserId("59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b")){
+			System.out.println(var);
+		}
+
+		// find run not cancelled by user (as driver or as passenger)
+		System.out.println("--- find not canceled By user ---");
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn
+				("59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates)){
+			System.out.println(var);
+		}
+
+		// find current run by user (as driver or as passenger)
+		System.out.println("--- find current By user ---");
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", LocalDate.now(), LocalTime.now())){
+			System.out.println(var);
+		}
+
+		// find current run not cancelled by user (as driver or as passenger)
+		System.out.println("--- find current not canceled By user ---");
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates, LocalDate.now(), LocalTime.now())){
+			System.out.println(var);
+		}
+
+		// find passed run by user (as driver or as passenger)
+		System.out.println("--- find passed By user ---");
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateLessThan(
+				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", LocalDate.of(2017, 9, 1))){
+			System.out.println(var);
+		}
+
+		// find passed run not cancelled by user (as driver or as passenger)
+		System.out.println("--- find passed not canceled By user ---");
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
+				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates, LocalDate.of(2017, 9, 1))){
+			System.out.println(var);
+		}
+
+		//	method to find runs with subrun that match the request start point and date and the end point and run not cancelled and subrun available seat gt 0
+		System.out.println("--- find By date and address ---");
+		for (Run var : runRepository.findBySubRunsStartingPointsDistrictAndSubRunsStartingPointsTownAndSubRunsStartDateAndSubRunsEndPlaceDistrictAndSubRunsEndPlaceTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
+				"Dakar - district1", "Dakar", LocalDate.of(2017, 8, 31), "Dakar - district2", "Dakar", 0, false)){
+			System.out.println(var);
+		}
+
 	}
 	
 	public void testRunService(){
