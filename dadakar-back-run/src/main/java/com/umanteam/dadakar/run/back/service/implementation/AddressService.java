@@ -44,10 +44,10 @@ public class AddressService implements IAddressService {
 
 	@Override
 	public List<AddressDTO> findAll() {
-		List<AddressDTO> addressDTOs = new ArrayList<>();
+		List<AddressDTO> addressesDTOs = new ArrayList<>();
 		List<Address> addresses = addressRepository.findAll();
-		if(addresses != null) for(Address address: addresses) addressDTOs.add(addressToAddressDTO(address));
-		return addressDTOs;
+		if(addresses != null) for(Address address: addresses) addressesDTOs.add(addressToAddressDTO(address));
+		return addressesDTOs;
 	}
 
 	@Override
@@ -59,34 +59,34 @@ public class AddressService implements IAddressService {
 	
 	@Override
 	public List<AddressDTO> findByPostCode(String postCode) {
-		List<AddressDTO> addressDTOs = new ArrayList<>();
+		List<AddressDTO> addressesDTOs = new ArrayList<>();
 		List<Address> addresses = addressRepository.findByPostCode(postCode);
-		if(addresses != null) for(Address address: addresses) addressDTOs.add(addressToAddressDTO(address));
-		return addressDTOs;
+		if(addresses != null) for(Address address: addresses) addressesDTOs.add(addressToAddressDTO(address));
+		return addressesDTOs;
 	}
 
 	@Override
 	public List<AddressDTO> findByTown(String town) {
-		List<AddressDTO> addressDTOs = new ArrayList<>();
+		List<AddressDTO> addressesDTOs = new ArrayList<>();
 		List<Address> addresses = addressRepository.findByTown(town);
-		if(addresses != null) for(Address address: addresses) addressDTOs.add(addressToAddressDTO(address));
-		return addressDTOs;
+		if(addresses != null) for(Address address: addresses) addressesDTOs.add(addressToAddressDTO(address));
+		return addressesDTOs;
 	}
 
 	@Override
 	public List<AddressDTO> findByPostCodeAndTown(String postCode, String Town) {
-		List<AddressDTO> addressDTOs = new ArrayList<>();
+		List<AddressDTO> addressesDTOs = new ArrayList<>();
 		List<Address> addresses = addressRepository.findByPostCodeAndTown(postCode, Town);
-		if(addresses != null) for(Address address: addresses) addressDTOs.add(addressToAddressDTO(address));
-		return addressDTOs;
+		if(addresses != null) for(Address address: addresses) addressesDTOs.add(addressToAddressDTO(address));
+		return addressesDTOs;
 	}
 
 	@Override
 	public List<AddressDTO> findByPostCodeAndTownAndDistrict(String postCode, String town, String district) {
-		List<AddressDTO> addressDTOs = new ArrayList<>();
+		List<AddressDTO> addressesDTOs = new ArrayList<>();
 		List<Address> addresses = addressRepository.findByPostCodeAndTownAndDistrict(postCode, town, district);
-		if(addresses != null) for(Address address: addresses) addressDTOs.add(addressToAddressDTO(address));
-		return addressDTOs;
+		if(addresses != null) for(Address address: addresses) addressesDTOs.add(addressToAddressDTO(address));
+		return addressesDTOs;
 	}
 
 }

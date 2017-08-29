@@ -53,8 +53,10 @@ public class AddressWebService implements IAddressWebService {
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public AddressDTO findById(@PathVariable("id") String id) {
-		return addressService.findById(id);
+	public ResponseEntity<AddressDTO> findById(@PathVariable("id") String id) {
+		AddressDTO addressDTO = addressService.findById(id);
+		if(addressDTO.getAddressId().equals("")) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<AddressDTO>(addressDTO, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
