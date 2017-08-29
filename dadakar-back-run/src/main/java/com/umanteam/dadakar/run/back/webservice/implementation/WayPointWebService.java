@@ -30,7 +30,7 @@ public class WayPointWebService implements IWayPointWebService {
 		return waypointService.addOrUpdate(waypoint);
 	}
 
-	@RequestMapping(value="/update", method=RequestMethod.POST)
+	@RequestMapping(value="/update", method=RequestMethod.PUT)
 	@Override
 	public WayPointDTO update(@RequestBody WayPointDTO waypoint) {
 		return waypointService.addOrUpdate(waypoint);
