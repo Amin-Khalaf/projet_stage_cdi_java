@@ -2,7 +2,9 @@ package com.umanteam.dadakar.run.back.service.implementation;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +34,36 @@ public class RunService implements IRunService {
 
 	@Autowired
 	RunRepository runRepository;
-	
+
 	@Autowired
 	WayPointRepository waypointRepository;
-	
+
 	@Autowired
 	PassengerRepository passengerRepository;
-	
+
 	@Autowired
 	SubRunRepository subrunRepository;
-	
-		private Run copyDtoToEntity(RunDTO run) {
+
+	private WayPoint saveUnicWaypoints(WayPointDTO waypoint, Map<String, WayPoint> waypoints) {
+		String waypointKey = "";
+		WayPoint entity = new WayPoint();
+		waypointKey = waypoint.getMeetingPoint() + "|" + waypoint.getDistrict() + "|" + waypoint.getTown()
+				+ "|" + waypoint.getPostcode();
+		if (waypoints.containsKey(waypointKey)) {
+			// the waypoint has already been recorded
+			entity = waypoints.get(waypointKey);
+		} else {
+			// waypoint not recorded
+			BeanUtils.copyProperties(waypoint, entity);
+			// save
+			entity = waypointRepository.save(entity);
+			// add to map
+			waypoints.put(waypointKey, entity);
+		}
+		return entity;
+	}
+
+	private Run copyDtoToEntity(RunDTO run) {
 		Run entity = new Run();
 		BeanUtils.copyProperties(run, entity);
 		// copy vehicle dto to entity
@@ -51,25 +72,17 @@ public class RunService implements IRunService {
 		entity.setVehicle(vehicleEntity);
 		// copy subrun entity to dto and assign to run
 		List<SubRun> subrunsentity = new ArrayList<>();
+		// map to manage waypoints unicity
+		Map<String, WayPoint> unicWaypoints = new HashMap<>();
 		for (SubRunDTO subrun : run.getSubruns()) {
 			SubRun subrunEntity = new SubRun();
 			BeanUtils.copyProperties(subrun, subrunEntity);
 			// copy startPlace
-			WayPoint startplaceEntity = new WayPoint();
-			BeanUtils.copyProperties(subrun.getStartPlace(), startplaceEntity);
-			// save waypoint if doesn't exists in DB
-			if (startplaceEntity.getId() == null || waypointRepository.findOne(startplaceEntity.getId()) == null) {
-				startplaceEntity = waypointRepository.save(startplaceEntity);
-			}
+			WayPoint startplaceEntity = saveUnicWaypoints(subrun.getStartPlace(), unicWaypoints);
 			// assign it to subrun
 			subrunEntity.setStartPlace(startplaceEntity);
 			// copy endPlace
-			WayPoint endplaceEntity = new WayPoint();
-			BeanUtils.copyProperties(subrun.getEndPlace(), endplaceEntity);
-			// save waypoint if doesn't exists in DB
-			if (endplaceEntity.getId() == null || waypointRepository.findOne(endplaceEntity.getId()) == null) {
-				endplaceEntity = waypointRepository.save(endplaceEntity);
-			}
+			WayPoint endplaceEntity = saveUnicWaypoints(subrun.getEndPlace(), unicWaypoints);
 			// assign it to subrun
 			subrunEntity.setEndPlace(endplaceEntity);
 			// copy passengers entity to dto and assign to subrun
@@ -78,10 +91,8 @@ public class RunService implements IRunService {
 				for (PassengerDTO passenger : subrun.getPassengers()) {
 					Passenger passengerEntity = new Passenger();
 					BeanUtils.copyProperties(passenger, passengerEntity);
-					// save passenger if doesn't exist
-					if (passengerEntity.getPassengerId() == null || passengerRepository.findOne(passenger.getPassengerId()) == null) {
-						passengerEntity = passengerRepository.save(passengerEntity);
-					}
+					// save passenger	
+					passengerEntity = passengerRepository.save(passengerEntity);
 					// add to list
 					passengersEntity.add(passengerEntity);
 				}
@@ -90,12 +101,7 @@ public class RunService implements IRunService {
 			// copy startingPoints
 			List<WayPoint> waypointsEntity = new ArrayList<>();
 			for (WayPointDTO waypoint : subrun.getStartingPoints()) {
-				WayPoint waypointEntity = new WayPoint();
-				BeanUtils.copyProperties(waypoint, waypointEntity);
-				// save waypoint if doesn't exists
-				if (waypointEntity.getId() == null || waypointRepository.findOne(waypointEntity.getId()) == null) {
-					waypointEntity = waypointRepository.save(waypointEntity);
-				}
+				WayPoint waypointEntity = saveUnicWaypoints(waypoint, unicWaypoints);
 				waypointsEntity.add(waypointEntity);
 			}
 			subrunEntity.setStartingPoints(waypointsEntity);
@@ -105,15 +111,12 @@ public class RunService implements IRunService {
 				for (TollDTO toll : subrun.getTolls()) {
 					Toll tollEntity = new Toll();
 					BeanUtils.copyProperties(toll, tollEntity);
-					// TODO : save toll if doesn't exists
 					tollsEntity.add(tollEntity);
 				}
 				subrunEntity.setTolls(tollsEntity);
 			}
-			// save subrun if doesn't exists
-			if (subrunEntity.getSubRunId() == null || subrunRepository.findOne(subrunEntity.getSubRunId()) == null) {
-				subrunRepository.save(subrunEntity);
-			}
+			// save subrun 
+			subrunRepository.save(subrunEntity);
 			// add subrun to list
 			subrunsentity.add(subrunEntity);
 		}
@@ -178,7 +181,7 @@ public class RunService implements IRunService {
 		run.setSubruns(subruns);
 		return run;
 	}
-	
+
 	@Override
 	public RunDTO addRun(RunDTO run) {
 		Run entity = copyDtoToEntity(run);
@@ -388,7 +391,7 @@ public class RunService implements IRunService {
 				for (SubRun subrun : run.getSubRuns()) {
 					for (Passenger passengerTest : subrun.getPassengers())
 						if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-								||  passengerTest.getReservationState() == ResState.CANCELLED) {
+								|| passengerTest.getReservationState() == ResState.CANCELLED) {
 							entity.remove(run);
 							continue RunLoop;
 						}

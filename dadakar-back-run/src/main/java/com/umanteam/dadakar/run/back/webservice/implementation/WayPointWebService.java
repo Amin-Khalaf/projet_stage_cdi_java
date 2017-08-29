@@ -36,7 +36,7 @@ public class WayPointWebService implements IWayPointWebService {
 		return waypointService.addOrUpdate(waypoint);
 	}
 
-	@RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/del/{id}", method=RequestMethod.DELETE)
 	@Override
 	public void delete(@PathVariable("id") String id) {
 		waypointService.delete(id);

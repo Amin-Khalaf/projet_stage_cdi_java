@@ -40,7 +40,7 @@ public class RunWebService implements IRunWebService {
 		return runService.updateRun(run);
 	}
 
-	@RequestMapping(value = "/delete/{id}")
+	@RequestMapping(value = "/del/{id}")
 	@Override
 	public void deleteRun(@PathVariable("id") String id) {
 		runService.deleteRun(id);
@@ -163,7 +163,7 @@ public class RunWebService implements IRunWebService {
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
 	}
 
-	@RequestMapping(value="search", method = RequestMethod.GET)
+	@RequestMapping(value="/search", method = RequestMethod.GET)
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd")	@Override
 	public ResponseEntity<List<RunDTO>> findRuns(@RequestParam("districtFrom") String districtFrom,
