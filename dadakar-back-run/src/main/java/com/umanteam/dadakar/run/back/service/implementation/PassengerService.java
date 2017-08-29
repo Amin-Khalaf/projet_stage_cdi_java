@@ -45,19 +45,23 @@ public class PassengerService implements IPassengerService {
 	@Override
 	public List<PassengerDTO> findAll() {
 		List<PassengerDTO> passengerDTOs = new ArrayList<>();
-		for(Passenger passenger: passengerRepository.findAll()) passengerDTOs.add(passengerToPassengerDTO(passenger));
+		List<Passenger> passengers = passengerRepository.findAll();
+		if(passengers != null) for(Passenger passenger: passengers) passengerDTOs.add(passengerToPassengerDTO(passenger));
 		return passengerDTOs;
 	}
 
 	@Override
 	public PassengerDTO findById(String id) {
-		return passengerToPassengerDTO(passengerRepository.findOne(id));
+		Passenger passenger = passengerRepository.findOne(id);
+		if(passenger != null) return passengerToPassengerDTO(passenger);
+		return new PassengerDTO();
 	}
 
 	@Override
 	public List<PassengerDTO> findByUserId(String userId) {
 		List<PassengerDTO> passengerDTOs = new ArrayList<>();
-		for(Passenger passenger: passengerRepository.findByUserId(userId)) passengerDTOs.add(passengerToPassengerDTO(passenger));
+		List<Passenger> passengers = passengerRepository.findByUserId(userId);
+		if(passengers != null) for(Passenger passenger: passengers) passengerDTOs.add(passengerToPassengerDTO(passenger));
 		return passengerDTOs;
 	}
 

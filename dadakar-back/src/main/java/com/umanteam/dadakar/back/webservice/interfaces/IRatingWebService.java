@@ -11,5 +11,5 @@ public interface IRatingWebService {
 	RatingDTO update(RatingDTO ratingDTO);
 	void delete(String id);
 	ResponseEntity<List<RatingDTO>> findAll();
-	RatingDTO findById(String id);
+	ResponseEntity<RatingDTO> findById(String id);
 }

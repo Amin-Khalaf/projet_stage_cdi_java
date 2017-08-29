@@ -47,73 +47,86 @@ public class TransactionService implements ITransactionService {
 	@Override
 	public List<TransactionDTO> findAll() {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findAll()) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findAll();
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public TransactionDTO findById(Integer id) {
-		return transactionToTransactionDTO(transactionRepository.getOne(id));
+		Transaction transaction = transactionRepository.getOne(id);
+		if(transaction != null) return transactionToTransactionDTO(transaction);
+		return new TransactionDTO();
 	}
 
 	@Override
 	public TransactionDTO findBytransactionNumber(String transactionNumber) {
-		return transactionToTransactionDTO(transactionRepository.findBytransactionNumber(transactionNumber));
+		Transaction transaction = transactionRepository.findBytransactionNumber(transactionNumber);
+		if(transaction != null) return transactionToTransactionDTO(transaction);
+		return new TransactionDTO();
 	}
 
 	@Override
 	public List<TransactionDTO> findByTransactionDate(LocalDateTime transactionDate) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByTransactionDate(transactionDate)) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findByTransactionDate(transactionDate);
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findBySenderId(String senderId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findBySenderId(senderId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findBySenderId(senderId);
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByReceiverId(String receiverId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByReceiverId(receiverId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findByReceiverId(receiverId);
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByState(TxState state) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByState(state)) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findByState(state);
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByTransactionDateAndSenderId(LocalDateTime transactionDate, String senderId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByTransactionDateAndSenderId(transactionDate, senderId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findByTransactionDateAndSenderId(transactionDate, senderId);
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByTransactionDateAndReceiverId(LocalDateTime transactionDate, String receiverId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByTransactionDateAndReceiverId(transactionDate, receiverId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findByTransactionDateAndReceiverId(transactionDate, receiverId);
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findBySenderIdAndReceiverId(String senderId, String receiverId) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findBySenderIdAndReceiverId(senderId, receiverId)) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findBySenderIdAndReceiverId(senderId, receiverId);
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 
 	@Override
 	public List<TransactionDTO> findByTransactionDateAndState(LocalDateTime transactionDate, TxState state) {
 		List<TransactionDTO> transactionDTOs = new ArrayList<>();
-		for(Transaction transaction: transactionRepository.findByTransactionDateAndState(transactionDate, state)) transactionDTOs.add(transactionToTransactionDTO(transaction));
+		List<Transaction> transactions = transactionRepository.findByTransactionDateAndState(transactionDate, state);
+		if(transactions != null) for(Transaction transaction: transactions) transactionDTOs.add(transactionToTransactionDTO(transaction));
 		return transactionDTOs;
 	}
 

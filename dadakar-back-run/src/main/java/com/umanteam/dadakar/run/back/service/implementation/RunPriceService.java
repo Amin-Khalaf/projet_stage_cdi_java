@@ -45,18 +45,23 @@ public class RunPriceService implements IRunPriceService {
 	@Override
 	public List<RunPriceDTO> findAll() {
 		List<RunPriceDTO> runPriceDTOs = new ArrayList<>();
-		for(RunPrice runPrice: runPriceRepository.findAll()) runPriceDTOs.add(runPriceToRunPriceDTO(runPrice));
+		List<RunPrice> runPrices = runPriceRepository.findAll();
+		if(runPrices != null) for(RunPrice runPrice: runPrices) runPriceDTOs.add(runPriceToRunPriceDTO(runPrice));
 		return runPriceDTOs;
 	}
 
 	@Override
 	public RunPriceDTO findById(String id) {
-		return runPriceToRunPriceDTO(runPriceRepository.findOne(id));
+		RunPrice runPrice = runPriceRepository.findOne(id);
+		if(runPrice != null) return runPriceToRunPriceDTO(runPrice);
+		return new RunPriceDTO();
 	}
 
 	@Override
 	public RunPriceDTO findByPower(int power) {
-		return runPriceToRunPriceDTO(runPriceRepository.findByPower(power));
+		RunPrice runPrice = runPriceRepository.findByPower(power);
+		if(runPrice != null) return runPriceToRunPriceDTO(runPrice);
+		return new RunPriceDTO();
 	}
 
 }

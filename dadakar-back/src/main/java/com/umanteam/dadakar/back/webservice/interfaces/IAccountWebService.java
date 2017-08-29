@@ -11,8 +11,8 @@ public interface IAccountWebService {
 	AccountDTO update(AccountDTO accountDTO);
 	void delete(String id);
 	ResponseEntity<List<AccountDTO>> findAll();
-	AccountDTO findById(String id);
-	AccountDTO findByUsername(String username);
+	ResponseEntity<AccountDTO> findById(String id);
+	ResponseEntity<AccountDTO> findByUsername(String username);
 	ResponseEntity<List<AccountDTO>> findUsers();
 	ResponseEntity<List<AccountDTO>> findAdmins();
 	ResponseEntity<List<AccountDTO>> findSuperUsers();

@@ -44,14 +44,17 @@ public class VehicleService implements IVehicleService {
 
 	@Override
 	public List<VehicleDTO> findAll() {
-		List<VehicleDTO> vehicles = new ArrayList<>();
-		for (Vehicle entity : vehicleRepository.findAll()) vehicles.add(vehicleToVehicleDTO(entity));
-		return vehicles;
+		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
+		List<Vehicle> vehicles = vehicleRepository.findAll();
+		if(vehicles != null) for (Vehicle entity : vehicles) vehicleDTOs.add(vehicleToVehicleDTO(entity));
+		return vehicleDTOs;
 	}
 
 	@Override
 	public VehicleDTO findById(String vehicleId) {
-		return vehicleToVehicleDTO(vehicleRepository.findOne(vehicleId));
+		Vehicle vehicle = vehicleRepository.findOne(vehicleId);
+		if(vehicle != null) return vehicleToVehicleDTO(vehicle);
+		return new VehicleDTO();
 	}
 
 }

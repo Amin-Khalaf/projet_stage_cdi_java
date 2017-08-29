@@ -11,6 +11,6 @@ public interface IPassengerWebService {
 	PassengerDTO update(PassengerDTO passengerDTO);
 	void delete(String id);
 	ResponseEntity<List<PassengerDTO>> findAll();
-	PassengerDTO findById(String id);
+	ResponseEntity<PassengerDTO> findById(String id);
 	ResponseEntity<List<PassengerDTO>> findByUserId(String id);
 }

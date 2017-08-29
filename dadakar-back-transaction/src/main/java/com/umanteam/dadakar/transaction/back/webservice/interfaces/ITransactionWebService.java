@@ -11,8 +11,8 @@ public interface ITransactionWebService {
 	TransactionDTO update(TransactionDTO transactionDTO);
 	void delete(Integer id);
 	ResponseEntity<List<TransactionDTO>> findAll();
-	TransactionDTO findById(Integer id);
-	TransactionDTO findBytransactionNumber(String transactionNumber);
+	ResponseEntity<TransactionDTO> findById(Integer id);
+	ResponseEntity<TransactionDTO> findBytransactionNumber(String transactionNumber);
 	ResponseEntity<List<TransactionDTO>> findByTransactionDate(String transactionDate);
 	ResponseEntity<List<TransactionDTO>> findBySenderId(String senderId);
 	ResponseEntity<List<TransactionDTO>> findByReceiverId(String receiverId);
