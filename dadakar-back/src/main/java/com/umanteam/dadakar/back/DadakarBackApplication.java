@@ -55,7 +55,7 @@ public class DadakarBackApplication implements CommandLineRunner {
 		
 	}
 
-	private void accountTest() {
+	public void accountTest() {
 		accountRepository.deleteAll();
 		for (int i = 0; i < 10; i++) {
 			Role role = Role.USER;
@@ -119,7 +119,7 @@ public class DadakarBackApplication implements CommandLineRunner {
 		vehicleRepository.deleteAll();
 	}
 	
-	private void ratingTest() {
+	public void ratingTest() {
 		ratingRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
 			Rating rating = new Rating(i, new User(), "test" + i);
@@ -164,7 +164,7 @@ public class DadakarBackApplication implements CommandLineRunner {
 		System.out.println(vehicles);
 	}
 
-	private void userTest() {
+	public void userTest() {
 		userRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
 			User user = new User(accountRepository.findByUsername("username" + i), "firstName" + i, "lastName" + i, "", "", "", "");
