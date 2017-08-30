@@ -26,7 +26,7 @@ import com.umanteam.dadakar.img.back.service.interfaces.IImageStorageService;
 import com.umanteam.dadakar.img.back.webservice.interfaces.IImageStorageWebService;
 
 @RestController
-@RequestMapping("/img")
+@RequestMapping("${appli.path}/img")
 @CrossOrigin(origins = "*")
 public class ImageStorageWebService implements IImageStorageWebService {
 
