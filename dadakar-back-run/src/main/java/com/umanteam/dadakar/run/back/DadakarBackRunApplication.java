@@ -6,20 +6,20 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
+//import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.client.RestTemplate;
 
 import com.umanteam.dadakar.back.dto.AccountDTO;
 import com.umanteam.dadakar.back.dto.UserDTO;
 import com.umanteam.dadakar.back.dto.VehicleDTO;
-import com.umanteam.dadakar.back.entities.Account;
-import com.umanteam.dadakar.back.entities.User;
-import com.umanteam.dadakar.back.entities.Vehicle;
+//import com.umanteam.dadakar.back.entities.Account;
+//import com.umanteam.dadakar.back.entities.User;
+//import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
