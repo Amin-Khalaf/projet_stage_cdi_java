@@ -333,7 +333,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// find run not cancelled by driver
 		System.out.println("--- find not canceled By Driver ---");
-		for (Run var : runRepository.findByDriverIdAndCanceled("59a42acf68dfb111b40deb19", false)){
+		for (Run var : runRepository.findByDriverIdAndCancelled("59a42acf68dfb111b40deb19", false)){
 			System.out.println(var);
 		}
 		// find all run by passenger userId
@@ -346,7 +346,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		System.out.println("--- find not canceled By passenger ---");
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.CANCELLED);
-		for (Run var : runRepository.findBySubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn("59a42acf68dfb111b40deb1b", false, resStates)){
+		for (Run var : runRepository.findBySubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn("59a42acf68dfb111b40deb1b", false, resStates)){
 			System.out.println(var);
 		}
 
@@ -358,7 +358,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// find run not cancelled by user (as driver or as passenger)
 		System.out.println("--- find not canceled By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn
 				("59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates)){
 			System.out.println(var);
 		}
@@ -372,7 +372,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// find current run not cancelled by user (as driver or as passenger)
 		System.out.println("--- find current not canceled By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates, LocalDate.now(), LocalTime.now())){
 			System.out.println(var);
 		}
@@ -386,14 +386,14 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// find passed run not cancelled by user (as driver or as passenger)
 		System.out.println("--- find passed not canceled By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
+		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
 				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates, LocalDate.of(2017, 9, 1))){
 			System.out.println(var);
 		}
 
 		//	method to find runs with subrun that match the request start point and date and the end point and run not cancelled and subrun available seat gt 0
 		System.out.println("--- find By date and address ---");
-		for (Run var : runRepository.findBySubRunsStartingPointsAddressDistrictAndSubRunsStartingPointsAddressTownAndSubRunsStartDateAndSubRunsEndPlaceAddressDistrictAndSubRunsEndPlaceAddressTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
+		for (Run var : runRepository.findBySubRunsStartingPointsAddressDistrictAndSubRunsStartingPointsAddressTownAndSubRunsStartDateAndSubRunsEndPlaceAddressDistrictAndSubRunsEndPlaceAddressTownAndSubRunsAvailableSeatsGreaterThanAndCancelled(
 				"Dakar - district1", "Dakar", LocalDate.of(2017, 8, 31), "Dakar - district2", "Dakar", 0, false)){
 			System.out.println(var);
 		}
