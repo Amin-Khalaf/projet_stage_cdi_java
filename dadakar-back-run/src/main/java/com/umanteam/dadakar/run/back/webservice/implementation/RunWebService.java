@@ -50,7 +50,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findAllRuns() {
 		List<RunDTO> runs = runService.findAllRuns();
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<RunDTO> findRunsById(@PathVariable("id") String id) {
 		RunDTO run = runService.findRunsById(id);
-		if (run == null) {
+		if (run.getRunId().equals("")) {
 			return new ResponseEntity<RunDTO>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<RunDTO>(run, HttpStatus.OK);
@@ -70,7 +70,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsByDriverId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findRunsByDriverId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -80,7 +80,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByDriverId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findRunsNotCancelledByDriverId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -90,7 +90,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsByPassengerId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findRunsByPassengerId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -100,7 +100,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByPassengerId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findRunsNotCancelledByPassengerId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -110,7 +110,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsByUserId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findRunsByUserId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -119,15 +119,18 @@ public class RunWebService implements IRunWebService {
 	@RequestMapping(value = "/user:{userid}/notcancelled", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
-		// TODO Auto-generated method stub
-		return null;
+		List<RunDTO> runs = runService.findCurrentRunsNotCancelledByUserId(userid);
+		if (runs.isEmpty()) {
+			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user:{userid}/current", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findCurrentRunsbyUserId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findCurrentRunsByUserId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -137,7 +140,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findCurrentRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findCurrentRunsNotCancelledByUserId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -147,7 +150,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findPassedRunsbyUserId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findPassedRunsByUserId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -157,7 +160,7 @@ public class RunWebService implements IRunWebService {
 	@Override
 	public ResponseEntity<List<RunDTO>> findPassedRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findPassedRunsNotCancelledByUserId(userid);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
@@ -170,7 +173,7 @@ public class RunWebService implements IRunWebService {
 			@RequestParam("dateFrom") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dateStart,
 			@RequestParam("districtTo") String districtTo, @RequestParam("townTo") String townTo) {
 		List<RunDTO> runs = runService.findRuns(districtFrom, townFrom, dateStart, districtTo, townTo);
-		if (runs == null) {
+		if (runs.isEmpty()) {
 			return new ResponseEntity<List<RunDTO>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);

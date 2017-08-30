@@ -17,7 +17,7 @@ import com.umanteam.dadakar.run.back.service.interfaces.IWayPointService;
 import com.umanteam.dadakar.run.back.webservice.interfaces.IWayPointWebService;
 
 @RestController
-@RequestMapping("${appli.path}//waypoints")
+@RequestMapping("${appli.path}/waypoints")
 @CrossOrigin(origins="*")
 public class WayPointWebService implements IWayPointWebService {
 
@@ -56,7 +56,7 @@ public class WayPointWebService implements IWayPointWebService {
 	@Override
 	public ResponseEntity<WayPointDTO> findById(@PathVariable("id") String id) {
 		WayPointDTO waypoint = waypointService.findById(id);
-		if (waypoint == null) {
+		if (waypoint.getId().equals("")) {
 			return new ResponseEntity<WayPointDTO>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<WayPointDTO>(waypoint, HttpStatus.OK);

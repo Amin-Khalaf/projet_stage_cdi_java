@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 
 public interface IWayPointWebService {
-	
 	public WayPointDTO add(WayPointDTO waypoint);
 	public WayPointDTO update(WayPointDTO waypoint);
 	public void delete(String id);
