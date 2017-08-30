@@ -12,8 +12,6 @@ public interface IAddressWebService {
 	void delete(String id);
 	ResponseEntity<List<AddressDTO>> findAll();
 	ResponseEntity<AddressDTO> findById(String id);
-	ResponseEntity<List<AddressDTO>> findByPostCode(String postCode);
 	ResponseEntity<List<AddressDTO>> findByTown(String town);
-	ResponseEntity<List<AddressDTO>> findByPostCodeAndTown(String postCode, String Town);
-	ResponseEntity<List<AddressDTO>> findByPostCodeAndTownAndDistrict(String postCode, String town, String district);
+	ResponseEntity<AddressDTO> findByTownAndDistrict(String town, String district);
 }

@@ -59,15 +59,6 @@ public class AddressWebService implements IAddressWebService {
 		return new ResponseEntity<AddressDTO>(addressDTO, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/postcode:{code}", method=RequestMethod.GET)
-	@Override
-	public ResponseEntity<List<AddressDTO>> findByPostCode(@PathVariable("code") String postCode) {
-		List<AddressDTO> addressesDTOs = addressService.findByPostCode(postCode);
-		if(addressesDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<AddressDTO>>(addressesDTOs, HttpStatus.OK);
-	}
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/town:{town}", method=RequestMethod.GET)
 	@Override
@@ -78,21 +69,12 @@ public class AddressWebService implements IAddressWebService {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/postcode:{code}/town:{town}", method=RequestMethod.GET)
+	@RequestMapping(value="/town:{town}/district:{district}", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<List<AddressDTO>> findByPostCodeAndTown(@PathVariable("code") String postCode, @PathVariable("town") String town) {
-		List<AddressDTO> addressesDTOs = addressService.findByPostCodeAndTown(postCode, town);
-		if(addressesDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<AddressDTO>>(addressesDTOs, HttpStatus.OK);
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/postcode:{code}/town:{town}/district:{district}", method=RequestMethod.GET)
-	@Override
-	public ResponseEntity<List<AddressDTO>> findByPostCodeAndTownAndDistrict(@PathVariable("code") String postCode, @PathVariable("town") String town, @PathVariable("district") String district) {
-		List<AddressDTO> addressesDTOs = addressService.findByPostCodeAndTownAndDistrict(postCode, town, district);
-		if(addressesDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<AddressDTO>>(addressesDTOs, HttpStatus.OK);
+	public ResponseEntity<AddressDTO> findByTownAndDistrict(@PathVariable("town") String town, @PathVariable("district") String district) {
+		AddressDTO addressDTO = addressService.findByTownAndDistrict(town, district);
+		if(addressDTO.getAddressId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<AddressDTO>(addressDTO, HttpStatus.OK);
 	}
 
 }

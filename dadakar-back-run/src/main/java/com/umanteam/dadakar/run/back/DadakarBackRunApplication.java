@@ -219,7 +219,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	public void subRunTest() {
 		subRunRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
-			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint("notre dame", new Address("15e", "paris", "75020"))), waypointRepository.insert(new WayPoint("la chapelle", new Address("5e", "paris", "75020"))), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
+			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint("notre dame", new Address("15e", "paris"))), waypointRepository.insert(new WayPoint("la chapelle", new Address("5e", "paris"))), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
 			subRun = subRunRepository.insert(subRun);
 			System.out.println(subRun);
 		}

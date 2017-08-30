@@ -58,14 +58,6 @@ public class AddressService implements IAddressService {
 	}
 	
 	@Override
-	public List<AddressDTO> findByPostCode(String postCode) {
-		List<AddressDTO> addressesDTOs = new ArrayList<>();
-		List<Address> addresses = addressRepository.findByPostCode(postCode);
-		if(addresses != null) for(Address address: addresses) addressesDTOs.add(addressToAddressDTO(address));
-		return addressesDTOs;
-	}
-
-	@Override
 	public List<AddressDTO> findByTown(String town) {
 		List<AddressDTO> addressesDTOs = new ArrayList<>();
 		List<Address> addresses = addressRepository.findByTown(town);
@@ -74,19 +66,10 @@ public class AddressService implements IAddressService {
 	}
 
 	@Override
-	public List<AddressDTO> findByPostCodeAndTown(String postCode, String Town) {
-		List<AddressDTO> addressesDTOs = new ArrayList<>();
-		List<Address> addresses = addressRepository.findByPostCodeAndTown(postCode, Town);
-		if(addresses != null) for(Address address: addresses) addressesDTOs.add(addressToAddressDTO(address));
-		return addressesDTOs;
-	}
-
-	@Override
-	public List<AddressDTO> findByPostCodeAndTownAndDistrict(String postCode, String town, String district) {
-		List<AddressDTO> addressesDTOs = new ArrayList<>();
-		List<Address> addresses = addressRepository.findByPostCodeAndTownAndDistrict(postCode, town, district);
-		if(addresses != null) for(Address address: addresses) addressesDTOs.add(addressToAddressDTO(address));
-		return addressesDTOs;
+	public AddressDTO findByTownAndDistrict(String town, String district) {
+		Address address = addressRepository.findByTownAndDistrict(town, district);
+		if(address != null) return addressToAddressDTO(address);
+		return new AddressDTO();
 	}
 
 }

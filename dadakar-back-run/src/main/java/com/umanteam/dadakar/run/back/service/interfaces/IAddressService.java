@@ -9,8 +9,6 @@ public interface IAddressService {
 	void delete(String id);
 	List<AddressDTO> findAll();
 	AddressDTO findById(String id);
-	List<AddressDTO> findByPostCode(String postCode);
 	List<AddressDTO> findByTown(String town);
-	List<AddressDTO> findByPostCodeAndTown(String postCode, String Town);
-	List<AddressDTO> findByPostCodeAndTownAndDistrict(String postCode, String town, String district);
+	AddressDTO findByTownAndDistrict(String town, String district);
 }

@@ -12,16 +12,14 @@ public class Address {
 	private String addressId;
 	private String district;
 	private String town;
-	private String postCode;
 	
 	/* Constructors */
 	
 	public Address() {}
 
-	public Address(String district, String town, String postCode) {
+	public Address(String district, String town) {
 		this.district = district;
 		this.town = town;
-		this.postCode = postCode;
 	}
 	
 	/* Getters and Setters */
@@ -50,20 +48,11 @@ public class Address {
 		this.town = town;
 	}
 
-	public String getPostCode() {
-		return postCode;
-	}
-
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
-	}
-	
 	/* Methods */
 	
 	@Override
 	public String toString() {
-		return "Address [addressId=" + addressId + ", district=" + district + ", town=" + town + ", postCode="
-				+ postCode + "]";
+		return "Address [addressId=" + addressId + ", district=" + district + ", town=" + town + "]";
 	}
 	
 }
