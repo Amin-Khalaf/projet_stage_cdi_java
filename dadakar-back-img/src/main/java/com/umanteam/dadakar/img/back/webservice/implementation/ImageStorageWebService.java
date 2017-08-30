@@ -45,7 +45,7 @@ public class ImageStorageWebService implements IImageStorageWebService {
 		}
 	}
 
-	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -60,7 +60,7 @@ public class ImageStorageWebService implements IImageStorageWebService {
 	}
 
 	// need ":.+" in pathvariable so the extension is kept 
-	@RequestMapping(value = "/name/{filename:.+}", method = RequestMethod.GET)
+	@RequestMapping(value = "/name:{filename:.+}", method = RequestMethod.GET)
 	@ResponseBody
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
