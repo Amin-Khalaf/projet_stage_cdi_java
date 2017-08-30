@@ -18,6 +18,7 @@ import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
 import com.umanteam.dadakar.run.back.dto.TollDTO;
 import com.umanteam.dadakar.run.back.dto.WayPointDTO;
+import com.umanteam.dadakar.run.back.entities.Address;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.entities.SubRun;
@@ -48,14 +49,16 @@ public class RunService implements IRunService {
 	private WayPoint saveUnicWaypoints(WayPointDTO waypoint, Map<String, WayPoint> waypoints) {
 		String waypointKey = "";
 		WayPoint entity = new WayPoint();
-		waypointKey = waypoint.getMeetingPoint() + "|" + waypoint.getDistrict() + "|" + waypoint.getTown() + "|"
-				+ waypoint.getPostcode();
+		waypointKey = waypoint.getMeetingPoint() + "|" + waypoint.getAddress().toString();
 		if (waypoints.containsKey(waypointKey)) {
 			// the waypoint has already been recorded
 			entity = waypoints.get(waypointKey);
 		} else {
 			// waypoint not recorded
 			BeanUtils.copyProperties(waypoint, entity);
+			// copy address
+			Address address = new Address();
+			BeanUtils.copyProperties(waypoint.getAddress(), address);
 			// save
 			entity = waypointRepository.save(entity);
 			// add to map
@@ -67,61 +70,65 @@ public class RunService implements IRunService {
 	private Run copyDtoToEntity(RunDTO run) {
 		Run entity = new Run();
 		BeanUtils.copyProperties(run, entity);
-		// copy vehicle dto to entity
-		Vehicle vehicleEntity = new Vehicle();
-		BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
-		entity.setVehicle(vehicleEntity);
-		// copy subrun entity to dto and assign to run
-		List<SubRun> subrunsentity = new ArrayList<>();
-		// map to manage waypoints unicity
-		Map<String, WayPoint> unicWaypoints = new HashMap<>();
-		for (SubRunDTO subrun : run.getSubruns()) {
-			SubRun subrunEntity = new SubRun();
-			BeanUtils.copyProperties(subrun, subrunEntity);
-			// copy startPlace
-			WayPoint startplaceEntity = saveUnicWaypoints(subrun.getStartPlace(), unicWaypoints);
-			// assign it to subrun
-			subrunEntity.setStartPlace(startplaceEntity);
-			// copy endPlace
-			WayPoint endplaceEntity = saveUnicWaypoints(subrun.getEndPlace(), unicWaypoints);
-			// assign it to subrun
-			subrunEntity.setEndPlace(endplaceEntity);
-			// copy passengers entity to dto and assign to subrun
-			if (subrun.getPassengers() != null) {
-				List<Passenger> passengersEntity = new ArrayList<>();
-				for (PassengerDTO passenger : subrun.getPassengers()) {
-					Passenger passengerEntity = new Passenger();
-					BeanUtils.copyProperties(passenger, passengerEntity);
-					// save passenger
-					passengerEntity = passengerRepository.save(passengerEntity);
-					// add to list
-					passengersEntity.add(passengerEntity);
-				}
-				subrunEntity.setPassengers(passengersEntity);
-			}
-			// copy startingPoints
-			List<WayPoint> waypointsEntity = new ArrayList<>();
-			for (WayPointDTO waypoint : subrun.getStartingPoints()) {
-				WayPoint waypointEntity = saveUnicWaypoints(waypoint, unicWaypoints);
-				waypointsEntity.add(waypointEntity);
-			}
-			subrunEntity.setStartingPoints(waypointsEntity);
-			// copy tolls
-			if (subrun.getTolls() != null) {
-				List<Toll> tollsEntity = new ArrayList<>();
-				for (TollDTO toll : subrun.getTolls()) {
-					Toll tollEntity = new Toll();
-					BeanUtils.copyProperties(toll, tollEntity);
-					tollsEntity.add(tollEntity);
-				}
-				subrunEntity.setTolls(tollsEntity);
-			}
-			// save subrun
-			subrunRepository.save(subrunEntity);
-			// add subrun to list
-			subrunsentity.add(subrunEntity);
+		if (run.getVehicle() != null) {
+			// copy vehicle dto to entity
+			Vehicle vehicleEntity = new Vehicle();
+			BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
+			entity.setVehicle(vehicleEntity);
 		}
-		entity.setSubRuns(subrunsentity);
+		if (run.getSubruns() != null) {
+			// copy subrun entity to dto and assign to run
+			List<SubRun> subrunsentity = new ArrayList<>();
+			// map to manage waypoints unicity
+			Map<String, WayPoint> unicWaypoints = new HashMap<>();
+			for (SubRunDTO subrun : run.getSubruns()) {
+				SubRun subrunEntity = new SubRun();
+				BeanUtils.copyProperties(subrun, subrunEntity);
+				// copy startPlace
+				WayPoint startplaceEntity = saveUnicWaypoints(subrun.getStartPlace(), unicWaypoints);
+				// assign it to subrun
+				subrunEntity.setStartPlace(startplaceEntity);
+				// copy endPlace
+				WayPoint endplaceEntity = saveUnicWaypoints(subrun.getEndPlace(), unicWaypoints);
+				// assign it to subrun
+				subrunEntity.setEndPlace(endplaceEntity);
+				// copy passengers entity to dto and assign to subrun
+				if (subrun.getPassengers() != null) {
+					List<Passenger> passengersEntity = new ArrayList<>();
+					for (PassengerDTO passenger : subrun.getPassengers()) {
+						Passenger passengerEntity = new Passenger();
+						BeanUtils.copyProperties(passenger, passengerEntity);
+						// save passenger
+						passengerEntity = passengerRepository.save(passengerEntity);
+						// add to list
+						passengersEntity.add(passengerEntity);
+					}
+					subrunEntity.setPassengers(passengersEntity);
+				}
+				// copy startingPoints
+				List<WayPoint> waypointsEntity = new ArrayList<>();
+				for (WayPointDTO waypoint : subrun.getStartingPoints()) {
+					WayPoint waypointEntity = saveUnicWaypoints(waypoint, unicWaypoints);
+					waypointsEntity.add(waypointEntity);
+				}
+				subrunEntity.setStartingPoints(waypointsEntity);
+				// copy tolls
+				if (subrun.getTolls() != null) {
+					List<Toll> tollsEntity = new ArrayList<>();
+					for (TollDTO toll : subrun.getTolls()) {
+						Toll tollEntity = new Toll();
+						BeanUtils.copyProperties(toll, tollEntity);
+						tollsEntity.add(tollEntity);
+					}
+					subrunEntity.setTolls(tollsEntity);
+				}
+				// save subrun
+				subrunRepository.save(subrunEntity);
+				// add subrun to list
+				subrunsentity.add(subrunEntity);
+			}
+			entity.setSubRuns(subrunsentity);
+		}
 		return entity;
 	}
 
@@ -135,51 +142,74 @@ public class RunService implements IRunService {
 			BeanUtils.copyProperties(entity.getVehicle(), vehicle);
 			run.setVehicle(vehicle);
 		}
-		// copy subrun entity to dto and assign to run
-		List<SubRunDTO> subruns = new ArrayList<>();
-		for (SubRun subrunEntity : entity.getSubRuns()) {
-			SubRunDTO subrun = new SubRunDTO();
-			BeanUtils.copyProperties(subrunEntity, subrun);
-			// copy startPlace
-			WayPointDTO startPlace = new WayPointDTO();
-			BeanUtils.copyProperties(subrunEntity.getStartPlace(), startPlace);
-			subrun.setStartPlace(startPlace);
-			// copy endPlace
-			WayPointDTO endPlace = new WayPointDTO();
-			BeanUtils.copyProperties(subrunEntity.getEndPlace(), endPlace);
-			subrun.setEndPlace(endPlace);
-			// copy passengers entity to dto and assign to subrun
-			if (subrunEntity.getPassengers() != null) {
-				List<PassengerDTO> passengers = new ArrayList<>();
-				for (Passenger passengerEntity : subrunEntity.getPassengers()) {
-					PassengerDTO passenger = new PassengerDTO();
-					BeanUtils.copyProperties(passengerEntity, passenger);
-					passengers.add(passenger);
+		if (entity.getSubRuns() != null) {
+			// copy subrun entity to dto and assign to run
+			List<SubRunDTO> subruns = new ArrayList<>();
+			for (SubRun subrunEntity : entity.getSubRuns()) {
+				SubRunDTO subrun = new SubRunDTO();
+				BeanUtils.copyProperties(subrunEntity, subrun);
+				// copy startPlace
+				if (subrunEntity.getStartPlace() != null) {
+					WayPointDTO startPlace = new WayPointDTO();
+					BeanUtils.copyProperties(subrunEntity.getStartPlace(), startPlace);
+					if (subrunEntity.getStartPlace().getAddress() != null) {
+						Address startpointAddress = new Address();
+						BeanUtils.copyProperties(subrunEntity.getStartPlace().getAddress(), startpointAddress);
+						startPlace.setAddress(startpointAddress);
+					}
+					subrun.setStartPlace(startPlace);
 				}
-				subrun.setPassengers(passengers);
-			}
-			// copy startingPoints
-			List<WayPointDTO> startingPoints = new ArrayList<>();
-			for (WayPoint waypointEntity : subrunEntity.getStartingPoints()) {
-				WayPointDTO startingpoint = new WayPointDTO();
-				BeanUtils.copyProperties(waypointEntity, startingpoint);
-				startingPoints.add(startingpoint);
-			}
-			subrun.setStartingPoints(startingPoints);
-			// copy startingPoints
-			if (subrunEntity.getTolls() != null) {
-				List<TollDTO> tolls = new ArrayList<>();
-				for (Toll tollEntity : subrunEntity.getTolls()) {
-					TollDTO toll = new TollDTO();
-					BeanUtils.copyProperties(tollEntity, toll);
-					tolls.add(toll);
+				// copy endPlace
+				if (subrunEntity.getEndPlace() != null) {
+					WayPointDTO endPlace = new WayPointDTO();
+					BeanUtils.copyProperties(subrunEntity.getEndPlace(), endPlace);
+					if (subrunEntity.getEndPlace().getAddress() != null) {
+						Address endplaceAddress = new Address();
+						BeanUtils.copyProperties(subrunEntity.getEndPlace().getAddress(), endplaceAddress);
+						endPlace.setAddress(endplaceAddress);
+					}
+					subrun.setEndPlace(endPlace);
 				}
-				subrun.setTolls(tolls);
+				// copy passengers entity to dto and assign to subrun
+				if (subrunEntity.getPassengers() != null) {
+					List<PassengerDTO> passengers = new ArrayList<>();
+					for (Passenger passengerEntity : subrunEntity.getPassengers()) {
+						PassengerDTO passenger = new PassengerDTO();
+						BeanUtils.copyProperties(passengerEntity, passenger);
+						passengers.add(passenger);
+					}
+					subrun.setPassengers(passengers);
+				}
+				// copy startingPoints
+				if (subrunEntity.getStartingPoints() != null) {
+					List<WayPointDTO> startingPoints = new ArrayList<>();
+					for (WayPoint waypointEntity : subrunEntity.getStartingPoints()) {
+						WayPointDTO startingpoint = new WayPointDTO();
+						BeanUtils.copyProperties(waypointEntity, startingpoint);
+						if (waypointEntity.getAddress() != null) {
+							Address startingpointAddress = new Address();
+							BeanUtils.copyProperties(waypointEntity.getAddress(), startingpointAddress);
+							startingpoint.setAddress(startingpointAddress);
+						}
+						startingPoints.add(startingpoint);
+					}
+					subrun.setStartingPoints(startingPoints);
+				}
+				// copy tolls
+				if (subrunEntity.getTolls() != null) {
+					List<TollDTO> tolls = new ArrayList<>();
+					for (Toll tollEntity : subrunEntity.getTolls()) {
+						TollDTO toll = new TollDTO();
+						BeanUtils.copyProperties(tollEntity, toll);
+						tolls.add(toll);
+					}
+					subrun.setTolls(tolls);
+				}
+				// add subrun to list
+				subruns.add(subrun);
 			}
-			// add subrun to list
-			subruns.add(subrun);
+			run.setSubruns(subruns);
 		}
-		run.setSubruns(subruns);
 		return run;
 	}
 
@@ -243,14 +273,6 @@ public class RunService implements IRunService {
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entities = runRepository.findByDriverIdAndCanceled(driverId, false);
-		// remove cancelled runs
-		// for (Run entity : entities) {
-		// if
-		// (entity.getSubRuns().get(0).getPassengers().get(0).getReservationState()
-		// == ResState.RUN_CANCELED) {
-		// entities.remove(entity);
-		// }
-		// }
 		// Copy run entity to dto
 		if (entities != null) {
 			for (Run entity : entities) {
@@ -271,7 +293,6 @@ public class RunService implements IRunService {
 		return runs;
 	}
 
-	// TODO: TEST
 	@Override
 	public List<RunDTO> findRunsNotCancelledByPassengerId(String passengerId) {
 		List<RunDTO> runs = new ArrayList<>();
@@ -279,18 +300,8 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findBySubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn(passengerId, false, resStates);
-		// remove runs with run_cancelled or canceled by this passenger status
-		// RunLoop: for (Run run : entity) {
-		// for (SubRun subrun : run.getSubRuns()) {
-		// for (Passenger passengerTest : subrun.getPassengers())
-		// if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-		// || passengerTest.getReservationState() == ResState.CANCELLED) {
-		// entity.remove(run);
-		// continue RunLoop;
-		// }
-		// }
-		// }
+				.findBySubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn(passengerId, false,
+						resStates);
 		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
@@ -310,7 +321,6 @@ public class RunService implements IRunService {
 		return runs;
 	}
 
-	// TODO: TEST
 	@Override
 	public List<RunDTO> findRunsNotCancelledByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
@@ -318,19 +328,8 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn(userId, userId,
-						false, resStates);
-		// remove runs with run_cancelled or canceled by this passenger status
-		// RunLoop: for (Run run : entity) {
-		// for (SubRun subrun : run.getSubRuns()) {
-		// for (Passenger passengerTest : subrun.getPassengers())
-		// if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-		// || passengerTest.getReservationState() == ResState.CANCELLED) {
-		// entity.remove(run);
-		// continue RunLoop;
-		// }
-		// }
-		// }
+				.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotIn(userId,
+						userId, false, resStates);
 		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
@@ -340,21 +339,12 @@ public class RunService implements IRunService {
 		return runs;
 	}
 
-	// TODO: TEST
 	@Override
 	public List<RunDTO> findCurrentRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
 		List<Run> entity = runRepository
 				.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 						userId, userId, LocalDate.now(), LocalTime.now());
-		// remove runs with endDate < today
-		// for (Run run : entity) {
-		// if
-		// (run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now()))
-		// {
-		// entity.remove(run);
-		// }
-		// }
 		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
@@ -364,7 +354,6 @@ public class RunService implements IRunService {
 		return runs;
 	}
 
-	// TODO: TEST
 	@Override
 	public List<RunDTO> findCurrentRunsNotCancelledByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
@@ -374,24 +363,6 @@ public class RunService implements IRunService {
 		List<Run> entity = runRepository
 				.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 						userId, userId, false, resStates, LocalDate.now(), LocalTime.now());
-		// remove runs with endDate < today and with status run_cancelled or
-		// canceled by this passenger
-		// RunLoop: for (Run run : entity) {
-		// if
-		// (run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now()))
-		// {
-		// entity.remove(run);
-		// } else {
-		// for (SubRun subrun : run.getSubRuns()) {
-		// for (Passenger passengerTest : subrun.getPassengers())
-		// if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-		// || passengerTest.getReservationState() == ResState.CANCELLED) {
-		// entity.remove(run);
-		// continue RunLoop;
-		// }
-		// }
-		// }
-		// }
 		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
@@ -401,20 +372,11 @@ public class RunService implements IRunService {
 		return runs;
 	}
 
-	// TODO: TEST
 	@Override
 	public List<RunDTO> findPassedRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
 		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateLessThan(
 				userId, userId, LocalDate.now());
-		// remove runs with endDate >= today
-		// for (Run run : entity) {
-		// if
-		// (!run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now()))
-		// {
-		// entity.remove(run);
-		// }
-		// }
 		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
@@ -424,7 +386,6 @@ public class RunService implements IRunService {
 		return runs;
 	}
 
-	// TODO: TEST
 	@Override
 	public List<RunDTO> findPassedRunsNotCancelledByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
@@ -434,24 +395,6 @@ public class RunService implements IRunService {
 		List<Run> entity = runRepository
 				.findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
 						userId, userId, false, resStates, LocalDate.now());
-		// remove runs with endDate < today and with status run_cancelled or
-		// canceled by this passenger
-		// RunLoop: for (Run run : entity) {
-		// if
-		// (!run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now()))
-		// {
-		// entity.remove(run);
-		// } else {
-		// for (SubRun subrun : run.getSubRuns()) {
-		// for (Passenger passengerTest : subrun.getPassengers())
-		// if (passengerTest.getReservationState() == ResState.RUN_CANCELED
-		// || passengerTest.getReservationState() == ResState.CANCELLED) {
-		// entity.remove(run);
-		// continue RunLoop;
-		// }
-		// }
-		// }
-		// }
 		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
@@ -467,16 +410,9 @@ public class RunService implements IRunService {
 		List<RunDTO> runs = new ArrayList<>();
 		// search for runs that have a matching subrun
 		List<Run> entity = runRepository
-				.findBySubRunsStartingPointsDistrictAndSubRunsStartingPointsTownAndSubRunsStartDateAndSubRunsEndPlaceDistrictAndSubRunsEndPlaceTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
+				.findBySubRunsStartingPointsAddressDistrictAndSubRunsStartingPointsAddressTownAndSubRunsStartDateAndSubRunsEndPlaceAddressDistrictAndSubRunsEndPlaceAddressTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
 						districtFrom, townFrom, dateStart, districtTo, townTo, 0, false);
 		if (entity != null) {
-//			// remove runs with endDate < today and with status run_cancelled
-//			for (Run run : entity) {
-//				if ((run.getSubRuns().get(0).getEstimatedEndDate().isBefore(LocalDate.now())) || (run.getSubRuns()
-//						.get(0).getPassengers().get(0).getReservationState() == ResState.RUN_CANCELED)) {
-//					entity.remove(run);
-//				}
-//			}
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
 				runs.add(run);

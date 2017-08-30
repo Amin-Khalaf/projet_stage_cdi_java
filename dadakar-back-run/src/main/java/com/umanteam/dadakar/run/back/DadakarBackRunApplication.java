@@ -24,6 +24,7 @@ import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
 import com.umanteam.dadakar.run.back.dto.WayPointDTO;
+import com.umanteam.dadakar.run.back.entities.Address;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.entities.RunPrice;
@@ -76,7 +77,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 //		runPriceTest();
 //		subRunTest();
 		
-		testRunRepository();
+//		testRunRepository();
 //		testRunService();
 
 	}
@@ -89,19 +90,19 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// save1
 		System.out.println("save1 ---");
-		WayPoint entity = new WayPoint("rue du chemin", "Dakar - district 1", "Daker", "20040");
+		WayPoint entity = new WayPoint("rue du chemin");
 		entity = waypointRepository.insert(entity);
 		System.out.println(entity);
 
 		// save2
 		System.out.println("save2 ---");
-		WayPoint entity2 = new WayPoint("rue du chemin", "Dakar - district 1", "Daker", "20040");
+		WayPoint entity2 = new WayPoint("rue du chemin");
 		entity2 = waypointRepository.insert(entity2);
 		System.out.println(entity2);
 
 		// update
 		System.out.println("update ---");
-		entity2.setDistrict("Dakar - district2");
+//		entity2.setDistrict("Dakar - district2");
 		entity2 = waypointRepository.save(entity2);
 
 		// findAll
@@ -116,20 +117,20 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		entity2 = waypointRepository.findOne(id);
 		System.out.println(entity2);
 
-		// find by District
-		System.out.println("find by district ----");
-		waypoints = waypointRepository.findByDistrict("Dakar - district 1");
-		System.out.println(waypoints);
-
-		// find by Town
-		System.out.println("find by town ---");
-		waypoints = waypointRepository.findByTown("Dakar");
-		System.out.println(waypoints);
-
-		// find by postcode
-		System.out.println("find by postcode ---");
-		waypoints = waypointRepository.findByPostcode("20040");
-		System.out.println(waypoints);
+//		// find by District
+//		System.out.println("find by district ----");
+//		waypoints = waypointRepository.findByDistrict("Dakar - district 1");
+//		System.out.println(waypoints);
+//
+//		// find by Town
+//		System.out.println("find by town ---");
+//		waypoints = waypointRepository.findByTown("Dakar");
+//		System.out.println(waypoints);
+//
+//		// find by postcode
+//		System.out.println("find by postcode ---");
+//		waypoints = waypointRepository.findByPostcode("20040");
+//		System.out.println(waypoints);
 
 		// delete
 		System.out.println("delete ----");
@@ -147,19 +148,19 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		// save1
 		System.out.println("save1 ---");
-		WayPointDTO waypoint = new WayPointDTO("rue de la mosquée", "Dakar - district 1", "Dakar", "20040");
+		WayPointDTO waypoint = new WayPointDTO("rue de la mosquée");
 		waypoint = waypointService.addOrUpdate(waypoint);
 		System.out.println(waypoint);
 
 		// save2
 		System.out.println("save2 ---");
-		WayPointDTO waypoint2 = new WayPointDTO("rue de la mosquée", "Dakar - district 2", "Dakar", "20040");
+		WayPointDTO waypoint2 = new WayPointDTO("rue de la mosquée");
 		waypoint2 = waypointService.addOrUpdate(waypoint2);
 		System.out.println(waypoint2);
 
 		// update
 		System.out.println("update ---");
-		waypoint2.setDistrict("Dakar - District3");
+//		waypoint2.setDistrict("Dakar - District3");
 		waypoint2 = waypointService.addOrUpdate(waypoint2);
 
 		// findAll
@@ -175,19 +176,19 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		System.out.println(waypoint2);
 
 		// find by District
-		System.out.println("find by district ----");
-		waypoints = waypointService.findByDistrict("Dakar - district 1");
-		System.out.println(waypoints);
-
-		// find by Town
-		System.out.println("find by town ---");
-		waypoints = waypointService.findByTown("Dakar");
-		System.out.println(waypoints);
-
-		// find by postcode
-		System.out.println("find by postcode ---");
-		waypoints = waypointService.findByPostcode("20040");
-		System.out.println(waypoints);
+//		System.out.println("find by district ----");
+//		waypoints = waypointService.findByDistrict("Dakar - district 1");
+//		System.out.println(waypoints);
+//
+//		// find by Town
+//		System.out.println("find by town ---");
+//		waypoints = waypointService.findByTown("Dakar");
+//		System.out.println(waypoints);
+//
+//		// find by postcode
+//		System.out.println("find by postcode ---");
+//		waypoints = waypointService.findByPostcode("20040");
+//		System.out.println(waypoints);
 
 		// delete
 		System.out.println("delete ----");
@@ -218,7 +219,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	public void subRunTest() {
 		subRunRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
-			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint("notre dame", "15e", "paris", "75020")), waypointRepository.insert(new WayPoint("la chapelle", "5e", "paris", "75020")), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
+			SubRun subRun = new SubRun(Duration.ofMinutes(15), waypointRepository.insert(new WayPoint("notre dame", new Address("15e", "paris", "75020"))), waypointRepository.insert(new WayPoint("la chapelle", new Address("5e", "paris", "75020"))), LocalDate.now(), LocalTime.of(14, 30), LocalDate.now(), LocalTime.of(15, 05), 4, new ArrayList<Passenger>(), new ArrayList<WayPoint>(), new ArrayList<Toll>(), 22.50);
 			subRun = subRunRepository.insert(subRun);
 			System.out.println(subRun);
 		}
@@ -392,7 +393,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 		//	method to find runs with subrun that match the request start point and date and the end point and run not cancelled and subrun available seat gt 0
 		System.out.println("--- find By date and address ---");
-		for (Run var : runRepository.findBySubRunsStartingPointsDistrictAndSubRunsStartingPointsTownAndSubRunsStartDateAndSubRunsEndPlaceDistrictAndSubRunsEndPlaceTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
+		for (Run var : runRepository.findBySubRunsStartingPointsAddressDistrictAndSubRunsStartingPointsAddressTownAndSubRunsStartDateAndSubRunsEndPlaceAddressDistrictAndSubRunsEndPlaceAddressTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
 				"Dakar - district1", "Dakar", LocalDate.of(2017, 8, 31), "Dakar - district2", "Dakar", 0, false)){
 			System.out.println(var);
 		}

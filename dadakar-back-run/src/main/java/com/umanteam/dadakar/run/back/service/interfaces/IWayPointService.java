@@ -10,7 +10,4 @@ public interface IWayPointService {
 	public void delete(String id);
 	public List<WayPointDTO> findAll();
 	public WayPointDTO findById(String id);
-	public List<WayPointDTO> findByDistrict(String district);
-	public List<WayPointDTO> findByTown(String town);
-	public List<WayPointDTO> findByPostcode(String postcode);
 }

@@ -2,27 +2,30 @@ package com.umanteam.dadakar.run.back.dto;
 
 import java.io.Serializable;
 
+import com.umanteam.dadakar.run.back.entities.Address;
+
 public class WayPointDTO implements Serializable {
 
 	private static final long serialVersionUID = -6852065494792942275L;
 	
 	private String id;
 	private String meetingPoint;
-	private String district;
-	private String town;
-	private String postcode;
+	private Address address;
 
 	// Constructors
 	public WayPointDTO() {
 		super();
 	}
 
-	public WayPointDTO(String meetingPoint, String district, String town, String postcode) {
+	public WayPointDTO(String meetingPoint) {
 		super();
 		this.meetingPoint = meetingPoint;
-		this.district = district;
-		this.town = town;
-		this.postcode = postcode;
+	}
+
+	public WayPointDTO(String meetingPoint, Address address) {
+		super();
+		this.meetingPoint = meetingPoint;
+		this.address = address;
 	}
 
 	// Getters
@@ -34,16 +37,8 @@ public class WayPointDTO implements Serializable {
 		return meetingPoint;
 	}
 
-	public String getDistrict() {
-		return district;
-	}
-
-	public String getTown() {
-		return town;
-	}
-
-	public String getPostcode() {
-		return postcode;
+	public Address getAddress() {
+		return address;
 	}
 
 	// Setters
@@ -55,23 +50,14 @@ public class WayPointDTO implements Serializable {
 		this.meetingPoint = meetingPoint;
 	}
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public void setTown(String town) {
-		this.town = town;
-	}
-
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	// toString
 	@Override
 	public String toString() {
-		return "WaypointDTO [id=" + id + ", meetingPoint=" + meetingPoint + ", district=" + district
-				+ ", town=" + town + ", postcode=" + postcode + "]";
+		return "WaypointDTO [id=" + id + ", meetingPoint=" + meetingPoint + ", address =" + address + "]";
 	}
 
 }

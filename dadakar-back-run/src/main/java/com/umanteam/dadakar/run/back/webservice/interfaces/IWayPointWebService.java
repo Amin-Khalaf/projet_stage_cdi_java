@@ -13,7 +13,4 @@ public interface IWayPointWebService {
 	public void delete(String id);
 	public ResponseEntity<List<WayPointDTO>> findAll();
 	public ResponseEntity<WayPointDTO> findById(String id);
-	public ResponseEntity<List<WayPointDTO>> findByDistrict(String district);
-	public ResponseEntity<List<WayPointDTO>> findByTown(String town);
-	public ResponseEntity<List<WayPointDTO>> findByPostcode(String postcode);
 }

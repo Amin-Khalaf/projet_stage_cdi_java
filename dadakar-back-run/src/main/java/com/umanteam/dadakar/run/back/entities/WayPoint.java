@@ -9,21 +9,22 @@ public class WayPoint {
 	@Id
 	private String id;
 	private String meetingPoint;
-	private String district;
-	private String town;
-	private String postcode;
+	private Address address;
 
 	// constructors
 	public WayPoint() {
 		super();
 	}
 
-	public WayPoint(String meetingPoint, String district, String town, String postcode) {
+	public WayPoint(String meetingPoint) {
 		super();
 		this.meetingPoint = meetingPoint;
-		this.district = district;
-		this.town = town;
-		this.postcode = postcode;
+	}
+	
+	public WayPoint(String meetingPoint, Address address) {
+		super();
+		this.meetingPoint = meetingPoint;
+		this.address = address;
 	}
 
 	// Getters
@@ -34,17 +35,9 @@ public class WayPoint {
 	public String getMeetingPoint() {
 		return meetingPoint;
 	}
-
-	public String getDistrict() {
-		return district;
-	}
-
-	public String getTown() {
-		return town;
-	}
-
-	public String getPostcode() {
-		return postcode;
+	
+	public Address getAddress(){
+		return address;
 	}
 
 	// Setters
@@ -56,23 +49,14 @@ public class WayPoint {
 		this.meetingPoint = meetingPoint;
 	}
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public void setTown(String town) {
-		this.town = town;
-	}
-
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	// toString
 	@Override
 	public String toString() {
-		return "Waypoint [id=" + id + ", meetingPoint=" + meetingPoint + ", district=" + district + ", town=" + town
-				+ ", postcode=" + postcode + "]";
+		return "Waypoint [id=" + id + ", meetingPoint=" + meetingPoint + ", address=" + address + "]";
 	}
 
 }

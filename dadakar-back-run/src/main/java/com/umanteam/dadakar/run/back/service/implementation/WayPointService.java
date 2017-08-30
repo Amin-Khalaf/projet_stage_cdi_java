@@ -51,37 +51,4 @@ public class WayPointService implements IWayPointService {
 		return waypoint;
 	}
 
-	@Override
-	public List<WayPointDTO> findByDistrict(String district) {
-		List<WayPointDTO> waypoints = new ArrayList<>();
-		for (WayPoint entity : waypointRepository.findByDistrict(district)) {
-			WayPointDTO waypoint = new WayPointDTO();
-			BeanUtils.copyProperties(entity, waypoint);
-			waypoints.add(waypoint);
-		}
-		return waypoints;
-	}
-
-	@Override
-	public List<WayPointDTO> findByTown(String town) {
-		List<WayPointDTO> waypoints = new ArrayList<>();
-		for (WayPoint entity : waypointRepository.findByTown(town)) {
-			WayPointDTO waypoint = new WayPointDTO();
-			BeanUtils.copyProperties(entity, waypoint);
-			waypoints.add(waypoint);
-		}
-		return waypoints;
-	}
-
-	@Override
-	public List<WayPointDTO> findByPostcode(String postcode) {
-		List<WayPointDTO> waypoints = new ArrayList<>();
-		for (WayPoint entity : waypointRepository.findByPostcode(postcode)) {
-			WayPointDTO waypoint = new WayPointDTO();
-			BeanUtils.copyProperties(entity, waypoint);
-			waypoints.add(waypoint);
-		}
-		return waypoints;
-	}
-
 }

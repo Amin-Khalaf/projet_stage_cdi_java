@@ -35,7 +35,7 @@ public interface RunRepository extends MongoRepository<Run, String> {
 	// find passed run not cancelled by user (as driver or as passenger)
 	public List<Run> findByDriverIdOrSubRunsPassengersUserIdAndCanceledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(String driverId, String passengerId, boolean canceled, List<ResState> resStates, LocalDate endDate);
 	//	method to find runs with subrun that match the request start point and date and the end point and run not cancelled and subrun available seat gt 0
-	public List<Run> findBySubRunsStartingPointsDistrictAndSubRunsStartingPointsTownAndSubRunsStartDateAndSubRunsEndPlaceDistrictAndSubRunsEndPlaceTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
+	public List<Run> findBySubRunsStartingPointsAddressDistrictAndSubRunsStartingPointsAddressTownAndSubRunsStartDateAndSubRunsEndPlaceAddressDistrictAndSubRunsEndPlaceAddressTownAndSubRunsAvailableSeatsGreaterThanAndCanceled(
 			String districtFrom, String townFrom, LocalDate dateFrom, String districtTo, String townTo, int availableSeats, boolean canceled);
 	
 }
