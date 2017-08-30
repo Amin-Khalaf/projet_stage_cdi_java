@@ -47,11 +47,11 @@ public class DadakarBackApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
-		accountTest();
-		ratingTest();
-		testVehicleRepo();
-		testVehicleService();
-		userTest();
+//		accountTest();
+//		ratingTest();
+//		testVehicleRepo();
+//		testVehicleService();
+//		userTest();
 		
 	}
 

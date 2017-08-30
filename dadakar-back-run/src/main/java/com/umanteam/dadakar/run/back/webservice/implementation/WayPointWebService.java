@@ -62,37 +62,4 @@ public class WayPointWebService implements IWayPointWebService {
 		return new ResponseEntity<WayPointDTO>(waypoint, HttpStatus.OK);
 	}
 
-	@RequestMapping(value="/district/{district}", method=RequestMethod.GET)
-	@Override
-	public ResponseEntity<List<WayPointDTO>> findByDistrict(@PathVariable("district") String district) {
-		System.out.println(district);
-		List<WayPointDTO> waypoints = waypointService.findByDistrict(district);
-		if (waypoints == null) {
-			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<WayPointDTO>>(waypoints, HttpStatus.OK);
-	}
-
-	@RequestMapping(value="/town/{town}", method=RequestMethod.GET)
-	@Override
-	public ResponseEntity<List<WayPointDTO>> findByTown(@PathVariable("town") String town) {
-		System.out.println(town);
-		List<WayPointDTO> waypoints = waypointService.findByTown(town);
-		if (waypoints == null) {
-			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<WayPointDTO>>(waypoints, HttpStatus.OK);
-	}
-
-	@RequestMapping(value="/postcode/{postcode}", method=RequestMethod.GET)
-	@Override
-	public ResponseEntity<List<WayPointDTO>> findByPostcode(@PathVariable("postcode") String postcode) {
-		System.out.println(postcode);
-		List<WayPointDTO> waypoints = waypointService.findByPostcode(postcode);
-		if (waypoints == null) {
-			return new ResponseEntity<List<WayPointDTO>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<WayPointDTO>>(waypoints, HttpStatus.OK);
-	}
-
 }

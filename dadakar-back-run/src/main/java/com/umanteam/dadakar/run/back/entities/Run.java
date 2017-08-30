@@ -17,6 +17,7 @@ public class Run {
 	private Vehicle vehicle;
 	private List<SubRun> subRuns;
 	private Luggage luggageType;
+	private boolean canceled;
 	
 	// Constructors
 	public Run() {
@@ -28,6 +29,7 @@ public class Run {
 		this.driverId = driverId;
 		this.vehicle = vehicle;
 		this.luggageType = luggageType;
+		this.canceled = false;
 	}
 
 	public Run(String driverId, Vehicle vehicle, List<SubRun> subRuns, Luggage luggageType) {
@@ -36,6 +38,7 @@ public class Run {
 		this.vehicle = vehicle;
 		this.subRuns = subRuns;
 		this.luggageType = luggageType;
+		this.canceled = false;
 	}
 
 	// Getters
@@ -59,6 +62,10 @@ public class Run {
 		return luggageType;
 	}
 
+	public boolean isCanceled() {
+		return canceled;
+	}
+
 	// Setters
 	public void setRunId(String runId) {
 		this.runId = runId;
@@ -80,10 +87,14 @@ public class Run {
 		this.luggageType = luggageType;
 	}
 
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
+	}
+
 	// toString
 	@Override
 	public String toString() {
-		return "Run [runId=" + runId + ", driverId=" + driverId + " ,vehicle=" + vehicle + ", subRuns=" + subRuns + ", luggageType=" + luggageType + "]";
+		return "Run [runId=" + runId + ", driverId=" + driverId + " ,vehicle=" + vehicle + ", subRuns=" + subRuns + ", luggageType=" + luggageType + ", canceled=" + canceled + "]";
 	}
 	
 }
