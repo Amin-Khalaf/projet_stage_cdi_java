@@ -23,88 +23,143 @@ public class DadakarFrontAdminApplicationTests {
 	
 	@Autowired
 	private AccountService accountService;
-
+	
 	@Test
 	public void contextLoads() {
 	}
 
 	@Test
-	public void testAccountService(){
+	public void testAddAccount(){
 		Account account = new Account("testuser1", "testpassword1", Role.USER);
 		account = accountService.add(account);
-		String id = account.getAccountId();
-		assertNotNull(id);
+		assertNotNull(account.getAccountId());
+	}
 
+	@Test
+	public void testfindAccountbyId(){
+		Account account = new Account("testuser2", "testpassword2", Role.USER);
+		account = accountService.add(account);
+		Account account2 = accountService.findById(account.getAccountId());
+		assertNotNull(account2.getAccountId());
+	}
+
+	@Test
+	public void testUpdateAccount(){
+		Account account = new Account("testuser3", "testpassword3", Role.USER);
+		account = accountService.add(account);
 		account.setBanned(true);
 		account = accountService.update(account);
 		assertTrue(account.isBanned());
-		
-		Account account2 = accountService.findById(account.getAccountId());
-		assertNotNull(account2.getAccountId());
+	}
 
-		account2 = null;
-		account2 = accountService.findByUsername(account.getUsername());
+	@Test
+	public void testfindAccountbyUsername(){
+		Account account2 = accountService.findByUsername("testuser1");
 		assertNotNull(account2);
-		
+	}
+
+	@Test
+	public void testDeleteAccount(){
+		Account account = new Account("testuser4", "testpassword4", Role.USER);
+		account = accountService.add(account);
+		String id = account.getAccountId();
 		accountService.delete(id);
-		account2 = null;
-		account2 = accountService.findById(id);
+		Account account2 = accountService.findById(id);
 		assertNull(account2);
 
 		// save other test cases
-		account = new Account("testuser2", "testpassword2", Role.USER);
+		account = new Account("testuser5", "testpassword5", Role.USER);
 		account = accountService.add(account);
 		account.setBanned(true);
 		account = accountService.update(account);
 
-		account = new Account("testuser2", "testpassword2", Role.USER);
+		account = new Account("testuser6", "testpassword6", Role.USER);
 		account = accountService.add(account);
 		account.setDeleted(true);
 		account = accountService.update(account);
 
-		account = new Account("testadmin1", "testpassword2", Role.ADMIN);
+		account = new Account("testadmin7", "testpassword7", Role.ADMIN);
 		account = accountService.add(account);
 		account.setDeleted(true);
 		account = accountService.update(account);
+	}
 
+	@Test
+	public void testFindAllAccount(){
 		List<Account> accounts = accountService.findAll();
 		assertNotNull(accounts.get(0));
-		
-		accounts = accountService.findUsers();
+	}
+
+	@Test
+	public void testFindUserAccount(){
+		List<Account> accounts = accountService.findUsers();
 		assertEquals(accounts.get(0).getRole(), Role.USER);
 		
-		accounts = accountService.findAdmins();
+	}
+
+	@Test
+	public void testFindAdminAccount(){
+		List<Account> accounts = accountService.findAdmins();
 		assertEquals(accounts.get(0).getRole(), Role.ADMIN);
+	}
 
-		accounts = accountService.findSuperUsers();
+	@Test
+	public void testFindSuperuserAccount(){
+		List<Account> accounts = accountService.findSuperUsers();
 		assertEquals(accounts.get(0).getRole(), Role.SUPERUSER);
+	}
 
-		accounts = accountService.findAdminsAndSuperUsers();
+	@Test
+	public void testFindAdminAndSuperAccount(){
+		List<Account> accounts = accountService.findAdminsAndSuperUsers();
 		assertNotNull(accounts);
+	}
 
-		accounts = accountService.findBanned();
+	@Test
+	public void testFindBannedAccount(){
+		List<Account> accounts = accountService.findBanned();
 		assertEquals(accounts.get(0).isBanned(), true);
+	}
 
-		accounts = accountService.findNotBanned();
+	@Test
+	public void testFindNotBannedAccount(){
+		List<Account> accounts = accountService.findNotBanned();
 		assertEquals(accounts.get(0).isBanned(), false);
+	}
 
-		accounts = accountService.findDeleted();
+	@Test
+	public void testFindDeletedAccount(){
+		List<Account> accounts = accountService.findDeleted();
 		assertEquals(accounts.get(0).isDeleted(), true);
+	}
 
-		accounts = accountService.findUsersDeleted();
+	@Test
+	public void testFindDeletedUserAccount(){
+		List<Account> accounts = accountService.findUsersDeleted();
 		assertEquals(accounts.get(0).isDeleted(), true);
+	}
 
-		accounts = accountService.findAdminsDeleted();
+	@Test
+	public void testFindDeletedAdminAccount(){
+		List<Account> accounts = accountService.findAdminsDeleted();
 		assertEquals(accounts.get(0).isDeleted(), true);
+	}
 
-		accounts = accountService.findNotDeleted();
+	@Test
+	public void testFindNotDeletedAccount(){
+		List<Account> accounts = accountService.findNotDeleted();
 		assertEquals(accounts.get(0).isDeleted(), false);
+	}
 
-		accounts = accountService.findUsersNotDeleted();
+	@Test
+	public void testFindNotDeletedUserAccount(){
+		List<Account> accounts = accountService.findUsersNotDeleted();
 		assertEquals(accounts.get(0).isDeleted(), false);
+	}
 
-		accounts = accountService.findAdminsNotDeleted();
+	@Test
+	public void testFindNotDeletedAdminAccount(){
+		List<Account> accounts = accountService.findAdminsNotDeleted();
 		assertEquals(accounts.get(0).isDeleted(), false);
-
 	}
 }
