@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.umanteam.dadakar.admin.front.service.RatingService;
+import com.umanteam.dadakar.admin.front.service.implementation.RatingService;
 
 @Controller
 @RequestMapping(value="/rating")

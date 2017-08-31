@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.admin.front.service;
+package com.umanteam.dadakar.admin.front.service.implementation;
 
 import java.util.List;
 
@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.umanteam.dadakar.admin.front.dto.User;
+import com.umanteam.dadakar.admin.front.service.interfaces.IUserService;
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -22,18 +23,21 @@ public class UserService {
 	@Value("${user.path}")
 	private String userPath;
 	
+	@Override
 	public List<User> findAll() {
 		ResponseEntity<List<User>> usersResponse = restTemplate.exchange(userPath, HttpMethod.GET, null, new ParameterizedTypeReference<List<User>>() {});
 		List<User> users = usersResponse.getBody();
 		return users;
 	}
 	
+	@Override
 	public User findById(String id) {
 		ResponseEntity<User> userResponse = restTemplate.getForEntity(userPath, User.class);
 		User user = userResponse.getBody();
 		return user;
 	}
 	
+	@Override
 	public User update(User user) {
 		HttpEntity<User> userRequest = new HttpEntity<>(user);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/update", HttpMethod.PUT, userRequest, User.class);

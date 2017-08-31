@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.umanteam.dadakar.admin.front.dto.Account;
 import com.umanteam.dadakar.admin.front.dto.User;
-import com.umanteam.dadakar.admin.front.service.AccountService;
-import com.umanteam.dadakar.admin.front.service.UserService;
+import com.umanteam.dadakar.admin.front.service.implementation.UserService;
+import com.umanteam.dadakar.admin.front.service.interfaces.IAccountService;
 
 @Controller
 @RequestMapping(value="/metier")
@@ -21,7 +21,7 @@ public class UserCtrl {
 	private UserService userService;
 	
 	@Autowired
-	private AccountService accountService;
+	private IAccountService accountService;
 	
 	@RequestMapping(value= {"/", "index"})
 	public String index(Model model) {
