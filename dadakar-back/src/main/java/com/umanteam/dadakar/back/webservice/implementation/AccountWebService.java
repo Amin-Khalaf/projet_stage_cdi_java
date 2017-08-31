@@ -57,7 +57,8 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<AccountDTO> findById(@PathVariable("id") String id) { // OK
 		AccountDTO accountDTO = accountService.findById(id);
-		if(accountDTO.getAccountId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accountDTO == null || accountDTO.getAccountId() == null || accountDTO.getAccountId().equals("")) 
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<AccountDTO>(accountDTO, HttpStatus.OK);
 	}
 	
@@ -66,7 +67,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<AccountDTO> findByUsername(@PathVariable("username") String username) { // OK
 		AccountDTO accountDTO = accountService.findByUsername(username);
-		if(accountDTO.getAccountId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accountDTO == null || accountDTO.getAccountId() == null || accountDTO.getAccountId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<AccountDTO>(accountDTO, HttpStatus.OK);
 	}
 	
@@ -75,7 +76,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findUsers() { // OK
 		List<AccountDTO> accounts = accountService.findByRole(Role.USER);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 	
@@ -84,7 +85,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findAdmins() { // OK
 		List<AccountDTO> accounts = accountService.findByRole(Role.ADMIN);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 	
@@ -93,7 +94,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findSuperUsers() { // OK
 		List<AccountDTO> accounts = accountService.findByRole(Role.SUPERUSER);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -102,7 +103,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findAdminsAndSuperUsers() {
 		List<AccountDTO> accounts = accountService.findAdminsAndSuperUsers();
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -111,7 +112,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findBanned() {
 		List<AccountDTO> accounts = accountService.findByBanned(true);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -120,7 +121,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findNotBanned() {
 		List<AccountDTO> accounts = accountService.findByBanned(false);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -129,7 +130,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findDeleted() {
 		List<AccountDTO> accounts = accountService.findByDeleted(true);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -138,7 +139,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findUsersDeleted() {
 		List<AccountDTO> accounts = accountService.findByDeletedAndRole(true, Role.USER);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -147,7 +148,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findAdminsDeleted() {
 		List<AccountDTO> accounts = accountService.findByDeletedAndRole(true, Role.ADMIN);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -156,7 +157,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findNotDeleted() {
 		List<AccountDTO> accounts = accountService.findByDeleted(false);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -165,7 +166,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findUsersNotDeleted() {
 		List<AccountDTO> accounts = accountService.findByDeletedAndRole(false, Role.USER);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
@@ -174,7 +175,7 @@ public class AccountWebService implements IAccountWebService {
 	@Override
 	public ResponseEntity<List<AccountDTO>> findAdminsNotDeleted() {
 		List<AccountDTO> accounts = accountService.findByDeletedAndRole(false, Role.ADMIN);
-		if(accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(accounts == null || accounts.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<AccountDTO>>(accounts, HttpStatus.OK);
 	}
 
