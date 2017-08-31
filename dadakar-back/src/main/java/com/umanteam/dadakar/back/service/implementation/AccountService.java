@@ -76,7 +76,7 @@ public class AccountService implements IAccountService {
 	@Override
 	public List<AccountDTO> findAdminsAndSuperUsers() {
 		List<AccountDTO> accountDTOs = new ArrayList<>();
-		List<Account> accounts = accountRepository.findByRoleIsAndRoleIs(Role.ADMIN, Role.SUPERUSER);
+		List<Account> accounts = accountRepository.findByRoleIsOrRoleIs(Role.ADMIN, Role.SUPERUSER);
 		if(accounts != null) for(Account account: accounts)  accountDTOs.add(accountToAccountDTO(account));
 		return accountDTOs;
 	}
