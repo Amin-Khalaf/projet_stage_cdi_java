@@ -14,7 +14,7 @@ import com.umanteam.dadakar.admin.front.service.implementation.UserService;
 import com.umanteam.dadakar.admin.front.service.interfaces.IAccountService;
 
 @Controller
-@RequestMapping(value="/metier")
+@RequestMapping(value="/user")
 public class UserCtrl {
 	
 	@Autowired

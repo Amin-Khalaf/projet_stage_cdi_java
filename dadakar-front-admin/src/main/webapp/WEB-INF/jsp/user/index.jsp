@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -22,7 +22,7 @@
 						<li class="disabled"><a href="/admin/index">Gérer les administrateurs</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="edit/${user.account.accountId}">Changer de mot de passe</a></li>
+						<li><a href="edit/${account.accountId}">Changer de mot de passe</a></li>
 						<li><a href="../disconnect">Déconnexion</a></li>
 					</ul>
 				</div>
