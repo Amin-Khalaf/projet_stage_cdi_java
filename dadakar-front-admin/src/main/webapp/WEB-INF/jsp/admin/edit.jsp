@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Dadakar - Modifier le compte</title>
 	<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
 </head>
@@ -23,15 +23,15 @@
 					<li><a href="/">Home</a></li>
 					<li><a href="/user/">Voir la liste des utilisateurs</a></li>
 					<li><a href="/plainte/index">Voir la liste des plaintes</a></li>
-					<li><a href="/price/index">Spécifier les prix et les taux
+					<li><a href="/price/index">SpÃ©cifier les prix et les taux
 							de marge</a></li>
-					<li class="active"><a href="/admin/index">Gérer les
+					<li class="active"><a href="/admin/index">GÃ©rer les
 							administrateurs</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="edit/${account.accountId}">Changer de mot de
 							passe</a></li>
-					<li><a href="../disconnect">Déconnexion</a></li>
+					<li><a href="../disconnect">DÃ©connexion</a></li>
 				</ul>
 			</div>
 		</div>

@@ -49,9 +49,9 @@
 						<td>${usr2.firstName}</td>
 						<td>${usr2.account.username}</td>
 						<td>${usr2.mail}</td>
-						<td>${usr2.photo}</td>
-						<td>${usr2.idCard}</td>
-						<td>${usr2.drivingLicence}</td>
+						<td><a href="http://localhost:8180/dadakar/img/name:user1.png" target="_blank"><img src="http://localhost:8180/dadakar/img/name:user1.png" width="150 px" height="150 px"></a></td>
+						<td><img src="http://localhost:8180/dadakar/img/name:utilisateur2.jpg" width="150 px" height="150 px"></td>
+						<td><img src="http://localhost:8180/dadakar/img/name:voiture1.jpg" width="150 px" height="150 px"></td>
 						<td><a  href="/message/${usr2.userId}" class="btn btn-warning">Message</a></td>
 						<td><a href="bannish/${usr2.userId}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir bannir cet utilisateur ?')">Bannir</a></td>
 					</tr>
@@ -59,7 +59,7 @@
 			</tbody>
 		</table>
 		
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	</body>
 </html>

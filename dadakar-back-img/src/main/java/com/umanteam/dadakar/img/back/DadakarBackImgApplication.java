@@ -34,7 +34,7 @@ public class DadakarBackImgApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
-//		testRepository();
+		testRepository();
 
 //		testService();
 	}
