@@ -9,7 +9,7 @@
 <title>Dadakar - Administration - gestion compte admin</title>
 <link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body>
+<body class="col-xs-12">
 	<header>
 		<h1>Gestion des comptes administrateurs</h1>
 	</header>
@@ -68,7 +68,7 @@
 						<td>${account.username}</td>
 						<td>${account.role}</td>
 						<td><c:if test="${account.deleted == false}">
-								<a href="update/${account.accountId}" class="btn btn-warning">Modifier</a>
+								<a href="edit/${account.accountId }" class="btn btn-warning">Modifier</a>
 							</c:if></td>
 						<td><c:choose>
 								<c:when test="${account.deleted}">
@@ -78,7 +78,7 @@
 									<!-- nothing shown -->
 								</c:when>
 								<c:otherwise>
-									<a href="delete/${account.accountId }" class="btn btn-danger">Supprimer</a>
+									<a href="delete/${account.accountId }" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">Supprimer</a>
 								</c:otherwise>
 							</c:choose></td>
 					</tr>
