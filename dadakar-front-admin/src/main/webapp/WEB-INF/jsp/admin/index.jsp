@@ -42,7 +42,7 @@
 			<label for="username">Utilisateur : </label>
 			<input type="text" name="username" />
 			<label for="password">Mot de passe : </label>
-			<input type="password" name="password"">
+			<input type="password" name="password">
 			<label for="role">Role : </label>
 			<select name="role">
 				<option value="ADMIN">Administrateur</option>
