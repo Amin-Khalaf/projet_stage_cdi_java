@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,6 +29,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/save";
 		HttpEntity<Account> request = new HttpEntity<Account>(account);
 		ResponseEntity<Account> answer = restTemplate.exchange(url, HttpMethod.POST, request, Account.class);
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		account = answer.getBody();
 		return account;
 	}
@@ -37,6 +40,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/update";
 		HttpEntity<Account> request = new HttpEntity<Account>(account);
 		ResponseEntity<Account> answer = restTemplate.exchange(url, HttpMethod.PUT, request, Account.class);
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		account = answer.getBody();
 		return account;
 	}
@@ -60,6 +65,8 @@ public class AccountService implements IAccountService {
 	public Account findById(String id) {
 		String url = accountPath + "/" + id;
 		ResponseEntity<Account> answer = restTemplate.getForEntity(url, Account.class);
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		Account account = answer.getBody();
 		return 	account;
 	}
@@ -68,6 +75,8 @@ public class AccountService implements IAccountService {
 	public Account findByUsername(String username) {
 		String url = accountPath + "/username:" + username;
 		ResponseEntity<Account> answer = restTemplate.getForEntity(url, Account.class);
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		Account account = answer.getBody();
 		return 	account;
 	}
@@ -77,6 +86,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/users";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -86,6 +97,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/admins";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -95,6 +108,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/superusers";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -104,6 +119,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/adminsandsuperusers";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -113,6 +130,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/banned";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -122,6 +141,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/notbanned";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -131,6 +152,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/deleted";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -140,6 +163,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/deleted:users";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -149,6 +174,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/deleted:admins";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -158,6 +185,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/notdeleted";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -167,6 +196,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/notdeleted:users";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
@@ -176,6 +207,8 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/notdeleted:admins";
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Account>>() {
 		});
+		if (answer.getStatusCode() != HttpStatus.OK)
+			return null;
 		List<Account> accounts = answer.getBody();
 		return accounts;
 	}
