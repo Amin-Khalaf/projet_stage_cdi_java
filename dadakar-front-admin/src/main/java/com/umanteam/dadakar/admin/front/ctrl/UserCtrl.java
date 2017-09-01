@@ -26,7 +26,7 @@ public class UserCtrl {
 	@RequestMapping(value= {"/", "index"})
 	public String index(Model model) {
 		model.addAttribute("users", userService.findAll());
-		return "user/index";
+		return "user/";
 	}
 	
 	@RequestMapping(value="/edit/{id}")
@@ -43,13 +43,13 @@ public class UserCtrl {
 		account = accountService.update(account);
 		user.setAccount(account);
 		userService.update(user);
-		return "redirect:/user/index";
+		return "redirect:/user/";
 	}
 	
 	@RequestMapping(value="update", method=RequestMethod.POST)
 	public String update(@ModelAttribute("updateForm") User user) {
 		userService.update(user);
-		return "redirect:/user/index";
+		return "redirect:/user/";
 	}
 
 }

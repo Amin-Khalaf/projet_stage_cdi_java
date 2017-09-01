@@ -32,7 +32,7 @@ public class UserService implements IUserService {
 	
 	@Override
 	public User findById(String id) {
-		ResponseEntity<User> userResponse = restTemplate.getForEntity(userPath, User.class);
+		ResponseEntity<User> userResponse = restTemplate.getForEntity(userPath + "/" + id, User.class);
 		User user = userResponse.getBody();
 		return user;
 	}
