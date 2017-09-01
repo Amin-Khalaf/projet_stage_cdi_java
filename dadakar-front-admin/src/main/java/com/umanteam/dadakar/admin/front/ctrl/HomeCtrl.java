@@ -15,7 +15,7 @@ public class HomeCtrl {
 		return "index";
 	}
 	
-	@RequestMapping(value="/connect", method=RequestMethod.GET)
+	@RequestMapping(value="/connect", method=RequestMethod.POST)
 	public String connect(@ModelAttribute("connectForm") Connect connect) {
 		
 		//TODO: interface de connexion
