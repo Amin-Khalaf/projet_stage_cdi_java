@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.umanteam.dadakar.admin.front.service.interfaces.IAccountService;
 
 @Controller
-@RequestMapping(value="/account")
+@RequestMapping(value={"/admin"})
 public class AccountCtrl {
 
 	@Autowired
 	IAccountService accountService;
 	
-	@RequestMapping(value={"/","index"})
-	public String adminpage(Model model){
+	@RequestMapping(value="/index")
+	public String index(Model model){
 		model.addAttribute("adminAccounts", accountService.findAdminsAndSuperUsers());
-		return "account/index";
+		return "admin/index";
 	}
 }
