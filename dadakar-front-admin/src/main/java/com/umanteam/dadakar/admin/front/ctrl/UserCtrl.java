@@ -26,7 +26,7 @@ public class UserCtrl {
 	@RequestMapping(value= {"/", "index"})
 	public String index(Model model) {
 		model.addAttribute("users", userService.findAll());
-		return "user/";
+		return "user/index";
 	}
 	
 	@RequestMapping(value="/edit/{id}")
