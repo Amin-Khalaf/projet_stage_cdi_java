@@ -38,6 +38,13 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
+	public User findByAccountUsername(String username) {
+		ResponseEntity<User> userResponse = restTemplate.getForEntity(userPath + "/username:" + username, User.class);
+		User user = userResponse.getBody();
+		return user;
+	}
+	
+	@Override
 	public User update(User user) {
 		HttpEntity<User> userRequest = new HttpEntity<>(user);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/update", HttpMethod.PUT, userRequest, User.class);

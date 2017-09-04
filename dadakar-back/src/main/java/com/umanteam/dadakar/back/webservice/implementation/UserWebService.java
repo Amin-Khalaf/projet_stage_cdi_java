@@ -77,5 +77,5 @@ public class UserWebService implements IUserWebService {
 		if(userDTO.getUserId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
-
+	
 }

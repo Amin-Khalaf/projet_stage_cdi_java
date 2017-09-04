@@ -18,5 +18,5 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-	
+		
 }
