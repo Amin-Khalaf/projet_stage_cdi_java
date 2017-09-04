@@ -40,7 +40,7 @@ public class RunPriceService implements IRunPriceService {
 	public RunPrice update(RunPrice runPrice) {
 		String url = runPricePath + "/update";
 		HttpEntity<RunPrice> request = new HttpEntity<RunPrice>(runPrice);
-		ResponseEntity<RunPrice> answer = restTemplate.exchange(url, HttpMethod.POST, request, RunPrice.class);
+		ResponseEntity<RunPrice> answer = restTemplate.exchange(url, HttpMethod.PUT, request, RunPrice.class);
 		if (answer.getStatusCode() != HttpStatus.OK) {
 			return null;
 		}
@@ -75,7 +75,7 @@ public class RunPriceService implements IRunPriceService {
 
 	@Override
 	public RunPrice findByPower(int power) {
-		String url = runPricePath + "/power" + power;
+		String url = runPricePath + "/power:" + power;
 		ResponseEntity<RunPrice> answer = restTemplate.getForEntity(url, RunPrice.class);
 		if (answer.getStatusCode() != HttpStatus.OK){
 			return null;

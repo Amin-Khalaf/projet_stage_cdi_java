@@ -56,7 +56,10 @@ public class RunPriceWebService implements IRunPriceWebService {
 	@Override
 	public ResponseEntity<RunPriceDTO> findById(@PathVariable("id") String id) { // OK
 		RunPriceDTO runPriceDTO = runPriceService.findById(id);
-		if(runPriceDTO.getRunPriceId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(runPriceDTO == null 
+				|| runPriceDTO.getRunPriceId() == null 
+				|| runPriceDTO.getRunPriceId().equals("")) 
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<RunPriceDTO>(runPriceDTO, HttpStatus.OK);
 	}
 
@@ -65,7 +68,10 @@ public class RunPriceWebService implements IRunPriceWebService {
 	@Override
 	public ResponseEntity<RunPriceDTO> findByPower(@PathVariable("power") int power) { // OK
 		RunPriceDTO runPriceDTO = runPriceService.findByPower(power);
-		if(runPriceDTO.getRunPriceId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(runPriceDTO == null 
+				|| runPriceDTO.getRunPriceId() == null 
+				|| runPriceDTO.getRunPriceId().equals("")) 
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<RunPriceDTO>(runPriceDTO, HttpStatus.OK);
 	}
 
