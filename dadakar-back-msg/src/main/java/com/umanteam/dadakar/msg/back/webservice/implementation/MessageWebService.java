@@ -48,16 +48,16 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findAll() {
 		List<MessageDTO> messageDTOs = messageService.findAll();
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<MessageDTO> findById(String id) {
+	public ResponseEntity<MessageDTO> findById(@PathVariable("id") String id) {
 		MessageDTO messageDTO = messageService.findById(id);
-		if(messageDTO.getMsgId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTO == null || messageDTO.getMsgId() == null || messageDTO.getMsgId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<MessageDTO>(messageDTO, HttpStatus.OK);
 	}
 
@@ -66,7 +66,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findByHoroLessThanEqual(@PathVariable("end") String horoEnd) {
 		List<MessageDTO> messageDTOs = messageService.findByHoroLessThanEqual(LocalDateTime.parse(horoEnd));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -75,7 +75,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findByHoroGreaterThanEqual(@PathVariable("start") String horoStart) {
 		List<MessageDTO> messageDTOs = messageService.findByHoroGreaterThanEqual(LocalDateTime.parse(horoStart));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -84,7 +84,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findByHoroBetween(@PathVariable("start") String horoStart, @PathVariable("end") String horoEnd) {
 		List<MessageDTO> messageDTOs = messageService.findByHoroBetween(LocalDateTime.parse(horoStart), LocalDateTime.parse(horoEnd));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -93,7 +93,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findBySenderId(@PathVariable("sid") String sid) {
 		List<MessageDTO> messageDTOs = messageService.findBySenderId(sid);
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -102,7 +102,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findBySenderIdAndHoroLessThanEqual(@PathVariable("sid") String sid, @PathVariable("end") String horoEnd) {
 		List<MessageDTO> messageDTOs = messageService.findBySenderIdAndHoroLessThanEqual(sid, LocalDateTime.parse(horoEnd));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -111,7 +111,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findBySenderIdAndHoroGreaterThanEqual(@PathVariable("sid") String sid, @PathVariable("start") String horoStart) {
 		List<MessageDTO> messageDTOs = messageService.findBySenderIdAndHoroGreaterThanEqual(sid, LocalDateTime.parse(horoStart));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -120,7 +120,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findBySenderIdAndHoroBetween(@PathVariable("sid") String sid, @PathVariable("start") String horoStart, @PathVariable("end") String horoEnd) {
 		List<MessageDTO> messageDTOs = messageService.findBySenderIdAndHoroBetween(sid, LocalDateTime.parse(horoStart), LocalDateTime.parse(horoEnd));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -129,7 +129,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findByReceiverId(@PathVariable("rid") String rid) {
 		List<MessageDTO> messageDTOs = messageService.findByReceiverId(rid);
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -138,7 +138,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findByReceiverIdAndHoroLessThanEqual(@PathVariable("rid") String rid, @PathVariable("end") String horoEnd) {
 		List<MessageDTO> messageDTOs = messageService.findByReceiverIdAndHoroLessThanEqual(rid, LocalDateTime.parse(horoEnd));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -147,7 +147,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findByReceiverIdAndHoroGreaterThanEqual(@PathVariable("rid") String rid, @PathVariable("start") String horoStart) {
 		List<MessageDTO> messageDTOs = messageService.findByReceiverIdAndHoroGreaterThanEqual(rid, LocalDateTime.parse(horoStart));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -156,7 +156,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findByReceiverIdAndHoroBetween(@PathVariable("rid") String rid, @PathVariable("start") String horoStart, @PathVariable("end") String horoEnd) {
 		List<MessageDTO> messageDTOs = messageService.findByReceiverIdAndHoroBetween(rid, LocalDateTime.parse(horoStart), LocalDateTime.parse(horoEnd));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -165,7 +165,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findBySenderIdAndReceiverId(@PathVariable("sid") String sid, @PathVariable("rid") String rid) {
 		List<MessageDTO> messageDTOs = messageService.findBySenderIdAndReceiverId(sid, rid);
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -174,7 +174,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findBySenderIdAndReceiverIdAndHoroLessThanEqual(@PathVariable("sid") String sid, @PathVariable("rid") String rid, @PathVariable("end") String horoEnd) {
 		List<MessageDTO> messageDTOs = messageService.findBySenderIdAndReceiverIdAndHoroLessThanEqual(sid, rid, LocalDateTime.parse(horoEnd));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -183,7 +183,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findBySenderIdAndReceiverIdAndHoroGreaterThanEqual(@PathVariable("sid") String sid, @PathVariable("rid") String rid, @PathVariable("start") String horoStart) {
 		List<MessageDTO> messageDTOs = messageService.findBySenderIdAndReceiverIdAndHoroGreaterThanEqual(sid, rid, LocalDateTime.parse(horoStart));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 
@@ -192,7 +192,7 @@ public class MessageWebService implements IMessageWebService {
 	@Override
 	public ResponseEntity<List<MessageDTO>> findBySenderIdAndReceiverIdAndHoroBetween(@PathVariable("sid") String sid, @PathVariable("rid") String rid, @PathVariable("start") String horoStart, @PathVariable("end") String horoEnd) {
 		List<MessageDTO> messageDTOs = messageService.findBySenderIdAndReceiverIdAndHoroBetween(sid, rid, LocalDateTime.parse(horoStart), LocalDateTime.parse(horoEnd));
-		if(messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(messageDTOs == null || messageDTOs.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<MessageDTO>>(messageDTOs, HttpStatus.OK);
 	}
 

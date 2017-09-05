@@ -17,7 +17,7 @@ public class MessageDTO implements Serializable {
 	private String senderId;
 	private String receiverId;
 	@DateTimeFormat(iso=ISO.DATE_TIME)
-	@JsonFormat(pattern="yyyy-MM-dd_HH:mm")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private LocalDateTime horo;
 	private String message;
 	

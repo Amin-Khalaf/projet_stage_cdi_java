@@ -23,14 +23,16 @@ public class DadakarBackMsgApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 		
-		loadMsg();
+		// loadMsg();
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void loadMsg() {
 		
+		msgRepository.deleteAll();
 		for(int i = 0; i < 10; i++) {
-			Message message = new Message("senderId" + i, "receiverId" + i, LocalDateTime.now(), "test de message " + i);
+			Message message = new Message("senderId" + i, "receiverId" + i, LocalDateTime.now().minusHours(i), "test de message " + i);
 			message = msgRepository.save(message);
 			System.out.println(message);
 		}

@@ -77,7 +77,7 @@ public class MessageService implements IMessageService {
 	@Override
 	public List<MessageDTO> findByHoroBetween(LocalDateTime horoStart, LocalDateTime horoEnd) {
 		List<MessageDTO> messageDTOs = new ArrayList<>();
-		List<Message> messages = messageRepository.findByHoroGreaterThanEqualAndHoroLessThanEqual(horoStart, horoEnd);
+		List<Message> messages = messageRepository.findByHoroBetween(horoStart, horoEnd);
 		if(messages != null) for (Message message: messages) messageDTOs.add(messageToMessageDTO(message));
 		return messageDTOs;
 	}
@@ -109,7 +109,7 @@ public class MessageService implements IMessageService {
 	@Override
 	public List<MessageDTO> findBySenderIdAndHoroBetween(String sid, LocalDateTime horoStart, LocalDateTime horoEnd) {
 		List<MessageDTO> messageDTOs = new ArrayList<>();
-		List<Message> messages = messageRepository.findBySenderIdAndHoroGreaterThanEqualAndHoroLessThanEqual(sid, horoStart, horoEnd);
+		List<Message> messages = messageRepository.findBySenderIdAndHoroBetween(sid, horoStart, horoEnd);
 		if(messages != null) for (Message message: messages) messageDTOs.add(messageToMessageDTO(message));
 		return messageDTOs;
 	}
@@ -141,7 +141,7 @@ public class MessageService implements IMessageService {
 	@Override
 	public List<MessageDTO> findByReceiverIdAndHoroBetween(String rid, LocalDateTime horoStart, LocalDateTime horoEnd) {
 		List<MessageDTO> messageDTOs = new ArrayList<>();
-		List<Message> messages = messageRepository.findByReceiverIdAndHoroGreaterThanEqualAndHoroLessThanEqual(rid, horoStart, horoEnd);
+		List<Message> messages = messageRepository.findByReceiverIdAndHoroBetween(rid, horoStart, horoEnd);
 		if(messages != null) for (Message message: messages) messageDTOs.add(messageToMessageDTO(message));
 		return messageDTOs;
 	}
@@ -175,7 +175,7 @@ public class MessageService implements IMessageService {
 	@Override
 	public List<MessageDTO> findBySenderIdAndReceiverIdAndHoroBetween(String sid, String rid, LocalDateTime horoStart, LocalDateTime horoEnd) {
 		List<MessageDTO> messageDTOs = new ArrayList<>();
-		List<Message> messages = messageRepository.findBySenderIdAndReceiverIdAndHoroGreaterThanEqualAndHoroLessThanEqual(sid, rid, horoStart, horoEnd);
+		List<Message> messages = messageRepository.findBySenderIdAndReceiverIdAndHoroBetween(sid, rid, horoStart, horoEnd);
 		if(messages != null) for (Message message: messages) messageDTOs.add(messageToMessageDTO(message));
 		return messageDTOs;
 	}

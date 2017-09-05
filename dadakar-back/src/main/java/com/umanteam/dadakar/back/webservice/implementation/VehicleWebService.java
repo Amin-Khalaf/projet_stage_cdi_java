@@ -48,7 +48,7 @@ public class VehicleWebService implements IVehicleWebService {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<VehicleDTO>> findAllVehicle() {
 		List<VehicleDTO> vehicles = vehicleService.findAll();
-		if (vehicles.isEmpty()){
+		if (vehicles == null || vehicles.isEmpty()){
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<VehicleDTO>>(vehicles, HttpStatus.OK);
@@ -59,7 +59,7 @@ public class VehicleWebService implements IVehicleWebService {
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
 	public ResponseEntity<VehicleDTO> findVehicle(@PathVariable("id") String id) {
 		VehicleDTO vehicleDTO = vehicleService.findById(id);
-		if(vehicleDTO.getVehicleId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(vehicleDTO == null || vehicleDTO.getVehicleId() == null || vehicleDTO.getVehicleId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<VehicleDTO>(vehicleDTO, HttpStatus.OK);
 	}
 
