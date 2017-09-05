@@ -77,5 +77,11 @@ public class UserWebService implements IUserWebService {
 		if(userDTO == null || userDTO.getUserId() == null || userDTO.getUserId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
+
+	@RequestMapping(value="/id:{id}/ratelt:{value}", method=RequestMethod.GET)
+	@Override
+	public int countUserRatingsLessThan(@PathVariable("id") String id, @PathVariable("value") int value) {
+		return userService.countUserRatingsLessThan(id, value);
+	}
 	
 }
