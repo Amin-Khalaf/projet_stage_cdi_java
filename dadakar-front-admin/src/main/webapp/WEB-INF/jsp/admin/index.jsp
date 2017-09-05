@@ -1,13 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Dadakar - Administration - gestion des comptes admin</title>
-<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Dadakar - Administration - gestion compte admin</title>
+	<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
+	<link type="text/css" href="/css/main.css" rel="stylesheet" />
 </head>
 <body class="col-xs-12">
 	<header>
@@ -23,15 +24,15 @@
 					<li><a href="/">Home</a></li>
 					<li><a href="/user/">Voir la liste des utilisateurs</a></li>
 					<li><a href="/plainte/index">Voir la liste des plaintes</a></li>
-					<li><a href="/price/index">Spécifier les prix et les taux
+					<li><a href="/price/index">SpÃ©cifier les prix et les taux
 							de marge</a></li>
-					<li class="active"><a href="/admin/index">Gérer les
+					<li class="active"><a href="/admin/index">GÃ©rer les
 							administrateurs</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="edit/${account.accountId}">Changer de mot de
 							passe</a></li>
-					<li><a href="../disconnect">Déconnexion</a></li>
+					<li><a href="../disconnect">DÃ©connexion</a></li>
 				</ul>
 			</div>
 		</div>
@@ -48,7 +49,7 @@
 				<option value="ADMIN">Administrateur</option>
 				<option value="SUPERUSER">SuperUtilisateur</option>
 			</select>
-			<input type="submit" class="btn btn-success" value="Créer" />
+			<input type="submit" class="btn btn-success" value="CrÃ©er" />
 		</form:form>
 	</section>
 	<section>
@@ -57,7 +58,7 @@
 			<thead>
 				<tr>
 					<th>Utilisateur</th>
-					<th>Rôle</th>
+					<th>RÃ´le</th>
 					<th>Modifier</th>
 					<th>Supprimer</th>
 				</tr>
@@ -72,11 +73,8 @@
 							</c:if></td>
 						<td><c:choose>
 								<c:when test="${account.deleted}">
-							        Supprimé
+							        SupprimÃ©
 							    </c:when>
-								<c:when test="${account.role == 'SUPERUSER'}">
-									<!-- nothing shown -->
-								</c:when>
 								<c:otherwise>
 									<a href="delete/${account.accountId }" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">Supprimer</a>
 								</c:otherwise>

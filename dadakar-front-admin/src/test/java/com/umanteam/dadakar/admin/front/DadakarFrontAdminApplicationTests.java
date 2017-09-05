@@ -14,8 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.umanteam.dadakar.admin.front.dto.Account;
+import com.umanteam.dadakar.admin.front.dto.RunPrice;
 import com.umanteam.dadakar.admin.front.enums.Role;
 import com.umanteam.dadakar.admin.front.service.implementation.AccountService;
+import com.umanteam.dadakar.admin.front.service.implementation.RunPriceService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,10 +26,14 @@ public class DadakarFrontAdminApplicationTests {
 	@Autowired
 	private AccountService accountService;
 	
+	@Autowired
+	private RunPriceService runpriceService;
+	
 	@Test
 	public void contextLoads() {
 	}
 
+	/* Test account service */
 	@Test
 	public void testAddAccount(){
 		Account account = new Account("testuser1", "testpassword1", Role.USER);
@@ -161,5 +167,57 @@ public class DadakarFrontAdminApplicationTests {
 	public void testFindNotDeletedAdminAccount(){
 		List<Account> accounts = accountService.findAdminsNotDeleted();
 		assertEquals(accounts.get(0).isDeleted(), false);
+	}
+	
+	/* Test runprice service */
+	@Test
+	public void testAddRunPrice(){
+		RunPrice runprice = new RunPrice(5, 1.5, 2.5, 0.5, 0.05);
+		runprice = runpriceService.add(runprice);
+		assertNotNull(runprice.getRunPriceId());
+		runpriceService.delete(runprice.getRunPriceId());
+	}
+	
+	@Test
+	public void testUpdateRunPrice(){
+		RunPrice runprice = new RunPrice(5, 1.5, 2.5, 0.5, 0.05);
+		runprice = runpriceService.add(runprice);
+		runprice.setMaxPrice(2.0);
+		runprice = runpriceService.update(runprice);
+		assertEquals(2.0, runprice.getMaxPrice(), 0);
+		runpriceService.delete(runprice.getRunPriceId());
+	}
+	
+	@Test
+	public void testDeleteRunPrice(){
+		RunPrice runprice = new RunPrice(5, 1.5, 2.5, 0.5, 0.05);
+		runprice = runpriceService.add(runprice);
+		String id = runprice.getRunPriceId();
+		runpriceService.delete(id);
+		runprice = runpriceService.findById(id);
+		assertNull(runprice);
+	}
+	
+	@Test
+	public void testFindAllRunPrice(){
+		List<RunPrice> runprices = runpriceService.findAll();
+		assertNotNull(runprices.get(0));
+	}
+	
+	@Test
+	public void testFindRunPriceById(){
+		RunPrice runprice = new RunPrice(5, 1.5, 2.5, 0.5, 0.05);
+		runprice = runpriceService.add(runprice);
+		String id = runprice.getRunPriceId();
+		runprice = null;
+		runprice = runpriceService.findById(id);
+		assertNotNull(runprice);
+	}
+	
+	@Test
+	public void testFindRunPriceByPower(){
+		RunPrice runprice = runpriceService.findByPower(4);
+		System.out.println(runprice);
+		assertNotNull(runprice);
 	}
 }
