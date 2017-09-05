@@ -1,20 +1,16 @@
-package com.umanteam.dadakar.msg.back.entities;
+package com.umanteam.dadakar.admin.front.dto;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class Message implements Serializable {
 
-@Document(collection="messages")
-public class Message {
-	
 	/* Variables */
 	
-	@Id
+	private static final long serialVersionUID = -8528050126373957236L;
 	private String msgId;
 	private String senderId;
 	private String receiverId;
-	private LocalDateTime horo;
+	private String horo;
 	private String object;
 	private String message;
 	
@@ -22,7 +18,7 @@ public class Message {
 	
 	public Message() {}
 
-	public Message(String senderId, String receiverId, LocalDateTime horo, String object, String message) {
+	public Message(String senderId, String receiverId, String horo, String object, String message) {
 		this.senderId = senderId;
 		this.receiverId = receiverId;
 		this.horo = horo;
@@ -56,11 +52,11 @@ public class Message {
 		this.receiverId = receiverId;
 	}
 
-	public LocalDateTime getHoro() {
+	public String getHoro() {
 		return horo;
 	}
 
-	public void setHoro(LocalDateTime horo) {
+	public void setHoro(String horo) {
 		this.horo = horo;
 	}
 
@@ -87,5 +83,5 @@ public class Message {
 		return "Message [msgId=" + msgId + ", senderId=" + senderId + ", receiverId=" + receiverId + ", horo=" + horo
 				+ ", object=" + object + ", message=" + message + "]";
 	}
-
+	
 }
