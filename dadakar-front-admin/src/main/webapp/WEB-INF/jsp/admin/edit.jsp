@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
@@ -8,6 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Dadakar - Modifier le compte</title>
 	<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
+	<link type="text/css" href="/css/main.css" rel="stylesheet" />
 </head>
 <body class="col-xs-12">
 	<header>
