@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.umanteam.dadakar.admin.front.dto.Account;
 import com.umanteam.dadakar.admin.front.dto.Bannished;
@@ -73,31 +74,32 @@ public class UserCtrl {
 	}
 	
 	@RequestMapping(value="/bannish/{id}")
-	public String bannish(@PathVariable("id") String id) {
+	public String bannish(@PathVariable("id") String id, final RedirectAttributes redirectAttributes) {
 		User user = userService.findById(id);
 		Account account = accountService.findById(user.getAccount().getAccountId());
 		account.setBanned(!account.isBanned());
 		account = accountService.update(account);
 		user.setAccount(account);
 		userService.update(user);
+		redirectAttributes.addFlashAttribute("css", "success");
+		redirectAttributes.addFlashAttribute("msg", "l'utilisateur à bien été " + (account.isBanned() ? "banni" : "débanni"));	
 		return "redirect:/user/";
 	}
 	
 	@RequestMapping(value="/bannishall", method=RequestMethod.POST)
-	public ModelAndView bannishAll(@ModelAttribute Bannished bannished) {
-		ModelAndView view = new ModelAndView("redirect:/user/");
-		view.addObject("bannished", bannished);
+	public RedirectView bannishAll(@ModelAttribute Bannished bannished, final RedirectAttributes redirectAttributes) {
+		RedirectView view = new RedirectView("/user/");
+		view.addStaticAttribute("bannished", bannished);
 		for(String id: bannished.getBanned()) {
 			Account account = accountService.findById(id);
-			System.out.println(account);
 			User user = userService.findByAccountUsername(account.getUsername());
-			System.out.println(user);
 			account.setBanned(!account.isBanned());
 			account = accountService.update(account);
-			System.out.println(account);
 			user.setAccount(account);
 			userService.update(user);
 		}
+		redirectAttributes.addFlashAttribute("css", "success");
+		redirectAttributes.addFlashAttribute("msg", "le status banni des utilisateurs séléctionnés à bien été inversé");	
 		return view;
 	}
 	

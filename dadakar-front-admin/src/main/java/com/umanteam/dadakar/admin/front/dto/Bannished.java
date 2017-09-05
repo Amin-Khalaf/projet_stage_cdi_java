@@ -3,7 +3,7 @@ package com.umanteam.dadakar.admin.front.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class Bannished implements Serializable {
+public class Bannished implements Serializable{
 	
 	/* Variables */
 	
