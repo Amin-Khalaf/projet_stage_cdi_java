@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.umanteam.dadakar</groupId>
-	<artifactId>dadakar-back</artifactId>
+	<artifactId>dadakar-back-msg</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>dadakar-back</name>
-	<description>Blablacar Senegal</description>
+	<name>dadakar-back-msg</name>
+	<description>Blablacar Senegal - Back-End Messages</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -43,19 +43,19 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.security</groupId> -->
-<!-- 			<artifactId>spring-security-test</artifactId> -->
-<!-- 			<scope>test</scope> -->
-<!-- 		</dependency> -->
-		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	
 		<!-- Java JSON Web Token dependency -->
 <!-- 		<dependency> -->
 <!-- 			<groupId>io.jsonwebtoken</groupId> -->
 <!-- 			<artifactId>jjwt</artifactId> -->
 <!-- 			<version>0.7.0</version> -->
 <!-- 		</dependency> -->
-		
+
 	</dependencies>
 
 	<build>
