@@ -47,7 +47,7 @@ public class UserWebService implements IUserWebService {
 	@Override
 	public ResponseEntity<List<UserDTO>> findAll() { // OK
 		List<UserDTO> users = userService.findAll();
-		if(users.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(users == null || users.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
 	}
 
@@ -56,7 +56,7 @@ public class UserWebService implements IUserWebService {
 	@Override
 	public ResponseEntity<UserDTO> findById(@PathVariable("id") String id) { // OK
 		UserDTO userDTO = userService.findById(id);
-		if(userDTO.getUserId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(userDTO == null || userDTO.getUserId() == null || userDTO.getUserId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
 
@@ -65,7 +65,7 @@ public class UserWebService implements IUserWebService {
 	@Override
 	public ResponseEntity<List<UserDTO>> findByLastName(@PathVariable("lastName") String lastName) { // OK
 		List<UserDTO> users = userService.findByLastName(lastName);
-		if(users.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(users == null || users.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
 	}
 
@@ -74,7 +74,7 @@ public class UserWebService implements IUserWebService {
 	@Override
 	public ResponseEntity<UserDTO> findByAccountUsername(@PathVariable("username") String username) {
 		UserDTO userDTO = userService.findByAccountUsername(username);
-		if(userDTO.getUserId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(userDTO == null || userDTO.getUserId() == null || userDTO.getUserId().equals("")) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
 	}
 	

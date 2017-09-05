@@ -9,6 +9,11 @@
 			}
 		});
 	}
-	
-	$("#bannishAll").on("change", selectAll);
+
+	window.setTimeout(function() {
+		$(".alert-dismissible").fadeTo(2000, 800).slideUp(800, function() { $(".alert-dismissible").alert('close'); });	
+	}, 3000);
+	$(document).ready(function () {
+		$("#bannishAll").on("change", selectAll);
+	});
 }())
