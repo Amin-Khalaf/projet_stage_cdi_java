@@ -40,23 +40,18 @@ public class RunPriceCtrl {
 		return "price/index";
 	}
 
-	// @RequestMapping(value="save", method=RequestMethod.POST)
-	// public String index(@ModelAttribute("runpriceForm") RunPrice runprice){
-	// runprice = runpriceService.add(runprice);
-	// return "redirect:/price/index";
-	// }
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public String create(@ModelAttribute("runpriceForm") @Validated RunPrice runprice, BindingResult result,
 			Model model, final RedirectAttributes redirectAttributes) {
-
 		if (result.hasErrors()) {
 			if (runprice.getRunPriceId() == null || runprice.getRunPriceId().equals("")) {
 				// create a new price
 				model.addAttribute("prices", runpriceService.findAll());
-				return "/price/index";
+				return "price/index";
 			} else {
 				// update
-				return "/price/edit";
+				model.addAttribute("prices", runpriceService.findAll());
+				return "price/index";
 			}
 		}
 		
@@ -72,13 +67,28 @@ public class RunPriceCtrl {
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("message", "Prix mis à jour");
 		}
-		return "/price/index";
+		model.addAttribute("prices", runpriceService.findAll());
+		model.addAttribute("runpriceForm", new RunPrice());
+		return "redirect:/price/index";
 	}
 
 	@RequestMapping(value = "edit/{id}")
-	public String edit(@PathVariable("id") String id, Model model) {
-		model.addAttribute("runprice", runpriceService.findById(id));
-		return "/price/edit";
+	public String edit(@PathVariable("id") String id, Model model, final RedirectAttributes redirectAttributes) {
+		RunPrice runprice = runpriceService.findById(id);
+		if (runprice == null) {
+			redirectAttributes.addFlashAttribute("message", "Impossible d'accéder à l'enregistrement");
+			return "redirect:/price/index";
+		}
+		model.addAttribute("prices", runpriceService.findAll());
+		model.addAttribute("runpriceForm", runprice);
+		return "/price/index";
+	}
+	
+	@RequestMapping(value="delete/{id}")
+	public String delete(@PathVariable("id") String id, Model model, final RedirectAttributes redirectAttributes) {
+		runpriceService.delete(id);
+		redirectAttributes.addFlashAttribute("message", "Enregistrement supprimé");
+		return "redirect:/price/index";
 	}
 
 }
