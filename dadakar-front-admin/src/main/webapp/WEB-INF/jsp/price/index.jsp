@@ -67,7 +67,7 @@
 
 			<spring:bind path="power">
 				<div class="form-group ${status.error ? 'has-error' : ''} col-xs-4">
-					<label class="control-label">Puissance fiscale du véhicule</label>
+					<label for="power" class="control-label">Puissance fiscale du véhicule</label>
 					<div>
 						<form:input path="power" type="number" class="form-control"
 							id="power" placeholder="Power" pattern="[0-9]{1,2}" />
@@ -79,7 +79,7 @@
 
 			<spring:bind path="startingPrice">
 				<div class="form-group ${status.error ? 'has-error' : ''} col-xs-4">
-					<label class="control-label">Prix de base par km</label>
+					<label for="startingPrice" class="control-label">Prix de base par km</label>
 					<div>
 						<form:input path="startingPrice" type="text" class="form-control"
 							id="startingPrice" placeholder="StartingPrice"
@@ -92,7 +92,7 @@
 
 			<spring:bind path="minPrice">
 				<div class="form-group ${status.error ? 'has-error' : ''} col-xs-4">
-					<label class="control-label">Prix minimum</label>
+					<label for="minPrice" class="control-label">Prix minimum</label>
 					<div>
 						<form:input path="minPrice" type="text" class="form-control"
 							id="minPrice" placeholder="MinPrice"
@@ -105,7 +105,7 @@
 
 			<spring:bind path="maxPrice">
 				<div class="form-group ${status.error ? 'has-error' : ''} col-xs-4">
-					<label class="control-label">Prix maximum</label>
+					<label for="maxPrice" class="control-label">Prix maximum</label>
 					<div>
 						<form:input path="maxPrice" type="text" class="form-control"
 							id="maxPrice" placeholder="MaxPrice"
@@ -118,7 +118,7 @@
 
 			<spring:bind path="rate">
 				<div class="form-group ${status.error ? 'has-error' : ''} col-xs-4">
-					<label class="control-label">Prix maximum</label>
+					<label for="rate" class="control-label">Prix maximum</label>
 					<div>
 						<form:input path="rate" type="text" class="form-control" id="rate"
 							placeholder="Rate" pattern="0.[0-9]{1,3}" />
