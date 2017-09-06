@@ -170,7 +170,7 @@ public class DadakarBackApplication implements CommandLineRunner {
 			User user = new User(accountRepository.findByUsername("username" + i), "firstName" + i, "lastName" + i, "", "", "", "");
 			List<Vehicle> vehicles = new ArrayList<>();
 			List<Rating> ratings = new ArrayList<>();
-			for(int j = 0; j < 5; j++) ratings.add(new Rating(j, new User(accountRepository.findByUsername("username" + i), "firstName" + i *2, "lastName" + i *2, "", "", "", ""), "comment" + j));
+			for(int j = 0; j < 5; j++) ratings.add(new Rating(i, new User(accountRepository.findByUsername("username" + i), "firstName" + i *2, "lastName" + i *2, "", "", "", ""), "comment" + j));
 			vehicles.add(vehicleRepository.save(new Vehicle("V" + i, "peugeot", "206", "rouge", "", "", "ab-123-cd", 5)));
 			user.setVehicles(vehicles);
 			user.setRatings(ratings);

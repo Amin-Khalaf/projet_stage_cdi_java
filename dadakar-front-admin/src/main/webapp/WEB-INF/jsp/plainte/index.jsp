@@ -17,8 +17,8 @@
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="/">Home</a></li>
-						<li class="active"><a href="/user/index">Voir la liste des utilisateurs</a></li>
-						<li><a href="/plainte/index">Voir la liste des plaintes</a></li>
+						<li><a href="/user/index">Voir la liste des utilisateurs</a></li>
+						<li class="active"><a href="/plainte/index">Voir la liste des plaintes</a></li>
 						<li><a href="/price/index">Spécifier les prix et les taux de marge</a></li>
 						<li class="disabled"><a href="/admin/index">Gérer les administrateurs</a></li>
 					</ul>
@@ -44,31 +44,23 @@
 						<tr>
 							<th><input type="checkbox" id="bannishAll" /></th>
 							<th>Banni</th>
-							<th>Nom</th>
-							<th>Prénom</th>
-							<th>Téléphone<br>(username)</th>
-							<th>mail</th>
-							<th>photo</th>
-							<th>carte d'identité</th>
-							<th>permis de conduire</th>
+							<th>Nom Prénom</th>
+							<th>Nombre d'avis</th>
+							<th>Pourcentage d'avis négatifs</th>
 							<th></th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${users}" var="usr2" varStatus="itr">
+						<c:forEach items="${complaints}" var="complaint" varStatus="itr">
 							<tr>
-								<td><form:checkbox path="banned" value="${usr2.account.accountId}" /></td>
-								<td>${usr2.account.banned?'oui':'non'}</td>
-								<td>${usr2.lastName}</td>
-								<td>${usr2.firstName}</td>
-								<td>${usr2.account.username}</td>
-								<td>${usr2.mail}</td>
-								<td><a href="${imgPath}/name:user1.png" target="_blank"><img src="${imgPath}/name:user1.png" width="150 px" height="150 px"></a></td>
-								<td><img src="${imgPath}/name:utilisateur2.jpg" width="150 px" height="150 px"></td>
-								<td><img src="${imgPath}/name:voiture1.jpg" width="150 px" height="150 px"></td>
-								<td><a  href="message/1234:${usr2.userId}" class="btn btn-warning">Message</a></td>
-								<td><a href="bannish/${usr2.userId}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir ${usr2.account.banned?'réintégrer':'bannir'} cet utilisateur ?')">${usr2.account.banned?'Réintégrer':'Bannir'}</a></td>
+								<td><form:checkbox path="banned" value="${complaint.user.account.accountId}" /></td>
+								<td>${complaint.user.account.banned?'oui':'non'}</td>
+								<td>${complaint.user.lastName} ${complaint.user.firstName}</td>
+								<td>${complaint.numberOfRatings}</td>
+								<td>${complaint.percentOfBadRatings}</td>
+								<td><a  href="message/1234:${complaint.user.userId}" class="btn btn-warning">Message</a></td>
+								<td><a href="bannish/${complaint.user.userId}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir ${complaint.user.account.banned?'réintégrer':'bannir'} cet utilisateur ?')">${complaint.user.account.banned?'Réintégrer':'Bannir'}</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

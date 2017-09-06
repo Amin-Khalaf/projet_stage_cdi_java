@@ -18,8 +18,8 @@
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="/">Home</a></li>
-						<li class="active"><a href="/user/index">Voir la liste des utilisateurs</a></li>
-						<li><a href="/plainte/index">Voir la liste des plaintes</a></li>
+						<li><a href="/user/index">Voir la liste des utilisateurs</a></li>
+						<li class="active"><a href="/plainte/index">Voir la liste des plaintes</a></li>
 						<li><a href="/price/index">Spécifier les prix et les taux de marge</a></li>
 						<li class="disabled"><a href="/admin/index">Gérer les administrateurs</a></li>
 					</ul>
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 		</nav>
-		<form:form modelAttribute="message" method="POST" action="/user/send">
+		<form:form modelAttribute="message" method="POST" action="/plainte/send">
 			<form:hidden path="senderId" />
 			<form:hidden path="receiverId" />
 			<form:hidden path="horo"/>

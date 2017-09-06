@@ -3,7 +3,6 @@ package com.umanteam.dadakar.admin.front.ctrl;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,9 +23,9 @@ import com.umanteam.dadakar.admin.front.service.interfaces.IMessageService;
 import com.umanteam.dadakar.admin.front.service.interfaces.IUserService;
 
 @Controller
-@RequestMapping(value="/user")
-public class UserCtrl {
-	
+@RequestMapping(value="/plainte")
+public class ComplaintCtrl {
+
 	@Autowired
 	private IUserService userService;
 	
@@ -36,14 +35,10 @@ public class UserCtrl {
 	@Autowired
 	private IMessageService msgService;
 	
-	@Value("${img.path}")
-	private String imgPath;
-	
-	@RequestMapping(value={"/", "index"})
+	@RequestMapping(value= {"/", "index"})
 	public ModelAndView index(Model model) {
-		model.addAttribute("users", userService.findAll());
-		model.addAttribute("imgPath", imgPath);
-		return new ModelAndView("user/index", "bannished", new Bannished());
+		model.addAttribute("complaints", userService.getComplaint());
+		return new ModelAndView("plainte/index", "bannished", new Bannished());
 	}
 	
 	@RequestMapping(value="/message/{sid}:{rid}")
@@ -56,21 +51,21 @@ public class UserCtrl {
 		String date = now.getYear() + "-" + month + "-" + day + " " + hours + ":" + minutes;
 		Message message = new Message(sid, rid, date, "Problème de profil", "");
 		model.addAttribute("message", message);
-		return "user/message";
+		return "plainte/message";
 	}
 	
 	@RequestMapping(value="/send", method= RequestMethod.POST)
 	public String send(@ModelAttribute("message") Message message, BindingResult result, final RedirectAttributes redirectAttributes) {
 		
 		if(result.hasErrors()) {
-			return "user/message";
+			return "plainte/message";
 		}
 		
 		redirectAttributes.addFlashAttribute("css", "success");
 		redirectAttributes.addFlashAttribute("msg", "le message à bien été envoyé");	
 		msgService.add(message);
 		
-		return "redirect:/user/";
+		return "redirect:/plainte/";
 	}
 	
 	@RequestMapping(value="/bannish/{id}")
@@ -83,12 +78,12 @@ public class UserCtrl {
 		userService.update(user);
 		redirectAttributes.addFlashAttribute("css", "success");
 		redirectAttributes.addFlashAttribute("msg", "l'utilisateur à bien été " + (account.isBanned() ? "banni" : "débanni"));	
-		return "redirect:/user/";
+		return "redirect:/plainte/";
 	}
 	
 	@RequestMapping(value="/bannishall", method=RequestMethod.POST)
 	public RedirectView bannishAll(@ModelAttribute Bannished bannished, final RedirectAttributes redirectAttributes) {
-		RedirectView view = new RedirectView("/user/");
+		RedirectView view = new RedirectView("/plainte/");
 		view.addStaticAttribute("bannished", bannished);
 		for(String id: bannished.getBanned()) {
 			Account account = accountService.findById(id);
