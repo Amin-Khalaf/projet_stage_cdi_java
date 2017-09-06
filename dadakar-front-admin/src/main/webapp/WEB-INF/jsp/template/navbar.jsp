@@ -14,7 +14,7 @@
 						administrateurs</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li class=<%= request.getParameter("password-active") %>><a href="/admin/passwordchange">Changer de mot de passe</a></li>
+				<li class=<%= request.getParameter("password-active") %>><a href="/admin/passwordchange/<%= request.getAttribute("javax.servlet.forward.request_uri").toString().replaceAll("/", "-") %>/<%= request.getParameter("adminId")%>">Changer de mot de passe</a></li>
 				<li><a href="../disconnect">Déconnexion</a></li>
 			</ul>
 		</div>

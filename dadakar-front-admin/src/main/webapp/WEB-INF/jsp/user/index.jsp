@@ -17,8 +17,8 @@
 			<jsp:param value="" name="price-active"/>
 			<jsp:param value="" name="admin-active"/>
 			<jsp:param value="" name="password-active"/>
-			<%-- ternaire, si admin en cours et un superuser, renvoi '' sinon renvoi 'disabled' --%>
-			<jsp:param value="disabled" name="admin-enable"/>
+			<jsp:param value="" name="admin-enable"/>
+			<jsp:param value="59b00e67e1acbf022cdfb466" name="adminId"/>
 		</jsp:include>
 		
 		<div class="container-fluid">

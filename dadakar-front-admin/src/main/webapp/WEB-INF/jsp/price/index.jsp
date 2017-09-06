@@ -25,8 +25,8 @@
 			<jsp:param value="active" name="price-active"/>
 			<jsp:param value="" name="admin-active"/>
 			<jsp:param value="" name="password-active"/>
-			<%-- ternaire, si admin en cours et un superuser, renvoi '' sinon renvoi 'disabled' --%>
 			<jsp:param value="" name="admin-enable"/>
+			<jsp:param value="" name="adminId"/>
 		</jsp:include>
 		
 		<c:if test="${not empty message}">
