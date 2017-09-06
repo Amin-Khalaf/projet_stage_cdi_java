@@ -6,25 +6,20 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Dadakar - Modifier le compte</title>
+		<title>Dadakar - Changer de mot de passe</title>
 		<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
 		<link type="text/css" href="/css/main.css" rel="stylesheet" />
 	</head>
 	<body class="col-xs-12">
-		<header>
-			<h1>Modifier le compte</h1>
-		</header>
-		
 		<jsp:include page="../template/header.jsp"></jsp:include>
 		
 		<jsp:include page="../template/navbar.jsp">
 			<jsp:param value="" name="user-active"/>
 			<jsp:param value="" name="complaint-active"/>
 			<jsp:param value="" name="price-active"/>
-			<jsp:param value="active" name="admin-active"/>
-			<jsp:param value="" name="password-active"/>
+			<jsp:param value="" name="admin-active"/>
+			<jsp:param value="active" name="password-active"/>
 		</jsp:include>
-		
 		<section>
 			<h2>Compte</h2>
 			<form:form action="/admin/update" method="POST" modelAttribute="accountForm">
@@ -52,8 +47,8 @@
 				<a href="/admin/index" class="btn btn-warning">Annuler</a>
 			</form:form>
 		</section>
-
+		
 		<jsp:include page="../template/footer.jsp"></jsp:include>
-
+		
 	</body>
 </html>
