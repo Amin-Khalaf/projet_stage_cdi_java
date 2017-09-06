@@ -29,44 +29,53 @@
 				</div>
 			</div>
 		</nav>
-		<form:form method="POST" commandName="bannished" action="bannishall" >
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th><input type="checkbox" id="bannishAll" /></th>
-						<th>Banni</th>
-						<th>Nom</th>
-						<th>Prénom</th>
-						<th>Téléphone<br>(username)</th>
-						<th>mail</th>
-						<th>photo</th>
-						<th>carte d'identité</th>
-						<th>permis de conduire</th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${users}" var="usr2" varStatus="itr">
+		<div class="container-fluid">
+			<c:if test="${not empty msg}">
+				<div class="alert alert-${css} alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+					<strong>${msg}</strong>
+				</div>
+			</c:if>
+			<form:form method="POST" commandName="bannished" action="bannishall" >
+				<table class="table table-bordered">
+					<thead>
 						<tr>
-							<td><form:checkbox path="banned" value="${usr2.account.accountId}" /></td>
-							<td>${usr2.account.banned?'oui':'non'}</td>
-							<td>${usr2.lastName}</td>
-							<td>${usr2.firstName}</td>
-							<td>${usr2.account.username}</td>
-							<td>${usr2.mail}</td>
-							<td><a href="${imgPath}/name:user1.png" target="_blank"><img src="${imgPath}/name:user1.png" width="150 px" height="150 px"></a></td>
-							<td><img src="${imgPath}/name:utilisateur2.jpg" width="150 px" height="150 px"></td>
-							<td><img src="${imgPath}/name:voiture1.jpg" width="150 px" height="150 px"></td>
-							<td><a  href="message/${usr2.userId}" class="btn btn-warning">Message</a></td>
-							<td><a href="bannish/${usr2.userId}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir bannir/réintégrer cet utilisateur ?')">Bannir/réintégrer</a></td>
+							<th><input type="checkbox" id="bannishAll" /></th>
+							<th>Banni</th>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Téléphone<br>(username)</th>
+							<th>mail</th>
+							<th>photo</th>
+							<th>carte d'identité</th>
+							<th>permis de conduire</th>
+							<th></th>
+							<th></th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<input type="submit" onclick="return confirm('Etes vous sur de vouloir bannir/réintégrer tout les utilisateus selectionnés ?')" value="Bannir/réintégrer tous" />
-		</form:form>
-		
+					</thead>
+					<tbody>
+						<c:forEach items="${users}" var="usr2" varStatus="itr">
+							<tr>
+								<td><form:checkbox path="banned" value="${usr2.account.accountId}" /></td>
+								<td>${usr2.account.banned?'oui':'non'}</td>
+								<td>${usr2.lastName}</td>
+								<td>${usr2.firstName}</td>
+								<td>${usr2.account.username}</td>
+								<td>${usr2.mail}</td>
+								<td><a href="${imgPath}/name:user1.png" target="_blank"><img src="${imgPath}/name:user1.png" width="150 px" height="150 px"></a></td>
+								<td><img src="${imgPath}/name:utilisateur2.jpg" width="150 px" height="150 px"></td>
+								<td><img src="${imgPath}/name:voiture1.jpg" width="150 px" height="150 px"></td>
+								<td><a  href="message/1234:${usr2.userId}" class="btn btn-warning">Message</a></td>
+								<td><a href="bannish/${usr2.userId}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir bannir/réintégrer cet utilisateur ?')">Bannir/réintégrer</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<input class="btn btn-danger" type="submit" onclick="return confirm('Etes vous sur de vouloir bannir/réintégrer tout les utilisateus selectionnés ?')" value="Bannir/réintégrer tous" />
+			</form:form>
+		</div>		
 		<script type="text/javascript" src="../js/jquery.min.js"></script>
 		<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="../js/function.js"></script>

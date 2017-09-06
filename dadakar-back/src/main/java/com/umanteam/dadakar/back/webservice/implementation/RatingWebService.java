@@ -47,7 +47,7 @@ public class RatingWebService implements IRatingWebService {
 	@Override
 	public ResponseEntity<List<RatingDTO>> findAll() { // OK
 		List<RatingDTO> ratings = ratingService.findAll();
-		if(ratings.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(ratings == null || ratings.isEmpty()) return new ResponseEntity(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<List<RatingDTO>>(ratings, HttpStatus.OK);
 	}
 
@@ -55,7 +55,7 @@ public class RatingWebService implements IRatingWebService {
 	@Override
 	public ResponseEntity<RatingDTO> findById(@PathVariable("id") String id) { // OK
 		RatingDTO ratingDTO = ratingService.findById(id);
-		if(ratingDTO.getRatingId().equals("")) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		if(ratingDTO == null || ratingDTO.getRatingId() == null || ratingDTO.getRatingId().equals("")) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<RatingDTO>(ratingDTO, HttpStatus.OK);
 	}
 
