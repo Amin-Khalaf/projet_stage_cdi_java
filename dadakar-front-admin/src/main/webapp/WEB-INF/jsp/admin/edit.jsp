@@ -23,6 +23,8 @@
 			<jsp:param value="" name="price-active"/>
 			<jsp:param value="active" name="admin-active"/>
 			<jsp:param value="" name="password-active"/>
+			<%-- ternaire, si admin en cours et un superuser, renvoi '' sinon renvoi 'disabled' --%>
+			<jsp:param value="" name="admin-enable"/>
 		</jsp:include>
 		
 		<section>

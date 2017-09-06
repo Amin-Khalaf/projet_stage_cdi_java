@@ -13,6 +13,7 @@
 	window.setTimeout(function() {
 		$(".alert-dismissible").fadeTo(2000, 800).slideUp(800, function() { $(".alert-dismissible").alert('close'); });	
 	}, 3000);
+	$(".disabled").on("click", function(ev) {ev.preventDefault(); });
 	$(document).ready(function () {
 		$("#bannishAll").on("change", selectAll);
 	});

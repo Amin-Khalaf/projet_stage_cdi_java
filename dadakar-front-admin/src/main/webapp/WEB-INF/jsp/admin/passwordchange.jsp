@@ -19,7 +19,10 @@
 			<jsp:param value="" name="price-active"/>
 			<jsp:param value="" name="admin-active"/>
 			<jsp:param value="active" name="password-active"/>
+			<%-- ternaire, si admin en cours et un superuser, renvoi '' sinon renvoi 'disabled' --%>
+			<jsp:param value="" name="admin-enable"/>
 		</jsp:include>
+		
 		<section>
 			<h2>Compte</h2>
 			<form:form action="/admin/update" method="POST" modelAttribute="accountForm">

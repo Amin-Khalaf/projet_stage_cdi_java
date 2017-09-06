@@ -10,7 +10,7 @@
 				<li class=<%= request.getParameter("complaint-active") %>><a href="/plainte/index">Voir la liste des plaintes</a></li>
 				<li class=<%= request.getParameter("price-active") %>><a href="/price/index">Spécifier les prix et les taux
 						de marge</a></li>
-				<li class=<%= request.getParameter("admin-active") %>><a href="/admin/index">Gérer les
+				<li class="<%= request.getParameter("admin-active") %> <%= request.getParameter("admin-enable") %>"><a href="/admin/index">Gérer les
 						administrateurs</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
