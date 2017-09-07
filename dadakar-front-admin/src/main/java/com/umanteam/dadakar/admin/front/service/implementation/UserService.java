@@ -10,6 +10,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.umanteam.dadakar.admin.front.dto.Complaint;
@@ -34,9 +36,12 @@ public class UserService implements IUserService {
 	
 	@Override
 	public List<User> findAll() {
-		ResponseEntity<List<User>> usersResponse = restTemplate.exchange(userPath, HttpMethod.GET, null, new ParameterizedTypeReference<List<User>>() {});
-		List<User> users = usersResponse.getBody();
-		return users;
+		List<User> users = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<User>> request = new HttpEntity<>(users, headers);
+		ResponseEntity<List<User>> usersResponse = restTemplate.exchange(userPath, HttpMethod.GET, request, new ParameterizedTypeReference<List<User>>() {});
+		return usersResponse.getBody();
 	}
 	
 	@Override

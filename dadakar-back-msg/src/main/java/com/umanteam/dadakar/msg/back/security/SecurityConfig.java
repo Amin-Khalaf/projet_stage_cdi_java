@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.security;
+package com.umanteam.dadakar.msg.back.security;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 		.authorizeRequests()
 			.antMatchers("/login").permitAll()
-			.antMatchers("/signup").permitAll()
+			.antMatchers("/public").permitAll()
 			.anyRequest().authenticated()
 			.and()
 		.apply(new JWTConfigurer(tokenProvider));

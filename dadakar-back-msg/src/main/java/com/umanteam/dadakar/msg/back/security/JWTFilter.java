@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.security;
+package com.umanteam.dadakar.msg.back.security;
 
 import java.io.IOException;
 
