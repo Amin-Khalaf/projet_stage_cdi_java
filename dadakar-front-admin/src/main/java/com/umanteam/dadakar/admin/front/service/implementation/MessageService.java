@@ -1,6 +1,7 @@
 package com.umanteam.dadakar.admin.front.service.implementation;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.umanteam.dadakar.admin.front.dto.Message;
@@ -27,16 +30,20 @@ public class MessageService implements IMessageService {
 
 	@Override
 	public Message add(Message message) {
-		HttpEntity<Message> requestMsg = new HttpEntity<Message>(message);
-		ResponseEntity<Message> responseMsg = restTemplate.exchange(msgPath + "/save", HttpMethod.POST, requestMsg, Message.class);
-		if(responseMsg.getStatusCode() != HttpStatus.OK) return null;
-		message = responseMsg.getBody();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message, headers);
+		ResponseEntity<Message> msgResponse = restTemplate.exchange(msgPath + "/save", HttpMethod.POST, msgRequest, Message.class);
+		if(msgResponse.getStatusCode() != HttpStatus.OK) return null;
+		message = msgResponse.getBody();
 		return message;
 	}
 	
 	@Override
 	public Message update(Message message) {
-		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message);
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message, headers);
 		ResponseEntity<Message> msgResponse = restTemplate.exchange(msgPath + "/update", HttpMethod.PUT, msgRequest, Message.class);
 		if(msgResponse.getStatusCode() != HttpStatus.OK) return null;
 		message = msgResponse.getBody();
@@ -45,141 +52,213 @@ public class MessageService implements IMessageService {
 
 	@Override
 	public void delete(String id) {
-		restTemplate.delete(msgPath + "/del" + id);
+		Message message = new Message();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message, headers);
+		restTemplate.exchange(msgPath + "/del/" + id, HttpMethod.DELETE, msgRequest, Message.class);
 	}
 
 	@Override
 	public List<Message> findAll() {
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(msgPath, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(msgPath, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public Message findById(String id) {
 		String url = msgPath + "/" + id;
-		ResponseEntity<Message> msgResponse = restTemplate.getForEntity(url, Message.class);
-		Message message = msgResponse.getBody();
+		Message message = new Message();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message, headers);
+		ResponseEntity<Message> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, Message.class);
+		message = msgResponse.getBody();
 		return message;
 	}
 
 	@Override
 	public List<Message> findByHoroLessThanEqual(LocalDateTime horoEnd) {
 		String url = msgPath + "/lte:" + horoEnd.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findByHoroGreaterThanEqual(LocalDateTime horoStart) {
 		String url = msgPath + "/gte:" + horoStart.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findByHoroBetween(LocalDateTime horoStart, LocalDateTime horoEnd) {
 		String url = msgPath + "/gte:" + horoStart.toString() + "/lte:" + horoEnd.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findBySenderId(String sid) {
 		String url = msgPath + "/sid:" + sid;
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findBySenderIdAndHoroLessThanEqual(String sid, LocalDateTime horoEnd) {
 		String url = msgPath + "/sid:" + sid + "/lte:" + horoEnd.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findBySenderIdAndHoroGreaterThanEqual(String sid, LocalDateTime horoStart) {
 		String url = msgPath + "/sid:" + sid + "/lte:" + horoStart.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findBySenderIdAndHoroBetween(String sid, LocalDateTime horoStart, LocalDateTime horoEnd) {
 		String url = msgPath + "/sid:" + sid + "/gte:" + horoStart.toString() + "/lte:" + horoEnd.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findByReceiverId(String rid) {
 		String url = msgPath + "/rid:" + rid;
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findByReceiverIdAndHoroLessThanEqual(String rid, LocalDateTime horoEnd) {
 		String url = msgPath + "/rid:" + rid + "/lte:" + horoEnd.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findByReceiverIdAndHoroGreaterThanEqual(String rid, LocalDateTime horoStart) {
 		String url = msgPath + "/rid:" + rid + "/gte:" + horoStart.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findByReceiverIdAndHoroBetween(String rid, LocalDateTime horoStart, LocalDateTime horoEnd) {
 		String url = msgPath + "/rid:" + rid + "/gte:" + horoStart.toString() + "/lte:" + horoEnd.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findBySenderIdAndReceiverId(String sid, String rid) {
 		String url = msgPath + "/sid:" + sid + "/rid:" + rid;
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findBySenderIdAndReceiverIdAndHoroLessThanEqual(String sid, String rid, LocalDateTime horoEnd) {
 		String url = msgPath + "/sid:" + sid + "/rid:" + rid + "/lte:" + horoEnd.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findBySenderIdAndReceiverIdAndHoroGreaterThanEqual(String sid, String rid, LocalDateTime horoStart) {
 		String url = msgPath + "/sid:" + sid + "/rid:" + rid + "/gte:" + horoStart.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 
 	@Override
 	public List<Message> findBySenderIdAndReceiverIdAndHoroBetween(String sid, String rid, LocalDateTime horoStart, LocalDateTime horoEnd) {
 		String url = msgPath + "/sid:" + sid + "/rid:" + rid + "/gte:" + horoStart.toString() + "/lte:" + horoEnd.toString();
-		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Message>>() {});
-		List<Message> messages = msgResponse.getBody();
+		List<Message> messages = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
+		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
+		messages = msgResponse.getBody();
 		return messages;
 	}
 

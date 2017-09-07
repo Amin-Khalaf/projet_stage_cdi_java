@@ -1,5 +1,6 @@
 package com.umanteam.dadakar.admin.front.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.umanteam.dadakar.admin.front.dto.RunPrice;
@@ -27,7 +30,9 @@ public class RunPriceService implements IRunPriceService {
 	@Override
 	public RunPrice add(RunPrice runPrice) {
 		String url = runPricePath + "/save";
-		HttpEntity<RunPrice> request = new HttpEntity<RunPrice>(runPrice);
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<RunPrice> request = new HttpEntity<RunPrice>(runPrice, headers);
 		ResponseEntity<RunPrice> answer = restTemplate.exchange(url, HttpMethod.POST, request, RunPrice.class);
 		if (answer.getStatusCode() != HttpStatus.OK) {
 			return null;
@@ -39,7 +44,9 @@ public class RunPriceService implements IRunPriceService {
 	@Override
 	public RunPrice update(RunPrice runPrice) {
 		String url = runPricePath + "/update";
-		HttpEntity<RunPrice> request = new HttpEntity<RunPrice>(runPrice);
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<RunPrice> request = new HttpEntity<RunPrice>(runPrice, headers);
 		ResponseEntity<RunPrice> answer = restTemplate.exchange(url, HttpMethod.PUT, request, RunPrice.class);
 		if (answer.getStatusCode() != HttpStatus.OK) {
 			return null;
@@ -51,13 +58,20 @@ public class RunPriceService implements IRunPriceService {
 	@Override
 	public void delete(String id) {
 		String url = runPricePath + "/del/" + id;
-		restTemplate.delete(url);
+		RunPrice runPrice = new RunPrice();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<RunPrice> request = new HttpEntity<RunPrice>(runPrice, headers);
+		restTemplate.exchange(url, HttpMethod.DELETE, request, RunPrice.class);
 	}
 
 	@Override
 	public List<RunPrice> findAll() {
-		ResponseEntity<List<RunPrice>> answer = restTemplate.exchange(runPricePath, HttpMethod.GET, null, new ParameterizedTypeReference<List<RunPrice>>() {
-		});
+		List<RunPrice> runprices = new ArrayList<>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<List<RunPrice>> request = new HttpEntity<List<RunPrice>>(runprices, headers);
+		ResponseEntity<List<RunPrice>> answer = restTemplate.exchange(runPricePath, HttpMethod.GET, request, new ParameterizedTypeReference<List<RunPrice>>() {});
 		List<RunPrice> runPrices = answer.getBody();
 		return runPrices;
 	}
@@ -65,7 +79,11 @@ public class RunPriceService implements IRunPriceService {
 	@Override
 	public RunPrice findById(String id) {
 		String url = runPricePath + "/" + id;
-		ResponseEntity<RunPrice> answer = restTemplate.getForEntity(url, RunPrice.class);
+		RunPrice runPrice = new RunPrice();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<RunPrice> request = new HttpEntity<RunPrice>(runPrice, headers);
+		ResponseEntity<RunPrice> answer = restTemplate.exchange(url, HttpMethod.GET, request, RunPrice.class);
 		if (answer.getStatusCode() != HttpStatus.OK){
 			return null;
 		}
@@ -76,7 +94,11 @@ public class RunPriceService implements IRunPriceService {
 	@Override
 	public RunPrice findByPower(int power) {
 		String url = runPricePath + "/power:" + power;
-		ResponseEntity<RunPrice> answer = restTemplate.getForEntity(url, RunPrice.class);
+		RunPrice runPrice = new RunPrice();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<RunPrice> request = new HttpEntity<RunPrice>(runPrice, headers);
+		ResponseEntity<RunPrice> answer = restTemplate.exchange(url, HttpMethod.GET, request, RunPrice.class);
 		if (answer.getStatusCode() != HttpStatus.OK){
 			return null;
 		}

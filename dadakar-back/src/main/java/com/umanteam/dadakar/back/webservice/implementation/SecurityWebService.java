@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.umanteam.dadakar.back.dto.AccountDTO;
+import com.umanteam.dadakar.back.dto.Detail;
 import com.umanteam.dadakar.back.security.AccountDetailService;
 import com.umanteam.dadakar.back.security.TokenProvider;
 import com.umanteam.dadakar.back.service.interfaces.IAccountService;
@@ -56,10 +59,15 @@ public class SecurityWebService {
 		}
 	}
 	
-	@GetMapping("/details/{username}")
-	public ResponseEntity<UserDetails> getDetails(@PathVariable("username") String username) {
-			 return new ResponseEntity<UserDetails>(detailService.loadUserByUsername(username), HttpStatus.OK);
-			
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/details/{username}",method=RequestMethod.GET)
+	public ResponseEntity<Detail> getDetails(@PathVariable("username") String username) {
+		UserDetails details = detailService.loadUserByUsername(username);
+		if(details != null) {
+			Detail detail = new Detail(details.getUsername(), details.getPassword(), details.getAuthorities(), !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());
+			return new ResponseEntity<Detail>(detail, HttpStatus.OK);
+		}
+		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
 	
 	@PostMapping("signup")

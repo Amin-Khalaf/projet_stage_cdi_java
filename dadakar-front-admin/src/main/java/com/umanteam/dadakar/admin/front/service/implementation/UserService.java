@@ -46,21 +46,31 @@ public class UserService implements IUserService {
 	
 	@Override
 	public User findById(String id) {
-		ResponseEntity<User> userResponse = restTemplate.getForEntity(userPath + "/" + id, User.class);
-		User user = userResponse.getBody();
+		User user = new User();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
+		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/" + id, HttpMethod.GET, userRequest, User.class);
+		user = userResponse.getBody();
 		return user;
 	}
 	
 	@Override
 	public User findByAccountUsername(String username) {
-		ResponseEntity<User> userResponse = restTemplate.getForEntity(userPath + "/username:" + username, User.class);
-		User user = userResponse.getBody();
+		User user = new User();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
+		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/username:" + username, HttpMethod.GET, userRequest, User.class);
+		user = userResponse.getBody();
 		return user;
 	}
 	
 	@Override
 	public User update(User user) {
-		HttpEntity<User> userRequest = new HttpEntity<>(user);
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/update", HttpMethod.PUT, userRequest, User.class);
 		user = userResponse.getBody();
 		return user;

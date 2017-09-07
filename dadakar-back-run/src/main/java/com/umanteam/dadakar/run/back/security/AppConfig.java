@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.img.back.security;
+package com.umanteam.dadakar.run.back.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
