@@ -21,13 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.umanteam.dadakar.back.dto.AccountDTO;
 import com.umanteam.dadakar.back.dto.Detail;
+import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.back.security.AccountDetailService;
 import com.umanteam.dadakar.back.security.TokenProvider;
 import com.umanteam.dadakar.back.service.interfaces.IAccountService;
+import com.umanteam.dadakar.back.webservice.interfaces.ISecurityWebService;
 
 @RestController
 @CrossOrigin("*")
-public class SecurityWebService {
+public class SecurityWebService implements ISecurityWebService {
 	
 	@Autowired
 	private AccountDetailService detailService;
@@ -42,12 +44,14 @@ public class SecurityWebService {
 	private AuthenticationManager authenticationManager;
 	
 	@GetMapping("/authenticate")
+	@Override
 	public void authenticate() {
 		
 	}
 	
 	@PostMapping("/login")
-		public String authorize(@Valid @RequestBody AccountDTO loginAccount, HttpServletResponse response) {
+	@Override
+	public String authorize(@Valid @RequestBody AccountDTO loginAccount, HttpServletResponse response) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginAccount.getUsername(), loginAccount.getPassword());
 		try {
 			authenticationManager.authenticate(authenticationToken);
@@ -61,6 +65,7 @@ public class SecurityWebService {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/details/{username}",method=RequestMethod.GET)
+	@Override
 	public ResponseEntity<Detail> getDetails(@PathVariable("username") String username) {
 		UserDetails details = detailService.loadUserByUsername(username);
 		if(details != null) {
@@ -71,7 +76,9 @@ public class SecurityWebService {
 	}
 	
 	@PostMapping("signup")
+	@Override
 	public String signup(@RequestBody AccountDTO signupAccount) {
+		if(signupAccount.getRole() != Role.USER) return "UNVALID ACCOUNT";
 		AccountDTO account = accountService.findByUsername(signupAccount.getUsername());
 		if(account != null && !account.getAccountId().equals("")) {
 			return "EXISTS";
