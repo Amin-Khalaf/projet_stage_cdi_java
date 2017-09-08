@@ -14,8 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.umanteam.dadakar.msg.back.dto.Detail;
-
 import io.jsonwebtoken.Jwts;
 
 @Component
