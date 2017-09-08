@@ -13,15 +13,23 @@ public class HomeCtrl {
 	
 	@RequestMapping({"/", "index"})
 	public String index(Model model) {
-		return "index";
+		return "redirect:/user/index";
 	}
 	
-	@RequestMapping(value="/connect", method=RequestMethod.POST)
-	public String connect(@ModelAttribute("connectForm") Connect connect) {
+	@RequestMapping(value="/login")
+	public String login() {
 		
 		//TODO: interface de connexion
 		
-		return null;
+		return "login";
+		
+	}
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public String connect(@ModelAttribute("loginForm") Connect connect) {
+		
+		//TODO: interface de connexion
+		
+		return "login";
 		
 	}
 }
