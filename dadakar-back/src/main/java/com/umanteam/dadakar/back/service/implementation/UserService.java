@@ -31,8 +31,10 @@ public class UserService implements IUserService {
 		List<Vehicle> vehicles = new ArrayList<>();
 		List<Rating> ratings = new ArrayList<>();
 		BeanUtils.copyProperties(userDTO, user);
-		BeanUtils.copyProperties(userDTO.getAccount(), account);
-		user.setAccount(account);
+		if (userDTO.getAccount() != null) {
+			BeanUtils.copyProperties(userDTO.getAccount(), account);
+			user.setAccount(account);
+		}
 		if(userDTO.getVehicles() != null) {
 			for(VehicleDTO vehicleDTO: userDTO.getVehicles()) {
 				Vehicle vehicle = new Vehicle();
@@ -45,6 +47,11 @@ public class UserService implements IUserService {
 			for(RatingDTO ratingDTO: userDTO.getRatings()) {
 				Rating rating = new Rating();
 				BeanUtils.copyProperties(ratingDTO, rating);
+				if (ratingDTO.getRater() != null) {
+					User rater = new User();
+					BeanUtils.copyProperties(ratingDTO.getRater(), rater);
+					rating.setRater(rater);
+				}
 				ratings.add(rating);
 			}
 		}
@@ -59,8 +66,10 @@ public class UserService implements IUserService {
 		List<VehicleDTO> vehicleDTOs = new ArrayList<>();
 		List<RatingDTO> ratingDTOs = new ArrayList<>();
 		BeanUtils.copyProperties(user, userDTO);
-		BeanUtils.copyProperties(user.getAccount(), accountDTO);
-		userDTO.setAccount(accountDTO);
+		if (user.getAccount() != null) {
+			BeanUtils.copyProperties(user.getAccount(), accountDTO);
+			userDTO.setAccount(accountDTO);
+		}
 		if(user.getVehicles() != null) {
 			for(Vehicle vehicle: user.getVehicles()) {
 				VehicleDTO vehicleDTO = new VehicleDTO();
@@ -73,6 +82,11 @@ public class UserService implements IUserService {
 			for(Rating rating: user.getRatings()) {
 				RatingDTO ratingDTO = new RatingDTO();
 				BeanUtils.copyProperties(rating, ratingDTO);
+				if (rating.getRater() != null) {
+					UserDTO raterDTO = new UserDTO();
+					BeanUtils.copyProperties(rating.getRater(), raterDTO);
+					ratingDTO.setRater(raterDTO);
+				}
 				ratingDTOs.add(ratingDTO);
 			}
 		}
