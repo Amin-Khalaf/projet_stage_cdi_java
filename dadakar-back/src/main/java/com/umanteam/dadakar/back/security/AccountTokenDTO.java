@@ -1,6 +1,8 @@
-package com.umanteam.dadakar.back.dto;
+package com.umanteam.dadakar.back.security;
 
 import java.io.Serializable;
+
+import com.umanteam.dadakar.back.dto.AccountDTO;
 
 public class AccountTokenDTO implements Serializable {
 	

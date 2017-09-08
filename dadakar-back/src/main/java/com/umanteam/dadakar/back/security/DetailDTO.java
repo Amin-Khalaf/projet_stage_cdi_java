@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.dto;
+package com.umanteam.dadakar.back.security;
 
 import java.io.Serializable;
 import java.util.Collection;

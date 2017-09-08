@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.back.webservice.implementation;
+package com.umanteam.dadakar.back.security;
 
 import javax.validation.Valid;
 
@@ -19,13 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.umanteam.dadakar.back.dto.AccountDTO;
-import com.umanteam.dadakar.back.dto.AccountTokenDTO;
-import com.umanteam.dadakar.back.dto.DetailDTO;
 import com.umanteam.dadakar.back.enums.Role;
-import com.umanteam.dadakar.back.security.AccountDetailService;
-import com.umanteam.dadakar.back.security.TokenProvider;
 import com.umanteam.dadakar.back.service.interfaces.IAccountService;
-import com.umanteam.dadakar.back.webservice.interfaces.ISecurityWebService;
 
 @RestController
 @CrossOrigin("*")

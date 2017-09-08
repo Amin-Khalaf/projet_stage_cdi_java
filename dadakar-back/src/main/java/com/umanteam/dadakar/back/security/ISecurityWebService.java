@@ -1,10 +1,8 @@
-package com.umanteam.dadakar.back.webservice.interfaces;
+package com.umanteam.dadakar.back.security;
 
 import org.springframework.http.ResponseEntity;
 
 import com.umanteam.dadakar.back.dto.AccountDTO;
-import com.umanteam.dadakar.back.dto.AccountTokenDTO;
-import com.umanteam.dadakar.back.dto.DetailDTO;
 
 public interface ISecurityWebService {
 	void authenticate();
