@@ -14,6 +14,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.umanteam.dadakar.admin.front.DadakarFrontAdminApplication;
 import com.umanteam.dadakar.admin.front.dto.Complaint;
 import com.umanteam.dadakar.admin.front.dto.Rating;
 import com.umanteam.dadakar.admin.front.dto.User;
@@ -38,7 +39,7 @@ public class UserService implements IUserService {
 	public List<User> findAll() {
 		List<User> users = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
 		HttpEntity<List<User>> request = new HttpEntity<>(users, headers);
 		ResponseEntity<List<User>> usersResponse = restTemplate.exchange(userPath, HttpMethod.GET, request, new ParameterizedTypeReference<List<User>>() {});
 		return usersResponse.getBody();
@@ -48,7 +49,7 @@ public class UserService implements IUserService {
 	public User findById(String id) {
 		User user = new User();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
 		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/" + id, HttpMethod.GET, userRequest, User.class);
 		user = userResponse.getBody();
@@ -59,7 +60,7 @@ public class UserService implements IUserService {
 	public User findByAccountUsername(String username) {
 		User user = new User();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
 		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/username:" + username, HttpMethod.GET, userRequest, User.class);
 		user = userResponse.getBody();
@@ -69,7 +70,7 @@ public class UserService implements IUserService {
 	@Override
 	public User update(User user) {
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1M2MxMzgxYi1mMGMzLTQ0NjQtYmZmYy0wOGUwYmY4YTZkMDMiLCJzdWIiOiJ1c2VybmFtZTAiLCJpYXQiOjE1MDQ3Nzg5MjgsImV4cCI6MzAwMTUwNDc3ODkyOH0.R048wuBYFIRNvylyz1SoqIysxOvPK5q8ddwxSKxgCU2hfd2ROCJ6_UVM5sznisYrjUFSHNWg7sN_Rg_3aZKb6A");
+		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
 		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/update", HttpMethod.PUT, userRequest, User.class);
 		user = userResponse.getBody();
@@ -84,7 +85,7 @@ public class UserService implements IUserService {
 			int counter = 0;
 			int nbRatings = user.getRatings().size();
 			if(nbRatings > ratingBase) for(Rating rating: user.getRatings()) if(rating.getValue() < ratingMinAcceptable) counter++;
-			double ratio = counter / nbRatings;
+			double ratio = nbRatings == 0 ? 0 : (counter / nbRatings);
 			if(ratio > 0.5) complaints.add(new Complaint(user, nbRatings, ratio));
 		}
 		return complaints;

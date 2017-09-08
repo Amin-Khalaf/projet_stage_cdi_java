@@ -51,10 +51,72 @@ public class DadakarBackApplication implements CommandLineRunner {
 //		ratingTest();
 //		testVehicleRepo();
 //		testVehicleService();
-		userTest();
-		
+//		userTest();
+//		createSampleData();
 	}
 
+	private void createSampleData() {
+		// empty data
+		accountRepository.deleteAll();
+		ratingRepository.deleteAll();
+		userRepository.deleteAll();
+		vehicleRepository.deleteAll();
+		ratingRepository.deleteAll();
+		
+		// create accounts
+		Account account1 = new Account("user1", "pass1", Role.USER);
+		account1 = accountRepository.save(account1);
+		System.out.println(account1);
+		Account account2 = new Account("user2", "pass2", Role.USER);
+		account2 = accountRepository.save(account2);
+		System.out.println(account2);
+		Account admin1 = new Account("admin1", "pass1", Role.ADMIN);
+		admin1 = accountRepository.save(admin1);
+		System.out.println(admin1);
+		Account super1 = new Account("super1", "pass1", Role.SUPERUSER);
+		super1 = accountRepository.save(super1);
+		System.out.println(admin1);
+
+		// create users
+		User user1 = new User(account1, "firstName1", "lastName1", "mail1", "idCard1", "photo1", "drivingLicence1");
+		user1 = userRepository.save(user1);
+		System.out.println(user1);
+		User user2 = new User(account2, "firstName2", "lastName2", "mail2", "idCard2", "photo2", "drivingLicence2");
+		user2 = userRepository.save(user2);
+		System.out.println(user2);
+
+		// create vehicle
+		Vehicle vehicle1 = new Vehicle("voiture1", "Renault", "Megane", "Noire", "", "", "ab123cd", 6);
+		vehicle1 = vehicleRepository.save(vehicle1);
+		System.out.println(vehicle1);
+		Vehicle vehicle2 = new Vehicle("voiture2", "Renault", "Megane", "Noire", "", "", "ab123cd", 6);
+		vehicle2 = vehicleRepository.save(vehicle2);
+		System.out.println(vehicle2);
+
+		// update user1 with vehicle1
+		List<Vehicle> vehicles = new ArrayList<>();
+		vehicles.add(vehicle1);
+		user1.setVehicles(vehicles);
+		user1 = userRepository.save(user1);
+		System.out.println(user1);
+		// update user2 with vehicle2
+		List<Vehicle> vehicles2 = new ArrayList<>();
+		vehicles.add(vehicle2);
+		user2.setVehicles(vehicles2);
+		user2 = userRepository.save(user2);
+		System.out.println(user2);
+
+		// create ratings
+		Rating rating = new Rating(5, user2, "Trop cool");
+		rating = ratingRepository.insert(rating);
+		System.out.println(rating);
+		// set rating to user1
+		List<Rating> ratings = new ArrayList<>();
+		ratings.add(rating);
+		user1.setRatings(ratings);
+		user1 = userRepository.save(user1);
+		System.out.println(user1);
+	}
 	public void accountTest() {
 		accountRepository.deleteAll();
 		for (int i = 0; i < 10; i++) {
