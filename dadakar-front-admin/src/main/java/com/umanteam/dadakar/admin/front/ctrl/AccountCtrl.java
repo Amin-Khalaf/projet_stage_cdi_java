@@ -59,9 +59,9 @@ public class AccountCtrl {
 			// create mode
 			Account temp = new Account(account.getUsername(), "", account.getRole());
 			temp.setAccountId(null);
-			temp = accountService.add(temp);
-			temp.setPassword(DigestUtils.sha1Hex(temp.getAccountId() + account.getPassword()));
-			temp = accountService.update(temp);
+			temp = accountService.add(temp); // store temporary account to bind the id
+			temp.setPassword(DigestUtils.sha1Hex(temp.getAccountId() + account.getPassword())); // salt account password with accountId
+			temp = accountService.update(temp); // store account once and for all with his salted password
 			redirectAttributes.addFlashAttribute("message", "Compte créé.");
 		} else {
 			// update mode
@@ -83,6 +83,8 @@ public class AccountCtrl {
 	
 	@RequestMapping(value="update", method=RequestMethod.POST)
 	public String update(@ModelAttribute("accountForm") Account account){
+		Account temp = accountService.findById(account.getAccountId());
+		if(!temp.getPassword().equals(account.getPassword())) account.setPassword(DigestUtils.sha1Hex(account.getAccountId() + account.getPassword()));
 		account = accountService.update(account);
 		return "redirect:/admin/index";
 	}
@@ -109,7 +111,7 @@ public class AccountCtrl {
 		if(result.hasErrors()) return "admin/passwordchange";
 		
 		Account account = accountService.findById(changingAccount.getAccountId());
-		account.setPassword(changingAccount.getNewPassword());
+		account.setPassword(changingAccount.getNewPassword()); // passwords directly encrypt in ChangingAccount
 		accountService.update(account);
 		
 		redirectAttributes.addFlashAttribute("css", "success");
