@@ -55,7 +55,7 @@ public class DadakarBackApplication implements CommandLineRunner {
 //		createSampleData();
 	}
 
-	private void createSampleData() {
+	public void createSampleData() {
 		// empty data
 		accountRepository.deleteAll();
 		ratingRepository.deleteAll();
