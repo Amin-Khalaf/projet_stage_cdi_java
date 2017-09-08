@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public class Detail implements Serializable {
+public class DetailDTO implements Serializable {
 	
 	/* Variables */
 	
@@ -20,9 +20,9 @@ public class Detail implements Serializable {
 	
 	/* Constructors */
 	
-	public Detail() {}
+	public DetailDTO() {}
 
-	public Detail(String username, String password, Collection<? extends GrantedAuthority> authorities,
+	public DetailDTO(String username, String password, Collection<? extends GrantedAuthority> authorities,
 			boolean accountExpired, boolean accountLocked, boolean credentialExpired, boolean disabled) {
 		this.username = username;
 		this.password = password;

@@ -1,6 +1,5 @@
 package com.umanteam.dadakar.back.webservice.implementation;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.umanteam.dadakar.back.dto.AccountDTO;
-import com.umanteam.dadakar.back.dto.Detail;
+import com.umanteam.dadakar.back.dto.AccountTokenDTO;
+import com.umanteam.dadakar.back.dto.DetailDTO;
 import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.back.security.AccountDetailService;
 import com.umanteam.dadakar.back.security.TokenProvider;
@@ -49,43 +49,47 @@ public class SecurityWebService implements ISecurityWebService {
 		
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/login")
 	@Override
-	public String authorize(@Valid @RequestBody AccountDTO loginAccount, HttpServletResponse response) {
+	public ResponseEntity<AccountTokenDTO> authorize(@Valid @RequestBody AccountDTO loginAccount) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginAccount.getUsername(), loginAccount.getPassword());
 		try {
 			authenticationManager.authenticate(authenticationToken);
-			return tokenProvider.createToken(loginAccount.getUsername());
+			AccountDTO accountDTO = accountService.findByUsername(loginAccount.getUsername());
+			AccountTokenDTO accountToken = new AccountTokenDTO(accountDTO,  tokenProvider.createToken(loginAccount.getUsername()));
+			return new ResponseEntity<AccountTokenDTO>(accountToken, HttpStatus.OK);
 		} catch (AuthenticationException e) {
-			// TODO: log error
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			return null;
+			// TODO: log security error for admin
+			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/details/{username}",method=RequestMethod.GET)
 	@Override
-	public ResponseEntity<Detail> getDetails(@PathVariable("username") String username) {
+	public ResponseEntity<DetailDTO> getDetails(@PathVariable("username") String username) {
 		UserDetails details = detailService.loadUserByUsername(username);
 		if(details != null) {
-			Detail detail = new Detail(details.getUsername(), details.getPassword(), details.getAuthorities(), !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());
-			return new ResponseEntity<Detail>(detail, HttpStatus.OK);
+			DetailDTO detail = new DetailDTO(details.getUsername(), details.getPassword(), details.getAuthorities(), !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());
+			return new ResponseEntity<DetailDTO>(detail, HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("signup")
 	@Override
-	public String signup(@RequestBody AccountDTO signupAccount) {
-		if(signupAccount.getRole() != Role.USER) return "UNVALID ACCOUNT";
+	public ResponseEntity<AccountTokenDTO> signup(@RequestBody AccountDTO signupAccount) {
+		if(signupAccount.getRole() != Role.USER) return new ResponseEntity(HttpStatus.PRECONDITION_FAILED);
 		AccountDTO account = accountService.findByUsername(signupAccount.getUsername());
 		if(account != null && !account.getAccountId().equals("")) {
-			return "EXISTS";
+			return new ResponseEntity(HttpStatus.CONFLICT);
 		}
 		
-		accountService.addOrUpdate(signupAccount);
-		return tokenProvider.createToken(signupAccount.getUsername());
+		account = accountService.addOrUpdate(signupAccount);
+		AccountTokenDTO accountToken = new AccountTokenDTO(account, tokenProvider.createToken(signupAccount.getUsername())) ;
+		return new ResponseEntity<AccountTokenDTO>(accountToken, HttpStatus.OK);
 		
 	}
 }

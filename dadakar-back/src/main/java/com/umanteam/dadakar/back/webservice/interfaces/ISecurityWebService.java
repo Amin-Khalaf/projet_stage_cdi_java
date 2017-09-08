@@ -1,15 +1,14 @@
 package com.umanteam.dadakar.back.webservice.interfaces;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.http.ResponseEntity;
 
 import com.umanteam.dadakar.back.dto.AccountDTO;
-import com.umanteam.dadakar.back.dto.Detail;
+import com.umanteam.dadakar.back.dto.AccountTokenDTO;
+import com.umanteam.dadakar.back.dto.DetailDTO;
 
 public interface ISecurityWebService {
 	void authenticate();
-	String authorize(AccountDTO loginAccount, HttpServletResponse response);
-	ResponseEntity<Detail> getDetails(String username);
-	String signup(AccountDTO signupAccount);
+	ResponseEntity<AccountTokenDTO> authorize(AccountDTO loginAccount);
+	ResponseEntity<DetailDTO> getDetails(String username);
+	ResponseEntity<AccountTokenDTO> signup(AccountDTO signupAccount);
 }
