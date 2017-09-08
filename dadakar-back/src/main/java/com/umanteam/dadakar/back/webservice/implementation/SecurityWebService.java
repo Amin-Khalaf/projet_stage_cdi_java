@@ -78,7 +78,7 @@ public class SecurityWebService implements ISecurityWebService {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@PostMapping("signup")
+	@PostMapping("/signup")
 	@Override
 	public ResponseEntity<AccountTokenDTO> signup(@RequestBody AccountDTO signupAccount) {
 		if(signupAccount.getRole() != Role.USER) return new ResponseEntity(HttpStatus.PRECONDITION_FAILED);
