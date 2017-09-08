@@ -120,12 +120,4 @@ public class UserService implements IUserService {
 		return new UserDTO();
 	}
 
-	@Override
-	public int countUserRatingsLessThan(String id, int value) {
-		User user = userRepository.findOne(id);
-		int compte = 0;
-		if(user != null) for(Rating rating: user.getRatings()) if(rating.getValue() < value) compte++;
-		return compte;
-	}
-
 }

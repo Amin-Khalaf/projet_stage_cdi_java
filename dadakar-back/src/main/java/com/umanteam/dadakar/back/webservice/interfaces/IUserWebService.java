@@ -14,5 +14,4 @@ public interface IUserWebService {
 	ResponseEntity<UserDTO> findById(String id);
 	ResponseEntity<List<UserDTO>> findByLastName(String lastName);
 	ResponseEntity<UserDTO> findByAccountUsername(String username);
-	int countUserRatingsLessThan(String id, int value);
 }

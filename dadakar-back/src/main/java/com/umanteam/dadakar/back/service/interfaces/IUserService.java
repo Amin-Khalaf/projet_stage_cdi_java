@@ -11,5 +11,4 @@ public interface IUserService {
 	UserDTO findById(String id);
 	List<UserDTO> findByLastName(String lastName);
 	UserDTO findByAccountUsername(String username);
-	int countUserRatingsLessThan(String id, int value);
 }
