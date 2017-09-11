@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 
 @Document(collection="runs")
@@ -13,7 +12,7 @@ public class Run {
 
 	@Id
 	private String runId;
-	private String driverId;
+	private User driver;
 	private Vehicle vehicle;
 	private List<SubRun> subRuns;
 	private Luggage luggageType;
@@ -24,17 +23,17 @@ public class Run {
 		super();
 	}
 
-	public Run(String driverId, Vehicle vehicle, Luggage luggageType) {
+	public Run(User driver, Vehicle vehicle, Luggage luggageType) {
 		super();
-		this.driverId = driverId;
+		this.driver = driver;
 		this.vehicle = vehicle;
 		this.luggageType = luggageType;
 		this.cancelled = false;
 	}
 
-	public Run(String driverId, Vehicle vehicle, List<SubRun> subRuns, Luggage luggageType) {
+	public Run(User driver, Vehicle vehicle, List<SubRun> subRuns, Luggage luggageType) {
 		super();
-		this.driverId = driverId;
+		this.driver = driver;
 		this.vehicle = vehicle;
 		this.subRuns = subRuns;
 		this.luggageType = luggageType;
@@ -46,8 +45,8 @@ public class Run {
 		return runId;
 	}
 
-	public String getDriverId() {
-		return driverId;
+	public User getDriver() {
+		return driver;
 	}
 
 	public void setVehicle(Vehicle vehicle) {
@@ -71,8 +70,8 @@ public class Run {
 		this.runId = runId;
 	}
 
-	public void setDriverId(String driverId) {
-		this.driverId = driverId;
+	public void setDriver(User driver) {
+		this.driver = driver;
 	}
 
 	public Vehicle getVehicle() {
@@ -94,7 +93,7 @@ public class Run {
 	// toString
 	@Override
 	public String toString() {
-		return "Run [runId=" + runId + ", driverId=" + driverId + " ,vehicle=" + vehicle + ", subRuns=" + subRuns + ", luggageType=" + luggageType + ", cancelled=" + cancelled + "]";
+		return "Run [runId=" + runId + ", driver=" + driver + " ,vehicle=" + vehicle + ", subRuns=" + subRuns + ", luggageType=" + luggageType + ", cancelled=" + cancelled + "]";
 	}
 	
 }

@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 
 public interface PassengerRepository extends MongoRepository<Passenger, String> {
-	List<Passenger> findByUserId(String userId);
+	List<Passenger> findByUserUserId(String userId);
 }

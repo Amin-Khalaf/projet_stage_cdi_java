@@ -14,15 +14,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.http.ResponseEntity;
 //import org.springframework.web.client.RestTemplate;
 
-import com.umanteam.dadakar.back.dto.AccountDTO;
-import com.umanteam.dadakar.back.dto.UserDTO;
-import com.umanteam.dadakar.back.dto.VehicleDTO;
-//import com.umanteam.dadakar.back.entities.Account;
-//import com.umanteam.dadakar.back.entities.User;
-//import com.umanteam.dadakar.back.entities.Vehicle;
-import com.umanteam.dadakar.back.enums.Role;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
+import com.umanteam.dadakar.run.back.dto.UserDTO;
+import com.umanteam.dadakar.run.back.dto.VehicleDTO;
 import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 import com.umanteam.dadakar.run.back.entities.Address;
 import com.umanteam.dadakar.run.back.entities.Passenger;
@@ -30,6 +25,7 @@ import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.entities.RunPrice;
 import com.umanteam.dadakar.run.back.entities.SubRun;
 import com.umanteam.dadakar.run.back.entities.Toll;
+import com.umanteam.dadakar.run.back.entities.User;
 import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.enums.ResState;
@@ -39,6 +35,7 @@ import com.umanteam.dadakar.run.back.repository.RunRepository;
 import com.umanteam.dadakar.run.back.repository.SubRunRepository;
 import com.umanteam.dadakar.run.back.repository.WayPointRepository;
 import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
+import com.umanteam.dadakar.run.back.service.interfaces.IUserService;
 import com.umanteam.dadakar.run.back.service.interfaces.IWayPointService;
 
 @SpringBootApplication
@@ -63,6 +60,9 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	
 	@Autowired
 	private IRunService runService;
+	
+	@Autowired
+	private IUserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DadakarBackRunApplication.class, args);
@@ -201,7 +201,8 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	public void passengerTest() {
 		passengerRepository.deleteAll();
 		for (int i = 1; i < 10; i++) {
-			Passenger passenger = passengerRepository.insert(new Passenger("user", Luggage.PETIT, 35.20));
+			User user = new User("accountId" + i, "firstName" + i, "lastName" + i, "mail", "idCard", "photo", "drivingLicence");
+			Passenger passenger = passengerRepository.insert(new Passenger(user, Luggage.PETIT, 35.20));
 			System.out.println(passenger);
 		}
 
@@ -327,18 +328,18 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 //		
 		System.out.println("--- findByDriver ---");
 		runs = null;
-		runs = runRepository.findByDriverId("59a42acf68dfb111b40deb19");
+		runs = runRepository.findByDriverUserId("59a42acf68dfb111b40deb19");
 		for(Run var : runs)
 			System.out.println(var);
 
 		// find run not cancelled by driver
 		System.out.println("--- find not canceled By Driver ---");
-		for (Run var : runRepository.findByDriverIdAndCancelled("59a42acf68dfb111b40deb19", false)){
+		for (Run var : runRepository.findByDriverUserIdAndCancelled("59a42acf68dfb111b40deb19", false)){
 			System.out.println(var);
 		}
 		// find all run by passenger userId
 		System.out.println("--- find By passenger ---");
-		for (Run var : runRepository.findBySubRunsPassengersUserId("59a42acf68dfb111b40deb1b")){
+		for (Run var : runRepository.findBySubRunsPassengersUserUserId("59a42acf68dfb111b40deb1b")){
 			System.out.println(var);
 		}
 
@@ -346,47 +347,47 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		System.out.println("--- find not canceled By passenger ---");
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.CANCELLED);
-		for (Run var : runRepository.findBySubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn("59a42acf68dfb111b40deb1b", false, resStates)){
+		for (Run var : runRepository.findBySubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn("59a42acf68dfb111b40deb1b", false, resStates)){
 			System.out.println(var);
 		}
 
 		// find all run by user (as driver or as passenger)
 		System.out.println("--- find By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserId("59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b")){
+		for (Run var : runRepository.findByDriverUserIdOrSubRunsPassengersUserUserId("59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b")){
 			System.out.println(var);
 		}
 
 		// find run not cancelled by user (as driver or as passenger)
 		System.out.println("--- find not canceled By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn
+		for (Run var : runRepository.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn
 				("59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates)){
 			System.out.println(var);
 		}
 
 		// find current run by user (as driver or as passenger)
 		System.out.println("--- find current By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+		for (Run var : runRepository.findByDriverUserIdOrSubRunsPassengersUserUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", LocalDate.now(), LocalTime.now())){
 			System.out.println(var);
 		}
 
 		// find current run not cancelled by user (as driver or as passenger)
 		System.out.println("--- find current not canceled By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+		for (Run var : runRepository.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates, LocalDate.now(), LocalTime.now())){
 			System.out.println(var);
 		}
 
 		// find passed run by user (as driver or as passenger)
 		System.out.println("--- find passed By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateLessThan(
+		for (Run var : runRepository.findByDriverUserIdOrSubRunsPassengersUserUserIdAndSubRunsEstimatedEndDateLessThan(
 				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", LocalDate.of(2017, 9, 1))){
 			System.out.println(var);
 		}
 
 		// find passed run not cancelled by user (as driver or as passenger)
 		System.out.println("--- find passed not canceled By user ---");
-		for (Run var : runRepository.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
+		for (Run var : runRepository.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
 				"59a42acf68dfb111b40deb1b", "59a42acf68dfb111b40deb1b", false, resStates, LocalDate.of(2017, 9, 1))){
 			System.out.println(var);
 		}
@@ -405,25 +406,26 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		
 		System.out.println("=== test run service ===");
 		System.out.println("--- Add run ---");
-		AccountDTO account = new AccountDTO("username", "password", Role.USER);
 		List<VehicleDTO> vehicles = new ArrayList<>();
 		VehicleDTO vehicle = new VehicleDTO("vehicule1", "Renault", "25", "grise", null, null, "ab123cd", 6);
 		vehicles.add(vehicle);
-		UserDTO user = new UserDTO(account, "firstname", "lastname", "", "", "", "");
+		UserDTO user = new UserDTO("account", "firstname", "lastname", "", "", "", "");
 		user.setVehicles(vehicles);
 		
 		// other infos to be managed
 		
+		UserDTO driver = new UserDTO("accountId", "firstName", "lastName", "mail", "idCard", "photo", "drivingLicence");
+		driver = userService.addOrUpdate(driver);
 		List<SubRunDTO> subruns = new ArrayList<>();
 		SubRunDTO subrun = new SubRunDTO();
 		subruns.add(subrun);
-		RunDTO run = new RunDTO("user", vehicle, subruns, Luggage.PETIT);
+		RunDTO run = new RunDTO(driver, vehicle, subruns, Luggage.PETIT);
 		run = runService.addRun(run);
 		System.out.println(run);
 //		user = run.getDriver();
 		
 		System.out.println("--- save 2 ---");
-		RunDTO run2 = new RunDTO("user", vehicle, subruns, Luggage.MOYEN);
+		RunDTO run2 = new RunDTO(driver, vehicle, subruns, Luggage.MOYEN);
 		run2 = runService.addRun(run2);
 		System.out.println(run2);
 		
