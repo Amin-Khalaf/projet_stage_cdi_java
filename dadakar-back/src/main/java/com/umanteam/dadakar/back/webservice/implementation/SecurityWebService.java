@@ -1,5 +1,6 @@
 package com.umanteam.dadakar.back.webservice.implementation;
 
+import java.util.Collections;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class SecurityWebService implements ISecurityWebService {
 	public ResponseEntity<DetailDTO> getDetails(@PathVariable("username") String username) {
 		UserDetails details = detailService.loadUserByUsername(username);
 		if(details != null) {
-			DetailDTO detail = new DetailDTO(details.getUsername(), details.getPassword(), details.getAuthorities(), !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());
+			DetailDTO detail = new DetailDTO(details.getUsername(), details.getPassword(), Collections.emptyList(), !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());
 			return new ResponseEntity<DetailDTO>(detail, HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);

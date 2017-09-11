@@ -1,7 +1,14 @@
 package com.umanteam.dadakar.admin.front.enums;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
 	SUPERUSER,
 	ADMIN,
-	USER
+	USER;
+
+	@Override
+	public String getAuthority() {
+		return this.name();
+	}
 }
