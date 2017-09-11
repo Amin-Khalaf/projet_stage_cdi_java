@@ -1,12 +1,7 @@
 package com.umanteam.dadakar.run.back.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="waypoints")
 public class WayPoint {
 
-	@Id
 	private String id;
 	private String meetingPoint;
 	private Address address;

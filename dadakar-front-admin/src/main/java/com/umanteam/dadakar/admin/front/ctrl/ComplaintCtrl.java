@@ -71,10 +71,10 @@ public class ComplaintCtrl {
 	@RequestMapping(value="/bannish/{id}")
 	public String bannish(@PathVariable("id") String id, final RedirectAttributes redirectAttributes) {
 		User user = userService.findById(id);
-		Account account = accountService.findById(user.getAccount().getAccountId());
+		Account account = accountService.findById(user.getAccountId());
 		account.setBanned(!account.isBanned());
 		account = accountService.update(account);
-		user.setAccount(account);
+		user.setAccountId(account.getAccountId());
 		userService.update(user);
 		redirectAttributes.addFlashAttribute("css", "success");
 		redirectAttributes.addFlashAttribute("msg", "l'utilisateur à bien été " + (account.isBanned() ? "banni" : "débanni"));	
@@ -87,10 +87,10 @@ public class ComplaintCtrl {
 		view.addStaticAttribute("bannished", bannished);
 		for(String id: bannished.getBanned()) {
 			Account account = accountService.findById(id);
-			User user = userService.findByAccountUsername(account.getUsername());
+			User user = userService.findByAccountId(account.getAccountId());
 			account.setBanned(!account.isBanned());
 			account = accountService.update(account);
-			user.setAccount(account);
+			user.setAccountId(account.getAccountId());
 			userService.update(user);
 		}
 		redirectAttributes.addFlashAttribute("css", "success");

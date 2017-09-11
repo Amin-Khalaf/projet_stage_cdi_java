@@ -3,15 +3,14 @@ package com.umanteam.dadakar.run.back.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.umanteam.dadakar.back.dto.VehicleDTO;
 import com.umanteam.dadakar.run.back.enums.Luggage;
 
 public class RunDTO implements Serializable {
 
-	private static final long serialVersionUID = -5996339903659028184L;
+	private static final long serialVersionUID = -3915999188788680506L;
 	private String runId;
-	private String driverId;
-	private VehicleDTO vehicle;
+	private UserDTO driver;
+	private String vehicleId;
 	private List<SubRunDTO> subruns;
 	private Luggage luggageType;
 	private boolean cancelled;
@@ -21,18 +20,18 @@ public class RunDTO implements Serializable {
 		super();
 	}
 
-	public RunDTO(String driverId, VehicleDTO vehicle, Luggage luggageType) {
+	public RunDTO(UserDTO driver, String vehicleId, Luggage luggageType) {
 		super();
-		this.driverId = driverId;
-		this.vehicle = vehicle;
+		this.driver = driver;
+		this.vehicleId = vehicleId;
 		this.luggageType = luggageType;
 		this.cancelled = false;
 	}
 
-	public RunDTO(String driverId, VehicleDTO vehicle, List<SubRunDTO> subruns, Luggage luggageType) {
+	public RunDTO(UserDTO driver, String vehicleId, List<SubRunDTO> subruns, Luggage luggageType) {
 		super();
-		this.driverId = driverId;
-		this.vehicle = vehicle;
+		this.driver = driver;
+		this.vehicleId = vehicleId;
 		this.subruns = subruns;
 		this.luggageType = luggageType;
 		this.cancelled = false;
@@ -43,12 +42,12 @@ public class RunDTO implements Serializable {
 		return runId;
 	}
 
-	public String getDriverId() {
-		return driverId;
+	public UserDTO getDriver() {
+		return driver;
 	}
 
-	public VehicleDTO getVehicle() {
-		return vehicle;
+	public String getVehicleId() {
+		return vehicleId;
 	}
 
 	public List<SubRunDTO> getSubruns() {
@@ -68,12 +67,12 @@ public class RunDTO implements Serializable {
 		this.runId = runId;
 	}
 
-	public void setDriverId(String driverId) {
-		this.driverId = driverId;
+	public void setDriver(UserDTO driver) {
+		this.driver = driver;
 	}
 
-	public void setVehicle(VehicleDTO vehicle) {
-		this.vehicle = vehicle;
+	public void setVehicleId(String vehicleId) {
+		this.vehicleId = vehicleId;
 	}
 
 	public void setSubruns(List<SubRunDTO> subruns) {
@@ -91,7 +90,7 @@ public class RunDTO implements Serializable {
 	// toString
 	@Override
 	public String toString() {
-		return "RunDTO [runId=" + runId + ", driverId=" + driverId + ", vehicle=" + vehicle + ", subruns=" + subruns
+		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicleId=" + vehicleId + ", subruns=" + subruns
 				+ ", luggageType=" + luggageType + ", cancelled=" + cancelled + "]";
 	}
 

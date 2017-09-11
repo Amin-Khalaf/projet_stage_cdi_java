@@ -5,15 +5,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="subRuns")
 public class SubRun {
 
 	/* Variables */
 	
-	@Id
 	private String subRunId;
 	private Duration flexibility;
 	private WayPoint startPlace;

@@ -1,14 +1,9 @@
 package com.umanteam.dadakar.run.back.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="tolls")
 public class Toll {
 
 	/* Variables */
 	
-	@Id
 	private String tollId;
 	private String name;
 	private double price;

@@ -11,24 +11,21 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.umanteam.dadakar.back.dto.VehicleDTO;
-import com.umanteam.dadakar.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.dto.PassengerDTO;
 import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
 import com.umanteam.dadakar.run.back.dto.TollDTO;
+import com.umanteam.dadakar.run.back.dto.UserDTO;
 import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 import com.umanteam.dadakar.run.back.entities.Address;
 import com.umanteam.dadakar.run.back.entities.Passenger;
 import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.entities.SubRun;
 import com.umanteam.dadakar.run.back.entities.Toll;
+import com.umanteam.dadakar.run.back.entities.User;
 import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.ResState;
-import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
-import com.umanteam.dadakar.run.back.repository.SubRunRepository;
-import com.umanteam.dadakar.run.back.repository.WayPointRepository;
 import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
 
 @Service
@@ -36,15 +33,6 @@ public class RunService implements IRunService {
 
 	@Autowired
 	RunRepository runRepository;
-
-	@Autowired
-	WayPointRepository waypointRepository;
-
-	@Autowired
-	PassengerRepository passengerRepository;
-
-	@Autowired
-	SubRunRepository subrunRepository;
 
 	private WayPoint saveUnicWaypoints(WayPointDTO waypoint, Map<String, WayPoint> waypoints) {
 		String waypointKey = "";
@@ -59,8 +47,7 @@ public class RunService implements IRunService {
 			// copy address
 			Address address = new Address();
 			BeanUtils.copyProperties(waypoint.getAddress(), address);
-			// save
-			entity = waypointRepository.save(entity);
+			entity.setAddress(address);
 			// add to map
 			waypoints.put(waypointKey, entity);
 		}
@@ -70,12 +57,10 @@ public class RunService implements IRunService {
 	private Run copyDtoToEntity(RunDTO run) {
 		Run entity = new Run();
 		BeanUtils.copyProperties(run, entity);
-		if (run.getVehicle() != null) {
-			// copy vehicle dto to entity
-			Vehicle vehicleEntity = new Vehicle();
-			BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
-			entity.setVehicle(vehicleEntity);
-		}
+		// copy driver to dto and assign to run
+		User user = new User();
+		BeanUtils.copyProperties(run.getDriver(), user);
+		entity.setDriver(user);
 		if (run.getSubruns() != null) {
 			// copy subrun entity to dto and assign to run
 			List<SubRun> subrunsentity = new ArrayList<>();
@@ -98,8 +83,10 @@ public class RunService implements IRunService {
 					for (PassengerDTO passenger : subrun.getPassengers()) {
 						Passenger passengerEntity = new Passenger();
 						BeanUtils.copyProperties(passenger, passengerEntity);
-						// save passenger
-						passengerEntity = passengerRepository.save(passengerEntity);
+						//copy user to dto and assign to passenger
+						user = new User();
+						BeanUtils.copyProperties(passenger.getUser(), user);
+						passengerEntity.setUser(user);
 						// add to list
 						passengersEntity.add(passengerEntity);
 					}
@@ -122,8 +109,6 @@ public class RunService implements IRunService {
 					}
 					subrunEntity.setTolls(tollsEntity);
 				}
-				// save subrun
-				subrunRepository.save(subrunEntity);
 				// add subrun to list
 				subrunsentity.add(subrunEntity);
 			}
@@ -136,12 +121,11 @@ public class RunService implements IRunService {
 		// copy run entity to DTO
 		RunDTO run = new RunDTO();
 		BeanUtils.copyProperties(entity, run);
+		// copy user to dto and assign to run
+		UserDTO userDTO = new UserDTO();
+		BeanUtils.copyProperties(entity.getDriver(), userDTO);
+		run.setDriver(userDTO);
 		// copy vehicle entity to dto and assign to run
-		if (entity.getVehicle() != null) {
-			VehicleDTO vehicle = new VehicleDTO();
-			BeanUtils.copyProperties(entity.getVehicle(), vehicle);
-			run.setVehicle(vehicle);
-		}
 		if (entity.getSubRuns() != null) {
 			// copy subrun entity to dto and assign to run
 			List<SubRunDTO> subruns = new ArrayList<>();
@@ -176,6 +160,10 @@ public class RunService implements IRunService {
 					for (Passenger passengerEntity : subrunEntity.getPassengers()) {
 						PassengerDTO passenger = new PassengerDTO();
 						BeanUtils.copyProperties(passengerEntity, passenger);
+						// copy user to dto and assign to passenger
+						userDTO = new UserDTO();
+						BeanUtils.copyProperties(passengerEntity.getUser(), userDTO);
+						passenger.setUser(userDTO);
 						passengers.add(passenger);
 					}
 					subrun.setPassengers(passengers);
@@ -259,7 +247,7 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findRunsByDriverId(String driverId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findByDriverId(driverId)) {
+		for (Run entity : runRepository.findByDriverUserId(driverId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -272,7 +260,7 @@ public class RunService implements IRunService {
 		List<RunDTO> runs = new ArrayList<>();
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.RUN_CANCELED);
-		List<Run> entities = runRepository.findByDriverIdAndCancelled(driverId, false);
+		List<Run> entities = runRepository.findByDriverUserIdAndCancelled(driverId, false);
 		// Copy run entity to dto
 		if (entities != null) {
 			for (Run entity : entities) {
@@ -286,7 +274,7 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findRunsByPassengerId(String passengerId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findBySubRunsPassengersUserId(passengerId)) {
+		for (Run entity : runRepository.findBySubRunsPassengersUserUserId(passengerId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -300,7 +288,7 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findBySubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn(passengerId, false,
+				.findBySubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn(passengerId, false,
 						resStates);
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -314,7 +302,7 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findByDriverIdOrSubRunsPassengersUserId(userId, userId)) {
+		for (Run entity : runRepository.findByDriverUserIdOrSubRunsPassengersUserUserId(userId, userId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -328,7 +316,7 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn(userId,
+				.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn(userId,
 						userId, false, resStates);
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -343,7 +331,7 @@ public class RunService implements IRunService {
 	public List<RunDTO> findCurrentRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
 		List<Run> entity = runRepository
-				.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+				.findByDriverUserIdOrSubRunsPassengersUserUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 						userId, userId, LocalDate.now(), LocalTime.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -361,7 +349,7 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+				.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 						userId, userId, false, resStates, LocalDate.now(), LocalTime.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -375,7 +363,7 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findPassedRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverIdOrSubRunsPassengersUserIdAndSubRunsEstimatedEndDateLessThan(
+		List<Run> entity = runRepository.findByDriverUserIdOrSubRunsPassengersUserUserIdAndSubRunsEstimatedEndDateLessThan(
 				userId, userId, LocalDate.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -393,7 +381,7 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findByDriverIdOrSubRunsPassengersUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
+				.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
 						userId, userId, false, resStates, LocalDate.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {
