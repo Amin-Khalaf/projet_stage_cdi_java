@@ -21,9 +21,9 @@ public class ChangingAccount implements Serializable {
 
 	public ChangingAccount(String accountId, String oldPassword, String newPassword, String confirmPassword, String url) {
 		this.accountId = accountId;
-		this.oldPassword = DigestUtils.sha1Hex(accountId + oldPassword);
-		this.newPassword = DigestUtils.sha1Hex(accountId + newPassword);
-		this.confirmPassword = DigestUtils.sha1Hex(accountId + confirmPassword);
+		this.oldPassword = DigestUtils.sha1Hex(oldPassword);
+		this.newPassword = DigestUtils.sha1Hex(newPassword);
+		this.confirmPassword = DigestUtils.sha1Hex(confirmPassword);
 		this.url = url;
 	}
 
@@ -42,7 +42,7 @@ public class ChangingAccount implements Serializable {
 	}
 
 	public void setOldPassword(String oldPassword) {
-		this.oldPassword = DigestUtils.sha1Hex(accountId + oldPassword);
+		this.oldPassword = DigestUtils.sha1Hex(oldPassword);
 	}
 
 	public String getNewPassword() {
@@ -50,7 +50,7 @@ public class ChangingAccount implements Serializable {
 	}
 
 	public void setNewPassword(String newPassword) {
-		this.newPassword = DigestUtils.sha1Hex(accountId + newPassword);
+		this.newPassword = DigestUtils.sha1Hex(newPassword);
 	}
 
 	public String getConfirmPassword() {
@@ -58,7 +58,7 @@ public class ChangingAccount implements Serializable {
 	}
 
 	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = DigestUtils.sha1Hex(accountId + confirmPassword);
+		this.confirmPassword = DigestUtils.sha1Hex(confirmPassword);
 	}
 	
 	public String getUrl() {
