@@ -3,6 +3,8 @@ package com.umanteam.dadakar.admin.front.service.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.umanteam.dadakar.admin.front.DadakarFrontAdminApplication;
 import com.umanteam.dadakar.admin.front.dto.Account;
@@ -32,7 +36,7 @@ public class AccountService implements IAccountService {
 	public Account add(Account account) {
 		String url = accountPath + "/save";
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Account> request = new HttpEntity<Account>(account, headers);
 		ResponseEntity<Account> answer = restTemplate.exchange(url, HttpMethod.POST, request, Account.class);
 		if (answer.getStatusCode() != HttpStatus.OK)
@@ -45,7 +49,7 @@ public class AccountService implements IAccountService {
 	public Account update(Account account) {
 		String url = accountPath + "/update";
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Account> request = new HttpEntity<Account>(account, headers);
 		ResponseEntity<Account> answer = restTemplate.exchange(url, HttpMethod.PUT, request, Account.class);
 		if (answer.getStatusCode() != HttpStatus.OK)
@@ -59,7 +63,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/del/" + id;
 		Account account = new Account();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Account> request = new HttpEntity<Account>(account, headers);		
 		restTemplate.exchange(url,HttpMethod.DELETE, request, Account.class);
 	}
@@ -68,7 +72,7 @@ public class AccountService implements IAccountService {
 	public List<Account> findAll() {
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(accountPath, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {});
 		return answer.getBody();
@@ -79,7 +83,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/" + id;
 		Account account = new Account();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Account> request = new HttpEntity<Account>(account, headers);
 		ResponseEntity<Account> answer = restTemplate.exchange(url, HttpMethod.GET, request, Account.class);
 		if (answer.getStatusCode() != HttpStatus.OK)
@@ -93,7 +97,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/username:" + username;
 		Account account = new Account();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Account> request = new HttpEntity<Account>(account, headers);
 		ResponseEntity<Account> answer = restTemplate.exchange(url, HttpMethod.GET, request, Account.class);
 		if (answer.getStatusCode() != HttpStatus.OK)
@@ -107,7 +111,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/users";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -122,7 +126,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/admins";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -137,7 +141,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/superusers";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -152,7 +156,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/adminsandsuperusers";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -167,7 +171,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/banned";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -182,7 +186,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/notbanned";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -197,7 +201,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/deleted";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -212,7 +216,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/deleted:users";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -227,7 +231,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/deleted:admins";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -242,7 +246,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/notdeleted";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -257,7 +261,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/notdeleted:users";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});
@@ -272,7 +276,7 @@ public class AccountService implements IAccountService {
 		String url = accountPath + "/notdeleted:admins";
 		List<Account> accounts = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Account>> request = new HttpEntity<>(accounts, headers);
 		ResponseEntity<List<Account>> answer = restTemplate.exchange(url, HttpMethod.GET, request, new ParameterizedTypeReference<List<Account>>() {
 		});

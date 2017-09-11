@@ -15,13 +15,15 @@
 				<li class=<%=request.getParameter("price-active")%>>
 					<a href="/price/index">Spécifier les prix et les taux de marge</a>
 				</li>
+				<% if(request.getSession().getAttribute("role") == "SUPERUSER") { %>
 				<li class="<%=request.getParameter("admin-active")%> <%=request.getParameter("admin-enable")%>">
 					<a href="/admin/index">Gérer les administrateurs</a>
 				</li>
+				<% } %>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class=<%=request.getParameter("password-active")%>>
-					<a href="/admin/passwordchange/<%=request.getAttribute("javax.servlet.forward.request_uri").toString().replaceAll("/", "-")%>/<%=request.getParameter("adminId")%>">
+					<a href="/admin/passwordchange/<%= request.getAttribute("javax.servlet.forward.request_uri").toString().replaceAll("/", "-") %>/<%= request.getSession().getAttribute("uid")%>">
 						Changer de mot de passe</a>
 				</li>
 				<li>

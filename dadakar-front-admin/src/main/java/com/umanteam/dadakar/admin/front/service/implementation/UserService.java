@@ -39,7 +39,7 @@ public class UserService implements IUserService {
 	public List<User> findAll() {
 		List<User> users = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<User>> request = new HttpEntity<>(users, headers);
 		ResponseEntity<List<User>> usersResponse = restTemplate.exchange(userPath, HttpMethod.GET, request, new ParameterizedTypeReference<List<User>>() {});
 		return usersResponse.getBody();
@@ -49,7 +49,7 @@ public class UserService implements IUserService {
 	public User findById(String id) {
 		User user = new User();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/" + id, HttpMethod.GET, userRequest, User.class);
 		user = userResponse.getBody();
@@ -60,7 +60,7 @@ public class UserService implements IUserService {
 	public User findByAccountUsername(String username) {
 		User user = new User();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/username:" + username, HttpMethod.GET, userRequest, User.class);
 		user = userResponse.getBody();
@@ -70,7 +70,7 @@ public class UserService implements IUserService {
 	@Override
 	public User update(User user) {
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
 		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/update", HttpMethod.PUT, userRequest, User.class);
 		user = userResponse.getBody();

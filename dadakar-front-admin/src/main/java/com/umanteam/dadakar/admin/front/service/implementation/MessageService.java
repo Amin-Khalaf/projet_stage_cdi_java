@@ -32,7 +32,7 @@ public class MessageService implements IMessageService {
 	@Override
 	public Message add(Message message) {
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message, headers);
 		ResponseEntity<Message> msgResponse = restTemplate.exchange(msgPath + "/save", HttpMethod.POST, msgRequest, Message.class);
 		if(msgResponse.getStatusCode() != HttpStatus.OK) return null;
@@ -43,7 +43,7 @@ public class MessageService implements IMessageService {
 	@Override
 	public Message update(Message message) {
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message, headers);
 		ResponseEntity<Message> msgResponse = restTemplate.exchange(msgPath + "/update", HttpMethod.PUT, msgRequest, Message.class);
 		if(msgResponse.getStatusCode() != HttpStatus.OK) return null;
@@ -55,7 +55,7 @@ public class MessageService implements IMessageService {
 	public void delete(String id) {
 		Message message = new Message();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message, headers);
 		restTemplate.exchange(msgPath + "/del/" + id, HttpMethod.DELETE, msgRequest, Message.class);
 	}
@@ -64,7 +64,7 @@ public class MessageService implements IMessageService {
 	public List<Message> findAll() {
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(msgPath, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -76,7 +76,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/" + id;
 		Message message = new Message();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<Message> msgRequest = new HttpEntity<Message>(message, headers);
 		ResponseEntity<Message> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, Message.class);
 		message = msgResponse.getBody();
@@ -88,7 +88,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/lte:" + horoEnd.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -100,7 +100,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/gte:" + horoStart.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -112,7 +112,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/gte:" + horoStart.toString() + "/lte:" + horoEnd.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -124,7 +124,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/sid:" + sid;
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -136,7 +136,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/sid:" + sid + "/lte:" + horoEnd.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -148,7 +148,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/sid:" + sid + "/lte:" + horoStart.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -160,7 +160,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/sid:" + sid + "/gte:" + horoStart.toString() + "/lte:" + horoEnd.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -172,7 +172,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/rid:" + rid;
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -184,7 +184,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/rid:" + rid + "/lte:" + horoEnd.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -196,7 +196,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/rid:" + rid + "/gte:" + horoStart.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -208,7 +208,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/rid:" + rid + "/gte:" + horoStart.toString() + "/lte:" + horoEnd.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -220,7 +220,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/sid:" + sid + "/rid:" + rid;
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -232,7 +232,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/sid:" + sid + "/rid:" + rid + "/lte:" + horoEnd.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -244,7 +244,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/sid:" + sid + "/rid:" + rid + "/gte:" + horoStart.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();
@@ -256,7 +256,7 @@ public class MessageService implements IMessageService {
 		String url = msgPath + "/sid:" + sid + "/rid:" + rid + "/gte:" + horoStart.toString() + "/lte:" + horoEnd.toString();
 		List<Message> messages = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Message>> msgRequest = new HttpEntity<List<Message>>(messages, headers);
 		ResponseEntity<List<Message>> msgResponse = restTemplate.exchange(url, HttpMethod.GET, msgRequest, new ParameterizedTypeReference<List<Message>>() {});
 		messages = msgResponse.getBody();

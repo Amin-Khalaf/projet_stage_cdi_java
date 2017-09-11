@@ -1,7 +1,5 @@
 package com.umanteam.dadakar.back.security;
 
-import java.util.Collections;
-
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,16 +22,16 @@ public class AccountDetailService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		final AccountDTO account = accountService.findByUsername(username);
 		if(account == null || account.getAccountId().equals("")) throw new UsernameNotFoundException("L'utilisateur n'existe pas.");
-		
-		return User
+		UserDetails user = User
 				.withUsername(username)
 				.password(account.getPassword())
-				.authorities(Collections.emptyList())
+				.roles(account.getRole().toString())
 				.accountExpired(false)
 				.accountLocked(false)
 				.credentialsExpired(false)
 				.disabled(false)
 				.build();
+		return user;
 	}
 
 }

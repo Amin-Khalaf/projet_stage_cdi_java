@@ -31,7 +31,7 @@ public class RatingService implements IRatingService {
 	public List<Rating> findAll() {
 		List<Rating> ratings = new ArrayList<>();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
+		headers.add("Authorization", DadakarFrontAdminApplication.getToken());
 		HttpEntity<List<Rating>> request = new HttpEntity<>(ratings, headers);
 		ResponseEntity<List<Rating>> ratingsResponse = restTemplate.exchange(ratingPath, HttpMethod.GET, request, new ParameterizedTypeReference<List<Rating>>() {});
 		ratings = ratingsResponse.getBody();
