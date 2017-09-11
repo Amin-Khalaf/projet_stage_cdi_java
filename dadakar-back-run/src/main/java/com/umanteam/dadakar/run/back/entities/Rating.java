@@ -1,14 +1,9 @@
 package com.umanteam.dadakar.run.back.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="ratings")
 public class Rating {
 
 	/* Variables */
 	
-	@Id
 	private String ratingId;
 	private int value;
 	private User rater;

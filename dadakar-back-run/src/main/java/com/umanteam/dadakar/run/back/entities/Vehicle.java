@@ -1,12 +1,7 @@
 package com.umanteam.dadakar.run.back.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "vehicles")
 public class Vehicle {
 
-	@Id
 	private String vehicleId;
 	private String name;
 	private String brand;

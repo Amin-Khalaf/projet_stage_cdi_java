@@ -27,10 +27,7 @@ import com.umanteam.dadakar.run.back.entities.User;
 import com.umanteam.dadakar.run.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.ResState;
-import com.umanteam.dadakar.run.back.repository.PassengerRepository;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
-import com.umanteam.dadakar.run.back.repository.SubRunRepository;
-import com.umanteam.dadakar.run.back.repository.WayPointRepository;
 import com.umanteam.dadakar.run.back.service.interfaces.IRunService;
 
 @Service
@@ -38,15 +35,6 @@ public class RunService implements IRunService {
 
 	@Autowired
 	RunRepository runRepository;
-
-	@Autowired
-	WayPointRepository waypointRepository;
-
-	@Autowired
-	PassengerRepository passengerRepository;
-
-	@Autowired
-	SubRunRepository subrunRepository;
 
 	private WayPoint saveUnicWaypoints(WayPointDTO waypoint, Map<String, WayPoint> waypoints) {
 		String waypointKey = "";
@@ -61,8 +49,7 @@ public class RunService implements IRunService {
 			// copy address
 			Address address = new Address();
 			BeanUtils.copyProperties(waypoint.getAddress(), address);
-			// save
-			entity = waypointRepository.save(entity);
+			entity.setAddress(address);
 			// add to map
 			waypoints.put(waypointKey, entity);
 		}
@@ -108,8 +95,6 @@ public class RunService implements IRunService {
 						user = new User();
 						BeanUtils.copyProperties(passenger.getUser(), user);
 						passengerEntity.setUser(user);
-						// save passenger
-						passengerEntity = passengerRepository.save(passengerEntity);
 						// add to list
 						passengersEntity.add(passengerEntity);
 					}
@@ -132,8 +117,6 @@ public class RunService implements IRunService {
 					}
 					subrunEntity.setTolls(tollsEntity);
 				}
-				// save subrun
-				subrunRepository.save(subrunEntity);
 				// add subrun to list
 				subrunsentity.add(subrunEntity);
 			}

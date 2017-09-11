@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.login.back.enums;
+package com.umanteam.dadakar.run.back.enums;
 
 public enum Role {
 	SUPERUSER,

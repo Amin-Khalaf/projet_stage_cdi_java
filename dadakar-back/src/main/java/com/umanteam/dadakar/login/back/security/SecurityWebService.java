@@ -66,7 +66,7 @@ public class SecurityWebService implements ISecurityWebService {
 	public ResponseEntity<DetailDTO> getDetails(@PathVariable("username") String username) {
 		UserDetails details = detailService.loadUserByUsername(username);
 		if(details != null) {
-			DetailDTO detail = new DetailDTO(details.getUsername(), details.getPassword(), details.getAuthorities(), !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());
+			DetailDTO detail = new DetailDTO(details.getUsername(), details.getPassword(), Role.USER, !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());
 			return new ResponseEntity<DetailDTO>(detail, HttpStatus.OK);
 		}
 		return new ResponseEntity(HttpStatus.UNAUTHORIZED);

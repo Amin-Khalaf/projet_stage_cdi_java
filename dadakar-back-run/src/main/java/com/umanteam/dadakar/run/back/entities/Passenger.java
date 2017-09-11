@@ -1,17 +1,12 @@
 package com.umanteam.dadakar.run.back.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import com.umanteam.dadakar.run.back.enums.Luggage;
 import com.umanteam.dadakar.run.back.enums.ResState;
 
-@Document(collection="passengers")
 public class Passenger {
 	
 	/*Variables */
 	
-	@Id
 	private String passengerId;
 	private User user;
 	private Luggage luggage;

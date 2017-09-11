@@ -57,12 +57,12 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public User findByAccountUsername(String username) {
+	public User findByAccountId(String accountId) {
 		User user = new User();
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 		headers.add("Authorization", DadakarFrontAdminApplication.tokenValue);
 		HttpEntity<User> userRequest = new HttpEntity<>(user, headers);
-		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/username:" + username, HttpMethod.GET, userRequest, User.class);
+		ResponseEntity<User> userResponse = restTemplate.exchange(userPath + "/accountid:" + accountId, HttpMethod.GET, userRequest, User.class);
 		user = userResponse.getBody();
 		return user;
 	}
@@ -81,12 +81,14 @@ public class UserService implements IUserService {
 	public List<Complaint> getComplaint() {
 		List<Complaint> complaints = new ArrayList<>();
 		List<User> users = findAll();
-		for(User user: users) {
-			int counter = 0;
-			int nbRatings = user.getRatings().size();
-			if(nbRatings > ratingBase) for(Rating rating: user.getRatings()) if(rating.getValue() < ratingMinAcceptable) counter++;
-			double ratio = nbRatings == 0 ? 0 : (counter / nbRatings);
-			if(ratio > 0.5) complaints.add(new Complaint(user, nbRatings, ratio));
+		if(users != null) {
+			for(User user: users) {
+				int counter = 0;
+				int nbRatings = user.getRatings().size();
+				if(nbRatings > ratingBase) for(Rating rating: user.getRatings()) if(rating.getValue() < ratingMinAcceptable) counter++;
+				double ratio = nbRatings == 0 ? 0 : (counter / nbRatings);
+				if(ratio > 0.5) complaints.add(new Complaint(user, nbRatings, ratio));
+			}
 		}
 		return complaints;
 	}

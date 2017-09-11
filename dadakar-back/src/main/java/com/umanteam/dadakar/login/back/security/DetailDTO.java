@@ -1,9 +1,8 @@
 package com.umanteam.dadakar.login.back.security;
 
 import java.io.Serializable;
-import java.util.Collection;
 
-import org.springframework.security.core.GrantedAuthority;
+import com.umanteam.dadakar.login.back.enums.Role;
 
 public class DetailDTO implements Serializable {
 	
@@ -12,7 +11,7 @@ public class DetailDTO implements Serializable {
 	private static final long serialVersionUID = -1723909309710690433L;
 	private String username;
 	private String password;
-	private Collection<? extends GrantedAuthority> authorities;
+	private Role authorities;
 	private boolean accountExpired;
 	private boolean accountLocked;
 	private boolean credentialExpired;
@@ -22,7 +21,7 @@ public class DetailDTO implements Serializable {
 	
 	public DetailDTO() {}
 
-	public DetailDTO(String username, String password, Collection<? extends GrantedAuthority> authorities,
+	public DetailDTO(String username, String password, Role authorities,
 			boolean accountExpired, boolean accountLocked, boolean credentialExpired, boolean disabled) {
 		this.username = username;
 		this.password = password;
@@ -51,11 +50,11 @@ public class DetailDTO implements Serializable {
 		this.password = password;
 	}
 
-	public Collection<? extends GrantedAuthority> getAuthorities() {
+	public Role getAuthorities() {
 		return authorities;
 	}
 
-	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+	public void setAuthorities(Role authorities) {
 		this.authorities = authorities;
 	}
 

@@ -8,7 +8,7 @@ import com.umanteam.dadakar.admin.front.dto.User;
 public interface IUserService {
 	List<User> findAll();
 	User findById(String id);
-	User findByAccountUsername(String username);
+	User findByAccountId(String accountId);
 	User update(User user);
 	List<Complaint> getComplaint();
 }

@@ -70,7 +70,7 @@ public class UserWebService implements IUserWebService {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value="/accountId:{accountId}", method=RequestMethod.GET)
+	@RequestMapping(value="/accountid:{accountId}", method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<UserDTO> findByAccountId(@PathVariable("accountId") String accountId) {
 		UserDTO userDTO = userService.findByAccountId(accountId);
