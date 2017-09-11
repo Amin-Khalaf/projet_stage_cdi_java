@@ -7,10 +7,10 @@ import com.umanteam.dadakar.run.back.enums.Luggage;
 
 public class RunDTO implements Serializable {
 
-	private static final long serialVersionUID = 6234784172171991193L;
+	private static final long serialVersionUID = -3915999188788680506L;
 	private String runId;
 	private UserDTO driver;
-	private VehicleDTO vehicle;
+	private String vehicleId;
 	private List<SubRunDTO> subruns;
 	private Luggage luggageType;
 	private boolean cancelled;
@@ -20,18 +20,18 @@ public class RunDTO implements Serializable {
 		super();
 	}
 
-	public RunDTO(UserDTO driver, VehicleDTO vehicle, Luggage luggageType) {
+	public RunDTO(UserDTO driver, String vehicleId, Luggage luggageType) {
 		super();
 		this.driver = driver;
-		this.vehicle = vehicle;
+		this.vehicleId = vehicleId;
 		this.luggageType = luggageType;
 		this.cancelled = false;
 	}
 
-	public RunDTO(UserDTO driver, VehicleDTO vehicle, List<SubRunDTO> subruns, Luggage luggageType) {
+	public RunDTO(UserDTO driver, String vehicleId, List<SubRunDTO> subruns, Luggage luggageType) {
 		super();
 		this.driver = driver;
-		this.vehicle = vehicle;
+		this.vehicleId = vehicleId;
 		this.subruns = subruns;
 		this.luggageType = luggageType;
 		this.cancelled = false;
@@ -46,8 +46,8 @@ public class RunDTO implements Serializable {
 		return driver;
 	}
 
-	public VehicleDTO getVehicle() {
-		return vehicle;
+	public String getVehicleId() {
+		return vehicleId;
 	}
 
 	public List<SubRunDTO> getSubruns() {
@@ -71,8 +71,8 @@ public class RunDTO implements Serializable {
 		this.driver = driver;
 	}
 
-	public void setVehicle(VehicleDTO vehicle) {
-		this.vehicle = vehicle;
+	public void setVehicleId(String vehicleId) {
+		this.vehicleId = vehicleId;
 	}
 
 	public void setSubruns(List<SubRunDTO> subruns) {
@@ -90,7 +90,7 @@ public class RunDTO implements Serializable {
 	// toString
 	@Override
 	public String toString() {
-		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicle=" + vehicle + ", subruns=" + subruns
+		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicleId=" + vehicleId + ", subruns=" + subruns
 				+ ", luggageType=" + luggageType + ", cancelled=" + cancelled + "]";
 	}
 

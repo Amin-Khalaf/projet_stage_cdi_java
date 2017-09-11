@@ -13,7 +13,7 @@ public class Run {
 	@Id
 	private String runId;
 	private User driver;
-	private Vehicle vehicle;
+	private String vehicleId;
 	private List<SubRun> subRuns;
 	private Luggage luggageType;
 	private boolean cancelled;
@@ -23,18 +23,18 @@ public class Run {
 		super();
 	}
 
-	public Run(User driver, Vehicle vehicle, Luggage luggageType) {
+	public Run(User driver, String vehicleId, Luggage luggageType) {
 		super();
 		this.driver = driver;
-		this.vehicle = vehicle;
+		this.vehicleId = vehicleId;
 		this.luggageType = luggageType;
 		this.cancelled = false;
 	}
 
-	public Run(User driver, Vehicle vehicle, List<SubRun> subRuns, Luggage luggageType) {
+	public Run(User driver, String vehicleId, List<SubRun> subRuns, Luggage luggageType) {
 		super();
 		this.driver = driver;
-		this.vehicle = vehicle;
+		this.vehicleId = vehicleId;
 		this.subRuns = subRuns;
 		this.luggageType = luggageType;
 		this.cancelled = false;
@@ -49,8 +49,8 @@ public class Run {
 		return driver;
 	}
 
-	public void setVehicle(Vehicle vehicle) {
-		this.vehicle = vehicle;
+	public void setVehicleId(String vehicleId) {
+		this.vehicleId = vehicleId;
 	}
 
 	public List<SubRun> getSubRuns() {
@@ -74,8 +74,8 @@ public class Run {
 		this.driver = driver;
 	}
 
-	public Vehicle getVehicle() {
-		return vehicle;
+	public String getVehicleId() {
+		return vehicleId;
 	}
 
 	public void setSubRuns(List<SubRun> subRuns) {
@@ -93,7 +93,7 @@ public class Run {
 	// toString
 	@Override
 	public String toString() {
-		return "Run [runId=" + runId + ", driver=" + driver + " ,vehicle=" + vehicle + ", subRuns=" + subRuns + ", luggageType=" + luggageType + ", cancelled=" + cancelled + "]";
+		return "Run [runId=" + runId + ", driver=" + driver + " ,vehicleId=" + vehicleId + ", subRuns=" + subRuns + ", luggageType=" + luggageType + ", cancelled=" + cancelled + "]";
 	}
 	
 }

@@ -16,7 +16,6 @@ import com.umanteam.dadakar.run.back.dto.RunDTO;
 import com.umanteam.dadakar.run.back.dto.SubRunDTO;
 import com.umanteam.dadakar.run.back.dto.TollDTO;
 import com.umanteam.dadakar.run.back.dto.UserDTO;
-import com.umanteam.dadakar.run.back.dto.VehicleDTO;
 import com.umanteam.dadakar.run.back.dto.WayPointDTO;
 import com.umanteam.dadakar.run.back.entities.Address;
 import com.umanteam.dadakar.run.back.entities.Passenger;
@@ -24,7 +23,6 @@ import com.umanteam.dadakar.run.back.entities.Run;
 import com.umanteam.dadakar.run.back.entities.SubRun;
 import com.umanteam.dadakar.run.back.entities.Toll;
 import com.umanteam.dadakar.run.back.entities.User;
-import com.umanteam.dadakar.run.back.entities.Vehicle;
 import com.umanteam.dadakar.run.back.entities.WayPoint;
 import com.umanteam.dadakar.run.back.enums.ResState;
 import com.umanteam.dadakar.run.back.repository.RunRepository;
@@ -63,12 +61,6 @@ public class RunService implements IRunService {
 		User user = new User();
 		BeanUtils.copyProperties(run.getDriver(), user);
 		entity.setDriver(user);
-		if (run.getVehicle() != null) {
-			// copy vehicle dto to entity
-			Vehicle vehicleEntity = new Vehicle();
-			BeanUtils.copyProperties(run.getVehicle(), vehicleEntity);
-			entity.setVehicle(vehicleEntity);
-		}
 		if (run.getSubruns() != null) {
 			// copy subrun entity to dto and assign to run
 			List<SubRun> subrunsentity = new ArrayList<>();
@@ -134,11 +126,6 @@ public class RunService implements IRunService {
 		BeanUtils.copyProperties(entity.getDriver(), userDTO);
 		run.setDriver(userDTO);
 		// copy vehicle entity to dto and assign to run
-		if (entity.getVehicle() != null) {
-			VehicleDTO vehicle = new VehicleDTO();
-			BeanUtils.copyProperties(entity.getVehicle(), vehicle);
-			run.setVehicle(vehicle);
-		}
 		if (entity.getSubRuns() != null) {
 			// copy subrun entity to dto and assign to run
 			List<SubRunDTO> subruns = new ArrayList<>();
