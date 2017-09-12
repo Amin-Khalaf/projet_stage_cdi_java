@@ -19,7 +19,6 @@
 			<jsp:param value="" name="admin-active"/>
 			<jsp:param value="" name="password-active"/>
 			<jsp:param value="" name="admin-enable"/>
-			<jsp:param value="" name="adminId"/>
 		</jsp:include>
 		
 		<div class="container-fluid">
@@ -52,7 +51,7 @@
 								<td>${complaint.user.lastName} ${complaint.user.firstName}</td>
 								<td>${complaint.numberOfRatings}</td>
 								<td>${complaint.percentOfBadRatings}</td>
-								<td><a  href="message/1234:${complaint.user.userId}" class="btn btn-warning">Message</a></td>
+								<td><a  href="message/<%= request.getSession().getAttribute("uid")%>:${complaint.user.userId}" class="btn btn-warning">Message</a></td>
 								<td><a href="bannish/${complaint.user.userId}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir ${complaint.user.account.banned?'réintégrer':'bannir'} cet utilisateur ?')">${complaint.user.account.banned?'Réintégrer':'Bannir'}</a></td>
 							</tr>
 						</c:forEach>

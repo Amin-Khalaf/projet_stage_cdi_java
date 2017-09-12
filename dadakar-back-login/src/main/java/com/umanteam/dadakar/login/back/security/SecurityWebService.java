@@ -61,10 +61,9 @@ public class SecurityWebService implements ISecurityWebService {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/details/{username}",method=RequestMethod.GET)
+	@RequestMapping(value="/details/{username:.+}",method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<DetailDTO> getDetails(@PathVariable("username") String username) {
-		System.out.println(username);
 		UserDetails details = detailService.loadUserByUsername(username);
 		if(details != null) {
 			DetailDTO detail = new DetailDTO(details.getUsername(), details.getPassword(), Role.USER, !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());

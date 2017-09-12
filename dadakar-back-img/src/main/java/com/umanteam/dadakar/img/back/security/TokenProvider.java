@@ -1,12 +1,14 @@
-package com.umanteam.dadakar.run.back.security;
+package com.umanteam.dadakar.img.back.security;
 
 import java.util.Base64;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -36,7 +38,7 @@ public class TokenProvider {
 		UserDetails userDetails = User
 				.withUsername(detail.getUsername())
 				.password(detail.getPassword())
-				.roles(detail.getAuthorities().toString())
+				.authorities((List<? extends GrantedAuthority>) detail.getAuthorities())
 				.accountExpired(detail.isAccountExpired())
 				.accountLocked(detail.isAccountLocked())
 				.credentialsExpired(detail.isCredentialExpired())

@@ -7,7 +7,7 @@ public class UserDTO implements Serializable {
 	
 	/* Variables */
 	
-	private static final long serialVersionUID = -3941789539836780527L;
+	private static final long serialVersionUID = 8504159303859105136L;
 	private String userId;
 	private String accountId;
 	private String firstName;
@@ -47,7 +47,7 @@ public class UserDTO implements Serializable {
 		return accountId;
 	}
 
-	public void setAccount(String accountId) {
+	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
 

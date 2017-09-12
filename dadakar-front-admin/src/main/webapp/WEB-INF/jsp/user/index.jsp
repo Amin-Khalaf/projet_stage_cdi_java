@@ -18,7 +18,6 @@
 			<jsp:param value="" name="admin-active"/>
 			<jsp:param value="" name="password-active"/>
 			<jsp:param value="" name="admin-enable"/>
-			<jsp:param value="59b00e67e1acbf022cdfb466" name="adminId"/>
 		</jsp:include>
 		
 		<div class="container-fluid">
@@ -59,7 +58,7 @@
 								<td><a href="${imgPath}/name:user1.png" target="_blank"><img src="${imgPath}/name:user1.png" width="150 px" height="150 px"></a></td>
 								<td><img src="${imgPath}/name:utilisateur2.jpg" width="150 px" height="150 px"></td>
 								<td><img src="${imgPath}/name:voiture1.jpg" width="150 px" height="150 px"></td>
-								<td><a  href="message/1234:${usr2.userId}" class="btn btn-warning">Message</a></td>
+								<td><a  href="message/<%= request.getSession().getAttribute("uid")%>:${usr2.userId}" class="btn btn-warning">Message</a></td>
 								<td><a href="bannish/${usr2.userId}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir ${usr2.account.banned?'réintégrer':'bannir'} cet utilisateur ?')">${usr2.account.banned?'Réintégrer':'Bannir'}</a></td>
 							</tr>
 						</c:forEach>

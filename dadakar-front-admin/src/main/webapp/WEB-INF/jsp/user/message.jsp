@@ -20,7 +20,6 @@
 			<jsp:param value="" name="admin-active"/>
 			<jsp:param value="" name="password-active"/>
 			<jsp:param value="" name="admin-enable"/>
-			<jsp:param value="" name="adminId"/>
 		</jsp:include>
 		
 		<form:form modelAttribute="message" method="POST" action="/user/send">
