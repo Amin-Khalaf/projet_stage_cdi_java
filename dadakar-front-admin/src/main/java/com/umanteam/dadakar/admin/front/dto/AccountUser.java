@@ -1,18 +1,15 @@
-package com.umanteam.dadakar.run.back.entities;
+package com.umanteam.dadakar.admin.front.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="users")
-public class User {
+public class AccountUser implements Serializable {
 	
 	/* Variables */
 	
-	@Id
+	private static final long serialVersionUID = 2226278947358592928L;
 	private String userId;
-	private String accountId;
+	private Account account;
 	private String firstName;
 	private String lastName;
 	private String mail;
@@ -21,21 +18,38 @@ public class User {
 	private String drivingLicence;
 	private List<Vehicle> vehicles;
 	private List<Rating> ratings;
-
+	
 	/* Constructors */
 	
-	public User() {}
+	public AccountUser() {}
 
-	public User(String accountId, String firstName, String lastName, String mail, String idCard, String photo, String drivingLicence) {
-		this.accountId = accountId;
+	public AccountUser(Account account, String firstName, String lastName, String mail, String idCard, String photo,
+			String drivingLicence, List<Vehicle> vehicles, List<Rating> ratings) {
+		this.account = account;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mail = mail;
 		this.idCard = idCard;
 		this.photo = photo;
 		this.drivingLicence = drivingLicence;
+		this.vehicles = vehicles;
+		this.ratings = ratings;
 	}
-	
+
+	public AccountUser(String userId, Account account, String firstName, String lastName, String mail, String idCard,
+			String photo, String drivingLicence, List<Vehicle> vehicles, List<Rating> ratings) {
+		this.userId = userId;
+		this.account = account;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mail = mail;
+		this.idCard = idCard;
+		this.photo = photo;
+		this.drivingLicence = drivingLicence;
+		this.vehicles = vehicles;
+		this.ratings = ratings;
+	}
+
 	/* Getters and Setters */
 	
 	public String getUserId() {
@@ -46,12 +60,12 @@ public class User {
 		this.userId = userId;
 	}
 
-	public String getAccountId() {
-		return accountId;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public String getFirstName() {
@@ -122,9 +136,9 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", accountId=" + accountId + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", mail=" + mail + ", idCard=" + idCard + ", photo=" + photo + ", drivingLicence="
-				+ drivingLicence + ", vehicles=" + vehicles + ", ratings=" + ratings + "]";
+		return "User [userId=" + userId + ", account=" + account + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", mail=" + mail + ", idCard=" + idCard + ", photo=" + photo + ", drivingLicence=" + drivingLicence
+				+ ", vehicles=" + vehicles + ", ratings=" + ratings + "]";
 	}
 	
 }

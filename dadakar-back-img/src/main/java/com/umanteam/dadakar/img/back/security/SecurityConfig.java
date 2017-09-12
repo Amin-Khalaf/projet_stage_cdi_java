@@ -1,4 +1,4 @@
-package com.umanteam.dadakar.msg.back.security;
+package com.umanteam.dadakar.img.back.security;
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.httpBasic()
 			.and()
 		.authorizeRequests()
-			.antMatchers("/del/**", "/update").hasAnyRole("ADMIN", "SUPERUSER")
 			.anyRequest().authenticated()
 			.and()
 		.apply(new JWTConfigurer(tokenProvider));

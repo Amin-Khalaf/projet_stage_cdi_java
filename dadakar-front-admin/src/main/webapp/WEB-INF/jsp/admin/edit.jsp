@@ -24,7 +24,6 @@
 			<jsp:param value="active" name="admin-active"/>
 			<jsp:param value="" name="password-active"/>
 			<jsp:param value="" name="admin-enable"/>
-			<jsp:param value="" name="adminId"/>
 		</jsp:include>
 		
 		<section>

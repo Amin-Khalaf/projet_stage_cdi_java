@@ -1,6 +1,5 @@
 package com.umanteam.dadakar.login.back.security;
 
-import java.util.Collections;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +61,7 @@ public class SecurityWebService implements ISecurityWebService {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value="/details/{username}",method=RequestMethod.GET)
+	@RequestMapping(value="/details/{username:.+}",method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<DetailDTO> getDetails(@PathVariable("username") String username) {
 		UserDetails details = detailService.loadUserByUsername(username);
