@@ -33,8 +33,6 @@ public class AccountDetailService implements UserDetailsService {
 				.disabled(false)
 				.build();
 		
-		System.out.println(userDetails);
-		
 		return userDetails;
 		
 		

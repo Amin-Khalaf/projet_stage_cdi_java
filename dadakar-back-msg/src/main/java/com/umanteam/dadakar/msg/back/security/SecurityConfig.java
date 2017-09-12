@@ -31,8 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.httpBasic()
 			.and()
 		.authorizeRequests()
-			.antMatchers("/login").permitAll()
-			.antMatchers("/public").permitAll()
+			.antMatchers("/del/**", "/update").hasAnyRole("ADMIN", "SUPERUSER")
 			.anyRequest().authenticated()
 			.and()
 		.apply(new JWTConfigurer(tokenProvider));

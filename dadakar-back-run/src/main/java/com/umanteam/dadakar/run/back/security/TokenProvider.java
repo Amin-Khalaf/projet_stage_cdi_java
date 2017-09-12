@@ -31,6 +31,7 @@ public class TokenProvider {
 	
 	public Authentication getAuthentication(String token) {
 		String username = Jwts.parser().setSigningKey(this.secretKey).parseClaimsJws(token).getBody().getSubject();
+		System.out.println(username);
 		ResponseEntity<Detail> response = restTemplate.getForEntity(path + username, Detail.class);
 		Detail detail = response.getBody();
 		UserDetails userDetails = User

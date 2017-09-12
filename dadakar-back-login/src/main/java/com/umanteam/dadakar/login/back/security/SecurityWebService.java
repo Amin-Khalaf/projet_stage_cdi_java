@@ -1,6 +1,5 @@
 package com.umanteam.dadakar.login.back.security;
 
-import java.util.Collections;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +64,7 @@ public class SecurityWebService implements ISecurityWebService {
 	@RequestMapping(value="/details/{username}",method=RequestMethod.GET)
 	@Override
 	public ResponseEntity<DetailDTO> getDetails(@PathVariable("username") String username) {
+		System.out.println(username);
 		UserDetails details = detailService.loadUserByUsername(username);
 		if(details != null) {
 			DetailDTO detail = new DetailDTO(details.getUsername(), details.getPassword(), Role.USER, !details.isAccountNonExpired(), !details.isAccountNonLocked(), !details.isCredentialsNonExpired(), !details.isEnabled());
