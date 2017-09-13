@@ -103,7 +103,7 @@
 	
 				<spring:bind path="rate">
 					<div class="form-group ${status.error ? 'has-error' : ''} col-xs-4">
-						<label for="rate" class="control-label">Prix maximum</label>
+						<label for="rate" class="control-label">Taux de marge</label>
 						<div>
 							<form:input path="rate" type="text" class="form-control" id="rate"
 								placeholder="Rate" pattern="0.[0-9]{1,3}" />
