@@ -7,6 +7,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Dadakar - Administration - gestion des comptes utilisateur</title>
 		<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
+		<link type="text/css" href="/css/main.css" rel="stylesheet" />
 	</head>
 	<body>
 		
@@ -18,6 +19,8 @@
 			<jsp:param value="" name="password-active"/>
 			<jsp:param value="" name="admin-enable"/>
 		</jsp:include>
+		
+		<h1 class="text-success">Gestion des comptes utilisateurs</h1>
 		
 		<div class="container-fluid">
 			<c:if test="${not empty msg}">

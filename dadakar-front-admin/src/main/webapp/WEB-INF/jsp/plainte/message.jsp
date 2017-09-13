@@ -8,11 +8,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Dadakar - Administration - Message utilisateur</title>
 		<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
+		<link type="text/css" href="/css/main.css" rel="stylesheet" />
 	</head>
 	<body>
 
-		<jsp:include page="../template/header.jsp"></jsp:include>
-		
 		<jsp:include page="../template/navbar.jsp">
 			<jsp:param value="" name="user-active"/>
 			<jsp:param value="active" name="complaint-active"/>
@@ -21,6 +20,8 @@
 			<jsp:param value="" name="password-active"/>
 			<jsp:param value="" name="admin-enable"/>
 		</jsp:include>
+		
+		<h1 class="text-success">Gestion des plaintes</h1>
 		
 		<form:form modelAttribute="message" method="POST" action="/plainte/send">
 			<form:hidden path="senderId" />

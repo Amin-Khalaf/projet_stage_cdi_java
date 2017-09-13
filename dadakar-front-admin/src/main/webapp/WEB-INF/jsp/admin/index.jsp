@@ -7,17 +7,11 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Dadakar - Administration - gestion compte admin</title>
+		<title>Dadakar - Administration - gestion de compte administrateur</title>
 		<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
 		<link type="text/css" href="/css/main.css" rel="stylesheet" />
 	</head>
 	<body class="col-xs-12">
-		<header>
-			<h1>Gestion des comptes administrateurs</h1>
-		</header>
-	
-		<jsp:include page="../template/header.jsp"></jsp:include>
-		
 		<jsp:include page="../template/navbar.jsp">
 			<jsp:param value="" name="user-active"/>
 			<jsp:param value="" name="complaint-active"/>
@@ -26,6 +20,8 @@
 			<jsp:param value="" name="password-active"/>
 			<jsp:param value="" name="admin-enable"/>
 		</jsp:include>
+
+		<h1 class="text-success">Gestion des comptes administrateurs</h1>
 		
 		<c:if test="${not empty message}">
 			<div class="alert alert-${css} alert-dismissible" role="alert">
