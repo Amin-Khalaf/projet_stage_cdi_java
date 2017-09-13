@@ -3,11 +3,12 @@ package com.umanteam.dadakar.admin.front.dto;
 import java.io.Serializable;
 import java.util.List;
 
+
 public class AccountUser implements Serializable {
 	
 	/* Variables */
 	
-	private static final long serialVersionUID = 2226278947358592928L;
+	private static final long serialVersionUID = 4057491822474269172L;
 	private String userId;
 	private Account account;
 	private String firstName;

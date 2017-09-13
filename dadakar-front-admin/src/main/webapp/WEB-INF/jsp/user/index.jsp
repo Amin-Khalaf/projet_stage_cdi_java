@@ -9,9 +9,8 @@
 		<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
 	</head>
 	<body>
-	
-		<jsp:include page="../template/navbar.jsp">
 		
+		<jsp:include page="../template/navbar.jsp">
 			<jsp:param value="active" name="user-active"/>
 			<jsp:param value="" name="complaint-active"/>
 			<jsp:param value="" name="price-active"/>
@@ -30,6 +29,7 @@
 				</div>
 			</c:if>
 			<form:form method="POST" commandName="bannished" action="bannishall" >
+				<input type="hidden" id="token" value=<%= request.getSession().getAttribute("ddkt")%> />
 				<table class="table table-bordered">
 					<thead>
 						<tr>
@@ -55,9 +55,9 @@
 								<td>${usr2.firstName}</td>
 								<td>${usr2.account.username}</td>
 								<td>${usr2.mail}</td>
-								<td><a href="${imgPath}/name:user1.png" target="_blank"><img src="${imgPath}/name:user1.png" width="150 px" height="150 px"></a></td>
-								<td><img src="${imgPath}/name:utilisateur2.jpg" width="150 px" height="150 px"></td>
-								<td><img src="${imgPath}/name:voiture1.jpg" width="150 px" height="150 px"></td>
+								<td><a id="${usr2.photo}-photo" href="" target="_blank"><img alt="photo" src="" id="${usr2.photo}" class="image" width="150 px" height="150 px"></a></td>
+								<td><a id="${usr2.idCard}-idCard" href="" target="_blank"><img alt= "idCard" src="" id="${usr2.idCard}" class="image" width="150 px" height="150 px"></a></td>
+								<td><a id="${usr2.drivingLicence}-drivingLicence" href="" target="_blank"><img alt= "drivingLicence" src="" id="${usr2.drivingLicence}" class="image" width="150 px" height="150 px"></a></td>
 								<td><a  href="message/<%= request.getSession().getAttribute("uid")%>:${usr2.userId}" class="btn btn-warning">Message</a></td>
 								<td><a href="bannish/${usr2.userId}" class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir ${usr2.account.banned?'réintégrer':'bannir'} cet utilisateur ?')">${usr2.account.banned?'Réintégrer':'Bannir'}</a></td>
 							</tr>

@@ -1,18 +1,17 @@
 package com.umanteam.dadakar.img.back.security;
 
 import java.io.Serializable;
-import java.util.Collection;
 
-import org.springframework.security.core.GrantedAuthority;
+import com.umanteam.dadakar.img.back.enums.Role;
 
 public class Detail implements Serializable {
 	
 	/* Variables */
 	
-	private static final long serialVersionUID = 6472118681123172428L;
+	private static final long serialVersionUID = 6352345904832190126L;
 	private String username;
 	private String password;
-	private Collection<? extends GrantedAuthority> authorities;
+	private Role authorities;
 	private boolean accountExpired;
 	private boolean accountLocked;
 	private boolean credentialExpired;
@@ -22,7 +21,7 @@ public class Detail implements Serializable {
 	
 	public Detail() {}
 
-	public Detail(String username, String password, Collection<? extends GrantedAuthority> authorities,
+	public Detail(String username, String password, Role authorities,
 			boolean accountExpired, boolean accountLocked, boolean credentialExpired, boolean disabled) {
 		this.username = username;
 		this.password = password;
@@ -51,11 +50,11 @@ public class Detail implements Serializable {
 		this.password = password;
 	}
 
-	public Collection<? extends GrantedAuthority> getAuthorities() {
+	public Role getAuthorities() {
 		return authorities;
 	}
 
-	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+	public void setAuthorities(Role authorities) {
 		this.authorities = authorities;
 	}
 

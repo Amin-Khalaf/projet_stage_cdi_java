@@ -21,6 +21,7 @@ import com.umanteam.dadakar.admin.front.dto.AccountUser;
 import com.umanteam.dadakar.admin.front.dto.Complaint;
 import com.umanteam.dadakar.admin.front.dto.Rating;
 import com.umanteam.dadakar.admin.front.dto.User;
+import com.umanteam.dadakar.admin.front.service.interfaces.IAccountService;
 import com.umanteam.dadakar.admin.front.service.interfaces.IUserService;
 
 @Service
@@ -30,8 +31,8 @@ public class UserService implements IUserService {
 	private RestTemplate restTemplate;
 	
 	@Autowired
-	private AccountService accountService;
-	
+	private IAccountService accountService;
+		
 	@Value("${user.path}")
 	private String userPath;
 	
