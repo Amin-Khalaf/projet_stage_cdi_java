@@ -136,7 +136,7 @@ public class RunWebService implements IRunWebService {
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/user:{userid}/current/notcanceled", method = RequestMethod.GET)
+	@RequestMapping(value = "/user:{userid}/current/notcancelled", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findCurrentRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findCurrentRunsNotCancelledByUserId(userid);
@@ -156,7 +156,7 @@ public class RunWebService implements IRunWebService {
 		return new ResponseEntity<List<RunDTO>>(runs, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/user:{userid}/passed/notcanceled", method = RequestMethod.GET)
+	@RequestMapping(value = "/user:{userid}/passed/notcancelled", method = RequestMethod.GET)
 	@Override
 	public ResponseEntity<List<RunDTO>> findPassedRunsNotCancelledByUserId(@PathVariable("userid") String userid) {
 		List<RunDTO> runs = runService.findPassedRunsNotCancelledByUserId(userid);
