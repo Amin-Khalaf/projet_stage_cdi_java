@@ -1,7 +1,7 @@
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-fixed-top navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">DaDaKar</a>
+			<a class="navbar-brand" href="/">DaDaKar</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
@@ -27,8 +27,8 @@
 						Changer de mot de passe</a>
 				</li>
 				<li>
-					<form action="/logout" method="post">
-						<input type="submit" class="btn btn-danger" value="Sign Out" />
+					<form action="/logout" method="post" class="form-inline">
+						<input type="submit" class="btn btn-sm btn-outline-secondary btn-signout" value="Se déconnecter" />
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					</form>
 				</li>

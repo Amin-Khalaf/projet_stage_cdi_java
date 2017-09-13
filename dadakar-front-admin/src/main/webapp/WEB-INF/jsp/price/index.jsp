@@ -13,12 +13,6 @@
 		<link type="text/css" href="/css/main.css" rel="stylesheet" />
 	</head>
 	<body class="col-xs-12">
-		<header>
-			<h1>Gestion des prix</h1>
-		</header>
-		
-		<jsp:include page="../template/header.jsp"></jsp:include>
-		
 		<jsp:include page="../template/navbar.jsp">
 			<jsp:param value="" name="user-active"/>
 			<jsp:param value="" name="complaint-active"/>
@@ -28,6 +22,8 @@
 			<jsp:param value="" name="admin-enable"/>
 			<jsp:param value="" name="adminId"/>
 		</jsp:include>
+		
+		<h1 class="text-success">Gestion des prix</h1>
 		
 		<c:if test="${not empty message}">
 			<div class="alert alert-${css} alert-dismissible" role="alert">

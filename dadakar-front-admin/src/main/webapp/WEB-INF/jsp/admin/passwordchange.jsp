@@ -11,7 +11,6 @@
 		<link type="text/css" href="/css/main.css" rel="stylesheet" />
 	</head>
 	<body class="col-xs-12">
-		<jsp:include page="../template/header.jsp"></jsp:include>
 		
 		<jsp:include page="../template/navbar.jsp">
 			<jsp:param value="" name="user-active"/>
@@ -21,7 +20,9 @@
 			<jsp:param value="active" name="password-active"/>
 			<jsp:param value="" name="admin-enable"/>
 		</jsp:include>
-		
+
+		<h1 class="text-success">Changement de mot de passe</h1>
+
 		<c:if test="${not empty message}">
 			<div class="alert alert-${css} alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert"
@@ -33,7 +34,6 @@
 		</c:if>
 	
 		<section>
-			<h2>Compte</h2>
 			<form:form action="/admin/changepassword" method="POST" modelAttribute="passChangeForm">
 				<form:hidden path="accountId"/>
 				<form:hidden path="url"/>

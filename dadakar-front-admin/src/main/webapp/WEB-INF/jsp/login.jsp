@@ -7,12 +7,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Insert title here</title>
 		<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
+		<link type="text/css" href="/css/main.css" rel="stylesheet" />
 	</head>
 	<body>
 		<h1 class="text-success text-center">DaDaKar - Admin</h1>
 	
-		<jsp:include page="template/header.jsp"></jsp:include>
-		
 		<c:if test="${param.error != null}">
             <div class="alert alert-danger">
                 Nom d'utilisateur ou mot de passe incorrect.
