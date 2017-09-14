@@ -4,7 +4,7 @@ import { Vehicle } from "./vehicle.model";
 
 export interface User {
     userId?: string,
-    account?: Account,
+    accountId?: string,
     firstName?: string,
     lastName?: string,
     mail?: string,

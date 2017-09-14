@@ -1,0 +1,33 @@
+
+<ion-header>
+    <ion-navbar>
+        <ion-title>Enregistrement</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form #form="ngForm" (ngSubmit)="signup(form.value)" novalidate>
+        <ion-list>
+            <ion-item>
+                <ion-label floating>N° de téléphone (login)</ion-label>
+                <ion-input type="text" name="username" ngModel required #username="ngModel" [class.invalid]="username.errors && username.dirty"></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="username.errors?.required && username.dirty">
+                Vous devez spécifié votre numéro de téléphone
+            </ion-item>
+            <ion-item class="error-message" *ngIf="username.errors?.usernameTaken">
+                Ce numéro de téléphone existe déjà, veuillez spécifier un autre numéro ou vous connecter
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Mot de passe</ion-label>
+                <ion-input type="password" name="password" ngModel required #password="ngModel" [class.invalid]="password.errors && password.dirty"></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="password.errrors?.required && password.dirty">
+                Vous devez choisir un mot de passe
+            </ion-item>
+            <div padding>
+                <button ion-button color="primary" block type="submit" [disabled]="!form.valid">S'enregistrer</button>
+            </div>
+        </ion-list>
+    </form>
+</ion-content>
