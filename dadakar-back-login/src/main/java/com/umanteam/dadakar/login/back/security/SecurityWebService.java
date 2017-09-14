@@ -77,12 +77,15 @@ public class SecurityWebService implements ISecurityWebService {
 	@Override
 	public ResponseEntity<AccountTokenDTO> signup(@RequestBody AccountDTO signupAccount) {
 		if(signupAccount.getRole() != Role.USER) return new ResponseEntity(HttpStatus.PRECONDITION_FAILED);
+		System.out.println("signup : " + signupAccount);
 		AccountDTO account = accountService.findByUsername(signupAccount.getUsername());
-		if(account != null && !account.getAccountId().equals("")) {
+		System.out.println("byusername : " + account);
+		if(account.getAccountId() != null && !account.getAccountId().equals("")) {
 			return new ResponseEntity(HttpStatus.CONFLICT);
 		}
 		
 		account = accountService.addOrUpdate(signupAccount);
+		System.out.println("after save : " + account);
 		AccountTokenDTO accountToken = new AccountTokenDTO(account, tokenProvider.createToken(signupAccount.getUsername())) ;
 		return new ResponseEntity<AccountTokenDTO>(accountToken, HttpStatus.OK);
 		

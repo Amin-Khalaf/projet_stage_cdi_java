@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import {Headers, Http, Response } from "@angular/http";
+
+import { AuthProvider } from '../providers/auth'
 
 import config from "../assets/config/config";
 
@@ -9,18 +11,24 @@ import 'rxjs/add/operator/map';
 export class ImgService {
     url: string = config.backImgServerAddress + "/dadakar/img/";
 
-    constructor(private http: Http) {}
+    constructor(private authProvider: AuthProvider, private http:Http) {}
+
+    private buildHeaders() {
+        return new Headers({
+            'Authorization': this.authProvider.jwt
+        })
+    }
 
     add(image) {
-        this.http.post(this.url + "upload", image);
+        this.http.post(this.url + "upload", image, {headers : this.buildHeaders()});
     }
 
     findById(imageId: string) {
-        return this.http.get(this.url + imageId);
+        return this.http.get(this.url + imageId, {headers : this.buildHeaders()});
     }
 
     findByFileName(fileName: string) {
-        return this.http.get(this.url + "/name:" + fileName);
+        return this.http.get(this.url + "/name:" + fileName, {headers : this.buildHeaders()});
     }
 
 }

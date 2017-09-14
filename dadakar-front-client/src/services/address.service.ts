@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Headers, Http, Response } from "@angular/http";
 
+import { AuthProvider } from '../providers/auth';
 import { Address } from "../models/address.model";
 
 import config from "../assets/config/config";
@@ -12,34 +13,40 @@ export class AccountService {
 
     url: string = config.backRunServerAddress + '/dadakar/addresses/';
 
-    constructor(private http: Http) {}
+    constructor(private authProvider: AuthProvider, private http:Http) {}
+
+    private buildHeaders() {
+        return new Headers({
+            'Authorization': this.authProvider.jwt
+        })
+    }
 
     add(address: Address) {
-        return this.http.post(this.url + 'save', address).map((res:Response) => res.json());
+        return this.http.post(this.url + 'save', address, {headers : this.buildHeaders()}).map((res:Response) => res.json());
     }
 
     update(address: Address) {
-        return this.http.put(this.url + 'update', address).map((res:Response) => res.json());
+        return this.http.put(this.url + 'update', address, {headers : this.buildHeaders()}).map((res:Response) => res.json());
     }
 
     del(addressId: string) {
-        this.http.delete(this.url + 'del/' + addressId);
+        this.http.delete(this.url + 'del/' + addressId, {headers : this.buildHeaders()});
     }
 
     findAll() {
-        return this.http.get(this.url).map((res: Response) => res.json());
+        return this.http.get(this.url, {headers : this.buildHeaders()}).map((res: Response) => res.json());
     }
 
     findById(addressId: string) {
-        return this.http.get(this.url + addressId).map((res: Response) => res.json());
+        return this.http.get(this.url + addressId, {headers : this.buildHeaders()}).map((res: Response) => res.json());
     }
 
     findByTown(town: string) {
-        return this.http.get(this.url + "town:" + town).map((res: Response) => res.json());
+        return this.http.get(this.url + "town:" + town, {headers : this.buildHeaders()}).map((res: Response) => res.json());
     }
 
     findByTownAndDistrict(town: string, district: string) {
-        return this.http.get(this.url + "town:" + town + "/district:" + district).map((res: Response) => res.json());
+        return this.http.get(this.url + "town:" + town + "/district:" + district, {headers : this.buildHeaders()}).map((res: Response) => res.json());
     }
 
 }

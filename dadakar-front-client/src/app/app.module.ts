@@ -12,6 +12,10 @@ import { AuthProvider } from "../providers/auth";
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage} from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
+import { UserSignupPage } from '../pages/user-signup/user-signup';
+
+import { UserService } from '../services/user.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, storage: Storage) {
     const authConfig = new AuthConfig({ tokenGetter: (() => storage.get('jwt')),});
@@ -22,7 +26,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   declarations: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    SignupPage,
+    UserSignupPage
   ],
   imports: [
     BrowserModule,
@@ -38,7 +44,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   entryComponents: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    SignupPage,
+    UserSignupPage
   ],
   providers: [
     AuthProvider,
@@ -46,7 +54,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     {provide: AuthHttp, useFactory: authHttpServiceFactory, deps: [Http, RequestOptions, Storage]},
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UserService
   ]
 })
 export class AppModule {}

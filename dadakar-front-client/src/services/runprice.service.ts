@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Headers, Http, Response } from "@angular/http";
 
+import { AuthProvider } from '../providers/auth'
 import { RunPrice } from "../models/runprice.model";
 
 import config from "../assets/config/config";
@@ -12,10 +13,16 @@ export class RunPriceService {
 
     url: string = config.backRunServerAddress + '/dadakar/runprices/';
 
-    constructor(private http: Http) {}
+    constructor(private authProvider: AuthProvider, private http:Http) {}
+
+    private buildHeaders() {
+        return new Headers({
+            'Authorization': this.authProvider.jwt
+        })
+    }
 
     findByPower(power: number) {
-        return this.http.get(this.url + "power:" + power).map((res: Response) => res.json());
+        return this.http.get(this.url + "power:" + power, {headers : this.buildHeaders()}).map((res: Response) => res.json());
     }
 
 }
