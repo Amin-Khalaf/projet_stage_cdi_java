@@ -1,4 +1,3 @@
-import { Account } from "./account.model";
 import { Rating } from "./rating.model";
 import { Vehicle } from "./vehicle.model";
 

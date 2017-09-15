@@ -31,6 +31,19 @@
                 <ion-label floating>e-Mail</ion-label>
                 <ion-input type="text" name="mail" ngModel #mail="ngModel"></ion-input>
             </ion-item>
+            <ion-item>
+                <ion-label floating>Photo</ion-label>
+                <ion-input type="text" name="photo" ngModel #photo="ngModel"></ion-input>
+                <button ion-button icon-only item-end (click)="takePhoto(form)" type="button">
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-button icon-only item-end (click)="takePicture(form)" type="button">
+                    <ion-icon item-end name="image"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <img src="{{img}}" alt="photo" width="150" height="150" />
+            </ion-item>
             <div padding>
                 <button ion-button color="primary" block type="submit" [disabled]="!form.valid">Valider</button>
             </div>
