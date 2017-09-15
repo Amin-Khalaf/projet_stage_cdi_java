@@ -22,16 +22,15 @@ export class ImgService {
     }
 
     add(image: Image) {
-        console.log(image);
-        return this.http.post(this.url + "ionicupload", image, {headers : this.header}).map((res:Response) => res.json());
+        return this.http.post(this.url + "ionicupload", image, {headers : this.header}).map((res: Response) => res.text()).subscribe();
     }
 
     findById(imageId: string) {
-        return this.http.get(this.url + imageId, {headers : this.header}).map((res:Response) => res.json());
+        return this.http.get(this.url + imageId, {headers : this.header}).map((res: Response) => res.text());
     }
 
     findByFileName(fileName: string) {
-        return this.http.get(this.url + "/name:" + fileName, {headers : this.header}).map((res:Response) => res.json());
+        return this.http.get(this.url + "/name:" + fileName, {headers : this.header}).map((res: Response) => res.text());
     }
 
 }

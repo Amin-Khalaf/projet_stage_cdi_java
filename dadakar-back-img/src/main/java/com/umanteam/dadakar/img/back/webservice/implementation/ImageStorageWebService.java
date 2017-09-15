@@ -50,9 +50,8 @@ public class ImageStorageWebService implements IImageStorageWebService {
 	@RequestMapping(value="/ionicupload", method = RequestMethod.POST)
 	@Override
 	public void storeImageFromIonic(@RequestBody ImageDTO image) {
-		System.out.println(image.getName());
-//		DBObject metaData = new BasicDBObject();
-//		imageStorageService.store(image, metaData);
+		DBObject metaData = new BasicDBObject();
+		imageStorageService.store(image, metaData);
 		
 	}
 

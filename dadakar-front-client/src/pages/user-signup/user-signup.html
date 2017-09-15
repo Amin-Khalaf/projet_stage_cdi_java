@@ -1,9 +1,3 @@
-<!--
-  Generated template for the UserSignupPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
     <ion-navbar>
         <ion-title>Info Utilisateur</ion-title>
@@ -33,11 +27,11 @@
             </ion-item>
             <ion-item>
                 <ion-label floating>Photo</ion-label>
-                <ion-input type="text" name="photo" ngModel #photo="ngModel"></ion-input>
-                <button ion-button icon-only item-end (click)="takePhoto(form)" type="button">
+                <ion-input type="hidden" name="photo" ngModel required #photo="ngModel"></ion-input>
+                <button ion-button icon-only item-end (click)="takePhoto(form)" type="button" [disabled]="!(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon name="camera"></ion-icon>
                 </button>
-                <button ion-button icon-only item-end (click)="takePicture(form)" type="button">
+                <button ion-button icon-only item-end (click)="takePicture(form)" type="button" [disabled]="!(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon item-end name="image"></ion-icon>
                 </button>
             </ion-item>

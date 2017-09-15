@@ -27,21 +27,25 @@ export class UserSignupPage {
             this.img = 'data:image/jpeg;base64,' + value;
             this.imgToSend = {
                 image: value,
-                name: 'testImageFromIonic.jpeg',
+                name: 'testImageFromIonic2.jpeg',
                 type: "image/jpeg"
             };
-            console.log('before');
             this.imgService.add(this.imgToSend);
-            console.log('after');
-            //form.controls['photo'].setValue(imageData);
+            form.controls['photo'].setValue('ok');
         });
     }
 
     takePicture(form: NgForm) {
-        this.camera.getPicture({sourceType: 0, destinationType: 2}).then((imageData) => {
-            console.log(imageData)
-            //form.controls['img'].setValue('data:image/jpeg;base64,' + imageData);
-            //form.controls['photo'].setValue(imageData);
+        this.camera.getPicture({sourceType: 0, destinationType: 2}).then((value) => {
+            this.hasImg = true;
+            this.img = 'data:image/jpeg;base64,' + value;
+            this.imgToSend = {
+                image: value,
+                name: 'testImageFromIonic2.jpeg',
+                type: "image/jpeg"
+            };
+            this.imgService.add(this.imgToSend);
+            form.controls['photo'].setValue('ok');
         });
     }
 

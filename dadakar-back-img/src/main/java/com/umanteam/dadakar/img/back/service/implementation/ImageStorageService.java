@@ -27,7 +27,6 @@ public class ImageStorageService implements IImageStorageService {
 	
 	@Override
 	public String store(ImageDTO image, DBObject metaData) {
-		System.out.println("imageService.store : " + image);
 		return imageStorageRepository.store(new ByteArrayInputStream(Base64.decodeBase64(image.getImage())), image.getName(), image.getType(), metaData);
 	}
 
