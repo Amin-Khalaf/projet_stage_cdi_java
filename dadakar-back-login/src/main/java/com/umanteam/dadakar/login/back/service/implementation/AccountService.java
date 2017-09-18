@@ -61,7 +61,6 @@ public class AccountService implements IAccountService {
 	@Override
 	public AccountDTO findByUsername(String username) {
 		Account account = accountRepository.findByUsername(username);
-		System.out.println("into findByUsername : " + account);
 		if(account != null) return accountToAccountDTO(account);
 		return new AccountDTO();
 	}

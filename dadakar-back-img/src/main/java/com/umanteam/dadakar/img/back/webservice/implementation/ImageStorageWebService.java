@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
+import com.umanteam.dadakar.img.back.dto.ImageDTO;
 import com.umanteam.dadakar.img.back.service.interfaces.IImageStorageService;
 import com.umanteam.dadakar.img.back.webservice.interfaces.IImageStorageWebService;
 
@@ -44,6 +46,16 @@ public class ImageStorageWebService implements IImageStorageWebService {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value="/ionicupload", method = RequestMethod.POST)
+	@Override
+	public void storeImageFromIonic(@RequestBody ImageDTO image) {
+		DBObject metaData = new BasicDBObject();
+		imageStorageService.store(image, metaData);
+		
+	}
+
+
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody

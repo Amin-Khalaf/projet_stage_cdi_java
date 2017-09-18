@@ -30,7 +30,7 @@ export class MyApp {
 
     this.authProvider.authUser.subscribe(jwt => {
         if(jwt) {
-            this.userService.findByAccountId(authProvider.accountId).subscribe(data => {
+            this.userService.findByAccountId(jwt.accountDTO.accountId).subscribe(data => {
                 this.user = data;
                 if(this.user !== null) {
                     this.rootPage = HomePage;

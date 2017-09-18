@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import {Headers, Http, Response } from "@angular/http";
+import {Headers, Http, Response} from "@angular/http";
 
-import { AuthProvider } from '../providers/auth'
+import { AuthProvider } from '../providers/auth';
+import { Image } from '../models/image.model';
 
 import config from "../assets/config/config";
 
@@ -10,25 +11,28 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ImgService {
     url: string = config.backImgServerAddress + "/dadakar/img/";
+    private header: Headers;
 
-    constructor(private authProvider: AuthProvider, private http:Http) {}
-
-    private buildHeaders() {
-        return new Headers({
-            'Authorization': this.authProvider.jwt
-        })
+    constructor(private authProvider: AuthProvider, private http:Http) {
+        this.authProvider.authUser.subscribe(jwt => {
+            if(jwt) {
+                this.header = new Headers({
+                    'Authorization': jwt.token
+                });
+            }
+        });
     }
 
-    add(image) {
-        this.http.post(this.url + "upload", image, {headers : this.buildHeaders()});
+    add(image: Image) {
+        return this.http.post(this.url + "ionicupload", image, {headers : this.header}).map((res: Response) => res.text());
     }
 
     findById(imageId: string) {
-        return this.http.get(this.url + imageId, {headers : this.buildHeaders()});
+        return this.http.get(this.url + imageId, {headers : this.header}).map((res: Response) => res.text());
     }
 
     findByFileName(fileName: string) {
-        return this.http.get(this.url + "/name:" + fileName, {headers : this.buildHeaders()});
+        return this.http.get(this.url + "/name:" + fileName, {headers : this.header}).map((res: Response) => res.text());
     }
 
 }
