@@ -15,9 +15,11 @@ export class UserService {
 
     constructor(private authProvider: AuthProvider, private http:Http) {
         this.authProvider.authUser.subscribe(jwt => {
-            this.header = new Headers({
-                'Authorization': jwt
-            });
+            if(jwt) {
+                this.header = new Headers({
+                    'Authorization': jwt.token
+                });
+            }
         });
     }
 

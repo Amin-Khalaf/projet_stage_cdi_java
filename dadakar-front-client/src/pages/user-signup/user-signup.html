@@ -1,6 +1,11 @@
 <ion-header>
     <ion-navbar>
         <ion-title>Info Utilisateur</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="signup(form.value)" [disabled]="!form.valid" clear>
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -26,21 +31,41 @@
                 <ion-input type="text" name="mail" ngModel #mail="ngModel"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label floating>Photo</ion-label>
                 <ion-input type="hidden" name="photo" ngModel required #photo="ngModel"></ion-input>
-                <button ion-button icon-only item-end (click)="takePhoto(form)" type="button" [disabled]="!(firstName.errors?.required && lastName.errors?.required)">
+                <button ion-button icon-only item-end (click)="takePhoto(form, 'photo')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon name="camera"></ion-icon>
                 </button>
-                <button ion-button icon-only item-end (click)="takePicture(form)" type="button" [disabled]="!(firstName.errors?.required && lastName.errors?.required)">
+                <button ion-button icon-only item-end (click)="takePicture(form, 'photo')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon name="image"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <img src="{{userPhoto}}" alt="photo" width="150" height="150" />
+            </ion-item>
+            <ion-item>
+                <ion-input type="hidden" name="idCard" ngModel required #idCard="ngModel"></ion-input>
+                <button ion-button icon-only item-end (click)="takePhoto(form, 'idCard')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-button icon-only item-end (click)="takePicture(form, 'idCard')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon item-end name="image"></ion-icon>
                 </button>
             </ion-item>
             <ion-item>
-                <img src="{{img}}" alt="photo" width="150" height="150" />
+                <img src="{{userIdCard}}" alt="idCard" width="150" height="150" />
             </ion-item>
-            <div padding>
-                <button ion-button color="primary" block type="submit" [disabled]="!form.valid">Valider</button>
-            </div>
+            <ion-item>
+                <ion-input type="hidden" name="drivingLicence" ngModel required #drivingLicence="ngModel"></ion-input>
+                <button ion-button icon-only item-end (click)="takePhoto(form, 'drivingLicence')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-button icon-only item-end (click)="takePicture(form, 'drivingLicence')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon item-end name="image"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <img src="{{userDrivingLicence}}" alt="photo" width="150" height="150" />
+            </ion-item>
         </ion-list>
     </form>
 </ion-content>

@@ -11,19 +11,18 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class AuthProvider {
 
-    // jwt: string = "";
-    public accountId: string = "";
-
     authUser = new ReplaySubject<any>(1);
 
     constructor(private readonly http: Http, private readonly authHttp: AuthHttp, private readonly storage: Storage, private readonly jwtHelper: JwtHelper) {}
 
     checkLogin() {
         this.storage.get('jwt').then(jwt => {
-            if(jwt && this.jwtHelper.isTokenExpired(jwt)) {
+            if(jwt && this.jwtHelper.isTokenExpired(jwt.token)) {
                 this.authHttp
                     .get(config.backLoginServerAddress + "/authenticate")
-                    .subscribe(() => this.authUser.next(jwt), (err) => this.storage.remove('jwt').then(() => this.authUser.next(null)));
+                    .subscribe(
+                        () => this.authUser.next(jwt),
+                        (err) => this.storage.remove('jwt').then(() => this.authUser.next(null)));
             } else {
                 this.storage.remove('jwt').then(() => this.authUser.next(null));
             }
@@ -38,6 +37,7 @@ export class AuthProvider {
     }
 
     logout() {
+        this.storage.remove('id');
         this.storage.remove('jwt').then(() => this.authUser.next(null));
     }
 
@@ -53,14 +53,10 @@ export class AuthProvider {
     }
 
     private handleJwtResponse(jwt: any) {
-        // this.jwt = jwt.token;
-        // this.accountId = jwt.accountDTO.accountId;
-        // this.authUser.next(jwt);
-        // return this.jwt;
         return this.storage
-            .set('jwt', jwt.token)
-            .then(() => this.authUser.next(jwt.token))
-            .then(() => jwt.token);
+            .set('jwt', jwt)
+            .then(() => this.authUser.next(jwt))
+            .then(() => jwt);
     }
 
 }
