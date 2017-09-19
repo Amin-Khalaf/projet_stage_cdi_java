@@ -13,7 +13,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AuthProvider } from "../providers/auth";
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { LoginComponent } from '../components/login/login';
+import { MenuConnectedComponent } from '../components/menu-connected/menu-connected';
+import { MenuNotConnectedComponent } from '../components/menu-not-connected/menu-not-connected';
 import { SignupPage } from '../pages/signup/signup';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 
@@ -35,7 +36,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   declarations: [
     MyApp,
     HomePage,
-    LoginComponent,
+    MenuConnectedComponent,
+    MenuNotConnectedComponent,
     SignupPage,
     UserSignupPage
   ],

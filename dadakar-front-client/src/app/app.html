@@ -5,9 +5,7 @@
         </ion-toolbar>
     </ion-header>
     <ion-content>
-        <ion-list>
-            <login></login>
-        </ion-list>
+        <menu-not-connected></menu-not-connected>
     </ion-content>
 </ion-menu>
 <ion-menu [content]="content" id="menu-connected">
@@ -17,14 +15,7 @@
         </ion-toolbar>
     </ion-header>
     <ion-content>
-        <ion-list>
-            <button ion-item>
-                Home Connected
-            </button>
-            <button ion-item>
-                home2 Connected
-            </button>
-        </ion-list>
+        <menu-connected></menu-connected>
     </ion-content>
 </ion-menu>
 <ion-nav #content [root]="rootPage"></ion-nav>
