@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LocalDate } from 'js-joda';
 import { MenuController } from 'ionic-angular';
+import { NgForm } from '@angular/forms';
 
 import { AuthProvider } from '../../providers/auth';
 
@@ -11,6 +12,7 @@ import { AuthProvider } from '../../providers/auth';
 export class HomePage {
 
     activeMenu: string;
+    formIsValid: boolean = false;
     today: string;
     maxSearch: string;
 
@@ -36,6 +38,14 @@ export class HomePage {
         this.activeMenu = 'menu-connected';
         this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(true, 'menu-connected');
+    }
+
+    search(values: any, form: NgForm) {
+        console.log(values);
+    }
+
+    validate(values: any) {
+        this.formIsValid = values.startTown && values.startDistrict && values.endTown && values.endDistrict && values.startDate;
     }
 
 }
