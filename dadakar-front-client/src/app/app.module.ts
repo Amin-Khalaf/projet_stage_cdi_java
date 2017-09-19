@@ -12,7 +12,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { AuthProvider } from "../providers/auth";
 import { MyApp } from './app.component';
-import { HomeConnectedPage } from '../pages/home-connected/home-connected';
 import { HomePage } from '../pages/home/home';
 import { LoginComponent } from '../components/login/login';
 import { SignupPage } from '../pages/signup/signup';
@@ -35,7 +34,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
 @NgModule({
   declarations: [
     MyApp,
-    HomeConnectedPage,
     HomePage,
     LoginComponent,
     SignupPage,
@@ -45,7 +43,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     BrowserModule,
     CustomFormsModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+        monthNames: ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'],
+        monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jul', 'aou', 'sep', 'oct', 'nov', 'dec'],
+        dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+        dayShortNames: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam']
+    }),
     IonicStorageModule.forRoot({
         name: "dadakar",
         driverOrder: ['sqlite', 'indexeddb', 'websql']
@@ -54,7 +57,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomeConnectedPage,
     HomePage,
     SignupPage,
     UserSignupPage

@@ -5,9 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AuthProvider } from '../providers/auth';
 
-import { HomeConnectedPage } from '../pages/home-connected/home-connected';
 import { HomePage } from '../pages/home/home';
-import { SignupPage } from '../pages/signup/signup';
 import { UserSignupPage } from '../pages/user-signup/user-signup'
 
 import { UserService } from '../services/user.service';
@@ -34,8 +32,8 @@ export class MyApp {
             if(jwt) {
                 this.userService.findByAccountId(jwt.accountDTO.accountId).subscribe(data => {
                     this.user = data;
-                    if(this.user !== null) {
-                        this.rootPage = HomeConnectedPage;
+                    if(this.user) {
+                        this.rootPage = HomePage;
                     } else {
                         this.rootPage = UserSignupPage;
                     }
