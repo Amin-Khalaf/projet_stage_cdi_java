@@ -1,4 +1,4 @@
-import { App } from 'ionic-angular';
+import { App, MenuController } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -27,7 +27,8 @@ export class UserSignupPage {
     private drivingLicenceToSend: Image;
     private userToSave: User;
 
-    constructor(private appCtrl: App, private authProvider: AuthProvider, private camera: Camera, private imgService: ImgService, private userService: UserService) {
+    constructor(private appCtrl: App, private authProvider: AuthProvider, private camera: Camera, private imgService: ImgService, private menuCtrl: MenuController, private userService: UserService) {
+        this.menuCtrl.close();
     }
 
     private getRandomName(): string {

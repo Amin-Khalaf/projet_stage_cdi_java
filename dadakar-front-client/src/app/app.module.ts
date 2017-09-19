@@ -13,7 +13,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AuthProvider } from "../providers/auth";
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { LoginPage} from '../pages/login/login';
+import { LoginComponent } from '../components/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 import { RunCreate1Page } from '../pages/run-create1/run-create1';
@@ -36,7 +36,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   declarations: [
     MyApp,
     HomePage,
-    LoginPage,
+    LoginComponent,
     SignupPage,
     UserSignupPage,
     RunCreate1Page
@@ -45,7 +45,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     BrowserModule,
     CustomFormsModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+        monthNames: ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'],
+        monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jul', 'aou', 'sep', 'oct', 'nov', 'dec'],
+        dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+        dayShortNames: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam']
+    }),
     IonicStorageModule.forRoot({
         name: "dadakar",
         driverOrder: ['sqlite', 'indexeddb', 'websql']
@@ -55,7 +60,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   entryComponents: [
     MyApp,
     HomePage,
-    LoginPage,
     SignupPage,
     UserSignupPage,
     RunCreate1Page

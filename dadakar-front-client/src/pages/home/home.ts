@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { LocalDate } from 'js-joda';
+import { MenuController } from 'ionic-angular';
 
+import { AuthProvider } from '../../providers/auth';
 import { RunCreate1Page } from '../run-create1/run-create1';
 
 @Component({
@@ -9,12 +11,34 @@ import { RunCreate1Page } from '../run-create1/run-create1';
 })
 export class HomePage {
 
+    activeMenu: string;
+    today: string;
+    maxSearch: string;
     runCreate1 = RunCreate1Page;
 
-  constructor(public navCtrl: NavController) {
+    constructor(private authProvider: AuthProvider, private menu: MenuController) {
+        this.today = LocalDate.now().toString();
+        this.maxSearch = LocalDate.now().plusDays(60).toString();
+        this.authProvider.authUser.subscribe(jwt => {
+            if(jwt) {
+                this.menuConnectedActive();
+            } else {
+                this.menuNotConnectedActive();
+            }
+        });
+    }
 
-  }
+    menuNotConnectedActive() {
+        this.activeMenu = 'menu-not-connected';
+        this.menu.enable(true, 'menu-not-connected');
+        this.menu.enable(false, 'menu-connected');
+    }
 
+    menuConnectedActive() {
+        this.activeMenu = 'menu-connected';
+        this.menu.enable(false, 'menu-not-connected');
+        this.menu.enable(true, 'menu-connected');
+    }
   onGoToCreateRun(){
     this.navCtrl.push(this.runCreate1);
   }
