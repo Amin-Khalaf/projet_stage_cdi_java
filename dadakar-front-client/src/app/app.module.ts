@@ -16,6 +16,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage} from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
+import { RunCreate1Page } from '../pages/run-create1/run-create1';
 
 import { AccountService } from '../services/account.service';
 import { AddressService } from '../services/address.service';
@@ -37,7 +38,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HomePage,
     LoginPage,
     SignupPage,
-    UserSignupPage
+    UserSignupPage,
+    RunCreate1Page
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HomePage,
     LoginPage,
     SignupPage,
-    UserSignupPage
+    UserSignupPage,
+    RunCreate1Page
   ],
   providers: [
     AuthProvider,
