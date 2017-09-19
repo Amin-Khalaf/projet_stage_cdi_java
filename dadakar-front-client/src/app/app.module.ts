@@ -14,7 +14,7 @@ import { AuthProvider } from "../providers/auth";
 import { MyApp } from './app.component';
 import { HomeConnectedPage } from '../pages/home-connected/home-connected';
 import { HomePage } from '../pages/home/home';
-import { LoginPage} from '../pages/login/login';
+import { LoginComponent } from '../components/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 
@@ -37,7 +37,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MyApp,
     HomeConnectedPage,
     HomePage,
-    LoginPage,
+    LoginComponent,
     SignupPage,
     UserSignupPage
   ],
@@ -56,7 +56,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MyApp,
     HomeConnectedPage,
     HomePage,
-    LoginPage,
     SignupPage,
     UserSignupPage
   ],
