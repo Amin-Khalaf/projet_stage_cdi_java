@@ -3,13 +3,14 @@ import { LoadingController, NavController, ToastController } from "ionic-angular
 import * as sha1 from 'js-sha1';
 
 import { AuthProvider } from '../../providers/auth';
+
 import { SignupPage } from '../signup/signup';
 
 import { Account } from '../../models/account.model'
 
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html',
+    selector: 'page-login',
+    templateUrl: 'login.html',
 })
 export class LoginPage {
 
@@ -49,9 +50,9 @@ export class LoginPage {
         }
 
         this.authProvider
-            .login(this.account)
-            .finally(() => loading.dismiss())
-            .subscribe(() => {}, err => this.handleError(err));
+        .login(this.account)
+        .finally(() => loading.dismiss())
+        .subscribe(() => {}, err => this.handleError(err));
 
     }
 

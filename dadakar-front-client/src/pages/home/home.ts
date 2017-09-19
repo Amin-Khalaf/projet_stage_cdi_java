@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { MenuController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -7,8 +7,22 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+    activeMenu: string;
 
-  }
+    constructor(private menu: MenuController) {
+        this.menuNotConnectedActive();
+    }
+
+    menuNotConnectedActive() {
+        this.activeMenu = 'menu-not-connected';
+        this.menu.enable(true, 'menu-not-connected');
+        this.menu.enable(false,'menu-connected');
+    }
+
+    menuConnectedActive() {
+        this.activeMenu = 'menu-not-connected';
+        this.menu.enable(false, 'menu-not-connected');
+        this.menu.enable(true,'menu-connected');
+    }
 
 }

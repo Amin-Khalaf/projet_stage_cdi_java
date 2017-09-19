@@ -1,1 +1,58 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="content" id="menu-not-connected">
+    <ion-header>
+        <ion-toolbar>
+            <ion-title>Menu</ion-title>
+            <button ion-button menuClose>
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <ion-item (click)="subLogin()">
+                Connexion
+                <ion-icon [ios]="loginIconIOS" [md]="loginIconMD" item-end></ion-icon>
+            </ion-item>
+            <form #form="ngForm" (ngSubmit)="login(form.value)" novalidate>
+                <ion-item-group submenu  [hidden]="!showLogin">
+                    <ion-item>
+                        <ion-label floating>N° de téléphone (login)</ion-label>
+                        <ion-input type="tel" name="username" ngModel required #username="ngModel" [class.invalid]="username.errors && username.dirty"></ion-input>
+                    </ion-item>
+                    <ion-item class="error-message" *ngIf="username.errors?.required && username.dirty">
+                        Vous devez spécifier un nom d'utilisateur
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Mot de passe</ion-label>
+                        <ion-input type="password" name="password" ngModel required #password="ngModel" [class.invalid]="password.errors && password.dirty"></ion-input>
+                    </ion-item>
+                    <ion-item class="error-message" *ngIf="password.errors?.required && password.dirty">
+                        Vous devez spécifier un mot de passe
+                    </ion-item>
+                    <div padding>
+                        <button ion-button color="primary" block type="submit" [disabled]="!form.valid">Se connecter</button>
+                    </div>
+                </ion-item-group>
+            </form>
+            <ion-item (click)="signup()">S'enregistrer</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+<ion-menu [content]="content" id="menu-connected">
+    <ion-header>
+        <ion-toolbar>
+            <ion-title>Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+            <button ion-item>
+                Home Connected
+            </button>
+            <button ion-item>
+                home2 Connected
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+<ion-nav #content [root]="rootPage"></ion-nav>

@@ -9,7 +9,7 @@
         <ion-list>
             <ion-item>
                 <ion-label floating>N° de téléphone (login)</ion-label>
-                <ion-input type="text" name="username" ngModel required #username="ngModel" [class.invalid]="username.errors && username.dirty"></ion-input>
+                <ion-input type="tel" name="username" ngModel required #username="ngModel" [class.invalid]="username.errors && username.dirty"></ion-input>
             </ion-item>
             <ion-item class="error-message" *ngIf="username.errors?.required && username.dirty">
                 Vous devez spécifier un nom d'utilisateur

@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { AuthProvider } from "../providers/auth";
 import { MyApp } from './app.component';
+import { HomeConnectedPage } from '../pages/home-connected/home-connected';
 import { HomePage } from '../pages/home/home';
 import { LoginPage} from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
@@ -34,6 +35,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
 @NgModule({
   declarations: [
     MyApp,
+    HomeConnectedPage,
     HomePage,
     LoginPage,
     SignupPage,
@@ -52,6 +54,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    HomeConnectedPage,
     HomePage,
     LoginPage,
     SignupPage,
