@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LocalDate } from 'js-joda';
 import { MenuController } from 'ionic-angular';
+import { NgForm } from '@angular/forms';
 
 import { AuthProvider } from '../../providers/auth';
 import { RunCreate1Page } from '../run-create1/run-create1';
@@ -12,6 +13,7 @@ import { RunCreate1Page } from '../run-create1/run-create1';
 export class HomePage {
 
     activeMenu: string;
+    formIsValid: boolean = false;
     today: string;
     maxSearch: string;
     runCreate1 = RunCreate1Page;
@@ -42,5 +44,13 @@ export class HomePage {
   onGoToCreateRun(){
     this.navCtrl.push(this.runCreate1);
   }
+
+    search(values: any, form: NgForm) {
+        console.log(values);
+    }
+
+    validate(values: any) {
+        this.formIsValid = values.startTown && values.startDistrict && values.endTown && values.endDistrict && values.startDate;
+    }
 
 }

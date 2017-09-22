@@ -1,6 +1,7 @@
 import { App } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { LoadingController, ToastController } from "ionic-angular";
+import { NgForm } from '@angular/forms';
 import * as sha1 from 'js-sha1';
 
 import { AuthProvider } from '../../providers/auth';
@@ -10,10 +11,10 @@ import { SignupPage } from '../../pages/signup/signup';
 import { Account } from '../../models/account.model'
 
 @Component({
-  selector: 'login',
-  templateUrl: 'login.html'
+  selector: 'menu-not-connected',
+  templateUrl: 'menu-not-connected.html'
 })
-export class LoginComponent {
+export class MenuNotConnectedComponent {
 
     account: Account = null;
     loginIconIOS: string = 'ios-arrow-forward';
@@ -21,7 +22,9 @@ export class LoginComponent {
     rootPage:any = null;
     showLogin: boolean = false;
 
-    constructor(private appCtrl: App, private readonly authProvider: AuthProvider, private readonly loadingCtrl: LoadingController, private readonly toastCtrl: ToastController){}
+    constructor(private appCtrl: App, private readonly authProvider: AuthProvider, private readonly loadingCtrl: LoadingController, private readonly toastCtrl: ToastController){
+
+    }
 
 
         handleError(error: any) {
@@ -42,7 +45,7 @@ export class LoginComponent {
 
         }
 
-        login(values: any) {
+        login(values: any, form: NgForm) {
             let loading = this.loadingCtrl.create({
                 spinner: 'bubbles',
                 content: 'connexion...'
@@ -54,6 +57,8 @@ export class LoginComponent {
                 username: values.username,
                 password: sha1(values.password)
             }
+
+            form.controls['password'].reset();
 
             this.authProvider
             .login(this.account)
