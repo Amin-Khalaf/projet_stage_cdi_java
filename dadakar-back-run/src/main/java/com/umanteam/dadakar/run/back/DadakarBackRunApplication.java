@@ -37,7 +37,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... arg0) throws Exception {
-		createRun();
+		//createRun();
 	}
 	
 	@SuppressWarnings("unused")
