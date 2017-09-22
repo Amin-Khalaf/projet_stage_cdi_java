@@ -17,7 +17,7 @@ export class SeachResultPage {
     runs: Run[];
 
     constructor(private authProvider: AuthProvider, private menu: MenuController, private RunService: RunService) {
-        this.runs = this.RunService.findRuns();
+        //this.runs = this.RunService.findRuns();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
                 this.menuConnectedActive();
