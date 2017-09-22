@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { MenuController } from 'ionic-angular';
+import { MenuController, NavController } from 'ionic-angular';
+
+import { RunCreate1Page } from '../run-create1/run-create1';
 
 @Component({
   selector: 'page-home-connected',
@@ -7,8 +9,13 @@ import { MenuController } from 'ionic-angular';
 })
 export class HomeConnectedPage {
 
-  constructor(private menuCtrl: MenuController) {
+  runCreate1 = RunCreate1Page;
+
+  constructor(private menuCtrl: MenuController, private navCtrl: NavController) {
       this.menuCtrl.close();
+  }
+  onGoToCreateRun(){
+    this.navCtrl.push(this.runCreate1);
   }
 
 }
