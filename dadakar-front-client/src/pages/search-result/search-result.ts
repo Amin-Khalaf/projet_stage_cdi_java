@@ -8,10 +8,10 @@ import { AuthProvider } from '../../providers/auth';
 import { RunService } from '../../services/run.service';
 
 @Component({
-  selector: 'page-seach-result',
-  templateUrl: 'seach-result.html',
+  selector: 'page-search-result',
+  templateUrl: 'search-result.html',
 })
-export class SeachResultPage {
+export class SearchResultPage {
 
     activeMenu: string;
     runs: Run[];
