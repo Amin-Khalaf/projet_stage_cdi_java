@@ -1,7 +1,7 @@
 import { App, MenuController } from 'ionic-angular';
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { NgForm } from '@angular/forms';
 
 import { Image } from '../../models/image.model';
 import { User } from '../../models/user.model';

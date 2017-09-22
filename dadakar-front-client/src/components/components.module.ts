@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
-import { LoginComponent } from './login/login';
+import { MenuNotConnectedComponent } from './menu-not-connected/menu-not-connected';
+import { MenuConnectedComponent } from './menu-connected/menu-connected';
 @NgModule({
-	declarations: [LoginComponent],
+	declarations: [MenuNotConnectedComponent,
+    MenuConnectedComponent],
 	imports: [],
-	exports: [LoginComponent]
+	exports: [MenuNotConnectedComponent,
+    MenuConnectedComponent]
 })
 export class ComponentsModule {}
