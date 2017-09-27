@@ -3,6 +3,7 @@ import { Headers, Http, Response } from "@angular/http";
 
 import { AuthProvider } from '../providers/auth';
 import { Run } from "../models/run.model";
+import { Search } from '../models/search.model';
 
 import config from "../assets/config/config";
 
@@ -13,6 +14,7 @@ export class RunService {
 
     url: string = config.backRunServerAddress + '/dadakar/runs/';
     private header: Headers;
+    private search: Search;
 
     constructor(private authProvider: AuthProvider, private http:Http) {
         this.authProvider.authUser.subscribe(jwt => {
@@ -22,6 +24,14 @@ export class RunService {
                 });
             }
         });
+    }
+
+    getSearch(): Search {
+    return this.search;
+    }
+
+    setSearch(search: Search):void {
+        this.search = search;
     }
 
     add(run: Run) {
@@ -84,8 +94,8 @@ export class RunService {
         return this.http.get(this.url + "user:" + userId + "/passed/notcancelled", {headers : this.header}).map((res: Response) => res.json());
     }
 
-    findRuns(districtFrom: string, townFrom: string, dateFrom: string, districtTo: string, townTo: string) {
-        return this.http.get(this.url + "searchrun?districtFrom=" + districtFrom + "&townFrom=" + townFrom + "&dateFrom=" + dateFrom + "&districtTo=" + districtTo + "&townTo=" + townTo, {headers : this.header}).map((res: Response) => res.json());
+    findRuns() {
+        return this.http.get(this.url + "searchrun?districtFrom=" + this.search.startDistrict + "&townFrom=" + this.search.startTown + "&dateFrom=" + this.search.startDate + "&districtTo=" + this.search.endDistrict + "&townTo=" + this.search.endTown, {headers : this.header}).map((res: Response) => res.json());
     }
 
 }
