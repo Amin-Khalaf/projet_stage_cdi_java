@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { AuthProvider } from '../../providers/auth';
 
 import { HomePage } from '../../pages/home/home';
+import { UserProfilePage } from '../../pages/user-profile/user-profile';
 
 @Component({
   selector: 'menu-connected',
@@ -11,30 +12,31 @@ import { HomePage } from '../../pages/home/home';
 })
 export class MenuConnectedComponent {
 
-    constructor(private appCtrl: App, private authProvider: AuthProvider) {}
+    constructor(private nav: App, private authProvider: AuthProvider) {}
 
     home() {
-        this.appCtrl.getActiveNavs()[0].push(HomePage);
+        this.nav.getActiveNavs()[0].push(HomePage);
     }
 
     createRun() {
-        this.appCtrl.getActiveNavs()[0].push(HomePage);
+        this.nav.getActiveNavs()[0].push(HomePage);
     }
 
     viewMyRuns() {
-        this.appCtrl.getActiveNavs()[0].push(HomePage);
+        this.nav.getActiveNavs()[0].push(HomePage);
     }
 
     myAccount() {
-        this.appCtrl.getActiveNavs()[0].push(HomePage);
+        this.nav.getActiveNavs()[0].push(UserProfilePage);
     }
 
     logout() {
         this.authProvider.logout();
+        this.nav.getActiveNavs()[0].popToRoot();
     }
 
     about() {
-        this.appCtrl.getActiveNavs()[0].push(HomePage);
+        this.nav.getActiveNavs()[0].push(HomePage);
     }
 
 }

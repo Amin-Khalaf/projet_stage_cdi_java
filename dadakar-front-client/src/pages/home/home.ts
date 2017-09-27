@@ -24,6 +24,10 @@ export class HomePage {
     searchValues: Search = null;
 
     constructor(private authProvider: AuthProvider, private menu: MenuController, private navCtrl: NavController, private runService: RunService) {
+        this.menu.close();
+
+        // tester l'ensemble des vues pour tout effacer //
+
         this.today = LocalDate.now().toString();
         this.maxSearch = LocalDate.now().plusDays(60).toString();
         this.authProvider.authUser.subscribe(jwt => {

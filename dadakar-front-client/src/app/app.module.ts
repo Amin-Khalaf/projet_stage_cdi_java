@@ -10,14 +10,17 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
-import { AuthProvider } from "../providers/auth";
 import { MyApp } from './app.component';
+
 import { HomePage } from '../pages/home/home';
 import { MenuConnectedComponent } from '../components/menu-connected/menu-connected';
 import { MenuNotConnectedComponent } from '../components/menu-not-connected/menu-not-connected';
 import { SearchResultPage } from '../pages/search-result/search-result';
 import { SignupPage } from '../pages/signup/signup';
+import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
+
+import { AuthProvider } from "../providers/auth";
 
 import { AccountService } from '../services/account.service';
 import { AddressService } from '../services/address.service';
@@ -41,6 +44,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MenuNotConnectedComponent,
     SearchResultPage,
     SignupPage,
+    UserProfilePage,
     UserSignupPage
   ],
   imports: [
@@ -64,6 +68,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HomePage,
     SearchResultPage,
     SignupPage,
+    UserProfilePage,
     UserSignupPage
   ],
   providers: [

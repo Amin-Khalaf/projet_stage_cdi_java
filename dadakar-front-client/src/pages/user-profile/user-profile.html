@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Mon Compte
+        </ion-title>
+        <button ion-button [menuToggle]="activeMenu" right>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item  *ngFor="let u of users">
+            <ion-avatar item-start>
+                <img src="{{u.photo}}">
+            </ion-avatar>
+            <h1>{{u.lastName}} {{u.firstName}}</h1>
+            <h3>{{u.mail}}</h3>
+        </ion-item>
+        <ion-item>
+            <ion-label>Supprimer mon compte</ion-label>
+            <ion-toggle [(ngModel)]="account.deleted" (change)="delete()"></ion-toggle>
+        </ion-item>
+    </ion-list>
+</ion-content>

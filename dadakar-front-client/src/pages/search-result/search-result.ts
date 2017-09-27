@@ -30,6 +30,7 @@ export class SearchResultPage {
 
 
     constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private runService: RunService) {
+        this.menu.close();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
                 this.connected = true;
