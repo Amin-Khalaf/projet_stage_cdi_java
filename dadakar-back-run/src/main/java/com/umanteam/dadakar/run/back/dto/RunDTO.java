@@ -11,7 +11,7 @@ public class RunDTO implements Serializable {
 	private String runId;
 	private UserDTO driver;
 	private String vehicleId;
-	private List<SubRunDTO> subruns;
+	private List<SubRunDTO> subRuns;
 	private Luggage luggageType;
 	private boolean cancelled;
 
@@ -28,11 +28,11 @@ public class RunDTO implements Serializable {
 		this.cancelled = false;
 	}
 
-	public RunDTO(UserDTO driver, String vehicleId, List<SubRunDTO> subruns, Luggage luggageType) {
+	public RunDTO(UserDTO driver, String vehicleId, List<SubRunDTO> subRuns, Luggage luggageType) {
 		super();
 		this.driver = driver;
 		this.vehicleId = vehicleId;
-		this.subruns = subruns;
+		this.subRuns = subRuns;
 		this.luggageType = luggageType;
 		this.cancelled = false;
 	}
@@ -50,8 +50,8 @@ public class RunDTO implements Serializable {
 		return vehicleId;
 	}
 
-	public List<SubRunDTO> getSubruns() {
-		return subruns;
+	public List<SubRunDTO> getSubRuns() {
+		return subRuns;
 	}
 
 	public Luggage getLuggageType() {
@@ -75,8 +75,8 @@ public class RunDTO implements Serializable {
 		this.vehicleId = vehicleId;
 	}
 
-	public void setSubruns(List<SubRunDTO> subruns) {
-		this.subruns = subruns;
+	public void setSubRuns(List<SubRunDTO> subRuns) {
+		this.subRuns = subRuns;
 	}
 
 	public void setLuggageType(Luggage luggageType) {
@@ -90,7 +90,7 @@ public class RunDTO implements Serializable {
 	// toString
 	@Override
 	public String toString() {
-		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicleId=" + vehicleId + ", subruns=" + subruns
+		return "RunDTO [runId=" + runId + ", driver=" + driver + ", vehicleId=" + vehicleId + ", subRuns=" + subRuns
 				+ ", luggageType=" + luggageType + ", cancelled=" + cancelled + "]";
 	}
 

@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalDate } from 'js-joda';
-import { MenuController, AlertController } from 'ionic-angular';
+import { MenuController, NavController , AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 
 import { AuthProvider } from '../../providers/auth';
+
+import { Search } from '../../models/search.model';
+
+import { SearchResultPage } from '../../pages/search-result/search-result';
+
+import { RunService } from '../../services/run.service';
 
 import { AddressService } from '../../services/address.service';
 
@@ -19,12 +25,13 @@ export class HomePage implements OnInit {
     formIsValid: boolean = false;
     today: string;
     maxSearch: string;
+    searchValues: Search = null;
+    runCreate1 = RunCreate1Page;
     towns: string[] = [];
     listDistricts: Address[][] = [[]];
 
 
-    constructor(private authProvider: AuthProvider, private menu: MenuController,
-                private addressService: AddressService, private alertCtrl: AlertController) {
+    constructor(private authProvider: AuthProvider, private menu: MenuController, private navCtrl: NavController, private runService: RunService, private alertCtrl: AlertController) {
         this.today = LocalDate.now().toString();
         this.maxSearch = LocalDate.now().plusDays(60).toString();
         this.authProvider.authUser.subscribe(jwt => {
@@ -53,7 +60,15 @@ export class HomePage implements OnInit {
     }
 
     search(values: any, form: NgForm) {
-        console.log(values);
+        this.searchValues = {
+            startTown: 'Paris',
+            startDistrict: '10 ème',
+            endTown: 'Lille',
+            endDistrict: 'Centre',
+            startDate: LocalDate.of(2017, 9, 22)
+        }
+        this.runService.setSearch(this.searchValues);
+        this.navCtrl.push(SearchResultPage);
     }
 
     validate(values: any) {
