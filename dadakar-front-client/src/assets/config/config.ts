@@ -4,5 +4,5 @@ export default {
     backMsgServerAddress:"http://localhost:8580",
     backRunServerAddress:"http://localhost:8280",
     backTransactionServerAddress:"http://localhost:8380",
-    monnaie: "CFA"
+    monnaie: "XOF"
 }

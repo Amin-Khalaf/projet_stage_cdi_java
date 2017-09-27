@@ -1,21 +1,27 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Résultat de la recherche</ion-title>
+        <ion-title>
+            Résultat de la recherche
+        </ion-title>
+        <button ion-button [menuToggle]="activeMenu" right>
+            <ion-icon name="menu"></ion-icon>
+        </button>
     </ion-navbar>
 </ion-header>
 <ion-content padding>
     <h2>{{nbRuns}} {{startTown}} - {{endTown}} disponibles</h2>
-    <h3>de {{minPrice}} {{monnaie}} à {{maxPrice}} {{monnaie}}</h3>
+    <h3>de {{minPrice | currency:monnaie:true:'1.2-2'}} à {{maxPrice | currency:monnaie:true:'1.2-2'}}</h3>
+    <h4 *ngIf="!connected">Vous devez être connecté pour réserver.</h4>
     <ion-list>
-        <ion-item-sliding *ngFor="let run of runs" (ionSwipe)="reserve(run)">
+        <ion-item-sliding *ngFor="let run of runs">
             <ion-item>
                 <ion-avatar item-start>
                     <img src="{{run.driver.photo}}">
                 </ion-avatar>
-                <h3 item-start>{{run.driver.firstName}}</h3><h1 item-end>{{getFullPrice(run)}} {{monnaie}}</h1>
+                <h3 item-start>{{run.driver.firstName}}</h3><h1 item-end>{{getFullPrice(run) | currency:monnaie:true:'1.2-2'}}</h1>
             </ion-item>
             <ion-item-options side="right">
-                <button ion-button (click)="reserve(run)">
+                <button ion-button [disabled]="!connected" (click)="reserve(run)">
                     <ion-icon name="cart">
                         Réserver
                     </ion-icon>
