@@ -61,26 +61,26 @@ public class RunService implements IRunService {
 		User user = new User();
 		BeanUtils.copyProperties(run.getDriver(), user);
 		entity.setDriver(user);
-		if (run.getSubruns() != null) {
-			// copy subrun entity to dto and assign to run
-			List<SubRun> subrunsentity = new ArrayList<>();
+		if (run.getSubRuns() != null) {
+			// copy subRun entity to dto and assign to run
+			List<SubRun> subRunsentity = new ArrayList<>();
 			// map to manage waypoints unicity
 			Map<String, WayPoint> unicWaypoints = new HashMap<>();
-			for (SubRunDTO subrun : run.getSubruns()) {
-				SubRun subrunEntity = new SubRun();
-				BeanUtils.copyProperties(subrun, subrunEntity);
+			for (SubRunDTO subRun : run.getSubRuns()) {
+				SubRun subRunEntity = new SubRun();
+				BeanUtils.copyProperties(subRun, subRunEntity);
 				// copy startPlace
-				WayPoint startplaceEntity = saveUnicWaypoints(subrun.getStartPlace(), unicWaypoints);
-				// assign it to subrun
-				subrunEntity.setStartPlace(startplaceEntity);
+				WayPoint startplaceEntity = saveUnicWaypoints(subRun.getStartPlace(), unicWaypoints);
+				// assign it to subRun
+				subRunEntity.setStartPlace(startplaceEntity);
 				// copy endPlace
-				WayPoint endplaceEntity = saveUnicWaypoints(subrun.getEndPlace(), unicWaypoints);
-				// assign it to subrun
-				subrunEntity.setEndPlace(endplaceEntity);
-				// copy passengers entity to dto and assign to subrun
-				if (subrun.getPassengers() != null) {
+				WayPoint endplaceEntity = saveUnicWaypoints(subRun.getEndPlace(), unicWaypoints);
+				// assign it to subRun
+				subRunEntity.setEndPlace(endplaceEntity);
+				// copy passengers entity to dto and assign to subRun
+				if (subRun.getPassengers() != null) {
 					List<Passenger> passengersEntity = new ArrayList<>();
-					for (PassengerDTO passenger : subrun.getPassengers()) {
+					for (PassengerDTO passenger : subRun.getPassengers()) {
 						Passenger passengerEntity = new Passenger();
 						BeanUtils.copyProperties(passenger, passengerEntity);
 						//copy user to dto and assign to passenger
@@ -90,29 +90,29 @@ public class RunService implements IRunService {
 						// add to list
 						passengersEntity.add(passengerEntity);
 					}
-					subrunEntity.setPassengers(passengersEntity);
+					subRunEntity.setPassengers(passengersEntity);
 				}
 				// copy startingPoints
 				List<WayPoint> waypointsEntity = new ArrayList<>();
-				for (WayPointDTO waypoint : subrun.getStartingPoints()) {
+				for (WayPointDTO waypoint : subRun.getStartingPoints()) {
 					WayPoint waypointEntity = saveUnicWaypoints(waypoint, unicWaypoints);
 					waypointsEntity.add(waypointEntity);
 				}
-				subrunEntity.setStartingPoints(waypointsEntity);
+				subRunEntity.setStartingPoints(waypointsEntity);
 				// copy tolls
-				if (subrun.getTolls() != null) {
+				if (subRun.getTolls() != null) {
 					List<Toll> tollsEntity = new ArrayList<>();
-					for (TollDTO toll : subrun.getTolls()) {
+					for (TollDTO toll : subRun.getTolls()) {
 						Toll tollEntity = new Toll();
 						BeanUtils.copyProperties(toll, tollEntity);
 						tollsEntity.add(tollEntity);
 					}
-					subrunEntity.setTolls(tollsEntity);
+					subRunEntity.setTolls(tollsEntity);
 				}
-				// add subrun to list
-				subrunsentity.add(subrunEntity);
+				// add subRun to list
+				subRunsentity.add(subRunEntity);
 			}
-			entity.setSubRuns(subrunsentity);
+			entity.setSubRuns(subRunsentity);
 		}
 		return entity;
 	}
@@ -127,37 +127,37 @@ public class RunService implements IRunService {
 		run.setDriver(userDTO);
 		// copy vehicle entity to dto and assign to run
 		if (entity.getSubRuns() != null) {
-			// copy subrun entity to dto and assign to run
-			List<SubRunDTO> subruns = new ArrayList<>();
-			for (SubRun subrunEntity : entity.getSubRuns()) {
-				SubRunDTO subrun = new SubRunDTO();
-				BeanUtils.copyProperties(subrunEntity, subrun);
+			// copy subRun entity to dto and assign to run
+			List<SubRunDTO> subRuns = new ArrayList<>();
+			for (SubRun subRunEntity : entity.getSubRuns()) {
+				SubRunDTO subRun = new SubRunDTO();
+				BeanUtils.copyProperties(subRunEntity, subRun);
 				// copy startPlace
-				if (subrunEntity.getStartPlace() != null) {
+				if (subRunEntity.getStartPlace() != null) {
 					WayPointDTO startPlace = new WayPointDTO();
-					BeanUtils.copyProperties(subrunEntity.getStartPlace(), startPlace);
-					if (subrunEntity.getStartPlace().getAddress() != null) {
+					BeanUtils.copyProperties(subRunEntity.getStartPlace(), startPlace);
+					if (subRunEntity.getStartPlace().getAddress() != null) {
 						Address startpointAddress = new Address();
-						BeanUtils.copyProperties(subrunEntity.getStartPlace().getAddress(), startpointAddress);
+						BeanUtils.copyProperties(subRunEntity.getStartPlace().getAddress(), startpointAddress);
 						startPlace.setAddress(startpointAddress);
 					}
-					subrun.setStartPlace(startPlace);
+					subRun.setStartPlace(startPlace);
 				}
 				// copy endPlace
-				if (subrunEntity.getEndPlace() != null) {
+				if (subRunEntity.getEndPlace() != null) {
 					WayPointDTO endPlace = new WayPointDTO();
-					BeanUtils.copyProperties(subrunEntity.getEndPlace(), endPlace);
-					if (subrunEntity.getEndPlace().getAddress() != null) {
+					BeanUtils.copyProperties(subRunEntity.getEndPlace(), endPlace);
+					if (subRunEntity.getEndPlace().getAddress() != null) {
 						Address endplaceAddress = new Address();
-						BeanUtils.copyProperties(subrunEntity.getEndPlace().getAddress(), endplaceAddress);
+						BeanUtils.copyProperties(subRunEntity.getEndPlace().getAddress(), endplaceAddress);
 						endPlace.setAddress(endplaceAddress);
 					}
-					subrun.setEndPlace(endPlace);
+					subRun.setEndPlace(endPlace);
 				}
-				// copy passengers entity to dto and assign to subrun
-				if (subrunEntity.getPassengers() != null) {
+				// copy passengers entity to dto and assign to subRun
+				if (subRunEntity.getPassengers() != null) {
 					List<PassengerDTO> passengers = new ArrayList<>();
-					for (Passenger passengerEntity : subrunEntity.getPassengers()) {
+					for (Passenger passengerEntity : subRunEntity.getPassengers()) {
 						PassengerDTO passenger = new PassengerDTO();
 						BeanUtils.copyProperties(passengerEntity, passenger);
 						// copy user to dto and assign to passenger
@@ -166,12 +166,12 @@ public class RunService implements IRunService {
 						passenger.setUser(userDTO);
 						passengers.add(passenger);
 					}
-					subrun.setPassengers(passengers);
+					subRun.setPassengers(passengers);
 				}
 				// copy startingPoints
-				if (subrunEntity.getStartingPoints() != null) {
+				if (subRunEntity.getStartingPoints() != null) {
 					List<WayPointDTO> startingPoints = new ArrayList<>();
-					for (WayPoint waypointEntity : subrunEntity.getStartingPoints()) {
+					for (WayPoint waypointEntity : subRunEntity.getStartingPoints()) {
 						WayPointDTO startingpoint = new WayPointDTO();
 						BeanUtils.copyProperties(waypointEntity, startingpoint);
 						if (waypointEntity.getAddress() != null) {
@@ -181,22 +181,22 @@ public class RunService implements IRunService {
 						}
 						startingPoints.add(startingpoint);
 					}
-					subrun.setStartingPoints(startingPoints);
+					subRun.setStartingPoints(startingPoints);
 				}
 				// copy tolls
-				if (subrunEntity.getTolls() != null) {
+				if (subRunEntity.getTolls() != null) {
 					List<TollDTO> tolls = new ArrayList<>();
-					for (Toll tollEntity : subrunEntity.getTolls()) {
+					for (Toll tollEntity : subRunEntity.getTolls()) {
 						TollDTO toll = new TollDTO();
 						BeanUtils.copyProperties(tollEntity, toll);
 						tolls.add(toll);
 					}
-					subrun.setTolls(tolls);
+					subRun.setTolls(tolls);
 				}
-				// add subrun to list
-				subruns.add(subrun);
+				// add subRun to list
+				subRuns.add(subRun);
 			}
-			run.setSubruns(subruns);
+			run.setSubRuns(subRuns);
 		}
 		return run;
 	}
@@ -396,7 +396,7 @@ public class RunService implements IRunService {
 	public List<RunDTO> findRuns(String districtFrom, String townFrom, LocalDate dateStart, String districtTo,
 			String townTo) {
 		List<RunDTO> runs = new ArrayList<>();
-		// search for runs that have a matching subrun
+		// search for runs that have a matching subRun
 		List<Run> entity = runRepository
 				.findBySubRunsStartingPointsAddressDistrictAndSubRunsStartingPointsAddressTownAndSubRunsStartDateAndSubRunsEndPlaceAddressDistrictAndSubRunsEndPlaceAddressTownAndSubRunsAvailableSeatsGreaterThanAndCancelled(
 						districtFrom, townFrom, dateStart, districtTo, townTo, 0, false);

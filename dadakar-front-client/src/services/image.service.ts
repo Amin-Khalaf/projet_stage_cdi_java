@@ -32,7 +32,7 @@ export class ImgService {
     }
 
     findByFileName(fileName: string) {
-        return this.http.get(this.url + "/name:" + fileName, {headers : this.header}).map((res: Response) => res.text());
+        return this.http.get(this.url + "ionic/name:" + fileName, {headers : this.header}).map((res: Response) => res.text());
     }
 
 }
