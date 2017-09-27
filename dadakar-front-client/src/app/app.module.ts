@@ -15,6 +15,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MenuConnectedComponent } from '../components/menu-connected/menu-connected';
 import { MenuNotConnectedComponent } from '../components/menu-not-connected/menu-not-connected';
+import { SearchResultPage } from '../pages/search-result/search-result';
 import { SignupPage } from '../pages/signup/signup';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 import { RunCreate1Page } from '../pages/run-create1/run-create1';
@@ -39,6 +40,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HomePage,
     MenuConnectedComponent,
     MenuNotConnectedComponent,
+    SearchResultPage,
     SignupPage,
     UserSignupPage,
     RunCreate1Page
@@ -62,6 +64,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   entryComponents: [
     MyApp,
     HomePage,
+    SearchResultPage,
     SignupPage,
     UserSignupPage,
     RunCreate1Page
