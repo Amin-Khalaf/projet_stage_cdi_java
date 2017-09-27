@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuController } from 'ionic-angular';
+import { LoadingController, MenuController } from 'ionic-angular';
 
 import { Run } from '../../models/run.model';
 
@@ -17,23 +17,28 @@ import config from "../../assets/config/config";
 export class SearchResultPage {
 
     activeMenu: string;
-    connected: boolean;
-    fullPrice: number = 0;
-    private img: string;
+    connected: boolean = false;
+    private fullPrice: number = 0;
+    minPrice: number = 0;
+    maxPrice:number = 0;
     monnaie: string = config.monnaie;
+    nbRuns: number;
     runs: Run[] = [];
+    startTown: string = this.runService.getSearch().startTown;
+    endTown: string = this.runService.getSearch().endTown;
+    private tempPrice: number = 0;
 
-    constructor(private authProvider: AuthProvider, private menu: MenuController,private imgService: ImgService, private RunService: RunService) {
-        this.RunService.findRuns().subscribe(data => {
-            this.runs = data;
-        });
+
+    constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private runService: RunService) {
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
                 this.connected = true;
                 this.menuConnectedActive();
+                this.getItems();
             } else {
                 this.connected = false;
                 this.menuNotConnectedActive();
+                this.getItems();
             }
         })
     }
@@ -50,20 +55,60 @@ export class SearchResultPage {
         this.menu.enable(true, 'menu-connected');
     }
 
-    getAvatar(run: Run): string {
-        this.img ='';
-        this.imgService.findByFileName(run.driver.photo).subscribe(data => {
-            this.img = 'data:image/jpeg;base64,' + data;
-        });
-        return this.img;
+    getAvatar(run: Run): void {
+        if(this.connected) {
+            this.imgService.findByFileName(run.driver.photo).subscribe(data => {
+                run.driver.photo = 'data:image/jpeg;base64,' + data;
+            });
+        } else {
+            run.driver.photo = '/assets/img/avatar.png';
+        }
     }
 
-    getFullPrice(run: Run) {
-        run.subRuns.forEach(value => {this.fullPrice += value.price; });
+    getFullPrice(run: Run): number {
+        this.fullPrice = 0;
+        for(let i = 0, j = run.subRuns.length; i < j; i++) {
+            this.fullPrice += run.subRuns[i].price;
+        }
+        return this.fullPrice;
+    }
+
+    private getItems() {
+
+        let loading = this.loader.create({
+            spinner: 'bubbles',
+            content: 'Veuillez patientez nous recherchons les disponibilitées...'
+        });
+
+        loading.present();
+
+        this.runService.findRuns().finally(() => loading.dismiss()).subscribe(data => {
+            this.runs = data;
+            this.nbRuns = this.runs.length;
+            for(let i = 0, j = this.nbRuns; i < j; i++) {
+                this.getAvatar(this.runs[i]);
+                this.tempPrice = this.getFullPrice(this.runs[i]);
+                if(this.minPrice != 0) {
+                    if(this.minPrice > this.tempPrice) {
+                        this.minPrice = this.tempPrice;
+                    }
+                    if(this.maxPrice < this.tempPrice) {
+                        this.maxPrice = this.tempPrice;
+                    }
+                } else {
+                    this.minPrice = this.tempPrice;
+                    this.maxPrice = this.tempPrice;
+                }
+            }
+        });
     }
 
     reserve(run: Run) {
-        console.log(run);
+        if(this.connected) {
+            console.log(run);
+        } else {
+            console.log('not connected')
+        }
     }
 
 }

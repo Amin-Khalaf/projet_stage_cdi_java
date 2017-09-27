@@ -7,15 +7,15 @@
     <h2>{{nbRuns}} {{startTown}} - {{endTown}} disponibles</h2>
     <h3>de {{minPrice}} {{monnaie}} à {{maxPrice}} {{monnaie}}</h3>
     <ion-list>
-        <ion-item-sliding *ngFor="let run of runs" (ionSwipe)="{{connected?'reserve(run)':''}}">
+        <ion-item-sliding *ngFor="let run of runs" (ionSwipe)="reserve(run)">
             <ion-item>
                 <ion-avatar item-start>
-                    <img [src]="getAvatar(run)">
+                    <img src="{{run.driver.photo}}">
                 </ion-avatar>
-                <h3 item-start>{{run.user.firstName}}</h3><h1 item-end>{{getFullPrice(run)}} {{monnaie}}</h1>
+                <h3 item-start>{{run.driver.firstName}}</h3><h1 item-end>{{getFullPrice(run)}} {{monnaie}}</h1>
             </ion-item>
             <ion-item-options side="right">
-                <button ion-button (click)="{{connected?'reserve(run)':''}}">
+                <button ion-button (click)="reserve(run)">
                     <ion-icon name="cart">
                         Réserver
                     </ion-icon>

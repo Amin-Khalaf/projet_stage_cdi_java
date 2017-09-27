@@ -41,8 +41,6 @@ export class AuthProvider {
         this.storage.remove('jwt').then(() => this.authUser.next(null));
     }
 
-    // ATTENTION JE NE RECUPERE PAS LE BON OBJET !!!
-
     signup(values: any): Observable<any> {
         return this.http
             .post(config.backLoginServerAddress + "/signup", values)

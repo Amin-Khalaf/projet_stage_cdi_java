@@ -1,14 +1,14 @@
 package com.umanteam.dadakar.img.back.webservice.implementation;
 
 import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,6 +84,25 @@ public class ImageStorageWebService implements IImageStorageWebService {
 		return ResponseEntity.ok().contentLength(gridFsFile.getLength())
 				.contentType(MediaType.parseMediaType(gridFsFile.getContentType()))
 				.body(new InputStreamResource(gridFsFile.getInputStream()));
+	}
+	
+	@RequestMapping(value="ionic/name:{filename:.+}", method= RequestMethod.GET)
+	@ResponseBody
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public ResponseEntity<byte[]> getImageByFileNameForIonic(@PathVariable("filename") String filename) {
+		GridFSDBFile file = imageStorageService.getByFilename(filename);
+		if(file == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		try {
+			return ResponseEntity.ok().body(Base64.encodeBase64(StreamUtils.copyToByteArray(file.getInputStream())));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity(HttpStatus.EXPECTATION_FAILED);
 	}
 
 	// TODO if necessary implement getAllImages

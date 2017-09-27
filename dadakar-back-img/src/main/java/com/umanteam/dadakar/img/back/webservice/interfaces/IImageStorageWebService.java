@@ -14,5 +14,6 @@ public interface IImageStorageWebService {
 	public void storeImageFromIonic(ImageDTO image);
 	public ResponseEntity<InputStreamResource> getImageAsResource(String id);
 	public ResponseEntity<InputStreamResource> getImageByFileName(String filename);
+	ResponseEntity<byte[]> getImageByFileNameForIonic(String filename);
 //	public ResponseEntity<List<InputStreamResource>> getAllImages();
 }
