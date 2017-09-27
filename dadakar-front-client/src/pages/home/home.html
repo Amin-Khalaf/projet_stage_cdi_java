@@ -12,49 +12,45 @@
 <ion-content padding>
     <ion-list>
         <form #searchRunsForm="ngForm" (ngSubmit)="search(searchRunsForm.value, searchRunsForm)" novalidate>
-            <ion-item>
+              <ion-item>
                 <ion-icon name="globe" item-start></ion-icon>
-                <ion-label>Ville de départ</ion-label>
-                <ion-select interface="popover" name="startTown" ngModel required #startTown="ngModel" [class.invalid]="startTown.errors && startTown.dirty" (ionChange)="validate(searchRunsForm.value)">
-                    <ion-option value="test1">test1</ion-option>
-                    <ion-option value="test2">test2</ion-option>
+                <ion-label floating>Ville de départ</ion-label>
+                <ion-select interface="popover" name="startTown" ngModel required #startTown="ngModel" [class.invalid]="startTown.errors && startTown.dirty" (ionChange)="onSelectTown(startTown.value, 0, searchRunsForm.value)">
+                    <ion-option *ngFor="let town of towns" value="{{ town }}">{{ town }}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item class="error-message" *ngIf="startTown.errors?.required && startTown.dirty"></ion-item>
 
             <ion-item [hidden]="startTown.errors?.required">
                 <ion-icon name="podium" item-start></ion-icon>
-                <ion-label>Quartier de départ</ion-label>
+                <ion-label floating>Quartier de départ</ion-label>
                 <ion-select interface="popover" name="startDistrict" ngModel required #startDistrict="ngModel" [class.invalid]="startDistrict.errors && startDistrict.dirty" (ionChange)="validate(searchRunsForm.value)">
-                    <ion-option value="test1">test1</ion-option>
-                    <ion-option value="test2">test2</ion-option>
+                    <ion-option *ngFor="let address of listDistricts[0]" selected="{{ listDistricts[0].length == 1 }}" value="{{ address }}">{{ address.district }}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item class="error-message" *ngIf="startDistrict.errors?.required && startDistrict.dirty"></ion-item>
 
             <ion-item [hidden]="startDistrict.errors?.required">
                 <ion-icon name="globe" item-start></ion-icon>
-                <ion-label>Ville d'arrivée</ion-label>
-                <ion-select interface="popover" name="endTown" ngModel required #endTown="ngModel" [class.invalid]="endTown.errors && endTown.dirty" (ionChange)="validate(searchRunsForm.value)">
-                    <ion-option value="test1">test1</ion-option>
-                    <ion-option value="test2">test2</ion-option>
+                <ion-label floating>Ville d'arrivée</ion-label>
+                <ion-select interface="popover" name="endTown" ngModel required #endTown="ngModel" [class.invalid]="endTown.errors && endTown.dirty" (ionChange)="onSelectTown(endTown.value, 1, searchRunsForm.value)">
+                  <ion-option *ngFor="let town of towns" value="{{ town }}">{{ town }}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item class="error-message" *ngIf="endTown.errors?.required && endTown.dirty"></ion-item>
 
             <ion-item [hidden]="endTown.errors?.required">
                 <ion-icon name="podium" item-start></ion-icon>
-                <ion-label>Quartier d'arrivée</ion-label>
+                <ion-label floating>Quartier d'arrivée</ion-label>
                 <ion-select interface="popover" name="endDistrict" ngModel required #endDistrict="ngModel" [class.invalid]="endDistrict.errors && endDistrict.dirty" (ionChange)="validate(searchRunsForm.value)">
-                    <ion-option value="test1">test1</ion-option>
-                    <ion-option value="test2">test2</ion-option>
+                  <ion-option *ngFor="let address of listDistricts[1]" value="{{ address }}">{{ address.district }}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item class="error-message" *ngIf="endDistrict.errors?.required && endDistrict.dirty"></ion-item>
 
             <ion-item [hidden]="endDistrict.errors?.required">
                 <ion-icon name="calendar" item-start></ion-icon>
-                <ion-label>Date de départ</ion-label>
+                <ion-label floating>Date de départ</ion-label>
                 <ion-datetime doneText="valider" cancelText="Annuler" name="startDate" ngModel #startDate="ngModel" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" [min]="today" [max]="maxSearch" (ionChange)="validate(searchRunsForm.value)"></ion-datetime>
             </ion-item>
 

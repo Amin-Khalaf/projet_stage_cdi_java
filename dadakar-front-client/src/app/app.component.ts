@@ -7,8 +7,6 @@ import { AuthProvider } from '../providers/auth';
 
 import { HomePage } from '../pages/home/home';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
-import { HomeConnectedPage } from '../pages/home-connected/home-connected';
-import { RunCreate1Page } from '../pages/run-create1/run-create1';
 
 import { UserService } from '../services/user.service';
 
@@ -21,8 +19,6 @@ export class MyApp {
 
     rootPage:any = null;
     user: User = null;
-    home = HomeConnectedPage;
-    runcreate = RunCreate1Page;
     @ViewChild('content') menuNav: NavController;
 
     constructor(private authProvider: AuthProvider, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen, private userService: UserService, private menuCtrl: MenuController) {
