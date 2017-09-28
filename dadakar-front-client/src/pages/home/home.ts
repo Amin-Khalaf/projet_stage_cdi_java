@@ -26,12 +26,13 @@ export class HomePage implements OnInit {
     today: string;
     maxSearch: string;
     searchValues: Search = null;
-    runCreate1 = RunCreate1Page;
+    // runCreate1 = RunCreate1Page;
     towns: string[] = [];
     listDistricts: Address[][] = [[]];
 
 
-    constructor(private authProvider: AuthProvider, private menu: MenuController, private navCtrl: NavController, private runService: RunService, private alertCtrl: AlertController) {
+    constructor(private authProvider: AuthProvider, private menu: MenuController, private navCtrl: NavController, private runService: RunService,
+                private addressService: AddressService, private alertCtrl: AlertController) {
         this.today = LocalDate.now().toString();
         this.maxSearch = LocalDate.now().plusDays(60).toString();
         this.authProvider.authUser.subscribe(jwt => {
@@ -61,11 +62,11 @@ export class HomePage implements OnInit {
 
     search(values: any, form: NgForm) {
         this.searchValues = {
-            startTown: 'Paris',
-            startDistrict: '10 ème',
-            endTown: 'Lille',
-            endDistrict: 'Centre',
-            startDate: LocalDate.of(2017, 9, 22)
+            startTown: form.value.startTown,
+            startDistrict: form.value.startDistrict,
+            endTown: form.value.endTown,
+            endDistrict: form.value.endDistrict,
+            startDate: form.value.startDate
         }
         this.runService.setSearch(this.searchValues);
         this.navCtrl.push(SearchResultPage);

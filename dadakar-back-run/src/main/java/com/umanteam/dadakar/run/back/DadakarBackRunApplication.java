@@ -44,22 +44,38 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
-		//createRun();
+		createRun();
 		populateAddresses();
 	}
 	
 	@SuppressWarnings("unused")
 	private void createRun() {
+		runRepo.deleteAll();
 		List<Passenger> passengers = new ArrayList<>();
 		List<SubRun> subRuns = new ArrayList<>();
 		List<Toll> tolls = new ArrayList<>();
 		List<WayPoint> waypoints = new ArrayList<>();
-		waypoints.add(new WayPoint("gare de lyon", new Address("10 ème", "Paris")));
 		User user = userRepo.findByAccountId("59bfb5277f394325d43cf723");
-		SubRun subRun = new SubRun(Duration.ofMinutes(15), new WayPoint("gare de lyon", new Address("10 ème", "Paris")), new WayPoint("gare de Lille", new Address("Centre", "Lille")), LocalDate.now(), LocalTime.of(16, 20, 00), LocalDate.now(), LocalTime.of(19, 45, 00), (Integer) 4, passengers, waypoints, tolls,(Double) 8.50);
-		subRuns.add(subRun);
-		Run run = new Run(user,"1", subRuns, Luggage.MOYEN);
-		runRepo.save(run);
+		if (user != null) {
+			// create pour Franck
+			waypoints.add(new WayPoint("gare de lyon", new Address("10 ème", "Paris")));
+			SubRun subRun = new SubRun(Duration.ofMinutes(15), new WayPoint("gare de lyon", new Address("10 ème", "Paris")), new WayPoint("gare de Lille", new Address("Centre", "Lille")), LocalDate.now(), LocalTime.of(16, 20, 00), LocalDate.now(), LocalTime.of(19, 45, 00), (Integer) 4, passengers, waypoints, tolls,(Double) 8.50);
+			subRuns.add(subRun);
+			Run run = new Run(user,"1", subRuns, Luggage.MOYEN);
+			runRepo.save(run);
+		} else {
+			user = userRepo.findOne("59c0d5f11c30f1c864b09227");
+			if (user != null) {
+				// create pour Raphaël
+				waypoints.add(new WayPoint("rue de la gare", addressRepository.findByTownAndDistrict("Dakar", "Biscuiterie")));
+				System.out.println(user);
+				SubRun subRun = new SubRun(Duration.ofMinutes(15), new WayPoint("rue de la gare", addressRepository.findByTownAndDistrict("Dakar", "Biscuiterie")), new WayPoint("rue de la mairie", addressRepository.findByTownAndDistrict("Pikine", "Nord")), LocalDate.now(), LocalTime.of(16, 20, 00), LocalDate.now(), LocalTime.of(19, 45, 00), (Integer) 4, passengers, waypoints, tolls,(Double) 8.50);
+				subRuns.add(subRun);
+				Run run = new Run(user,"1", subRuns, Luggage.MOYEN);
+				runRepo.save(run);
+			}
+		}
+	}
 		
 	private void populateAddresses(){
 		addressRepository.deleteAll();
