@@ -45,13 +45,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MenuNotConnectedComponent,
     SearchResultPage,
     SignupPage,
-<<<<<<< HEAD
     UserProfilePage,
-    UserSignupPage
-=======
     UserSignupPage,
     RunCreate1Page
->>>>>>> 03cb08d2880cf9355c7cb39a0294cd0ba5bc35db
   ],
   imports: [
     BrowserModule,
@@ -74,13 +70,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HomePage,
     SearchResultPage,
     SignupPage,
-<<<<<<< HEAD
     UserProfilePage,
-    UserSignupPage
-=======
     UserSignupPage,
     RunCreate1Page
->>>>>>> 03cb08d2880cf9355c7cb39a0294cd0ba5bc35db
   ],
   providers: [
     AuthProvider,

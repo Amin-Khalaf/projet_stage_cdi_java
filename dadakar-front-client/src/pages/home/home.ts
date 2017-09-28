@@ -30,17 +30,10 @@ export class HomePage implements OnInit {
     towns: string[] = [];
     listDistricts: Address[][] = [[]];
 
-<<<<<<< HEAD
-    constructor(private authProvider: AuthProvider, private menu: MenuController, private navCtrl: NavController, private runService: RunService) {
-        this.menu.close();
-
         // tester l'ensemble des vues pour tout effacer //
-
-=======
-
     constructor(private authProvider: AuthProvider, private menu: MenuController, private navCtrl: NavController, private runService: RunService,
                 private addressService: AddressService, private alertCtrl: AlertController) {
->>>>>>> 03cb08d2880cf9355c7cb39a0294cd0ba5bc35db
+        this.menu.close();
         this.today = LocalDate.now().toString();
         this.maxSearch = LocalDate.now().plusDays(60).toString();
         this.authProvider.authUser.subscribe(jwt => {
