@@ -1,0 +1,36 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-title>Créer un trajet</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form #f="ngForm" ngSubmit="onGoToStep2(f)">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Ville et quartier de départ</ion-label>
+        <ion-input type="text" name="startLoc" ngModel required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Lieu de rendez-vous</ion-label>
+        <ion-input type="text" name="startPlace" ngModel required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Ville et quartier d'arrivée</ion-label>
+        <ion-input type="text"  name="endLoc" ngModel required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Lieu de rendez-vous</ion-label>
+        <ion-input type="text" name="endPlace" ngModel required></ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

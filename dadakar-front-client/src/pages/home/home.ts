@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalDate } from 'js-joda';
-import { MenuController, NavController } from 'ionic-angular';
+import { MenuController, NavController , AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 
 import { AuthProvider } from '../../providers/auth';
@@ -11,23 +11,36 @@ import { SearchResultPage } from '../../pages/search-result/search-result';
 
 import { RunService } from '../../services/run.service';
 
+import { AddressService } from '../../services/address.service';
+
+import { Address } from '../../models/address.model';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
     activeMenu: string;
     formIsValid: boolean = false;
     today: string;
     maxSearch: string;
     searchValues: Search = null;
+    // runCreate1 = RunCreate1Page;
+    towns: string[] = [];
+    listDistricts: Address[][] = [[]];
 
+<<<<<<< HEAD
     constructor(private authProvider: AuthProvider, private menu: MenuController, private navCtrl: NavController, private runService: RunService) {
         this.menu.close();
 
         // tester l'ensemble des vues pour tout effacer //
 
+=======
+
+    constructor(private authProvider: AuthProvider, private menu: MenuController, private navCtrl: NavController, private runService: RunService,
+                private addressService: AddressService, private alertCtrl: AlertController) {
+>>>>>>> 03cb08d2880cf9355c7cb39a0294cd0ba5bc35db
         this.today = LocalDate.now().toString();
         this.maxSearch = LocalDate.now().plusDays(60).toString();
         this.authProvider.authUser.subscribe(jwt => {
@@ -37,6 +50,10 @@ export class HomePage {
                 this.menuNotConnectedActive();
             }
         });
+    }
+
+    ngOnInit(){
+      this.findTowns();
     }
 
     menuNotConnectedActive() {
@@ -53,11 +70,11 @@ export class HomePage {
 
     search(values: any, form: NgForm) {
         this.searchValues = {
-            startTown: 'Paris',
-            startDistrict: '10 ème',
-            endTown: 'Lille',
-            endDistrict: 'Centre',
-            startDate: LocalDate.of(2017, 9, 22)
+            startTown: form.value.startTown,
+            startDistrict: form.value.startDistrict,
+            endTown: form.value.endTown,
+            endDistrict: form.value.endDistrict,
+            startDate: form.value.startDate
         }
         this.runService.setSearch(this.searchValues);
         this.navCtrl.push(SearchResultPage);
@@ -67,4 +84,46 @@ export class HomePage {
         this.formIsValid = values.startTown && values.startDistrict && values.endTown && values.endDistrict && values.startDate;
     }
 
+    findTowns(){
+      let addresses : Address[] = [];
+      this.addressService.findAll().subscribe((data) => {
+        addresses = data;
+        for (let address of addresses) {
+          if (this.towns.indexOf(address.town) < 0)
+            this.towns.push(address.town);
+        }
+      });
+    }
+
+    findDistricts(town: string, index : number){
+      this.addressService.findByTown(town).subscribe(
+        data =>{
+          if (data.length == 0) {
+            this.handleError('Aucun quartier trouvé');
+          }
+          if (this.listDistricts.length >= index + 1) {
+            this.listDistricts[index] = data;
+          } else {
+            this.listDistricts.push(data);
+          }
+        },
+        error => {
+          this.handleError(error.json().error);
+        }
+      );
+    }
+
+    onSelectTown(town: string, index: number, values: any) {
+      this.validate(values);
+      this.findDistricts(town, index);
+    }
+
+    private handleError(errorMessage: string){
+      const alert = this.alertCtrl.create({
+        title: 'An error occured',
+        message: errorMessage,
+        buttons: ['Ok']
+      });
+      alert.present();
+    }
 }

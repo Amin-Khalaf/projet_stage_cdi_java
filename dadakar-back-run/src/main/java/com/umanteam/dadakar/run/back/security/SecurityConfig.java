@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 		.authorizeRequests()
 			.antMatchers("/dadakar/runs/searchrun*").permitAll()
+			.antMatchers("/dadakar/addresses/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 		.apply(new JWTConfigurer(tokenProvider));

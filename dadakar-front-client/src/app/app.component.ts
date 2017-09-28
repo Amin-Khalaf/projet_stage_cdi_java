@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Platform, NavController, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AuthProvider } from '../providers/auth';
 
 import { HomePage } from '../pages/home/home';
-import { UserSignupPage } from '../pages/user-signup/user-signup'
+import { UserSignupPage } from '../pages/user-signup/user-signup';
 
 import { UserService } from '../services/user.service';
 
@@ -19,8 +19,9 @@ export class MyApp {
 
     rootPage:any = null;
     user: User = null;
+    @ViewChild('content') menuNav: NavController;
 
-    constructor(private authProvider: AuthProvider, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen, private userService: UserService) {
+    constructor(private authProvider: AuthProvider, private platform: Platform, private statusBar: StatusBar, private splashScreen: SplashScreen, private userService: UserService, private menuCtrl: MenuController) {
         this.platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -45,6 +46,11 @@ export class MyApp {
 
         this.authProvider.checkLogin();
 
+    }
+
+    onLoad(page: any){
+      this.menuNav.push(page);
+      this.menuCtrl.close();
     }
 
 }

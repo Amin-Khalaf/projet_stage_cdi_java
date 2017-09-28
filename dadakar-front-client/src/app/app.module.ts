@@ -19,6 +19,7 @@ import { SearchResultPage } from '../pages/search-result/search-result';
 import { SignupPage } from '../pages/signup/signup';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
+import { RunCreate1Page } from '../pages/run-create1/run-create1';
 
 import { AuthProvider } from "../providers/auth";
 
@@ -44,8 +45,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MenuNotConnectedComponent,
     SearchResultPage,
     SignupPage,
+<<<<<<< HEAD
     UserProfilePage,
     UserSignupPage
+=======
+    UserSignupPage,
+    RunCreate1Page
+>>>>>>> 03cb08d2880cf9355c7cb39a0294cd0ba5bc35db
   ],
   imports: [
     BrowserModule,
@@ -68,8 +74,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HomePage,
     SearchResultPage,
     SignupPage,
+<<<<<<< HEAD
     UserProfilePage,
     UserSignupPage
+=======
+    UserSignupPage,
+    RunCreate1Page
+>>>>>>> 03cb08d2880cf9355c7cb39a0294cd0ba5bc35db
   ],
   providers: [
     AuthProvider,

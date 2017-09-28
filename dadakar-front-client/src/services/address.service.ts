@@ -37,7 +37,9 @@ export class AddressService {
     }
 
     findAll() {
-        return this.http.get(this.url, {headers : this.header}).map((res: Response) => res.json());
+        return this.http.get(this.url, {headers : this.header}).map((res: Response) => {
+          return res.json();
+        });
     }
 
     findById(addressId: string) {
@@ -45,7 +47,7 @@ export class AddressService {
     }
 
     findByTown(town: string) {
-        return this.http.get(this.url + "town:" + town, {headers : this.header}).map((res: Response) => res.json());
+        return this.http.get(this.url + "town:" + town, {headers : this.header}).map((res: Response) => {return res.json();});
     }
 
     findByTownAndDistrict(town: string, district: string) {
