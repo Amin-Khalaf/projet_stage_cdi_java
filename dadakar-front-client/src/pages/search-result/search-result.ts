@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { LoadingController, MenuController } from 'ionic-angular';
+import { LoadingController, MenuController, ModalController } from 'ionic-angular';
+
+import { RunDetailsComponent } from '../../components/run-details/run-details';
 
 import { Run } from '../../models/run.model';
 
@@ -23,13 +25,14 @@ export class SearchResultPage {
     maxPrice:number = 0;
     monnaie: string = config.monnaie;
     nbRuns: number;
+    photos: string[] = [];
     runs: Run[] = [];
     startTown: string = this.runService.getSearch().startTown;
     endTown: string = this.runService.getSearch().endTown;
     private tempPrice: number = 0;
 
 
-    constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private runService: RunService) {
+    constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private modal: ModalController, private runService: RunService) {
         this.menu.close();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
@@ -56,13 +59,13 @@ export class SearchResultPage {
         this.menu.enable(true, 'menu-connected');
     }
 
-    getAvatar(run: Run): void {
+    getAvatar(filename: string, index: number): void {
         if(this.connected) {
-            this.imgService.findByFileName(run.driver.photo).subscribe(data => {
-                run.driver.photo = 'data:image/jpeg;base64,' + data;
+            this.imgService.findByFileName(filename).subscribe(data => {
+                this.photos[index] = 'data:image/jpeg;base64,' + data;
             });
         } else {
-            run.driver.photo = '/assets/img/avatar.png';
+            this.photos[index] = '/assets/img/avatar.png';
         }
     }
 
@@ -88,7 +91,7 @@ export class SearchResultPage {
                 this.runs = data;
                 this.nbRuns = this.runs.length;
                 for(let i = 0, j = this.nbRuns; i < j; i++) {
-                    this.getAvatar(this.runs[i]);
+                    this.getAvatar(this.runs[i].driver.photo, i);
                     this.tempPrice = this.getFullPrice(this.runs[i]);
                     if(this.minPrice != 0) {
                         if(this.minPrice > this.tempPrice) {
@@ -114,6 +117,19 @@ export class SearchResultPage {
         } else {
             console.log('not connected')
         }
+    }
+
+    viewDetails(run: Run) {
+        let profile = this.modal.create(RunDetailsComponent ,{
+            run: run,
+            search: this.runService.getSearch(),
+            connected: this.connected
+        });
+        profile.onDidDismiss(data => {
+            console.log(data);
+        });
+        profile.present();
+
     }
 
 }

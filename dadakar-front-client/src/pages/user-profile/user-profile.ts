@@ -18,6 +18,9 @@ export class UserProfilePage {
     account: Account;
     activeMenu: string;
     connected: boolean = true;
+    drivingLicence: string;
+    idCard: string;
+    photo: string;
     user: User;
     users: User[] = [];
 
@@ -52,13 +55,13 @@ export class UserProfilePage {
 
     getImage(user: User): void {
         this.imgService.findByFileName(user.photo).subscribe(data => {
-            user.photo = 'data:image/jpeg;base64,' + data;
+            this.photo = 'data:image/jpeg;base64,' + data;
         });
         this.imgService.findByFileName(user.idCard).subscribe(data => {
-            user.idCard = 'data:image/jpeg;base64,' + data;
+            this.idCard = 'data:image/jpeg;base64,' + data;
         });
         this.imgService.findByFileName(user.drivingLicence).subscribe(data => {
-            user.drivingLicence = 'data:image/jpeg;base64,' + data;
+            this.drivingLicence = 'data:image/jpeg;base64,' + data;
         })
     }
 

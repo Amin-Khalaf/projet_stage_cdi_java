@@ -63,10 +63,10 @@ export class HomePage implements OnInit {
 
     search(values: any, form: NgForm) {
         this.searchValues = {
-            startTown: form.value.startTown,
-            startDistrict: form.value.startDistrict,
-            endTown: form.value.endTown,
-            endDistrict: form.value.endDistrict,
+            startTown: 'Paris',//form.value.startTown,
+            startDistrict: '10 ème',//form.value.startDistrict,
+            endTown: 'Lille',//form.value.endTown,
+            endDistrict: 'Centre', //form.value.endDistrict,
             startDate: form.value.startDate
         }
         this.runService.setSearch(this.searchValues);
