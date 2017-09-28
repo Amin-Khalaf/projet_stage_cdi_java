@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { LoadingController, NavController, ToastController} from 'ionic-angular';
+import { LoadingController, MenuController, NavController, ToastController} from 'ionic-angular';
 import { NgModel } from '@angular/forms';
 import * as sha1 from 'js-sha1';
 
@@ -19,7 +19,9 @@ export class SignupPage {
     usernameModel: NgModel;
     private account: Account;
 
-    constructor(private readonly authProvider: AuthProvider, private readonly loadingCtrl: LoadingController, private readonly navCtrl: NavController, private readonly toastCtrl: ToastController) {}
+    constructor(private readonly authProvider: AuthProvider, private readonly loadingCtrl: LoadingController, private menu: MenuController, private readonly navCtrl: NavController, private readonly toastCtrl: ToastController) {
+        this.menu.close();
+    }
 
     handleError(error: any) {
         if(error.status === 409) {

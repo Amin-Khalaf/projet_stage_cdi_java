@@ -30,6 +30,7 @@ export class SearchResultPage {
 
 
     constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private runService: RunService) {
+        this.menu.close();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
                 this.connected = true;
@@ -83,22 +84,26 @@ export class SearchResultPage {
         loading.present();
 
         this.runService.findRuns().finally(() => loading.dismiss()).subscribe(data => {
-            this.runs = data;
-            this.nbRuns = this.runs.length;
-            for(let i = 0, j = this.nbRuns; i < j; i++) {
-                this.getAvatar(this.runs[i]);
-                this.tempPrice = this.getFullPrice(this.runs[i]);
-                if(this.minPrice != 0) {
-                    if(this.minPrice > this.tempPrice) {
+            if(data != null) {
+                this.runs = data;
+                this.nbRuns = this.runs.length;
+                for(let i = 0, j = this.nbRuns; i < j; i++) {
+                    this.getAvatar(this.runs[i]);
+                    this.tempPrice = this.getFullPrice(this.runs[i]);
+                    if(this.minPrice != 0) {
+                        if(this.minPrice > this.tempPrice) {
+                            this.minPrice = this.tempPrice;
+                        }
+                        if(this.maxPrice < this.tempPrice) {
+                            this.maxPrice = this.tempPrice;
+                        }
+                    } else {
                         this.minPrice = this.tempPrice;
-                    }
-                    if(this.maxPrice < this.tempPrice) {
                         this.maxPrice = this.tempPrice;
                     }
-                } else {
-                    this.minPrice = this.tempPrice;
-                    this.maxPrice = this.tempPrice;
                 }
+            } else {
+                this.nbRuns = 0;
             }
         });
     }
