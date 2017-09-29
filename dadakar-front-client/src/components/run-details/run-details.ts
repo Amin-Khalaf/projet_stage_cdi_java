@@ -19,7 +19,9 @@ export class RunDetailsComponent {
 
     connected: boolean;
     nbRatings: number;
+    passengersPhotos = [];
     photo: string;
+    photos: string[] = [];
     photoVehicule: string;
     run: Run;
     search: Search;
@@ -35,6 +37,11 @@ export class RunDetailsComponent {
         this.findVehicle();
         this.getAvatar(this.vehicle.photo, true);
         this.findWantedSubRun();
+        this.getPassengersPhotos();
+    }
+
+    dismiss(data: any): void {
+        this.view.dismiss(data);
     }
 
     findWantedSubRun(): void {
@@ -48,7 +55,7 @@ export class RunDetailsComponent {
         }
     }
 
-    findVehicle() {
+    findVehicle(): void {
         let vehicles: Vehicle[] = this.run.driver.vehicles;
         for(let i = 0, j = vehicles.length; i < j; i++) {
             if(vehicles[i].vehicleId == this.run.vehicleId) {
@@ -58,7 +65,7 @@ export class RunDetailsComponent {
         }
     }
 
-    getAvatar(fileName: string, isVehicle: boolean) {
+    getAvatar(fileName: string, isVehicle: boolean): void {
         if(this.connected && fileName != '') {
             this.imgService.findByFileName(fileName).subscribe(data => {
                 if(data) {
@@ -84,6 +91,29 @@ export class RunDetailsComponent {
         }
     }
 
+    getAvatars(fileName: string, i: number, j: number): void {
+        if(this.connected && fileName != '') {
+            this.imgService.findByFileName(fileName).subscribe(data => {
+                if(data) {
+                    this.passengersPhotos[i] = (this.photos[j] = 'data:image/jpeg;base64,' + data);
+                } else {
+                    this.passengersPhotos[i] = (this.photos[j] = '/assets/img/avatar.png');
+                }
+            });
+        } else {
+            this.passengersPhotos[i] = (this.photos[j] = '/assets/img/avatar.png');
+        }
+    }
+
+    getPassengersPhotos(): void {
+        let subRuns = this.run.subRuns;
+        for(let i = 0, k = subRuns.length; i < k; i++) {
+            for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
+                this.getAvatars(subRuns[i].passengers[j].user.photo, i, j);
+            }
+        }
+    }
+
     getRatings(): number {
         if(this.nbRatings != 0) {
             let ratingValue: number = 0;
@@ -96,8 +126,8 @@ export class RunDetailsComponent {
         return 0;
     }
 
-    dismiss(data: any) {
-        this.view.dismiss(data);
+    viewProfile(userId: string): void {
+        console.log(userId);
     }
 
 }
