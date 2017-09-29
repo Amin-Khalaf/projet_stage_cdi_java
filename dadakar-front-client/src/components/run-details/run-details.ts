@@ -5,6 +5,7 @@ import { Rating } from '../../models/rating.model';
 import { Run } from '../../models/run.model';
 import { Search } from '../../models/search.model';
 import { SubRun } from '../../models/subrun.model';
+import { Vehicle } from '../../models/vehicle.model';
 import { WayPoint } from '../../models/waypoint.model';
 
 import { ImgService } from '../../services/image.service';
@@ -21,6 +22,7 @@ export class RunDetailsComponent {
     photo: string;
     run: Run;
     search: Search;
+    vehicle: Vehicle;
     wantedSubRun: SubRun;
 
     constructor(private imgService: ImgService, private params: NavParams, private view: ViewController) {
@@ -38,6 +40,16 @@ export class RunDetailsComponent {
             let endPlace: WayPoint = this.run.subRuns[i].endPlace;
             if(startPlace.address.town == this.search.startTown || startPlace.address.district == this.search.startDistrict || endPlace.address.town == this.search.endTown || endPlace.address.district == this.search.endDistrict) {
                 this.wantedSubRun = this.run.subRuns[i];
+                break;
+            }
+        }
+    }
+
+    findVehicle() {
+        let vehicles: Vehicle[] = this.run.driver.vehicles;
+        for(let i = 0, j = vehicles.length; i < j; i++) {
+            if(vehicles[i].vehicleId == this.run.vehicleId) {
+                this.vehicle = vehicles[i];
                 break;
             }
         }
