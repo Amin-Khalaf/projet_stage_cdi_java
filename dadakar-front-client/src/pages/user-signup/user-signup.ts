@@ -73,21 +73,23 @@ export class UserSignupPage {
 
     signup(values: any) {
         this.authProvider.authUser.subscribe(jwt => {
-            this.userToSave = {
-                accountId: jwt.accountDTO.accountId,
-                lastName: values.lastName,
-                firstName: values.firstName,
-                mail: values.mail,
-                photo: this.photoToSend.name,
-                idCard: this.idCardToSend.name,
-                drivingLicence: this.drivingLicenceToSend.name
+            if(jwt) {
+                this.userToSave = {
+                    accountId: jwt.accountDTO.accountId,
+                    lastName: values.lastName,
+                    firstName: values.firstName,
+                    mail: values.mail,
+                    photo: this.photoToSend.name,
+                    idCard: this.idCardToSend.name,
+                    drivingLicence: this.drivingLicenceToSend.name
+                }
+                this.imgService.add(this.photoToSend).subscribe();
+                this.imgService.add(this.idCardToSend).subscribe();
+                this.imgService.add(this.drivingLicenceToSend).subscribe();
+                this.userService.add(this.userToSave).subscribe();
+                this.appCtrl.getRootNavs()[0].setRoot(HomePage);
             }
-            this.imgService.add(this.photoToSend).subscribe();
-            this.imgService.add(this.idCardToSend).subscribe();
-            this.imgService.add(this.drivingLicenceToSend).subscribe();
-            this.userService.add(this.userToSave).subscribe();
-            this.appCtrl.getRootNavs()[0].setRoot(HomePage);
-        })
+        });
     }
 
     takePhoto(form: NgForm, location: string) {

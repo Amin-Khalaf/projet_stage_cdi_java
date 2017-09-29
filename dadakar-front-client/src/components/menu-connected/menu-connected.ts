@@ -15,7 +15,7 @@ export class MenuConnectedComponent {
     constructor(private nav: App, private authProvider: AuthProvider) {}
 
     home() {
-        this.nav.getActiveNavs()[0].push(HomePage);
+        this.nav.getActiveNavs()[0].popToRoot();
     }
 
     createRun() {
