@@ -20,6 +20,7 @@ export class RunDetailsComponent {
     connected: boolean;
     nbRatings: number;
     photo: string;
+    photoVehicule: string;
     run: Run;
     search: Search;
     vehicle: Vehicle;
@@ -58,12 +59,28 @@ export class RunDetailsComponent {
     }
 
     getAvatar(fileName: string, isVehicle: boolean) {
-        if(this.connected) {
+        if(this.connected && fileName != '') {
             this.imgService.findByFileName(fileName).subscribe(data => {
-                this.photo = 'data:image/jpeg;base64,' + data;
-            })
+                if(data) {
+                    if(isVehicle) {
+                        this.photoVehicule = 'data:image/jpeg;base64,' + data;
+                    } else {
+                        this.photo = 'data:image/jpeg;base64,' + data;
+                    }
+                } else {
+                    if(isVehicle) {
+                        this.photoVehicule = '/assets/img/vehicule.png'
+                    } else {
+                        this.photo = '/assets/img/avatar.png';
+                    }
+                }
+            });
         } else {
-            this.photo = '/assets/img/' + isVehicle ? 'vehicule.png' : 'avatar.png';
+            if(isVehicle) {
+                this.photoVehicule = '/assets/img/vehicule.png'
+            } else {
+                this.photo = '/assets/img/avatar.png';
+            }
         }
     }
 
