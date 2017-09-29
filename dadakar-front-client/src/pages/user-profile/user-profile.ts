@@ -55,13 +55,25 @@ export class UserProfilePage {
 
     getImage(user: User): void {
         this.imgService.findByFileName(user.photo).subscribe(data => {
-            this.photo = 'data:image/jpeg;base64,' + data;
+            if(data) {
+                this.photo = 'data:image/jpeg;base64,' + data;
+            } else {
+                this.photo = '/assets/img/avatar.png';
+            }
         });
         this.imgService.findByFileName(user.idCard).subscribe(data => {
-            this.idCard = 'data:image/jpeg;base64,' + data;
+            if(data) {
+                this.idCard = 'data:image/jpeg;base64,' + data;
+            } else {
+                this.photo = '/assets/img/cni.jpg';
+            }
         });
         this.imgService.findByFileName(user.drivingLicence).subscribe(data => {
-            this.drivingLicence = 'data:image/jpeg;base64,' + data;
+            if(data) {
+                this.drivingLicence = 'data:image/jpeg;base64,' + data;
+            } else {
+                this.photo = '/assets/img/pc.jpg';
+            }
         })
     }
 

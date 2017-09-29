@@ -30,7 +30,9 @@ export class RunDetailsComponent {
         this.run = this.params.get('run');
         this.search = this.params.get('search');
         this.nbRatings = this.run.driver.ratings.length;
-        this.getAvatar();
+        this.getAvatar(this.run.driver.photo, false);
+        this.findVehicle();
+        this.getAvatar(this.vehicle.photo, true);
         this.findWantedSubRun();
     }
 
@@ -55,13 +57,13 @@ export class RunDetailsComponent {
         }
     }
 
-    getAvatar() {
+    getAvatar(fileName: string, isVehicle: boolean) {
         if(this.connected) {
-            this.imgService.findByFileName(this.run.driver.photo).subscribe(data => {
+            this.imgService.findByFileName(fileName).subscribe(data => {
                 this.photo = 'data:image/jpeg;base64,' + data;
             })
         } else {
-            this.photo = '/assets/img/avatar.png';
+            this.photo = '/assets/img/' + isVehicle ? 'vehicule.png' : 'avatar.png';
         }
     }
 
@@ -80,6 +82,5 @@ export class RunDetailsComponent {
     dismiss(data: any) {
         this.view.dismiss(data);
     }
-
 
 }
