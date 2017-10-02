@@ -21,6 +21,7 @@ public class MessageDTO implements Serializable {
 	private LocalDateTime horo;
 	private String object;
 	private String message;
+	private boolean seen;
 	
 	/* Constructors */
 	
@@ -82,6 +83,14 @@ public class MessageDTO implements Serializable {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public boolean isSeen() {
+		return seen;
+	}
+
+	public void setSeen(boolean seen) {
+		this.seen = seen;
 	}
 
 	/* Methods */

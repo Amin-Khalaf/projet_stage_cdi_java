@@ -17,6 +17,7 @@ public class Message {
 	private LocalDateTime horo;
 	private String object;
 	private String message;
+	private boolean seen;
 	
 	/* Constructors */
 	
@@ -78,6 +79,14 @@ public class Message {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public boolean isSeen() {
+		return seen;
+	}
+
+	public void setSeen(boolean seen) {
+		this.seen = seen;
 	}
 
 	/* Methods */

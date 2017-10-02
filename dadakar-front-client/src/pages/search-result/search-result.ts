@@ -19,7 +19,9 @@ import config from "../../assets/config/config";
 export class SearchResultPage {
 
     activeMenu: string;
+    banned: boolean = false;
     connected: boolean = false;
+    deleted: boolean = false;
     private fullPrice: number = 0;
     minPrice: number = 0;
     maxPrice:number = 0;
@@ -36,8 +38,11 @@ export class SearchResultPage {
         this.menu.close();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
+                this.banned = jwt.accountDTO.banned;
                 this.connected = true;
-                this.menuConnectedActive();
+                this.deleted = jwt.accountDTO.deleted;
+                if(jwt.accountDTO.banned || jwt.accountDTO.deleted) this.menuBannedOrDeletedActive();
+                else this.menuConnectedActive();
                 this.getItems();
             } else {
                 this.connected = false;
@@ -47,16 +52,25 @@ export class SearchResultPage {
         })
     }
 
-    menuNotConnectedActive() {
-        this.activeMenu = 'menu-not-connected';
-        this.menu.enable(true, 'menu-not-connected');
+    menuBannedOrDeletedActive() {
+        this.activeMenu = 'menu-banned';
+        this.menu.enable(true, 'menu-banned');
+        this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(false, 'menu-connected');
     }
 
     menuConnectedActive() {
         this.activeMenu = 'menu-connected';
+        this.menu.enable(false, 'menu-banned');
         this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(true, 'menu-connected');
+    }
+
+    menuNotConnectedActive() {
+        this.activeMenu = 'menu-not-connected';
+        this.menu.enable(false, 'menu-banned');
+        this.menu.enable(true, 'menu-not-connected');
+        this.menu.enable(false, 'menu-connected');
     }
 
     getAvatar(filename: string, index: number): void {
@@ -112,7 +126,7 @@ export class SearchResultPage {
     }
 
     reserve(run: Run) {
-        if(this.connected) {
+        if(this.connected && !(this.banned || this.deleted)) {
             console.log(run);
         } else {
             console.log('not connected')
@@ -126,10 +140,9 @@ export class SearchResultPage {
             connected: this.connected
         });
         profile.onDidDismiss(data => {
-            console.log(data);
+            if(data) this.reserve(data);
         });
         profile.present();
-
     }
 
 }

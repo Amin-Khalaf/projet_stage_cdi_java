@@ -19,8 +19,24 @@
             <h3>{{u.mail}}</h3>
         </ion-item>
         <ion-item>
+            <ion-grid>
+                <ion-row>
+                    <ion-col *ngFor="let vehicle of userVehicles; let i = index"  (click)="getVehicleDetails(vehicle, false)" col-4>
+                        <ion-thumbnail>
+                            <img src="{{photoVehicles[i]}}">
+                        </ion-thumbnail>
+                        <br>
+                        <span text-wrap>{{vehicle.brand}} {{vehicle.model}} {{vehicle.color}}</span>
+                    </ion-col>
+                    <ion-col (click)="addVehicle()" col-4>
+                        <img src="/assets/img/addVehicule.png">
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+        <ion-item>
             <ion-label>Supprimer mon compte</ion-label>
-            <ion-toggle [(ngModel)]="account.deleted" (change)="delete()"></ion-toggle>
+            <ion-toggle #deleteToggle (ionChange)="delete()" [checked]="account.deleted"></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>
