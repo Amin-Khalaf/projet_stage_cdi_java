@@ -1,36 +1,81 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons left>
+
+    <ion-title>Créer un trajet</ion-title>
+
+    <ion-buttons right>
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
 
-    <ion-title>Créer un trajet</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-  <form #f="ngForm" ngSubmit="onGoToStep2(f)">
-    <ion-list>
-      <ion-item>
-        <ion-label floating>Ville et quartier de départ</ion-label>
-        <ion-input type="text" name="startLoc" ngModel required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Lieu de rendez-vous</ion-label>
-        <ion-input type="text" name="startPlace" ngModel required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Ville et quartier d'arrivée</ion-label>
-        <ion-input type="text"  name="endLoc" ngModel required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Lieu de rendez-vous</ion-label>
-        <ion-input type="text" name="endPlace" ngModel required></ion-input>
-      </ion-item>
-    </ion-list>
+  <form [formGroup]="formRunCreate1" (ngSubmit)="onGoToStep2()">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+        <h4>Addresse de départ</h4>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+      <app-address-form formGroupName="startAddress" #startAddress></app-address-form>
+    </ion-col>
+  </ion-row>
+
+      <ion-row [hidden]="formRunCreate1.get('startAddress').get('place').value == null || formRunCreate1.get('startAddress').get('place').value == ''">
+        <ion-col>
+        <h4>Addresse d'arrivée</h4>
+      </ion-col>
+    </ion-row>
+    <ion-row [hidden]="formRunCreate1.get('startAddress').get('place').value == null || formRunCreate1.get('startAddress').get('place').value == ''">
+      <ion-col>
+        <app-address-form formGroupName="endAddress" #endAddress></app-address-form>
+      </ion-col>
+    </ion-row>
+
+    <div formArrayName="places" [hidden]="formRunCreate1.get('endAddress').get('place').value == null || formRunCreate1.get('endAddress').get('place').value == ''">
+        <div *ngFor="let placeControl of formRunCreate1.get('places').controls, let i = index">
+          <ion-row>
+            <ion-col>
+            <h4>
+              Etape {{ i+1 }}
+            </h4>
+          </ion-col>
+              <ion-col>
+              <button type="button" small outline ion-button icon-only (click)="removePlace(i)">
+                <ion-icon name="remove"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+            <app-address-form formGroupName="{{i}}"></app-address-form>
+          </ion-col>
+        </ion-row>
+        </div>
+        <ion-row>
+          <ion-col>
+        <button type="button" outline ion-button icon-right block (click)="onAddPlace()">
+          Ajouter une étape
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+      </div>
+
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-right color="primary" block type="submit" [disabled]="!formRunCreate1.valid">
+              Suivant
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </form>
 </ion-content>
