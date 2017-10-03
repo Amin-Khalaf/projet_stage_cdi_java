@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { LoadingController, MenuController } from 'ionic-angular';
+import { LoadingController, MenuController, ModalController } from 'ionic-angular';
+
+import { RunDetailsComponent } from '../../components/run-details/run-details';
 
 import { Run } from '../../models/run.model';
 
@@ -17,24 +19,30 @@ import config from "../../assets/config/config";
 export class SearchResultPage {
 
     activeMenu: string;
+    banned: boolean = false;
     connected: boolean = false;
+    deleted: boolean = false;
     private fullPrice: number = 0;
     minPrice: number = 0;
     maxPrice:number = 0;
     monnaie: string = config.monnaie;
     nbRuns: number;
+    photos: string[] = [];
     runs: Run[] = [];
     startTown: string = this.runService.getSearch().startTown;
     endTown: string = this.runService.getSearch().endTown;
     private tempPrice: number = 0;
 
 
-    constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private runService: RunService) {
+    constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private modal: ModalController, private runService: RunService) {
         this.menu.close();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
+                this.banned = jwt.accountDTO.banned;
                 this.connected = true;
-                this.menuConnectedActive();
+                this.deleted = jwt.accountDTO.deleted;
+                if(jwt.accountDTO.banned || jwt.accountDTO.deleted) this.menuBannedOrDeletedActive();
+                else this.menuConnectedActive();
                 this.getItems();
             } else {
                 this.connected = false;
@@ -44,25 +52,34 @@ export class SearchResultPage {
         })
     }
 
-    menuNotConnectedActive() {
-        this.activeMenu = 'menu-not-connected';
-        this.menu.enable(true, 'menu-not-connected');
+    menuBannedOrDeletedActive() {
+        this.activeMenu = 'menu-banned';
+        this.menu.enable(true, 'menu-banned');
+        this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(false, 'menu-connected');
     }
 
     menuConnectedActive() {
         this.activeMenu = 'menu-connected';
+        this.menu.enable(false, 'menu-banned');
         this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(true, 'menu-connected');
     }
 
-    getAvatar(run: Run): void {
+    menuNotConnectedActive() {
+        this.activeMenu = 'menu-not-connected';
+        this.menu.enable(false, 'menu-banned');
+        this.menu.enable(true, 'menu-not-connected');
+        this.menu.enable(false, 'menu-connected');
+    }
+
+    getAvatar(filename: string, index: number): void {
         if(this.connected) {
-            this.imgService.findByFileName(run.driver.photo).subscribe(data => {
-                run.driver.photo = 'data:image/jpeg;base64,' + data;
+            this.imgService.findByFileName(filename).subscribe(data => {
+                this.photos[index] = 'data:image/jpeg;base64,' + data;
             });
         } else {
-            run.driver.photo = '/assets/img/avatar.png';
+            this.photos[index] = '/assets/img/avatar.png';
         }
     }
 
@@ -88,7 +105,7 @@ export class SearchResultPage {
                 this.runs = data;
                 this.nbRuns = this.runs.length;
                 for(let i = 0, j = this.nbRuns; i < j; i++) {
-                    this.getAvatar(this.runs[i]);
+                    this.getAvatar(this.runs[i].driver.photo, i);
                     this.tempPrice = this.getFullPrice(this.runs[i]);
                     if(this.minPrice != 0) {
                         if(this.minPrice > this.tempPrice) {
@@ -109,11 +126,23 @@ export class SearchResultPage {
     }
 
     reserve(run: Run) {
-        if(this.connected) {
+        if(this.connected && !(this.banned || this.deleted)) {
             console.log(run);
         } else {
             console.log('not connected')
         }
+    }
+
+    viewDetails(run: Run) {
+        let profile = this.modal.create(RunDetailsComponent ,{
+            run: run,
+            search: this.runService.getSearch(),
+            connected: this.connected
+        });
+        profile.onDidDismiss(data => {
+            if(data) this.reserve(data);
+        });
+        profile.present();
     }
 
 }

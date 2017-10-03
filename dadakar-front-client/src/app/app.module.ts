@@ -13,6 +13,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 
 import { HomePage } from '../pages/home/home';
+import { MenuBannedComponent } from '../components/menu-banned/menu-banned';
 import { MenuConnectedComponent } from '../components/menu-connected/menu-connected';
 import { MenuNotConnectedComponent } from '../components/menu-not-connected/menu-not-connected';
 import { SearchResultPage } from '../pages/search-result/search-result';
@@ -20,6 +21,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 import { RunCreate1Page } from '../pages/run-create1/run-create1';
+import { RunDetailsComponent } from '../components/run-details/run-details';
 
 import { AuthProvider } from "../providers/auth";
 
@@ -41,13 +43,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   declarations: [
     MyApp,
     HomePage,
+    MenuBannedComponent,
     MenuConnectedComponent,
     MenuNotConnectedComponent,
     SearchResultPage,
     SignupPage,
     UserProfilePage,
     UserSignupPage,
-    RunCreate1Page
+    RunCreate1Page,
+    RunDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +76,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     SignupPage,
     UserProfilePage,
     UserSignupPage,
-    RunCreate1Page
+    RunCreate1Page,
+    RunDetailsComponent
   ],
   providers: [
     AuthProvider,

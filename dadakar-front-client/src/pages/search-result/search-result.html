@@ -13,10 +13,10 @@
     <h3>de {{minPrice | currency:monnaie:true:'1.2-2'}} à {{maxPrice | currency:monnaie:true:'1.2-2'}}</h3>
     <h4 *ngIf="!connected">Vous devez être connecté pour réserver.</h4>
     <ion-list>
-        <ion-item-sliding *ngFor="let run of runs">
-            <ion-item>
+        <ion-item-sliding *ngFor="let run of runs; let i = index">
+            <ion-item (click)="viewDetails(run)">
                 <ion-avatar item-start>
-                    <img src="{{run.driver.photo}}">
+                    <img src="{{photos[i]}}">
                 </ion-avatar>
                 <h3 item-start>{{run.driver.firstName}}</h3><h1 item-end>{{getFullPrice(run) | currency:monnaie:true:'1.2-2'}}</h1>
             </ion-item>

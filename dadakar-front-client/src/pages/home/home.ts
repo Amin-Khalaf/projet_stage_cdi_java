@@ -36,37 +36,39 @@ export class HomePage implements OnInit {
         this.menu.close();
         this.today = LocalDate.now().toString();
         this.maxSearch = LocalDate.now().plusDays(60).toString();
-        this.authProvider.authUser.subscribe(jwt => {
-            if(jwt) {
-                this.menuConnectedActive();
-            } else {
-                this.menuNotConnectedActive();
-            }
-        });
     }
 
     ngOnInit(){
       this.findTowns();
     }
 
-    menuNotConnectedActive() {
-        this.activeMenu = 'menu-not-connected';
-        this.menu.enable(true, 'menu-not-connected');
+    menuBannedOrDeletedActive() {
+        this.activeMenu = 'menu-banned';
+        this.menu.enable(true, 'menu-banned');
+        this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(false, 'menu-connected');
     }
 
     menuConnectedActive() {
         this.activeMenu = 'menu-connected';
+        this.menu.enable(false, 'menu-banned');
         this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(true, 'menu-connected');
     }
 
+    menuNotConnectedActive() {
+        this.activeMenu = 'menu-not-connected';
+        this.menu.enable(false, 'menu-banned');
+        this.menu.enable(true, 'menu-not-connected');
+        this.menu.enable(false, 'menu-connected');
+    }
+
     search(values: any, form: NgForm) {
         this.searchValues = {
-            startTown: form.value.startTown,
-            startDistrict: form.value.startDistrict,
-            endTown: form.value.endTown,
-            endDistrict: form.value.endDistrict,
+            startTown: 'Paris',//form.value.startTown,
+            startDistrict: '10 ème',//form.value.startDistrict,
+            endTown: 'Lille',//form.value.endTown,
+            endDistrict: 'Centre', //form.value.endDistrict,
             startDate: form.value.startDate
         }
         this.runService.setSearch(this.searchValues);
@@ -104,6 +106,17 @@ export class HomePage implements OnInit {
           this.handleError(error.json().error);
         }
       );
+    }
+
+    ionViewWillEnter() {
+        this.authProvider.authUser.subscribe(jwt => {
+            if(jwt) {
+                if(jwt.accountDTO.banned || jwt.accountDTO.deleted) this.menuBannedOrDeletedActive();
+                else this.menuConnectedActive();
+            } else {
+                this.menuNotConnectedActive();
+            }
+        });
     }
 
     onSelectTown(town: string, index: number, values: any) {

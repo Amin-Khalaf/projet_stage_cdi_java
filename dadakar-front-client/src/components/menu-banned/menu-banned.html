@@ -1,0 +1,26 @@
+<ion-list>
+    <ion-item (click)="home()">
+        <ion-icon name="home" item-start></ion-icon>
+        Accueil
+    </ion-item>
+    <button ion-item disabled>
+        <ion-icon name="car" item-start></ion-icon>
+        Proposer un trajet
+    </button>
+    <button ion-item disabled>
+        <ion-icon name="list" item-start></ion-icon>
+        Gérer mes trajets
+    </button>
+    <ion-item (click)="myAccount()">
+        <ion-icon name="person" item-start></ion-icon>
+        Mon compte
+    </ion-item>
+    <ion-item (click)="logout()">
+        <ion-icon name="log-out" item-start></ion-icon>
+        Deconnexion
+    </ion-item>
+    <ion-item (click)="about()">
+        <ion-icon name="information-circle" item-start></ion-icon>
+        A propos
+    </ion-item>
+</ion-list>

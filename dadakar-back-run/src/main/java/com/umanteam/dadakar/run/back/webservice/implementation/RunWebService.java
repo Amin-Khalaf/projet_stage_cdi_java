@@ -34,7 +34,7 @@ public class RunWebService implements IRunWebService {
 		return runService.addRun(run);
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	@Override
 	public RunDTO updateRun(@RequestBody RunDTO run) {
 		return runService.updateRun(run);

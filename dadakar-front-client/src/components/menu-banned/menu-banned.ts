@@ -7,23 +7,15 @@ import { HomePage } from '../../pages/home/home';
 import { UserProfilePage } from '../../pages/user-profile/user-profile';
 
 @Component({
-  selector: 'menu-connected',
-  templateUrl: 'menu-connected.html'
+  selector: 'menu-banned',
+  templateUrl: 'menu-banned.html'
 })
-export class MenuConnectedComponent {
+export class MenuBannedComponent {
 
     constructor(private nav: App, private authProvider: AuthProvider) {}
 
     home() {
         this.nav.getActiveNavs()[0].popToRoot();
-    }
-
-    createRun() {
-        this.nav.getActiveNavs()[0].push(HomePage);
-    }
-
-    viewMyRuns() {
-        this.nav.getActiveNavs()[0].push(HomePage);
     }
 
     myAccount() {
