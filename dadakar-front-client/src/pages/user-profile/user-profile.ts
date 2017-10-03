@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ActionSheetController, AlertController, LoadingController, MenuController, ModalController, Platform } from 'ionic-angular';
-
 
 import { VehicleDetailsComponent } from '../../components/vehicle-details/vehicle-details';
 
@@ -35,7 +35,7 @@ export class UserProfilePage {
     users: User[] = [];
     userVehicles: Vehicle[] = [];
 
-    constructor(private accountService: AccountService, private actionSheet: ActionSheetController, private alert: AlertController, private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private modal: ModalController, private platform: Platform, private userService: UserService) {
+    constructor(private accountService: AccountService, private actionSheet: ActionSheetController, private alert: AlertController, private authProvider: AuthProvider, private camera: Camera, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private modal: ModalController, private platform: Platform, private userService: UserService) {
         this.menu.close();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
@@ -49,28 +49,114 @@ export class UserProfilePage {
         });
     }
 
-    menuBannedOrDeletedActive() {
+    private getImage(user: User): void {
+        this.imgService.findByFileName(user.photo).subscribe(data => {
+            if(data) {
+                this.photo = 'data:image/jpeg;base64,' + data;
+            } else {
+                this.photo = '/assets/img/avatar.png';
+            }
+        });
+        this.imgService.findByFileName(user.idCard).subscribe(data => {
+            if(data) {
+                this.idCard = 'data:image/jpeg;base64,' + data;
+            } else {
+                this.photo = '/assets/img/cni.jpg';
+            }
+        });
+        this.imgService.findByFileName(user.drivingLicence).subscribe(data => {
+            if(data) {
+                this.drivingLicence = 'data:image/jpeg;base64,' + data;
+            } else {
+                this.photo = '/assets/img/pc.jpg';
+            }
+        })
+    }
+
+    private getPhotoVehicles(user: User): void {
+        this.photoVehicles = [];
+        let vehicles: Vehicle[] = user.vehicles;
+        for(let i = 0, j = vehicles.length; i < j; i++) {
+            this.imgService.findByFileName(vehicles[i].photo).subscribe(data => {
+                if(data) {
+                    this.photoVehicles[i] = 'data:image/jpeg;base64,' + data;
+                } else {
+                    this.photoVehicles[i] = '/assets/img/vehicule.png';
+                }
+            });
+        }
+    }
+
+    private getRandomName(): string {
+        const char: string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        var name: string = '';
+        for(let i = 0; i < 10; i++) name += char.substr(Math.random() * 62,1);
+        return name + ".jpeg";
+    }
+
+    private getUser(): void {
+        this.users = [];
+        let loading = this.loader.create({
+            spinner: 'bubbles',
+            content: 'Chargement en cours...'
+        });
+        loading.present();
+        this.userService.findByAccountId(this.account.accountId).finally(() => loading.dismiss()).subscribe(data => {
+            this.user = data;
+            this.users.push(this.user);
+            this.userVehicles = this.user.vehicles;
+            this.getImage(this.users[0]);
+            this.getPhotoVehicles(this.users[0]);
+        });
+    }
+
+    private menuBannedOrDeletedActive(): void {
         this.activeMenu = 'menu-banned';
         this.menu.enable(true, 'menu-banned');
         this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(false, 'menu-connected');
     }
 
-    menuConnectedActive() {
+    private menuConnectedActive(): void {
         this.activeMenu = 'menu-connected';
         this.menu.enable(false, 'menu-banned');
         this.menu.enable(false, 'menu-not-connected');
         this.menu.enable(true, 'menu-connected');
     }
 
-    menuNotConnectedActive() {
+    private menuNotConnectedActive(): void {
         this.activeMenu = 'menu-not-connected';
         this.menu.enable(false, 'menu-banned');
         this.menu.enable(true, 'menu-not-connected');
         this.menu.enable(false, 'menu-connected');
     }
 
-    addVehicle() {
+    private takePicture(sourceType: number): void {
+        let userPhoto: Image;
+        const option: CameraOptions = {
+            destinationType: 0,
+            encodingType: this.camera.EncodingType.JPEG,
+            mediaType: this.camera.MediaType.PICTURE,
+            quality: 100,
+            sourceType: sourceType
+        }
+        this.camera.getPicture(option).then((value) => {
+            userPhoto = {
+                image: value,
+                name: this.getRandomName(),
+                type: 'image/jpeg'
+            }
+            if(this.user.photo) this.imgService.delete(this.user.photo).subscribe();
+            this.imgService.add(userPhoto).subscribe(() => {
+                this.user.photo = userPhoto.name;
+                this.userService.update(this.user).subscribe(() => {
+                    this.getUser();
+                });
+            });
+        });
+    }
+
+    addVehicle(): void {
         let vId: string = '' + (Number(this.users[0].vehicles[this.users[0].vehicles.length - 1].vehicleId) + 1);
         let vehicle: Vehicle = {
             brand: '',
@@ -86,7 +172,7 @@ export class UserProfilePage {
         this.getVehicleDetails(vehicle, true, -1);
     }
 
-    delete() {
+    delete(): void {
         if(this.notFirst) {
              this.notFirst = false;
          } else {
@@ -122,62 +208,7 @@ export class UserProfilePage {
         }
     }
 
-    getImage(user: User): void {
-        this.imgService.findByFileName(user.photo).subscribe(data => {
-            if(data) {
-                this.photo = 'data:image/jpeg;base64,' + data;
-            } else {
-                this.photo = '/assets/img/avatar.png';
-            }
-        });
-        this.imgService.findByFileName(user.idCard).subscribe(data => {
-            if(data) {
-                this.idCard = 'data:image/jpeg;base64,' + data;
-            } else {
-                this.photo = '/assets/img/cni.jpg';
-            }
-        });
-        this.imgService.findByFileName(user.drivingLicence).subscribe(data => {
-            if(data) {
-                this.drivingLicence = 'data:image/jpeg;base64,' + data;
-            } else {
-                this.photo = '/assets/img/pc.jpg';
-            }
-        })
-    }
-
-    getPhotoVehicles(user: User) {
-        this.photoVehicles = [];
-        let vehicles: Vehicle[] = user.vehicles;
-        for(let i = 0, j = vehicles.length; i < j; i++) {
-            this.imgService.findByFileName(vehicles[i].photo).subscribe(data => {
-                if(data) {
-                    this.photoVehicles[i] = 'data:image/jpeg;base64,' + data;
-                } else {
-                    this.photoVehicles[i] = '/assets/img/vehicule.png';
-                }
-            });
-        }
-    }
-
-    getUser(): void {
-        this.users = [];
-        let loading = this.loader.create({
-            spinner: 'bubbles',
-            content: 'Chargement en cours...'
-        });
-        loading.present();
-        this.userService.findByAccountId(this.account.accountId).finally(() => loading.dismiss()).subscribe(data => {
-            this.user = data;
-            this.users.push(this.user);
-            this.userVehicles = this.user.vehicles;
-            this.getImage(this.users[0]);
-            this.getPhotoVehicles(this.users[0]);
-        });
-
-    }
-
-    getVehicleDetails(vehicle: Vehicle, isNew: boolean, index: number) {
+    getVehicleDetails(vehicle: Vehicle, isNew: boolean, index: number): void {
         let oldPhoto: string = vehicle.photo;
         let oldCarRegistration = vehicle.carRegistration;
         let profile = this.modal.create(VehicleDetailsComponent, {
@@ -201,7 +232,6 @@ export class UserProfilePage {
                     this.imgService.add(carRegistration).subscribe();
                     this.user.vehicles.push(data.vehicle);
                 } else {
-                    console.log(oldPhoto !== data.vehicle.photo);
                     if(oldPhoto !== data.vehicle.photo) {
                         let photo: Image = {
                             image: data.photo,
@@ -228,34 +258,7 @@ export class UserProfilePage {
         profile.present();
     }
 
-    takePicture(sourceType: number) {
-
-        //TODO : take the picture :)
-
-        console.log(sourceType);
-    }
-
-    userPhotoClick() {
-        let newPhoto = this.alert.create({
-            title: 'Photo de profil',
-            message: "Voulez-vous prendre une nouvelle photo de profil ? (Appui long sur la photo de profil pour d'autres options)",
-            buttons: [
-                {
-                    text: 'oui',
-                    handler: () => {
-                        this.takePicture(1);
-                    }
-                },
-                {
-                    text: 'non',
-                    handler: () => {}
-                }
-            ]
-        });
-        newPhoto.present();
-    }
-
-    userPhotoLongClick() {
+    userPhotoClick(): void {
         let actionSheetNewPhoto = this.actionSheet.create({
             title: "Changer de photo de profil",
             cssClass: 'action-sheets-basic-page',

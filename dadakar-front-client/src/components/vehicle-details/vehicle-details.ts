@@ -60,22 +60,24 @@ export class VehicleDetailsComponent {
     }
 
     getPhotos(vehicle: Vehicle) {
-        this.imgService.findByFileName(vehicle.photo).subscribe(data => {
-            if(data) {
-                this.photo = data;
-                this.photoImg = 'data:image/jpeg;base64,' + data;
-            } else {
-                this.photoImg = "/assets/img/vehicule.png";
-            }
-            if(vehicle.carRegistration) {
-                this.imgService.findByFileName(vehicle.carRegistration).subscribe(data => {
-                    if(data) {
-                        this.carRegistration = data;
-                        this.carRegistrationImg = 'data:image/jpeg;base64,' + data;
-                    }
-                });
-            }
-        });
+        if(vehicle.photo) {
+            this.imgService.findByFileName(vehicle.photo).subscribe(data => {
+                if(data) {
+                    this.photo = data;
+                    this.photoImg = 'data:image/jpeg;base64,' + data;
+                } else {
+                    this.photoImg = "/assets/img/vehicule.png";
+                }
+            });
+        }
+        if(vehicle.carRegistration) {
+            this.imgService.findByFileName(vehicle.carRegistration).subscribe(data => {
+                if(data) {
+                    this.carRegistration = data;
+                    this.carRegistrationImg = 'data:image/jpeg;base64,' + data;
+                }
+            });
+        }
     }
 
     private getRandomName(): string {

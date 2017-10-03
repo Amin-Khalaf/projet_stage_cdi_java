@@ -11,7 +11,7 @@
 <ion-content padding>
     <ion-list>
         <ion-item  *ngFor="let u of users">
-            <ion-avatar item-start ion-long-press (click)="userPhotoClick()" (onPressEnd)="userPhotoLongClick()">
+            <ion-avatar item-start (click)="userPhotoClick()">
                 <img src="{{photo}}">
             </ion-avatar>
             <h1>{{u.lastName}} {{u.firstName}}</h1>

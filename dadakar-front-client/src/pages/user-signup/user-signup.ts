@@ -38,7 +38,7 @@ export class UserSignupPage {
         return name + ".jpeg";
     }
 
-    getPicture(source: number, location: string, form: NgForm) {
+    getPicture(source: number, location: string, form: NgForm): void {
         let destination: Image;
         const option: CameraOptions = {
             destinationType: 0,
@@ -71,7 +71,7 @@ export class UserSignupPage {
 
     }
 
-    signup(values: any) {
+    signup(values: any): void {
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
                 this.userToSave = {

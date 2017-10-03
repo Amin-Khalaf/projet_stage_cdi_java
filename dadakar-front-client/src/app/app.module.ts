@@ -7,7 +7,6 @@ import { FileTransfer } from '@ionic-native/file-transfer';
 import { Http, HttpModule, RequestOptions } from "@angular/http";
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule, Storage } from '@ionic/storage';
-import { LongPressModule } from 'ionic-long-press';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
@@ -69,8 +68,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     IonicStorageModule.forRoot({
         name: "dadakar",
         driverOrder: ['sqlite', 'indexeddb', 'websql']
-    }),
-    LongPressModule
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
