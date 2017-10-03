@@ -54,7 +54,6 @@ export class AddressForm implements OnInit {
   }
 
   onSelectTown(town: string, index: number, values: any) {
-    console.log(town);
     this.findDistricts(town, index);
   }
 
