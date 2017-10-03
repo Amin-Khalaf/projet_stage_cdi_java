@@ -1,0 +1,89 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)=dismiss(true)>
+                <span ion-text>Annuler</span>
+            </button>
+        </ion-buttons>
+        <ion-title *ngIf="isNew">Modification du véhicule</ion-title>
+        <ion-title *ngIf="!isNew">Ajout de véhicule</ion-title>
+        <ion-buttons start>
+            <button ion-button type="submit" (click)="dismiss(false)" [disabled]="isNotValid">
+                <span *ngIf="isNew" ion-text>Ajouter</span>
+                <span *ngIf="!isNew" ion-text>Modifier</span>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <form #form="ngForm" novalidate>
+            <ion-item>
+                <ion-label floating>Nom du véhicule</ion-label>
+                <ion-input type="text" name="vehicleName" [(ngModel)]="vehicle.name" (ionChange)="validate(form.value)" required></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="nameNotValid">
+                Vous devez spécifier le nom du véhicule
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Marque du véhicule</ion-label>
+                <ion-input type="text" name="vehicleBrand" [(ngModel)]="vehicle.brand" (ionChange)="validate(form.value)" required></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="brandNotValid">
+                Vous devez spécifier la marque du véhicule
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Modele du véhicule</ion-label>
+                <ion-input type="text" name="vehicleModel" [(ngModel)]="vehicle.model" (ionChange)="validate(form.value)" required></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="modelNotValid">
+                Vous devez spécifier le modele du véhicule
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Couleur du véhicule</ion-label>
+                <ion-input type="text" name="vehicleColor" [(ngModel)]="vehicle.color" (ionChange)="validate(form.value)" required></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="colorNotValid">
+                Vous devez spécifier la couleur du véhicule
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Immatriculation du véhicule</ion-label>
+                <ion-input type="text" name="vehicleRegistrationNumber" [(ngModel)]="vehicle.registrationNumber" (ionChange)="validate(form.value)" required></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="registrationNumberNotValid">
+                Vous devez spécifier l'immatriculation du véhicule
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Puissance du véhicule</ion-label>
+                <ion-input type="number" name="vehiclePower" min="1" max="60" [(ngModel)]="vehicle.power"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input type="hidden" name="vehicleCarRegistration" [(ngModel)]="carRegistration" (ionChange)="validate(form.value)" required></ion-input>
+                <button ion-button icon-only item-end (click)="takePhoto(form, 'carRegistration', 'camera')">
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-button icon-only item-end (click)="takePhoto(form, 'carRegistration', 'folder')">
+                    <ion-icon name="image"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <img src="{{carRegistrationImg}}" alt="carte grise" width="150" height="150"/>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="carRegistrationNotValid">
+                Vous devez enregistrer la carte grise de votre véhicule
+            </ion-item>
+            <ion-item>
+                <ion-input type="hidden" name="vehiclePhoto" [(ngModel)]="photo"></ion-input>
+                <button ion-button icon-only item-end (click)="takePhoto(form, 'photo', 1)">
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-button icon-only item-end (click)="takePhoto(form, 'photo', 0)">
+                    <ion-icon name="image"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <img src="{{photoImg}}" alt="photo du véhicule" width="150" height="150"/>
+            </ion-item>
+        </form>
+    </ion-list>
+</ion-content>

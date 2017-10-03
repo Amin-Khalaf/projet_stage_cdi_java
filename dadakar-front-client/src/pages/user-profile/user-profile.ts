@@ -70,7 +70,18 @@ export class UserProfilePage {
     }
 
     addVehicle() {
-        let vehicle: Vehicle;
+        let vId: string = '' + (Number(this.users[0].vehicles[this.users[0].vehicles.length - 1].vehicleId) + 1);
+        let vehicle: Vehicle = {
+            brand: '',
+            color: '',
+            carRegistration: '',
+            model: '',
+            name: '',
+            photo: '',
+            power: 1,
+            registrationNumber: '',
+            vehicleId:vId
+        };
         this.getVehicleDetails(vehicle, true);
     }
 
@@ -158,7 +169,7 @@ export class UserProfilePage {
             vehicle: vehicle
         });
         profile.onDidDismiss(data => {
-
+            console.log(data);
         });
         profile.present();
     }

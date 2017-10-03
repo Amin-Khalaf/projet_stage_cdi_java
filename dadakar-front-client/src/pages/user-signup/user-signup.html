@@ -32,10 +32,10 @@
             </ion-item>
             <ion-item>
                 <ion-input type="hidden" name="photo" ngModel required #photo="ngModel"></ion-input>
-                <button ion-button icon-only item-end (click)="takePhoto(form, 'photo')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                <button ion-button icon-only item-end (click)="getPicture(1, form, 'photo')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon name="camera"></ion-icon>
                 </button>
-                <button ion-button icon-only item-end (click)="takePicture(form, 'photo')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                <button ion-button icon-only item-end (click)="getPicture(0, form, 'photo')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon name="image"></ion-icon>
                 </button>
             </ion-item>
@@ -44,10 +44,10 @@
             </ion-item>
             <ion-item>
                 <ion-input type="hidden" name="idCard" ngModel #idCard="ngModel"></ion-input>
-                <button ion-button icon-only item-end (click)="takePhoto(form, 'idCard')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                <button ion-button icon-only item-end (click)="getPicture(1, form, 'idCard')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon name="camera"></ion-icon>
                 </button>
-                <button ion-button icon-only item-end (click)="takePicture(form, 'idCard')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                <button ion-button icon-only item-end (click)="getPicture(0, form, 'idCard')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon item-end name="image"></ion-icon>
                 </button>
             </ion-item>
@@ -56,10 +56,10 @@
             </ion-item>
             <ion-item>
                 <ion-input type="hidden" name="drivingLicence" ngModel #drivingLicence="ngModel"></ion-input>
-                <button ion-button icon-only item-end (click)="takePhoto(form, 'drivingLicence')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                <button ion-button icon-only item-end (click)="getPicture(1, form, 'drivingLicence')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon name="camera"></ion-icon>
                 </button>
-                <button ion-button icon-only item-end (click)="takePicture(form, 'drivingLicence')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                <button ion-button icon-only item-end (click)="getPicture(0, form, 'drivingLicence')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
                     <ion-icon item-end name="image"></ion-icon>
                 </button>
             </ion-item>

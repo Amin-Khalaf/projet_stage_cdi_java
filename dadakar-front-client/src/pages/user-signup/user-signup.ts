@@ -38,8 +38,8 @@ export class UserSignupPage {
         return name + ".jpeg";
     }
 
-    private getPicture(source: number, location: string, form: NgForm) {
-        var destination: Image;
+    getPicture(source: number, location: string, form: NgForm) {
+        let destination: Image;
         const option: CameraOptions = {
             destinationType: 0,
             encodingType: this.camera.EncodingType.JPEG,
@@ -90,14 +90,6 @@ export class UserSignupPage {
                 this.appCtrl.getRootNavs()[0].setRoot(HomePage);
             }
         });
-    }
-
-    takePhoto(form: NgForm, location: string) {
-        this.getPicture(1, location, form);
-    }
-
-    takePicture(form: NgForm, location: string) {
-        this.getPicture(0, location, form);
     }
 
 }
