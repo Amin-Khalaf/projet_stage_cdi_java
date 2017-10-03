@@ -52,7 +52,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     UserProfilePage,
     UserSignupPage,
     RunCreate1Page,
-    AddressForm
+    AddressForm,
     RunDetailsComponent
   ],
   imports: [
