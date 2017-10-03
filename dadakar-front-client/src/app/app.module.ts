@@ -16,6 +16,7 @@ import { HomePage } from '../pages/home/home';
 import { MenuBannedComponent } from '../components/menu-banned/menu-banned';
 import { MenuConnectedComponent } from '../components/menu-connected/menu-connected';
 import { MenuNotConnectedComponent } from '../components/menu-not-connected/menu-not-connected';
+import { AddressForm } from '../components/address-form/address-form';
 import { SearchResultPage } from '../pages/search-result/search-result';
 import { SignupPage } from '../pages/signup/signup';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
@@ -51,6 +52,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     UserProfilePage,
     UserSignupPage,
     RunCreate1Page,
+    AddressForm
     RunDetailsComponent
   ],
   imports: [

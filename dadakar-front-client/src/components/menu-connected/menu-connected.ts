@@ -1,10 +1,11 @@
-import { App } from 'ionic-angular';
+import { App, MenuController } from 'ionic-angular';
 import { Component } from '@angular/core';
 
 import { AuthProvider } from '../../providers/auth';
 
 import { HomePage } from '../../pages/home/home';
 import { UserProfilePage } from '../../pages/user-profile/user-profile';
+import { RunCreate1Page } from '../../pages/run-create1/run-create1';
 
 @Component({
   selector: 'menu-connected',
@@ -12,31 +13,38 @@ import { UserProfilePage } from '../../pages/user-profile/user-profile';
 })
 export class MenuConnectedComponent {
 
-    constructor(private nav: App, private authProvider: AuthProvider) {}
+    constructor(private nav: App, private authProvider: AuthProvider, private menuCtrl: MenuController) {}
 
     home() {
+//        this.nav.getActiveNavs()[0].push(HomePage);
         this.nav.getActiveNavs()[0].popToRoot();
+        this.menuCtrl.close();
     }
 
     createRun() {
-        this.nav.getActiveNavs()[0].push(HomePage);
+        this.nav.getActiveNavs()[0].push(RunCreate1Page);
+        this.menuCtrl.close();
     }
 
     viewMyRuns() {
         this.nav.getActiveNavs()[0].push(HomePage);
+        this.menuCtrl.close();
     }
 
     myAccount() {
         this.nav.getActiveNavs()[0].push(UserProfilePage);
+        this.menuCtrl.close();
     }
 
     logout() {
         this.authProvider.logout();
         this.nav.getActiveNavs()[0].popToRoot();
+        this.menuCtrl.close();
     }
 
     about() {
         this.nav.getActiveNavs()[0].push(HomePage);
+        this.menuCtrl.close();
     }
 
 }
