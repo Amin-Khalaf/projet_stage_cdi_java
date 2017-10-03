@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,11 @@ public class ImageStorageRepository implements IImageStorageRepository {
 
 	@Autowired
 	GridFsTemplate gridFsTemplate;
+	
+	@Override
+	public void delete(String fileName) {
+		this.gridFsTemplate.delete(new Query(GridFsCriteria.whereFilename().is(fileName)));
+	}
 	
 	@Override
 	public String store(InputStream inputStream, String fileName, String contentType, DBObject metaData) {

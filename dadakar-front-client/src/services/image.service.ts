@@ -27,6 +27,10 @@ export class ImgService {
         return this.http.post(this.url + "ionicupload", image, {headers : this.header}).map((res: Response) => res.text());
     }
 
+    delete(fileName: string) {
+        return this.http.delete(this.url + "del/" + fileName, {headers: this.header});
+    }
+
     findById(imageId: string) {
         return this.http.get(this.url + imageId, {headers : this.header}).map((res: Response) => res.text());
     }

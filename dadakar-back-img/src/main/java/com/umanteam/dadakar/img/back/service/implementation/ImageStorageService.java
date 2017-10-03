@@ -21,6 +21,11 @@ public class ImageStorageService implements IImageStorageService {
 	IImageStorageRepository imageStorageRepository;
 	
 	@Override
+	public void delete(String fileName) {
+		this.imageStorageRepository.delete(fileName);
+	}
+	
+	@Override
 	public String store(InputStream inputStream, String fileName, String contentType, DBObject metaData) {
 		return imageStorageRepository.store(inputStream, fileName, contentType, metaData);
 	}

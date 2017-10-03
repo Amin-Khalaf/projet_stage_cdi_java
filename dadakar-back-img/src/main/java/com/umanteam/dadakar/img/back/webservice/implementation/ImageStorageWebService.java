@@ -55,7 +55,11 @@ public class ImageStorageWebService implements IImageStorageWebService {
 		
 	}
 
-
+	@RequestMapping(value="/del/{filename.+}", method = RequestMethod.DELETE)
+	@Override
+	public void delete(@PathVariable("filename") String fileName) {
+		this.imageStorageService.delete(fileName);
+	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody

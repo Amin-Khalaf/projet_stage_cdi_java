@@ -48,7 +48,12 @@ export class VehicleDetailsComponent {
 
     dismiss(cancel: boolean) {
         if(!cancel) {
-            console.log(this.vehicle);
+            let data: any = {
+                vehicle: this.vehicle,
+                photo: this.photo,
+                carRegistration: this.carRegistration
+            }
+            this.view.dismiss(data);
         } else {
             this.view.dismiss();
         }

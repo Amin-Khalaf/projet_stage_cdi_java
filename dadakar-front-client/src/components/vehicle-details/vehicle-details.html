@@ -5,8 +5,8 @@
                 <span ion-text>Annuler</span>
             </button>
         </ion-buttons>
-        <ion-title *ngIf="isNew">Modification du véhicule</ion-title>
-        <ion-title *ngIf="!isNew">Ajout de véhicule</ion-title>
+        <ion-title *ngIf="isNew">Ajout de véhicule</ion-title>
+        <ion-title *ngIf="!isNew">Modification du véhicule</ion-title>
         <ion-buttons start>
             <button ion-button type="submit" (click)="dismiss(false)" [disabled]="isNotValid">
                 <span *ngIf="isNew" ion-text>Ajouter</span>
