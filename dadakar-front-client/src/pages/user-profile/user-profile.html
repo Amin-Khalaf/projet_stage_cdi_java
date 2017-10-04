@@ -10,20 +10,52 @@
 </ion-header>
 <ion-content padding>
     <ion-list>
+        <ion-item *ngIf="accountIsUpdating">
+            <ion-input type="tel" [(ngModel)]="account.username" name="username" required></ion-input>
+            <button ion-button icon-only item-end (click)="updateAccountCancel()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+            <button ion-button icon-only item-end (click)="saveAccount()" [disabled]="!account.username">
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-item *ngIf="nameIsUpdating">
+            <ion-input type="text" [(ngModel)]="user.lastName" name="lastName" required></ion-input>
+            <ion-input type="text" [(ngModel)]="user.firstName" name="firstName" required></ion-input>
+            <button ion-button icon-only item-end (click)="updateNameCancel()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+            <button ion-button icon-only item-end (click)="saveName()" [disabled]="!(user.firstName && user.lastName)">
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-item *ngIf="mailIsUpdating">
+            <ion-input type="mail" [(ngModel)]="user.mail" name="mail"></ion-input>
+            <button ion-button icon-only item-end (click)="updateMailCancel()">
+                <ion-icon name="close"></ion-icon>
+            </button>
+            <button ion-button icon-only item-end (click)="saveMail()">
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+        </ion-item>
         <ion-item  *ngFor="let u of users">
-            <ion-avatar item-start (click)="userPhotoClick()">
+            <ion-avatar item-start (click)="photoClick(2)">
                 <img src="{{photo}}">
             </ion-avatar>
-            <h2>{{account.username}}</h2>
-            <h1>{{u.lastName}} {{u.firstName}}</h1>
-            <h3>{{u.mail}}</h3>
+            <h2 *ngIf="!accountIsUpdating" (click)="updateAccount()">{{account.username}}</h2>
+            <h1 *ngIf="!nameIsUpdating" (click)="updateName()">{{u.lastName}} {{u.firstName}}</h1>
+            <h3 *ngIf="!mailIsUpdating" (click)="updateMail()">{{u.mail}}</h3>
+            <div>
+                <rating score="{{note}}" max="5"></rating> <span (click)="viewRates()"> <u>{{nbRatings}} avis</u></span>
+            </div>
             <ion-icon color="primary" name="mail" (click)="readMessages()" item-end>
-                <ion-badge *ngIf="messageNotRead > 0" id="notifications-badge" color="danger">
+                <ion-badge *ngIf="messageNotRead > 0" id="notifications-badge" color="danger" [style]="badgeStyle">
                     {{messageNotRead}}
                 </ion-badge>
             </ion-icon>
         </ion-item>
         <ion-item>
+            Mes véhicules :
             <ion-grid>
                 <ion-row>
                     <ion-col *ngFor="let vehicle of userVehicles; let i = index"  (click)="userVehicleClick(vehicle, i)" col-4>
@@ -34,14 +66,35 @@
                         <span text-wrap>{{vehicle.brand}} {{vehicle.model}} {{vehicle.color}}</span>
                     </ion-col>
                     <ion-col (click)="addVehicle()" col-4>
-                        <img src="/assets/img/addVehicule.png">
+                        <ion-thumbnail>
+                            <img src="/assets/img/addVehicule.png">
+                        </ion-thumbnail>
                     </ion-col>
                 </ion-row>
             </ion-grid>
         </ion-item>
         <ion-item>
             <ion-label>Supprimer mon compte</ion-label>
-            <ion-toggle #deleteToggle (ionChange)="delete()" [checked]="account.deleted"></ion-toggle>
+            <ion-toggle #deleteToggle (ionChange)="deleteAccount()" [checked]="account.deleted"></ion-toggle>
+        </ion-item>
+        <ion-item>
+            Mes documents :
+            <ion-grid>
+                <ion-row>
+                    <ion-col (click)="photoClick(0)" col-6>
+                        <ion-thumbnail>
+                            <img src="{{idCard}}"/>
+                        </ion-thumbnail>
+                        <span text-wrap>pièce d'identité</span>
+                    </ion-col>
+                    <ion-col (click)="photoClick(1)" col-6>
+                        <ion-thumbnail>
+                            <img src="{{drivingLicence}}"/>
+                        </ion-thumbnail>
+                        <span text-wrap>permis de conduire</span>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
         </ion-item>
     </ion-list>
 </ion-content>
