@@ -12,6 +12,7 @@ public interface IImageStorageWebService {
 
 	public void storeImage(MultipartFile file);
 	public void storeImageFromIonic(ImageDTO image);
+	public void delete(String fileName);
 	public ResponseEntity<InputStreamResource> getImageAsResource(String id);
 	public ResponseEntity<InputStreamResource> getImageByFileName(String filename);
 	ResponseEntity<byte[]> getImageByFileNameForIonic(String filename);

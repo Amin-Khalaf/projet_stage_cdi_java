@@ -7,6 +7,8 @@ import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFSDBFile;
 
 public interface IImageStorageRepository {
+	
+	public void delete(String fileName);
 
 	public String store(InputStream inputStream, String fileName, String contentType, DBObject metaData);
 

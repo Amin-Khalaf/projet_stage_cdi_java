@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Insert title here</title>
+		<title>DaDaKar - Admin</title>
 		<link type="text/css" href="/css/bootstrap.min.css" rel="stylesheet" />
 		<link type="text/css" href="/css/main.css" rel="stylesheet" />
 	</head>

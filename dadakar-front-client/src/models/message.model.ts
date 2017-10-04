@@ -6,5 +6,6 @@ export interface Message {
     reveiverId?: string,
     horo?: LocalDateTime,
     object?: string,
-    message?: string
+    message?: string,
+    seen?: boolean
 }
