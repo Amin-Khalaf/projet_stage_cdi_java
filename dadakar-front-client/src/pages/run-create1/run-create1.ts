@@ -6,25 +6,25 @@ import { Address } from '../../models/address.model';
 
 import { AddressService } from '../../services/address.service';
 
+import { RunCreate2Page } from '../run-create2/run-create2';
+
 @Component({
   selector: 'page-run-create1',
   templateUrl: 'run-create1.html',
 })
-export class RunCreate1Page {
+export class RunCreate1Page implements OnInit {
   formRunCreate1: FormGroup;
-  towns: string[] = [];
-  listDistricts: Address[][] = [[]];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private addressService : AddressService, private alertCtrl : AlertController, private fb: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private addressService: AddressService, private alertCtrl: AlertController, private fb: FormBuilder) {
   }
 
-  ngOnInit(){
-    let startAddress  = this.fb.group({
+  ngOnInit() {
+    let startAddress = this.fb.group({
       town: null,
       district: null,
       place: null
     });
-    let endAddress  = this.fb.group({
+    let endAddress = this.fb.group({
       town: null,
       district: null,
       place: null
@@ -37,7 +37,7 @@ export class RunCreate1Page {
     });
   }
 
-  onAddPlace(){
+  onAddPlace() {
     (<FormArray>this.formRunCreate1.get('places')).push(this.fb.group({
       town: null,
       district: null,
@@ -45,19 +45,21 @@ export class RunCreate1Page {
     }));
   }
 
-  removePlace(index: number){
+  removePlace(index: number) {
     (<FormArray>this.formRunCreate1.get('places')).removeAt(index);
   }
 
-  onGoToStep2(){
-    let run = [this.formRunCreate1.get('startAddress').value, this.formRunCreate1.get('endAddress').value];
+  onGoToStep2() {
+    let runValues = { addresses: [this.formRunCreate1.get('startAddress').value] };
     let places = (<FormArray>this.formRunCreate1.get('places')).value;
-    if (places != null && places.length > 0){
-      for (let place of places){
-          run.push(place);
+    if (places != null && places.length > 0) {
+      for (let place of places) {
+        runValues.addresses.push(place);
       }
     }
-    console.log(run);
+    runValues.addresses.push(this.formRunCreate1.get('endAddress').value);
+    console.log(runValues);
+    this.navCtrl.push(RunCreate2Page, runValues);
   }
 
 }

@@ -19,35 +19,35 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-        <h4>Addresse de départ</h4>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-      <app-address-form formGroupName="startAddress" #startAddress></app-address-form>
-    </ion-col>
-  </ion-row>
+          <h4>Addresse de départ</h4>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <app-address-form formGroupName="startAddress" #startAddress></app-address-form>
+        </ion-col>
+      </ion-row>
 
       <ion-row [hidden]="formRunCreate1.get('startAddress').get('place').value == null || formRunCreate1.get('startAddress').get('place').value == ''">
         <ion-col>
-        <h4>Addresse d'arrivée</h4>
-      </ion-col>
-    </ion-row>
-    <ion-row [hidden]="formRunCreate1.get('startAddress').get('place').value == null || formRunCreate1.get('startAddress').get('place').value == ''">
-      <ion-col>
-        <app-address-form formGroupName="endAddress" #endAddress></app-address-form>
-      </ion-col>
-    </ion-row>
+          <h4>Addresse d'arrivée</h4>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="formRunCreate1.get('startAddress').get('place').value == null || formRunCreate1.get('startAddress').get('place').value == ''">
+        <ion-col>
+          <app-address-form formGroupName="endAddress" #endAddress></app-address-form>
+        </ion-col>
+      </ion-row>
 
-    <div formArrayName="places" [hidden]="formRunCreate1.get('endAddress').get('place').value == null || formRunCreate1.get('endAddress').get('place').value == ''">
+      <div formArrayName="places" [hidden]="formRunCreate1.get('endAddress').get('place').value == null || formRunCreate1.get('endAddress').get('place').value == ''">
         <div *ngFor="let placeControl of formRunCreate1.get('places').controls, let i = index">
           <ion-row>
             <ion-col>
-            <h4>
+              <h4>
               Etape {{ i+1 }}
             </h4>
-          </ion-col>
-              <ion-col>
+            </ion-col>
+            <ion-col>
               <button type="button" small outline ion-button icon-only (click)="removePlace(i)">
                 <ion-icon name="remove"></ion-icon>
               </button>
@@ -55,18 +55,18 @@
           </ion-row>
           <ion-row>
             <ion-col>
-            <app-address-form formGroupName="{{i}}"></app-address-form>
-          </ion-col>
-        </ion-row>
+              <app-address-form formGroupName="{{i}}"></app-address-form>
+            </ion-col>
+          </ion-row>
         </div>
         <ion-row>
           <ion-col>
-        <button type="button" outline ion-button icon-right block (click)="onAddPlace()">
+            <button type="button" outline ion-button icon-right block (click)="onAddPlace()">
           Ajouter une étape
           <ion-icon name="add-circle"></ion-icon>
         </button>
-      </ion-col>
-    </ion-row>
+          </ion-col>
+        </ion-row>
       </div>
 
       <ion-row>

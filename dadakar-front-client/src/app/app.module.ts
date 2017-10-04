@@ -22,6 +22,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 import { RunCreate1Page } from '../pages/run-create1/run-create1';
+import { RunCreate2Page } from '../pages/run-create2/run-create2'
 import { RunDetailsComponent } from '../components/run-details/run-details';
 
 import { AuthProvider } from "../providers/auth";
@@ -36,8 +37,8 @@ import { TransactionService } from '../services/transaction.service';
 import { UserService } from '../services/user.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, storage: Storage) {
-    const authConfig = new AuthConfig({ tokenGetter: (() => storage.get('jwt')),});
-    return new AuthHttp(authConfig, http, options);
+  const authConfig = new AuthConfig({ tokenGetter: (() => storage.get('jwt')), });
+  return new AuthHttp(authConfig, http, options);
 }
 
 @NgModule({
@@ -52,6 +53,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     UserProfilePage,
     UserSignupPage,
     RunCreate1Page,
+    RunCreate2Page,
     AddressForm,
     RunDetailsComponent
   ],
@@ -60,14 +62,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     CustomFormsModule,
     HttpModule,
     IonicModule.forRoot(MyApp, {
-        monthNames: ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'],
-        monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jul', 'aou', 'sep', 'oct', 'nov', 'dec'],
-        dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
-        dayShortNames: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam']
+      monthNames: ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'],
+      monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jul', 'aou', 'sep', 'oct', 'nov', 'dec'],
+      dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+      dayShortNames: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam']
     }),
     IonicStorageModule.forRoot({
-        name: "dadakar",
-        driverOrder: ['sqlite', 'indexeddb', 'websql']
+      name: "dadakar",
+      driverOrder: ['sqlite', 'indexeddb', 'websql']
     })
   ],
   bootstrap: [IonicApp],
@@ -79,6 +81,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     UserProfilePage,
     UserSignupPage,
     RunCreate1Page,
+    RunCreate2Page,
     RunDetailsComponent
   ],
   providers: [
@@ -86,10 +89,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     Camera,
     FileTransfer,
     JwtHelper,
-    {provide: AuthHttp, useFactory: authHttpServiceFactory, deps: [Http, RequestOptions, Storage]},
+    { provide: AuthHttp, useFactory: authHttpServiceFactory, deps: [Http, RequestOptions, Storage] },
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     AccountService,
     AddressService,
     ImgService,
@@ -100,4 +103,4 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     UserService
   ]
 })
-export class AppModule {}
+export class AppModule { }
