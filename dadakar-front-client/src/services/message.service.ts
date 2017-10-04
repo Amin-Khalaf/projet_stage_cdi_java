@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class MessageService {
 
-    url: string = config.backMsgServerAddress + '/dadakar/msg/';
+    url: string = config.backMsgServerAddress + '/dadakar/msgs/';
     private header: Headers;
 
     constructor(private authProvider: AuthProvider, private http:Http) {

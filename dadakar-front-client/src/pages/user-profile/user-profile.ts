@@ -6,6 +6,7 @@ import { VehicleDetailsComponent } from '../../components/vehicle-details/vehicl
 
 import { Account } from '../../models/account.model';
 import { Image } from '../../models/image.model';
+import { Message } from '../../models/message.model';
 import { User } from '../../models/user.model';
 import { Vehicle } from '../../models/vehicle.model';
 
@@ -13,6 +14,7 @@ import { AuthProvider } from '../../providers/auth';
 
 import { AccountService } from '../../services/account.service';
 import { ImgService } from '../../services/image.service';
+import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -29,13 +31,15 @@ export class UserProfilePage {
     connected: boolean = true;
     drivingLicence: string;
     idCard: string;
+    messageNotRead: number = 0;
+    messages: Message[] = [];
     photo: string;
     photoVehicles: string[] = [];
     user: User;
     users: User[] = [];
     userVehicles: Vehicle[] = [];
 
-    constructor(private accountService: AccountService, private actionSheet: ActionSheetController, private alert: AlertController, private authProvider: AuthProvider, private camera: Camera, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private modal: ModalController, private platform: Platform, private userService: UserService) {
+    constructor(private accountService: AccountService, private actionSheet: ActionSheetController, private alert: AlertController, private authProvider: AuthProvider, private camera: Camera, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private msgService: MessageService, private modal: ModalController, private platform: Platform, private userService: UserService) {
         this.menu.close();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
@@ -46,6 +50,13 @@ export class UserProfilePage {
             } else {
                 this.menuNotConnectedActive();
             }
+        });
+    }
+
+    private deleteVehicle(vehicle: Vehicle, index: number) {
+        this.user.vehicles.splice(index, 1);
+        this.userService.update(this.user).subscribe(() => {
+            this.getUser();
         });
     }
 
@@ -71,6 +82,17 @@ export class UserProfilePage {
                 this.photo = '/assets/img/pc.jpg';
             }
         })
+    }
+
+    private getMessages() {
+        this.msgService.findByReceiverId(this.user.userId).subscribe(data => {
+            if(data) {
+                this.messages = data;
+                for(let i = 0, j = this.messages.length; i < j; i++) {
+                    if(!this.messages[i].seen) this.messageNotRead++;
+                }
+            }
+        });
     }
 
     private getPhotoVehicles(user: User): void {
@@ -107,7 +129,58 @@ export class UserProfilePage {
             this.userVehicles = this.user.vehicles;
             this.getImage(this.users[0]);
             this.getPhotoVehicles(this.users[0]);
+            this.getMessages();
         });
+    }
+
+    private getVehicleDetails(vehicle: Vehicle, isNew: boolean, index: number): void {
+        let oldPhoto: string = vehicle.photo;
+        let oldCarRegistration = vehicle.carRegistration;
+        let profile = this.modal.create(VehicleDetailsComponent, {
+            isNew: isNew,
+            vehicle: vehicle
+        });
+        profile.onDidDismiss(data => {
+            if(data) {
+                if(isNew) {
+                    let photo: Image = {
+                        image: data.photo,
+                        name: data.vehicle.photo,
+                        type: 'image/jpeg'
+                    };
+                    this.imgService.add(photo).subscribe();
+                    let carRegistration: Image = {
+                        image: data.carRegistration,
+                        name: data.vehicle.carRegistration,
+                        type: 'image/jpeg'
+                    };
+                    this.imgService.add(carRegistration).subscribe();
+                    this.user.vehicles.push(data.vehicle);
+                } else {
+                    if(oldPhoto !== data.vehicle.photo) {
+                        let photo: Image = {
+                            image: data.photo,
+                            name: data.vehicle.photo,
+                            type: 'image/jpeg'
+                        };
+                        this.imgService.delete(oldPhoto).subscribe();
+                        this.imgService.add(photo).subscribe();
+                    }
+                    if(oldCarRegistration !== data.vehicle.carRegistration) {
+                        let carRegistration: Image = {
+                            image: data.carRegistration,
+                            name: data.vehicle.carRegistration,
+                            type: 'image/jpeg'
+                        };
+                        this.imgService.delete(oldCarRegistration).subscribe();
+                        this.imgService.add(carRegistration).subscribe();
+                    }
+                    this.user.vehicles[index] = data.vehicle;
+                }
+                this.userService.update(this.user).subscribe(() => this.getUser() );
+            }
+        });
+        profile.present();
     }
 
     private menuBannedOrDeletedActive(): void {
@@ -208,58 +281,12 @@ export class UserProfilePage {
         }
     }
 
-    getVehicleDetails(vehicle: Vehicle, isNew: boolean, index: number): void {
-        let oldPhoto: string = vehicle.photo;
-        let oldCarRegistration = vehicle.carRegistration;
-        let profile = this.modal.create(VehicleDetailsComponent, {
-            isNew: isNew,
-            vehicle: vehicle
-        });
-        profile.onDidDismiss(data => {
-            if(data) {
-                if(isNew) {
-                    let photo: Image = {
-                        image: data.photo,
-                        name: data.vehicle.photo,
-                        type: 'image/jpeg'
-                    };
-                    this.imgService.add(photo).subscribe();
-                    let carRegistration: Image = {
-                        image: data.carRegistration,
-                        name: data.vehicle.carRegistration,
-                        type: 'image/jpeg'
-                    };
-                    this.imgService.add(carRegistration).subscribe();
-                    this.user.vehicles.push(data.vehicle);
-                } else {
-                    if(oldPhoto !== data.vehicle.photo) {
-                        let photo: Image = {
-                            image: data.photo,
-                            name: data.vehicle.photo,
-                            type: 'image/jpeg'
-                        };
-                        this.imgService.delete(oldPhoto).subscribe();
-                        this.imgService.add(photo).subscribe();
-                    }
-                    if(oldCarRegistration !== data.vehicle.carRegistration) {
-                        let carRegistration: Image = {
-                            image: data.carRegistration,
-                            name: data.vehicle.carRegistration,
-                            type: 'image/jpeg'
-                        };
-                        this.imgService.delete(oldCarRegistration).subscribe();
-                        this.imgService.add(carRegistration).subscribe();
-                    }
-                    this.user.vehicles[index] = data.vehicle;
-                }
-                this.userService.update(this.user).subscribe(() => this.getUser() );
-            }
-        });
-        profile.present();
+    readMessages() {
+        console.log(this.messages);
     }
 
     userPhotoClick(): void {
-        let actionSheetNewPhoto = this.actionSheet.create({
+        let actionSheetPhoto = this.actionSheet.create({
             title: "Changer de photo de profil",
             cssClass: 'action-sheets-basic-page',
             buttons: [
@@ -285,7 +312,39 @@ export class UserProfilePage {
                 }
             ]
         });
-        actionSheetNewPhoto.present();
+        actionSheetPhoto.present();
+    }
+
+    userVehicleClick(vehicle: Vehicle, index: number) {
+        let actionSheetVehicle = this.actionSheet.create({
+            title: "Details du vehicule",
+            cssClass: 'action-sheets-basic-page',
+            buttons: [
+                {
+                    text: 'Modifier les informations',
+                    icon: !this.platform.is('ios') ? 'create' : '',
+                    handler: () => {
+                        this.getVehicleDetails(vehicle, false, index);
+                    }
+                },
+                {
+                    text: 'Supprimer le véhicule',
+                    role: 'destructive',
+                    icon: !this.platform.is('ios') ? 'trash' : '',
+                    handler: () => {
+                        this.deleteVehicle(vehicle, index);
+                    }
+                },
+                {
+                    text: 'Annuler',
+                    role: 'cancel',
+                    icon: !this.platform.is('ios') ? 'close' : '',
+                    handler: () => {}
+                }
+            ]
+        });
+        actionSheetVehicle.present();
+
     }
 
 }
