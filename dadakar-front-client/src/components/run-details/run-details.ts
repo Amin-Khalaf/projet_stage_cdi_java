@@ -35,7 +35,6 @@ export class RunDetailsComponent {
         this.nbRatings = this.run.driver.ratings.length;
         this.getAvatar(this.run.driver.photo, false);
         this.findVehicle();
-        this.getAvatar(this.vehicle.photo, true);
         this.findWantedSubRun();
         this.getPassengersPhotos();
     }
@@ -63,6 +62,7 @@ export class RunDetailsComponent {
                 break;
             }
         }
+        this.getAvatar(this.vehicle.photo, true);
     }
 
     getAvatar(fileName: string, isVehicle: boolean): void {
