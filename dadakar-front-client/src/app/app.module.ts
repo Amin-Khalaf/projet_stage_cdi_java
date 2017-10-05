@@ -12,6 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 
+import { BookRunPage } from '../pages/book-run/book-run';
 import { HomePage } from '../pages/home/home';
 import { MenuBannedComponent } from '../components/menu-banned/menu-banned';
 import { MenuConnectedComponent } from '../components/menu-connected/menu-connected';
@@ -44,6 +45,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
 
 @NgModule({
   declarations: [
+    BookRunPage,
     MyApp,
     HomePage,
     MenuBannedComponent,
@@ -76,6 +78,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    BookRunPage,
     MyApp,
     HomePage,
     SearchResultPage,

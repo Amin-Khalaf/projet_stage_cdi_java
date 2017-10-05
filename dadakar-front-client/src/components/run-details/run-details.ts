@@ -19,12 +19,13 @@ export class RunDetailsComponent {
 
     connected: boolean;
     nbRatings: number;
-    passengersPhotos = [];
+    passengersPhotos: string[][] = [[]];
     photo: string;
     photos: string[] = [];
     photoVehicule: string;
     run: Run;
     search: Search;
+    subRuns: SubRun[] = [];
     vehicle: Vehicle;
     wantedSubRun: SubRun;
 
@@ -33,9 +34,9 @@ export class RunDetailsComponent {
         this.run = this.params.get('run');
         this.search = this.params.get('search');
         this.nbRatings = this.run.driver.ratings.length;
+        this.subRuns = this.run.subRuns;
         this.getAvatar(this.run.driver.photo, false);
         this.findVehicle();
-        this.getAvatar(this.vehicle.photo, true);
         this.findWantedSubRun();
         this.getPassengersPhotos();
     }
@@ -63,6 +64,7 @@ export class RunDetailsComponent {
                 break;
             }
         }
+        this.getAvatar(this.vehicle.photo, true);
     }
 
     getAvatar(fileName: string, isVehicle: boolean): void {
@@ -95,13 +97,13 @@ export class RunDetailsComponent {
         if(this.connected && fileName != '') {
             this.imgService.findByFileName(fileName).subscribe(data => {
                 if(data) {
-                    this.passengersPhotos[i] = (this.photos[j] = 'data:image/jpeg;base64,' + data);
+                    this.passengersPhotos[i][j] = 'data:image/jpeg;base64,' + data;
                 } else {
-                    this.passengersPhotos[i] = (this.photos[j] = '/assets/img/avatar.png');
+                    this.passengersPhotos[i][j] = '/assets/img/avatar.png';
                 }
             });
         } else {
-            this.passengersPhotos[i] = (this.photos[j] = '/assets/img/avatar.png');
+            this.passengersPhotos[i][j] = '/assets/img/avatar.png';
         }
     }
 

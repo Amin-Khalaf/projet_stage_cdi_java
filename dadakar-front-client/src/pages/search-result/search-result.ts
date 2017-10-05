@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { LoadingController, MenuController, ModalController } from 'ionic-angular';
+import { LoadingController, MenuController, ModalController, NavController } from 'ionic-angular';
 
 import { RunDetailsComponent } from '../../components/run-details/run-details';
 
 import { Run } from '../../models/run.model';
+
+import { BookRunPage } from '../../pages/book-run/book-run';
 
 import { AuthProvider } from '../../providers/auth';
 
@@ -34,7 +36,7 @@ export class SearchResultPage {
     private tempPrice: number = 0;
 
 
-    constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private modal: ModalController, private runService: RunService) {
+    constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private modal: ModalController, private nav: NavController, private runService: RunService) {
         this.menu.close();
         this.authProvider.authUser.subscribe(jwt => {
             if(jwt) {
@@ -127,7 +129,11 @@ export class SearchResultPage {
 
     reserve(run: Run) {
         if(this.connected && !(this.banned || this.deleted)) {
-            console.log(run);
+            this.nav.push(BookRunPage, {
+                connected: this.connected,
+                run: run,
+                search: this.runService.getSearch()
+            });
         } else {
             console.log('not connected')
         }
