@@ -62,8 +62,9 @@
             Itinéraire :
             <ion-grid>
                 <ion-row *ngFor="let subRun of run.subRuns; let i = index">
-                    {{subRun.startPlace.address.town}} - {{subRun.startDate | date: 'dd/MM/yyyy'}} {{subRun.startTime}} (heure estimée)
-                    <ion-col *ngFor="let passenger of subRun.passengers; let j = index" col-auto>
+                    {{subRun.startPlace.address.town}} - {{subRun.startDate | date: 'dd/MM/yyyy'}} {{subRun.startTime}} (heure estimée)<br>
+                    Passagers :
+                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" col-auto>
                         {{passenger.user.firstName}} {{passenger.user.lastName | uppercase}}<br>
                         <ion-avatar (click)="viewProfile(passenger.user.userId)">
                             <img src="{{passengersPhotos[i][j]}}">
