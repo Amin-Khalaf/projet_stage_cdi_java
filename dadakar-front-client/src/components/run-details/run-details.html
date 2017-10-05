@@ -41,8 +41,9 @@
         </ion-item>
         <ion-item>
             Conducteur : {{run.driver.firstName}} {{run.driver.lastName | uppercase }}<br>
-            <span *ngIf="nbRatings > 0">{{getRatings() | number: '1.0-1'}}/5 sur {{nbRatings}}</span>
-            <span *ngIf="nbRatings == 0" text-wrap>Cet utilisateur n'a pas encore été évalué</span>
+            <div>
+                <rating score="{{note}}" max="5"></rating> <span (click)="viewRates()"> <u>{{nbRatings}} avis</u></span>
+            </div>
             <ion-avatar item-end>
                 <img src="{{photo}}">
             </ion-avatar>

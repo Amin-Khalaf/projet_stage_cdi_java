@@ -11,6 +11,8 @@ import { SubRun } from '../../models/subrun.model';
 import { User } from '../../models/user.model';
 import { WayPoint } from '../../models/waypoint.model';
 
+import { ViewRatingsPage } from '../../pages/view-ratings/view-ratings';
+
 import { AuthProvider } from '../../providers/auth';
 
 import { ImgService } from '../../services/image.service';
@@ -168,7 +170,10 @@ getNbPassenger() {
   }
 
   viewRates() {
-
+      this.nav.push(ViewRatingsPage, {
+          connected: this.connected,
+          user: this.run.driver
+      });
   }
 
 }

@@ -12,6 +12,8 @@ import { Rating } from '../../models/rating.model';
 import { User } from '../../models/user.model';
 import { Vehicle } from '../../models/vehicle.model';
 
+import { ViewRatingsPage } from '../../pages/view-ratings/view-ratings';
+
 import { AuthProvider } from '../../providers/auth';
 
 import { AccountService } from '../../services/account.service';
@@ -456,8 +458,10 @@ export class UserProfilePage {
 
     viewRates() {
         if(this.nbRatings) {
-            //TODO: this.nav.push(RatesPage);
-            console.log("viewRates ok");
+            this.nav.push(ViewRatingsPage, {
+                connected: this.connected,
+                user: this.user
+            });
         }
     }
 
