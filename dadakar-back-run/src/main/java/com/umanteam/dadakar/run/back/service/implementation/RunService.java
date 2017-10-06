@@ -247,7 +247,7 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findRunsByDriverId(String driverId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findByDriverUserId(driverId)) {
+		for (Run entity : runRepository.findByDriverAccountIdIs(driverId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -260,7 +260,7 @@ public class RunService implements IRunService {
 		List<RunDTO> runs = new ArrayList<>();
 		List<ResState> resStates = new ArrayList<>();
 		resStates.add(ResState.RUN_CANCELED);
-		List<Run> entities = runRepository.findByDriverUserIdAndCancelled(driverId, false);
+		List<Run> entities = runRepository.findByDriverAccountIdIsAndCancelled(driverId, false);
 		// Copy run entity to dto
 		if (entities != null) {
 			for (Run entity : entities) {
@@ -274,7 +274,7 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findRunsByPassengerId(String passengerId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findBySubRunsPassengersUserUserId(passengerId)) {
+		for (Run entity : runRepository.findBySubRunsPassengersUserAccountIdIs(passengerId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -288,7 +288,7 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findBySubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn(passengerId, false,
+				.findBySubRunsPassengersUserAccountIdIsAndCancelledAndSubRunsPassengersReservationStateNotIn(passengerId, false,
 						resStates);
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -302,7 +302,7 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		for (Run entity : runRepository.findByDriverUserIdOrSubRunsPassengersUserUserId(userId, userId)) {
+		for (Run entity : runRepository.findByDriverAccountIdIsOrSubRunsPassengersUserAccountIdIs(userId, userId)) {
 			RunDTO run = copyEntityToDto(entity);
 			runs.add(run);
 		}
@@ -316,7 +316,7 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotIn(userId,
+				.findByDriverAccountIdIsOrSubRunsPassengersUserAccountIdIsAndCancelledAndSubRunsPassengersReservationStateNotIn(userId,
 						userId, false, resStates);
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -331,7 +331,7 @@ public class RunService implements IRunService {
 	public List<RunDTO> findCurrentRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
 		List<Run> entity = runRepository
-				.findByDriverUserIdOrSubRunsPassengersUserUserIdAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+				.findByDriverAccountIdIsOrSubRunsPassengersUserAccountIdIsAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 						userId, userId, LocalDate.now(), LocalTime.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -349,7 +349,7 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
+				.findByDriverAccountIdIsOrSubRunsPassengersUserAccountIdIsAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateGreaterThanEqualAndSubRunsEstimatedEndTimeGreaterThan(
 						userId, userId, false, resStates, LocalDate.now(), LocalTime.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -363,7 +363,7 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findPassedRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverUserIdOrSubRunsPassengersUserUserIdAndSubRunsEstimatedEndDateLessThan(
+		List<Run> entity = runRepository.findByDriverAccountIdIsOrSubRunsPassengersUserAccountIdIsAndSubRunsEstimatedEndDateLessThan(
 				userId, userId, LocalDate.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {
@@ -381,7 +381,7 @@ public class RunService implements IRunService {
 		resStates.add(ResState.CANCELLED);
 		resStates.add(ResState.RUN_CANCELED);
 		List<Run> entity = runRepository
-				.findByDriverUserIdOrSubRunsPassengersUserUserIdAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
+				.findByDriverAccountIdIsOrSubRunsPassengersUserAccountIdIsAndCancelledAndSubRunsPassengersReservationStateNotInAndSubRunsEstimatedEndDateLessThan(
 						userId, userId, false, resStates, LocalDate.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {

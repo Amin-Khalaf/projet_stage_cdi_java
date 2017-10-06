@@ -1,6 +1,4 @@
-import { Duration } from "js-joda";
-import { LocalDate } from "js-joda";
-import { LocalTime } from "js-joda";
+import { Duration, LocalDate, LocalTime } from "js-joda";
 
 import { Passenger } from "./passenger.model";
 import { Toll } from "./toll.model";
