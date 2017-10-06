@@ -65,11 +65,11 @@
                 <ion-row *ngFor="let subRun of run.subRuns; let i = index">
                     {{subRun.startPlace.address.town}} - {{subRun.startDate | date: 'dd/MM/yyyy'}} {{subRun.startTime}} (heure estimée)<br>
                     Passagers :
-                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" col-auto>
+                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" (click)="viewProfile(passenger.user)" col-auto>
                         {{passenger.user.firstName}} {{passenger.user.lastName | uppercase}}<br>
-                        <ion-avatar (click)="viewProfile(passenger.user.userId)">
+                        <ion-thumbnail>
                             <img src="{{passengersPhotos[i][j]}}">
-                        </ion-avatar>
+                        </ion-thumbnail>
                     </ion-col>
                 </ion-row>
             </ion-grid>

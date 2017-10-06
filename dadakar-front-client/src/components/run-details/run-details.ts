@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
+
+import { UserProfileComponent } from '../../components/user-profile/user-profile';
 
 import { Rating } from '../../models/rating.model';
 import { Run } from '../../models/run.model';
 import { Search } from '../../models/search.model';
 import { SubRun } from '../../models/subrun.model';
+import { User } from '../../models/user.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { WayPoint } from '../../models/waypoint.model';
 
@@ -32,7 +35,7 @@ export class RunDetailsComponent {
     vehicle: Vehicle;
     wantedSubRun: SubRun;
 
-    constructor(private imgService: ImgService, private nav: NavController, private params: NavParams, private view: ViewController) {
+    constructor(private imgService: ImgService, private modal: ModalController, private nav: NavController, private params: NavParams, private view: ViewController) {
         this.connected = this.params.get('connected');
         this.run = this.params.get('run');
         this.search = this.params.get('search');
@@ -131,8 +134,12 @@ export class RunDetailsComponent {
         this.note = ratingValue / ratings.length;
     }
 
-    viewProfile(userId: string): void {
-        console.log(userId);
+    viewProfile(user: User): void {
+        let profile = this.modal.create(UserProfileComponent, {
+            connected: this.connected,
+            user: user
+        });
+        profile.present();
     }
 
     viewRates() {
