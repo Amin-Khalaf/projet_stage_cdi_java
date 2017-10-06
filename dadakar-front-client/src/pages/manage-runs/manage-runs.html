@@ -1,0 +1,117 @@
+<ion-header>
+    <ion-navbar no-border-bottom>
+        <ion-title>
+            Mes trajets
+        </ion-title>
+        <button ion-button [menuToggle]="activeMenu" right>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    </ion-navbar>
+    <ion-toolbar no-border-top>
+        <ion-segment [(ngModel)]="runType">
+            <ion-segment-button value="upcomming">
+                A venir
+            </ion-segment-button>
+            <ion-segment-button value="inprogress">
+                En cours
+            </ion-segment-button>
+            <ion-segment-button value="passed">
+                Passés
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <div [ngSwitch]="runType">
+        <ion-list *ngSwitchCase="'upcomming'">
+            <ion-segment [(ngModel)]="userType">
+                <ion-segment-button value="all">
+                    Tous
+                </ion-segment-button>
+                <ion-segment-button value="driver">
+                    Conducteur
+                </ion-segment-button>
+                <ion-segment-button value="passenger">
+                    Passager
+                </ion-segment-button>
+            </ion-segment>
+            <div [ngSwitch]="userType">
+                <div *ngSwitchCase="all">
+                    <ion-item *ngFor="let run of runsUpcommingAll; let i = index">
+
+                    </ion-item>
+                </div>
+                <div *ngSwitchCase="driver">
+                    <ion-item *ngFor="let run of runsUpcommingDriver; let i = index">
+
+                    </ion-item>
+                </div>
+                <div *ngSwitchCase="passenger">
+                    <ion-item *ngFor="let run of runsUpcommingPassenger; let i = index">
+
+                    </ion-item>
+                </div>
+            </div>
+        </ion-list>
+        <ion-list *ngSwitchCase="'inprogress'">
+            <ion-segment [(ngModel)]="userType">
+                <ion-segment-button value="all">
+                    Tous
+                </ion-segment-button>
+                <ion-segment-button value="driver">
+                    Conducteur
+                </ion-segment-button>
+                <ion-segment-button value="passenger">
+                    Passager
+                </ion-segment-button>
+            </ion-segment>
+            <div [ngSwitch]="userType">
+                <div *ngSwitchCase="all">
+                    <ion-item *ngFor="let run of runsInprogressAll; let i = index">
+
+                    </ion-item>
+                </div>
+                <div *ngSwitchCase="driver">
+                    <ion-item *ngFor="let run of runsInprogressDriver; let i = index">
+
+                    </ion-item>
+                </div>
+                <div *ngSwitchCase="passenger">
+                    <ion-item *ngFor="let run of runsInprogressPassenger; let i = index">
+
+                    </ion-item>
+                </div>
+            </div>
+        </ion-list>
+        <ion-list *ngSwitchCase="'passed'">
+            <ion-segment [(ngModel)]="userType">
+                <ion-segment-button value="all">
+                    Tous
+                </ion-segment-button>
+                <ion-segment-button value="driver">
+                    Conducteur
+                </ion-segment-button>
+                <ion-segment-button value="passenger">
+                    Passager
+                </ion-segment-button>
+            </ion-segment>
+            <div [ngSwitch]="userType">
+                <div *ngSwitchCase="all">
+                    <ion-item *ngFor="let run of runsPassedAll; let i = index">
+
+                    </ion-item>
+                </div>
+                <div *ngSwitchCase="driver">
+                    <ion-item *ngFor="let run of runsPassedDriver; let i = index">
+
+                    </ion-item>
+                </div>
+                <div *ngSwitchCase="passenger">
+                    <ion-item *ngFor="let run of runsPassedPassenger; let i = index">
+
+                    </ion-item>
+                </div>
+            </div>
+        </ion-list>
+    </div>
+</ion-content>

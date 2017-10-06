@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
+import { ModalController, NavParams, ViewController } from 'ionic-angular';
 
 import { RateComponent } from '../../components/rate/rate';
 
@@ -23,7 +23,7 @@ export class UserProfileComponent {
     ratings: Rating[];
     user: User;
 
-    constructor(private imgService: ImgService, private modal: ModalController, private nav: NavController, private params: NavParams, private view: ViewController) {
+    constructor(private imgService: ImgService, private modal: ModalController, private params: NavParams, private view: ViewController) {
         this.connected = this.params.get('connected');
         this.user = this.params.get('user');
         this.ratings = this.user.ratings;
