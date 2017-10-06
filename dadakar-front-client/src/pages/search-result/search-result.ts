@@ -45,13 +45,12 @@ export class SearchResultPage {
                 this.deleted = jwt.accountDTO.deleted;
                 if(jwt.accountDTO.banned || jwt.accountDTO.deleted) this.menuBannedOrDeletedActive();
                 else this.menuConnectedActive();
-                this.getItems();
             } else {
                 this.connected = false;
                 this.menuNotConnectedActive();
-                this.getItems();
             }
-        })
+            this.getItems();
+        });
     }
 
     menuBannedOrDeletedActive() {
@@ -78,7 +77,8 @@ export class SearchResultPage {
     getAvatar(filename: string, index: number): void {
         if(this.connected) {
             this.imgService.findByFileName(filename).subscribe(data => {
-                this.photos[index] = 'data:image/jpeg;base64,' + data;
+                if(data) this.photos[index] = 'data:image/jpeg;base64,' + data;
+                else this.photos[index] = '/assets/img/avatar.png';
             });
         } else {
             this.photos[index] = '/assets/img/avatar.png';

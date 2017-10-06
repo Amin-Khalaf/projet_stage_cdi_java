@@ -22,10 +22,12 @@ import { SearchResultPage } from '../pages/search-result/search-result';
 import { SignupPage } from '../pages/signup/signup';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
+import { RateComponent } from '../components/rate/rate';
 import { RatingComponent } from '../components/rating/rating';
 import { RunCreate1Page } from '../pages/run-create1/run-create1';
 import { RunDetailsComponent } from '../components/run-details/run-details';
 import { VehicleDetailsComponent } from '../components/vehicle-details/vehicle-details';
+import { ViewRatingsPage } from '../pages/view-ratings/view-ratings';
 
 import { AuthProvider } from "../providers/auth";
 
@@ -55,11 +57,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     SignupPage,
     UserProfilePage,
     UserSignupPage,
+    RateComponent,
     RatingComponent,
     RunCreate1Page,
     AddressForm,
     RunDetailsComponent,
-    VehicleDetailsComponent
+    VehicleDetailsComponent,
+    ViewRatingsPage
   ],
   imports: [
     BrowserModule,
@@ -85,10 +89,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     SignupPage,
     UserProfilePage,
     UserSignupPage,
+    RateComponent,
     RatingComponent,
     RunCreate1Page,
     RunDetailsComponent,
-    VehicleDetailsComponent
+    VehicleDetailsComponent,
+    ViewRatingsPage
   ],
   providers: [
     AuthProvider,

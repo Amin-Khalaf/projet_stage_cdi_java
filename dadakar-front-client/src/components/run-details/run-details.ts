@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { Rating } from '../../models/rating.model';
 import { Run } from '../../models/run.model';
@@ -7,6 +7,8 @@ import { Search } from '../../models/search.model';
 import { SubRun } from '../../models/subrun.model';
 import { Vehicle } from '../../models/vehicle.model';
 import { WayPoint } from '../../models/waypoint.model';
+
+import { ViewRatingsPage } from '../../pages/view-ratings/view-ratings';
 
 import { ImgService } from '../../services/image.service';
 
@@ -19,6 +21,7 @@ export class RunDetailsComponent {
 
     connected: boolean;
     nbRatings: number;
+    note: number = 0;
     passengersPhotos: string[][] = [[]];
     photo: string;
     photos: string[] = [];
@@ -29,13 +32,14 @@ export class RunDetailsComponent {
     vehicle: Vehicle;
     wantedSubRun: SubRun;
 
-    constructor(private imgService: ImgService, private params: NavParams, private view: ViewController) {
+    constructor(private imgService: ImgService, private nav: NavController, private params: NavParams, private view: ViewController) {
         this.connected = this.params.get('connected');
         this.run = this.params.get('run');
         this.search = this.params.get('search');
         this.nbRatings = this.run.driver.ratings.length;
         this.subRuns = this.run.subRuns;
         this.getAvatar(this.run.driver.photo, false);
+        this.getRatings();
         this.findVehicle();
         this.findWantedSubRun();
         this.getPassengersPhotos();
@@ -116,20 +120,25 @@ export class RunDetailsComponent {
         }
     }
 
-    getRatings(): number {
-        if(this.nbRatings != 0) {
-            let ratingValue: number = 0;
-            let ratings: Rating[] = this.run.driver.ratings;
-            for(let i = 0, j = ratings.length; i < j; i++) {
-                ratingValue += ratings[i].value;
-            }
-            return ratingValue / ratings.length;
+    getRatings(): void {
+        this.note = 0;
+        let ratingValue: number = 0;
+        let ratings: Rating[] = this.run.driver.ratings;
+        this.nbRatings = ratings.length;
+        for(let i = 0, j = ratings.length; i < j; i++) {
+            ratingValue += ratings[i].value;
         }
-        return 0;
+        this.note = ratingValue / ratings.length;
     }
 
     viewProfile(userId: string): void {
         console.log(userId);
+    }
+
+    viewRates() {
+        this.nav.push(ViewRatingsPage, {
+            user: this.run.driver
+        });
     }
 
 }
