@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
-            Evaluations de {{user.firstName}} {{user.lastName | uppercase}}
+            Evaluations de {{user.firstName}}
         </ion-title>
         <button ion-button [menuToggle]="activeMenu" right>
             <ion-icon name="menu"></ion-icon>
@@ -14,8 +14,10 @@
             <ion-avatar item-start>
                 <img src="{{ratersPhoto[i]}}">
             </ion-avatar>
-            <h1>{{rating.rater.firstName}} {{rating.rater.lastName | uppercase}}</h1>
-            <ion-label>{{rating.comment}}</ion-label>
+            <ion-label>
+                <h1>{{rating.rater.firstName}} {{rating.rater.lastName | uppercase}}</h1>
+                {{rating.comment}}
+            </ion-label>
             <div>
                 <rating score="{{rating.value}}" max="5"></rating>
             </div>

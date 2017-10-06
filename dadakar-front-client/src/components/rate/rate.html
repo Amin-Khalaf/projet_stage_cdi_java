@@ -5,7 +5,7 @@
                 <span ion-text>Fermer</span>
             </button>
         </ion-buttons>
-        <ion-title>Détails du trajet</ion-title>
+        <ion-title></ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
@@ -13,7 +13,7 @@
         <img src="{{photo}}">
         <ion-card-content>
             <ion-card-title>
-                <rating note={{rating.value}} max="5"></rating>
+                <rating score="{{rating.value}}" max="5"></rating><br>
                 {{rating.rater.firstName}} {{rating.rater.lastName}}
             </ion-card-title>
             <p>
