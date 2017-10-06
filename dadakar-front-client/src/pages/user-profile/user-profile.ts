@@ -459,7 +459,6 @@ export class UserProfilePage {
     viewRates() {
         if(this.nbRatings) {
             this.nav.push(ViewRatingsPage, {
-                connected: this.connected,
                 user: this.user
             });
         }

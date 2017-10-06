@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text>Fermer</span>
+            </button>
+        </ion-buttons>
+        <ion-title>Détails du trajet</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <ion-card>
+        <img src="{{photo}}">
+        <ion-card-content>
+            <ion-card-title>
+                <rating note={{rating.value}} max="5"></rating>
+                {{rating.rater.firstName}} {{rating.rater.lastName}}
+            </ion-card-title>
+            <p>
+                {{rating.comment}}
+            </p>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

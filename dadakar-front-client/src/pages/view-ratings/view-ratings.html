@@ -9,5 +9,16 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-
+    <ion-list>
+        <ion-item *ngFor="let rating of user.ratings; let i = index" (click)="viewFullRate(rating)">
+            <ion-avatar item-start>
+                <img src="{{ratersPhoto[i]}}">
+            </ion-avatar>
+            <h1>{{rating.rater.firstName}} {{rating.rater.lastName | uppercase}}</h1>
+            <ion-label>{{rating.comment}}</ion-label>
+            <div>
+                <rating score="{{rating.value}}" max="5"></rating>
+            </div>
+        </ion-item>
+    </ion-list>
 </ion-content>

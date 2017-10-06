@@ -137,7 +137,6 @@ export class RunDetailsComponent {
 
     viewRates() {
         this.nav.push(ViewRatingsPage, {
-            connected: this.connected,
             user: this.run.driver
         });
     }
