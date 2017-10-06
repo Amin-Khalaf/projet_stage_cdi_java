@@ -147,8 +147,6 @@ getNbPassenger() {
   reserver() {
       let subRun: SubRun = this.run.subRuns[this.subRunIndex];
       for(let i = 0; i < this.nbPlaces; i++) {
-          console.log(this.passengersLuggages);
-          console.log("i: " + i + ", luggage : " + this.passengersLuggages[i]);
           let passenger: Passenger = {
               luggageType: this.passengersLuggages[i] == 'PETIT' ? 0 : this.passengersLuggages[i] == 'MOYEN' ? 1 : 2,
               passengerId: '',

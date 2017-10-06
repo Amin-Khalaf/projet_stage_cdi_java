@@ -20,6 +20,7 @@ import { MenuNotConnectedComponent } from '../components/menu-not-connected/menu
 import { AddressForm } from '../components/address-form/address-form';
 import { SearchResultPage } from '../pages/search-result/search-result';
 import { SignupPage } from '../pages/signup/signup';
+import { UserProfileComponent } from '../components/user-profile/user-profile';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 import { RateComponent } from '../components/rate/rate';
@@ -55,6 +56,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MenuNotConnectedComponent,
     SearchResultPage,
     SignupPage,
+    UserProfileComponent,
     UserProfilePage,
     UserSignupPage,
     RateComponent,
@@ -87,6 +89,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HomePage,
     SearchResultPage,
     SignupPage,
+    UserProfileComponent,
     UserProfilePage,
     UserSignupPage,
     RateComponent,

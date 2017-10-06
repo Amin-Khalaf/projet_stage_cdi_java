@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text>Fermer</span>
+            </button>
+        </ion-buttons>
+        <ion-title>Profil</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-card>
+        <img src="{{photo}}">
+        <ion-card-content>
+            <h1>{{user.firstName}} {{user.lastName | uppercase}}</h1>
+            <rating score="{{note}}" max="5"></rating>
+        </ion-card-content>
+    </ion-card>
+    <ion-list>
+        <ion-item *ngFor="let rating of ratings; let i = index" (click)="viewFullRate(rating)">
+            <ion-avatar>
+                <img src="{{ratersPhoto[i]}}">
+            </ion-avatar>
+            <ion-label>
+                <h3>{{rating.rater.firstName}} {{rating.rater.lastName | uppercase}}</h3>
+                <rating score={{rating.value}} max="5"></rating><br>
+                {{rating.comment}}
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
