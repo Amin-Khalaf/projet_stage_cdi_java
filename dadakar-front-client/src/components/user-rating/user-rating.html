@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text>Annuler</span>
+            </button>
+        </ion-buttons>
+        <ion-title>Evaluer {{user.firstName}}</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="rate()">
+                <span ion-text>Enregistrer</span>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ul>
+        <li *ngFor="let icon of icons, let i = index">
+            <ion-icon [name]="icon" (click)="iconClick(i)"></ion-icon>
+        </li>
+    </ul>
+    <ion-textarea placeholder="Entrez votre commentaire" [(ngModel)]="rating.comment"></ion-textarea>
+</ion-content>
