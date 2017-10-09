@@ -36,10 +36,10 @@
                     <span text-wrap>Départ : {{subRun.startPlace.address.town}} {{subRun.startPlace.address.district}} {{subRun.startPlace.address.meetingPoint}} le {{subRun.startDate | date: 'dd/MM/yyyy'}} à {{subRun.startTime}} (heure estimée)</span><br>
                     <span text-wrap>Arrivé : {{subRun.endPlace.address.town}} {{subRun.endPlace.address.district}} {{subRun.endPlace.address.meetingPoint}} le {{subRun.estimatedEndDate | date: 'dd/MM/yyyy'}} à {{subRun.estimatedEndTime}} (heure estimée)</span><br>
                     <ion-col col-12>Passagers :</ion-col>
-                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" (click)="passengerClick(i, j)" class="{{userState[i][j]}}" col-6>
-                        {{passenger.user.firstName}} {{passenger.user.lastName | uppercase}}<br>
+                    <ion-col *ngFor="let passenger of passengers[i]; let j = index" (click)="passengerClick(i, passenger)" class="{{userState[i][j]}}" col-6>
+                        <span style="color: white">{{passenger.passenger.user.firstName}} {{passenger.passenger.user.lastName | uppercase}}</span> <span style="color: red" *ngIf="passenger.nb > 1"><strong>({{passenger.nb}})</strong></span><br>
                         <ion-thumbnail>
-                            <img src="{{passengersPhotos[i][j]}}">
+                            <img src="{{passengersPhotos[i][passenger.passengerIndex]}}">
                         </ion-thumbnail>
                     </ion-col>
                 </ion-row>

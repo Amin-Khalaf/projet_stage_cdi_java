@@ -77,6 +77,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		}
 	}
 		
+	@SuppressWarnings("unused")
 	private void populateAddresses(){
 		addressRepository.deleteAll();
 		Address address = new Address("Biscuiterie","Dakar");

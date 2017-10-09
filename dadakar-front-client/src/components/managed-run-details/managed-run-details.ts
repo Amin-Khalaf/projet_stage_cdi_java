@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActionSheetController, ModalController, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
+import { LocalDate, LocalTime } from 'js-joda';
 
 import { UserProfileComponent } from '../../components/user-profile/user-profile';
 
@@ -30,6 +31,8 @@ export class ManagedRunDetailsComponent {
     isDriver: boolean;
     nbRatings: number;
     note: number = 0;
+    passengers: any[][] = [[]];
+    passengerId: string = '';
     passengersPhotos: string[][] = [[]];
     photo: string;
     photos: string[] = [];
@@ -50,7 +53,7 @@ export class ManagedRunDetailsComponent {
         this.isDriver = (this.userId == this.run.driver.accountId);
         this.getAvatar(this.run.driver.photo, false);
         this.getRatings();
-        this.getPassengersPhotosAndRxState();
+        this.getPassengers();
     }
 
     dismiss(data: any): void {
@@ -84,7 +87,7 @@ export class ManagedRunDetailsComponent {
     }
 
     getAvatars(fileName: string, i: number, j: number): void {
-        console.log('connected : ' + this.connected + ', fileName : ' + fileName);
+        this.passengersPhotos = [[]];
         if(this.connected && fileName != '') {
             this.imgService.findByFileName(fileName).subscribe(data => {
                 if(data) {
@@ -98,16 +101,46 @@ export class ManagedRunDetailsComponent {
         }
     }
 
+    getPassengers() {
+        this.passengerId = '';
+        this.passengers = [[]];
+        this.setState();
+        let subRuns: SubRun[] = this.run.subRuns;
+        for(let i = 0, k = subRuns.length; i < k; i++ ) {
+            let passenger = {
+                passenger: null,
+                passengerIndex: 0,
+                nb: 0
+            }
+            for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
+                console.log(this.subRuns[i].passengers[j]);
+                let condition: boolean;
+                this.isDriver ? condition = subRuns[i].passengers[j].reservationState == ResState.PENDING || subRuns[i].passengers[j].reservationState == ResState.ACCEPTED :
+                condition = true;
+                if(condition) {
+                    if(this.subRuns[i].passengers[j].user.accountId == this.passengerId) {
+                        passenger.nb++
+                    } else {
+                        if(this.passengerId) this.passengers[i].push(passenger);
+                        this.passengerId = this.subRuns[i].passengers[j].user.accountId;
+                        passenger = {
+                            passenger: this.subRuns[i].passengers[j],
+                            passengerIndex: j,
+                            nb: 1
+                        }
+                    }
+                }
+            }
+            this.passengers[i].push(passenger);
+        }
+        this.getPassengersPhotosAndRxState();
+    }
+
     getPassengersPhotosAndRxState(): void {
         let subRuns: SubRun[] = this.run.subRuns;
         for(let i = 0, k = subRuns.length; i < k; i++) {
             for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
                 this.getAvatars(subRuns[i].passengers[j].user.photo, i, j);
-                (subRuns[i].passengers[j].reservationState.toString() == 'PENDING' || subRuns[i].passengers[j].reservationState.toString() == ResState.PENDING.toString()) ? subRuns[i].passengers[j].reservationState = ResState.PENDING :
-                (subRuns[i].passengers[j].reservationState.toString() == 'ACCEPTED' || subRuns[i].passengers[j].reservationState.toString() == ResState.ACCEPTED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.ACCEPTED :
-                (subRuns[i].passengers[j].reservationState.toString() == 'REFUSED' || subRuns[i].passengers[j].reservationState.toString() == ResState.REFUSED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.REFUSED :
-                (subRuns[i].passengers[j].reservationState.toString() == 'CANCELLED'  || subRuns[i].passengers[j].reservationState.toString() == ResState.CANCELLED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.CANCELLED :
-                subRuns[i].passengers[j].reservationState = ResState.RUN_CANCELLED;
                 (subRuns[i].passengers[j].reservationState == ResState.PENDING) ? this.userState[i][j] = 'blue' :
                  (subRuns[i].passengers[j].reservationState == ResState.REFUSED) ? this.userState[i][j] = 'red' :
                 (subRuns[i].passengers[j].reservationState == ResState.ACCEPTED) ?  this.userState[i][j] = 'green' : this.userState[i][j] = 'purple';
@@ -126,39 +159,109 @@ export class ManagedRunDetailsComponent {
         this.note = ratingValue / ratings.length;
     }
 
-    passengerClick(subRunIndex: number, passengerIndex: number) {
+    passengerClick(subRunIndex: number, passenger: any) {
+        let buttons: any[] = [];
+        let buttonAccept = {text: 'Accepter', icon: !this.platform.is('ios') ? 'checkmark-circle' : '',handler: () => {
+                this.run.subRuns[subRunIndex].availableSeats-= passenger.nb;
+                for(let i = 0; i < passenger.nb; i++) this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex + i].reservationState = ResState.ACCEPTED;
+                this.runService.update(this.run).subscribe(() => this.getPassengers());
+            }
+        };
+        let buttonCancel = {text: 'Annuler', role: 'cancel', icon: !this.platform.is('ios') ? 'close' : '', handler: () => {}};
+        let buttonCancelReservation = {text: 'Annuler la reservation', icon: !this.platform.is('ios') ? 'close-circle' : '', handler: () => {
+                // if run still reserved, free seats
+                if(this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex].reservationState == ResState.ACCEPTED) this.run.subRuns[subRunIndex].availableSeats += passenger.nb;
+                // change state to CANCELLED
+                for(let i = 0; i < passenger.nb; i++) this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex + i].reservationState = ResState.CANCELLED;
+                // save the run
+                this.runService.update(this.run).subscribe(() => this.getPassengers());
+            }
+        };
+        let buttonProfile = {text: 'Voir le profil', icon: !this.platform.is('ios') ? 'person' : '', handler: () => {
+                this.viewProfile(this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex].user);
+            }
+        };
+        let buttonRate = {text: 'noter l\'utilisateur', icon: !this.platform.is('ios') ? 'star-outline' : '', handler: () => {
+                this.rate(this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex].user);
+            }
+        };
+        let buttonRefuse = {text: 'Refuser', icon: !this.platform.is('ios') ? 'close-circle' : '', handler: () => {
+                for(let i = 0; i < passenger.nb; i++) this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex + i].reservationState = ResState.REFUSED;
+                this.runService.update(this.run).subscribe(() => this.getPassengers());
+            }
+        };
+        let buttonRestoreReservation = {text: 'Reserver à nouveau', icon: !this.platform.is('ios') ? 'refresh-circle' : '', handler: () => {
+                // change state to PENDING
+                for(let i = 0; i < passenger.nb; i++) this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex + i].reservationState = ResState.PENDING;
+                // save the run
+                this.runService.update(this.run).subscribe(() => this.getPassengers());
+            }
+        };
+        buttons.push(buttonCancel);
         if(this.isDriver) {
+            if(passenger.nb <= this.run.subRuns[subRunIndex].availableSeats && this.run.subRuns[subRunIndex].startDate >= LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)){
+                //driver and available seats ok to reserve and run not passed
+                buttons.push(buttonAccept);
+                buttons.push(buttonRefuse);
+                buttons.push(buttonProfile);
+            } else {
+                if(this.run.subRuns[subRunIndex].startDate >= LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)) {
+                    //driver and run not passed but available seats not ok to reserve
+                    buttons.push(buttonRefuse);
+                    buttons.push(buttonProfile);
+                } else {
+                    //driver and run passed
+                    buttons.push(buttonRate);
+                    buttons.push(buttonProfile);
+                }
+            }
             let action = this.actionSheet.create({
-                buttons: [
-                    {
-                        text: 'Accepter',
-                        icon: !this.platform.is('ios') ? 'checkmark' : '',
-                        handler: () => {
-                            this.run.subRuns[subRunIndex].availableSeats--;
-                            this.run.subRuns[subRunIndex].passengers[passengerIndex].reservationState = ResState.ACCEPTED;
-                            this.runService.update(this.run).subscribe();
-                            this.getPassengersPhotosAndRxState();
-                        }
-                    },
-                    {
-                        text: 'Refuser',
-                        icon: !this.platform.is('ios') ? 'close' : '',
-                        handler: () => {
-                            this.run.subRuns[subRunIndex].passengers[passengerIndex].reservationState = ResState.REFUSED;
-                            this.runService.update(this.run).subscribe();
-                            this.getPassengersPhotosAndRxState();
-                        }
-                    },
-                    {
-                        text: 'Voir le profil',
-                        icon: !this.platform.is('ios') ? 'person' : '',
-                        handler: () => {
-                            this.viewProfile(this.run.subRuns[subRunIndex].passengers[passengerIndex].user);
-                        }
-                    }
-                ]
+                buttons: buttons
             });
             action.present();
+        } else {
+            if( this.run.subRuns[subRunIndex].startDate >= LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)) {
+                //passenger and run not passed
+                if(this.userId == this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex].user.accountId) {
+                    //user is this passenger can cancel if not, can re-book if cancel
+                    if(this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex].reservationState != ResState.CANCELLED) buttons.push(buttonCancelReservation);
+                    else buttons.push(buttonRestoreReservation);
+                } else {
+                    //user is not the passenger so he could only see the passenger profile
+                    buttons.push(buttonProfile);
+                }
+                let action = this.actionSheet.create({
+                    buttons: buttons
+                });
+                action.present();
+            } else {
+                //passenger and run passed : only passenger whos not the active user can interact
+                if(this.userId != this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex].user.accountId) {
+                    buttons.push(buttonRate);
+                    buttons.push(buttonProfile);
+                    let action = this.actionSheet.create({
+                        buttons: buttons
+                    });
+                    action.present();
+                }
+            }
+        }
+    }
+
+    rate(user: User) {
+        console.log("noter : " + user);
+    }
+
+    setState() {
+        let subRuns: SubRun[] = this.run.subRuns;
+        for(let i = 0, k = subRuns.length; i < k; i++) {
+            for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
+                (subRuns[i].passengers[j].reservationState.toString() == 'PENDING' || subRuns[i].passengers[j].reservationState.toString() == ResState.PENDING.toString()) ? subRuns[i].passengers[j].reservationState = ResState.PENDING :
+                (subRuns[i].passengers[j].reservationState.toString() == 'ACCEPTED' || subRuns[i].passengers[j].reservationState.toString() == ResState.ACCEPTED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.ACCEPTED :
+                (subRuns[i].passengers[j].reservationState.toString() == 'REFUSED' || subRuns[i].passengers[j].reservationState.toString() == ResState.REFUSED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.REFUSED :
+                (subRuns[i].passengers[j].reservationState.toString() == 'CANCELLED'  || subRuns[i].passengers[j].reservationState.toString() == ResState.CANCELLED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.CANCELLED :
+                subRuns[i].passengers[j].reservationState = ResState.RUN_CANCELLED;
+            }
         }
     }
 
