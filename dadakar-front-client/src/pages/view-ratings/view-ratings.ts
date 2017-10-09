@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuController, ModalController, NavController, NavParams } from 'ionic-angular';
+import { MenuController, ModalController, NavParams } from 'ionic-angular';
 
 import { RateComponent } from '../../components/rate/rate';
 
@@ -23,7 +23,7 @@ export class ViewRatingsPage {
     ratersPhoto: string[] = []
     user: User;
 
-    constructor(private auth: AuthProvider, private imgService: ImgService, private menu: MenuController, private modal: ModalController, private nav: NavController, private params: NavParams) {
+    constructor(private auth: AuthProvider, private imgService: ImgService, private menu: MenuController, private modal: ModalController, private params: NavParams) {
         this.user = this.params.get('user');
         this.auth.authUser.subscribe(jwt => {
             if(jwt) {

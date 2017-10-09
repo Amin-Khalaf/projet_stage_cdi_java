@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { AuthProvider } from '../../providers/auth';
 
 import { HomePage } from '../../pages/home/home';
+import { ManageRunsPage } from '../../pages/manage-runs/manage-runs';
 import { UserProfilePage } from '../../pages/user-profile/user-profile';
 import { RunCreate1Page } from '../../pages/run-create1/run-create1';
 
@@ -27,7 +28,7 @@ export class MenuConnectedComponent {
     }
 
     viewMyRuns() {
-        this.nav.getActiveNavs()[0].push(HomePage);
+        this.nav.getActiveNavs()[0].push(ManageRunsPage);
         this.menuCtrl.close();
     }
 

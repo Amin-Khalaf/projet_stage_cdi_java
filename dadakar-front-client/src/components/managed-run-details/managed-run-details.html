@@ -1,0 +1,49 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss(null)">
+                <span ion-text>Fermer</span>
+            </button>
+        </ion-buttons>
+        <ion-title>Détails du trajet</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <h1 text-center>
+                <span *ngFor="let subRun of run.subRuns; let i = index">
+                    <span *ngIf="i > 0"> - </span>
+                    {{subRun.startPlace.address.town}}
+                    <span *ngIf="i == run.subRuns.length - 1"> - {{subRun.endPlace.address.town}}</span>
+                </span>
+            </h1>
+            <h3>Le {{run.subRuns[0].startDate | date: 'dd/MM/yyyy'}}</h3>
+        </ion-item>
+        <ion-item>
+            Conducteur : {{run.driver.firstName}} {{run.driver.lastName | uppercase }}<br>
+            <div>
+                <rating score="{{note}}" max="5"></rating> <span (click)="viewRates()"> <u>{{nbRatings}} avis</u></span>
+            </div>
+            <ion-avatar item-end>
+                <img src="{{photo}}">
+            </ion-avatar>
+        </ion-item>
+        <ion-item>
+            Itinéraire :
+            <ion-grid>
+                <ion-row *ngFor="let subRun of run.subRuns; let i = index">
+                    <span text-wrap>Départ : {{subRun.startPlace.address.town}} {{subRun.startPlace.address.district}} {{subRun.startPlace.address.meetingPoint}} le {{subRun.startDate | date: 'dd/MM/yyyy'}} à {{subRun.startTime}} (heure estimée)</span><br>
+                    <span text-wrap>Arrivé : {{subRun.endPlace.address.town}} {{subRun.endPlace.address.district}} {{subRun.endPlace.address.meetingPoint}} le {{subRun.estimatedEndDate | date: 'dd/MM/yyyy'}} à {{subRun.estimatedEndTime}} (heure estimée)</span><br>
+                    <ion-col col-12>Passagers :</ion-col>
+                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" (click)="passengerClick(i, j)" class="{{userState[i][j]}}" col-6>
+                        {{passenger.user.firstName}} {{passenger.user.lastName | uppercase}}<br>
+                        <ion-thumbnail>
+                            <img src="{{passengersPhotos[i][j]}}">
+                        </ion-thumbnail>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+    </ion-list>
+</ion-content>
