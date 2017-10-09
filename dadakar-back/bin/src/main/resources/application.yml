@@ -1,0 +1,3 @@
+app:
+  secret: RGFEYUthciBTZWNyZXQgS2V5IEZvciBKV1Q=
+  token-validity-in-seconds: 3000000000000

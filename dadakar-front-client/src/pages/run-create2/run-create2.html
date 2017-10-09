@@ -20,7 +20,7 @@
 
       <ion-row>
         <ion-col>
-          <h4>Date et heure de départ</h4>
+          <h4>Retour</h4>
         </ion-col>
       </ion-row>
 
@@ -40,19 +40,37 @@
 
       <ion-row>
         <ion-col>
-          <ion-item>
+          <!-- <ion-item>
             <ion-icon item-start name="calendar"></ion-icon>
             <ion-label floating>Aller</ion-label>
             <ion-datetime doneText="valider" cancelText="Annuler" formControlName="startDateTrip" #startDateTrip
               minuteValues="0,15,30,45" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD MMM YY HH mm"
               [min]="tomorrow" (ionChange)="setBackMinDate(startDateTrip)" (ionChange)="validate(formRunCreate2.value)"></ion-datetime>
-          </ion-item>
+          </ion-item> -->
           <ion-item *ngIf="isRoundTrip.checked">
             <ion-icon item-start name="calendar"></ion-icon>
             <ion-label floating>Retour</ion-label>
             <ion-datetime doneText="valider" cancelText="Annuler" formControlName="startDateBack" #startDateBack
               minuteValues="0,15,30,45" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD MMM YY HH mm"
               [min]="minBackDate" (ionChange)="validate(formRunCreate2.value)"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <h4>Véhicule</h4>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-icon item-start name="car"></ion-icon>
+            <ion-label floating>Sélectionnez votre véhicule</ion-label>
+            <ion-select interface="popover" formControlName="vehicles" #vehicles (ionChange)="validate(formRunCreate2.value)">
+              <ion-option *ngFor="let vehicle of userVehicles" value="{{ vehicle.vehicleId }}">{{ vehicle.name }}</ion-option>
+            </ion-select>
           </ion-item>
         </ion-col>
       </ion-row>

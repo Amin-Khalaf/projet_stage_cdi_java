@@ -9,6 +9,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { AgmCoreModule } from '@agm/core';
 
 import { MyApp } from './app.component';
 
@@ -22,7 +23,8 @@ import { SignupPage } from '../pages/signup/signup';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 import { RunCreate1Page } from '../pages/run-create1/run-create1';
-import { RunCreate2Page } from '../pages/run-create2/run-create2'
+import { RunCreate2Page } from '../pages/run-create2/run-create2';
+import { RunCreate3Page } from '../pages/run-create3/run-create3';
 import { RunDetailsComponent } from '../components/run-details/run-details';
 
 import { AuthProvider } from "../providers/auth";
@@ -54,6 +56,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     UserSignupPage,
     RunCreate1Page,
     RunCreate2Page,
+    RunCreate3Page,
     AddressForm,
     RunDetailsComponent
   ],
@@ -70,6 +73,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     IonicStorageModule.forRoot({
       name: "dadakar",
       driverOrder: ['sqlite', 'indexeddb', 'websql']
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCKbbwApwgV7meJUzaRLKWIRrgjqDONEDw'
     })
   ],
   bootstrap: [IonicApp],
@@ -82,6 +88,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     UserSignupPage,
     RunCreate1Page,
     RunCreate2Page,
+    RunCreate3Page,
     RunDetailsComponent
   ],
   providers: [
