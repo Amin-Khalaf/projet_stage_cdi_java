@@ -9,6 +9,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { AgmCoreModule } from '@agm/core';
 
 import { MyApp } from './app.component';
 
@@ -28,6 +29,8 @@ import { UserSignupPage } from '../pages/user-signup/user-signup';
 import { RateComponent } from '../components/rate/rate';
 import { RatingComponent } from '../components/rating/rating';
 import { RunCreate1Page } from '../pages/run-create1/run-create1';
+import { RunCreate2Page } from '../pages/run-create2/run-create2';
+import { RunCreate3Page } from '../pages/run-create3/run-create3';
 import { RunDetailsComponent } from '../components/run-details/run-details';
 import { VehicleDetailsComponent } from '../components/vehicle-details/vehicle-details';
 import { ViewRatingsPage } from '../pages/view-ratings/view-ratings';
@@ -44,8 +47,8 @@ import { TransactionService } from '../services/transaction.service';
 import { UserService } from '../services/user.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, storage: Storage) {
-    const authConfig = new AuthConfig({ tokenGetter: (() => storage.get('jwt')),});
-    return new AuthHttp(authConfig, http, options);
+  const authConfig = new AuthConfig({ tokenGetter: (() => storage.get('jwt')), });
+  return new AuthHttp(authConfig, http, options);
 }
 
 @NgModule({
@@ -66,6 +69,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     RateComponent,
     RatingComponent,
     RunCreate1Page,
+    RunCreate2Page,
+    RunCreate3Page,
     AddressForm,
     RunDetailsComponent,
     VehicleDetailsComponent,
@@ -76,14 +81,17 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     CustomFormsModule,
     HttpModule,
     IonicModule.forRoot(MyApp, {
-        monthNames: ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'],
-        monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jul', 'aou', 'sep', 'oct', 'nov', 'dec'],
-        dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
-        dayShortNames: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam']
+      monthNames: ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'],
+      monthShortNames: ['jan', 'fev', 'mar', 'avr', 'mai', 'jui', 'jul', 'aou', 'sep', 'oct', 'nov', 'dec'],
+      dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+      dayShortNames: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam']
     }),
     IonicStorageModule.forRoot({
-        name: "dadakar",
-        driverOrder: ['sqlite', 'indexeddb', 'websql']
+      name: "dadakar",
+      driverOrder: ['sqlite', 'indexeddb', 'websql']
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCKbbwApwgV7meJUzaRLKWIRrgjqDONEDw'
     })
   ],
   bootstrap: [IonicApp],
@@ -101,6 +109,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     RateComponent,
     RatingComponent,
     RunCreate1Page,
+    RunCreate2Page,
+    RunCreate3Page,
     RunDetailsComponent,
     VehicleDetailsComponent,
     ViewRatingsPage
@@ -110,10 +120,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     Camera,
     FileTransfer,
     JwtHelper,
-    {provide: AuthHttp, useFactory: authHttpServiceFactory, deps: [Http, RequestOptions, Storage]},
+    { provide: AuthHttp, useFactory: authHttpServiceFactory, deps: [Http, RequestOptions, Storage] },
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     AccountService,
     AddressService,
     ImgService,
@@ -124,4 +134,4 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     UserService
   ]
 })
-export class AppModule {}
+export class AppModule { }
