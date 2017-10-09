@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, ControlContainer } from '@angular/forms';
 import { AlertController } from 'ionic-angular';
 
 import { Address } from '../../models/address.model';
 import { AddressService } from '../../services/address.service';
+import { RunCreate1Page } from '../../pages/run-create1/run-create1';
 
 @Component({
   selector: '[formGroup] app-address-form, [formGroupName] app-address-form',
@@ -11,21 +12,23 @@ import { AddressService } from '../../services/address.service';
 })
 export class AddressForm implements OnInit {
   addressForm: FormGroup;
-
+  // valid = false;
   towns: string[] = [];
   listDistricts: Address[][] = [[]];
 
-  constructor(private addressService : AddressService, private alertCtrl : AlertController, private controlCtnr: ControlContainer, private cdr: ChangeDetectorRef) {
+  constructor(private addressService: AddressService, private alertCtrl: AlertController, private controlCtnr: ControlContainer, private cdr: ChangeDetectorRef) {
   }
 
-  ngOnInit(){
+  @Output() sendChange = new EventEmitter();
+
+  ngOnInit() {
     this.addressForm = <FormGroup>this.controlCtnr.control;
     this.findTowns();
     this.cdr.detectChanges();
   }
 
-  findTowns(){
-    let addresses : Address[] = [];
+  findTowns() {
+    let addresses: Address[] = [];
     this.addressService.findAll().subscribe((data) => {
       addresses = data;
       for (let address of addresses) {
@@ -35,9 +38,9 @@ export class AddressForm implements OnInit {
     });
   }
 
-  findDistricts(town: string, index : number){
+  findDistricts(town: string, index: number) {
     this.addressService.findByTown(town).subscribe(
-      data =>{
+      data => {
         if (data.length == 0) {
           this.handleError('Aucun quartier trouvé');
         }
@@ -57,13 +60,17 @@ export class AddressForm implements OnInit {
     this.findDistricts(town, index);
   }
 
-  private handleError(errorMessage: string){
+  private handleError(errorMessage: string) {
     const alert = this.alertCtrl.create({
       title: 'An error occured',
       message: errorMessage,
       buttons: ['Ok']
     });
     alert.present();
+  }
+
+  sendOnChange() {
+    this.sendChange.emit();
   }
 
 }

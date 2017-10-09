@@ -45,7 +45,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	public void run(String... arg0) throws Exception {
 
 		createRun();
-		populateAddresses();
+	//	populateAddresses();
 	}
 	
 //	@SuppressWarnings("unused")
