@@ -6,11 +6,6 @@
             </button>
         </ion-buttons>
         <ion-title>Détails du trajet</ion-title>
-        <ion-buttons start *ngIf="connected">
-            <button ion-button (click)="dismiss(run)">
-                <span ion-text>Reserver</span>
-            </button>
-        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -23,21 +18,7 @@
                     <span *ngIf="i == run.subRuns.length - 1"> - {{subRun.endPlace.address.town}}</span>
                 </span>
             </h1>
-            <h3>Le {{wantedSubRun.startDate | date: 'dd/MM/yyyy'}}</h3>
-        </ion-item>
-        <ion-item>
-            Départ : {{wantedSubRun.startPlace.address.town}} - {{wantedSubRun.startPlace.address.district}}
-            <ul style="list-style: none">
-                <li>{{ wantedSubRun.startPlace.meetingPoint}}</li>
-                <li>{{wantedSubRun.startTime}} (heure estimée)</li>
-            </ul>
-            Arrivée : {{wantedSubRun.endPlace.address.town}} - {{wantedSubRun.endPlace.address.district}}
-            <ul style="list-style: none">
-                <li>{{ wantedSubRun.endPlace.meetingPoint}}</li>
-                <li>{{wantedSubRun.estimatedEndDate | date: 'dd/MM/yyyy'}} {{wantedSubRun.estimatedEndTime}} (heure estimée)</li>
-            </ul>
-            Nombre de places disponibles : {{wantedSubRun.availableSeats}}<br>
-            type de baggage permis : {{run.luggageType}}
+            <h3>Le {{run.subRuns[0].startDate | date: 'dd/MM/yyyy'}}</h3>
         </ion-item>
         <ion-item>
             Conducteur : {{run.driver.firstName}} {{run.driver.lastName | uppercase }}<br>
@@ -49,23 +30,13 @@
             </ion-avatar>
         </ion-item>
         <ion-item>
-            Véhicule :
-            <ul style="list-style: none">
-                <li text-wrap>{{vehicle.brand}} {{vehicle.model}}</li>
-                <li>{{vehicle.color}}</li>
-                <li text-wrap>immatriculation : {{vehicle.registrationNumber}}</li>
-            </ul>
-            <ion-avatar item-end>
-                <img src="{{photoVehicule}}">
-            </ion-avatar>
-        </ion-item>
-        <ion-item>
             Itinéraire :
             <ion-grid>
                 <ion-row *ngFor="let subRun of run.subRuns; let i = index">
-                    {{subRun.startPlace.address.town}} - {{subRun.startDate | date: 'dd/MM/yyyy'}} {{subRun.startTime}} (heure estimée)<br>
-                    Passagers :
-                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" (click)="viewProfile(passenger.user)" col-auto>
+                    <span text-wrap>Départ : {{subRun.startPlace.address.town}} {{subRun.startPlace.address.district}} {{subRun.startPlace.address.meetingPoint}} le {{subRun.startDate | date: 'dd/MM/yyyy'}} à {{subRun.startTime}} (heure estimée)</span><br>
+                    <span text-wrap>Arrivé : {{subRun.endPlace.address.town}} {{subRun.endPlace.address.district}} {{subRun.endPlace.address.meetingPoint}} le {{subRun.estimatedEndDate | date: 'dd/MM/yyyy'}} à {{subRun.estimatedEndTime}} (heure estimée)</span><br>
+                    <ion-col col-12>Passagers :</ion-col>
+                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" (click)="passengerClick(i, j)" class="{{userState[i][j]}}" col-6>
                         {{passenger.user.firstName}} {{passenger.user.lastName | uppercase}}<br>
                         <ion-thumbnail>
                             <img src="{{passengersPhotos[i][j]}}">

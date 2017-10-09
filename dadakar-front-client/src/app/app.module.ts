@@ -14,6 +14,7 @@ import { MyApp } from './app.component';
 
 import { BookRunPage } from '../pages/book-run/book-run';
 import { HomePage } from '../pages/home/home';
+import { ManagedRunDetailsComponent } from '../components/managed-run-details/managed-run-details';
 import { ManageRunsPage } from '../pages/manage-runs/manage-runs';
 import { MenuBannedComponent } from '../components/menu-banned/menu-banned';
 import { MenuConnectedComponent } from '../components/menu-connected/menu-connected';
@@ -52,6 +53,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     BookRunPage,
     MyApp,
     HomePage,
+    ManagedRunDetailsComponent,
     ManageRunsPage,
     MenuBannedComponent,
     MenuConnectedComponent,
@@ -89,6 +91,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     BookRunPage,
     MyApp,
     HomePage,
+    ManagedRunDetailsComponent,
     ManageRunsPage,
     SearchResultPage,
     SignupPage,

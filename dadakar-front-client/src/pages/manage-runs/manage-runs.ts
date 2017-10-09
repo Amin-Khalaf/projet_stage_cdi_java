@@ -37,7 +37,8 @@ export class ManageRunsPage {
     constructor(private auth: AuthProvider, private loading: LoadingController, private menu: MenuController, private modal: ModalController, private runService: RunService, private userService: UserService) {
         this.menuConnectedActive();
         this.auth.authUser.subscribe(jwt => {
-            if(jwt) this.userAccountId = jwt.accountDTO.accountId
+            if(jwt) this.userAccountId = jwt.accountDTO.accountId;
+            this.connected = true;
             this.getRuns();
         });
     }
@@ -134,7 +135,8 @@ export class ManageRunsPage {
     viewDetails(run: Run) {
         let profile = this.modal.create(ManagedRunDetailsComponent ,{
             run: run,
-            connected: this.connected
+            connected: this.connected,
+            id: this.userAccountId
         });
         profile.present();
     }
