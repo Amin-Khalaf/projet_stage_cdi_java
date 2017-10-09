@@ -30,6 +30,8 @@ export class ManagedRunDetailsComponent {
     isDriver: boolean;
     nbRatings: number;
     note: number = 0;
+    passengers: any[][] = [[]];
+    passengerId: string = '';
     passengersPhotos: string[][] = [[]];
     photo: string;
     photos: string[] = [];
@@ -50,7 +52,7 @@ export class ManagedRunDetailsComponent {
         this.isDriver = (this.userId == this.run.driver.accountId);
         this.getAvatar(this.run.driver.photo, false);
         this.getRatings();
-        this.getPassengersPhotosAndRxState();
+        this.getPassengers();
     }
 
     dismiss(data: any): void {
@@ -84,7 +86,6 @@ export class ManagedRunDetailsComponent {
     }
 
     getAvatars(fileName: string, i: number, j: number): void {
-        console.log('connected : ' + this.connected + ', fileName : ' + fileName);
         if(this.connected && fileName != '') {
             this.imgService.findByFileName(fileName).subscribe(data => {
                 if(data) {
@@ -98,16 +99,43 @@ export class ManagedRunDetailsComponent {
         }
     }
 
+    getPassengers() {
+        this.setState();
+        let subRuns: SubRun[] = this.run.subRuns;
+        for(let i = 0, k = subRuns.length; i < k; i++ ) {
+            let passenger = {
+                passenger: null,
+                passengerIndex: 0,
+                nb: 0
+            }
+            for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
+                let condition: boolean;
+                this.isDriver ? condition = subRuns[i].passengers[j].reservationState == ResState.PENDING || subRuns[i].passengers[j].reservationState == ResState.ACCEPTED :
+                condition = true;
+                if(condition) {
+                    if(this.subRuns[i].passengers[j].user.accountId == this.passengerId) {
+                        passenger.nb++
+                    } else {
+                        if(this.passengerId) this.passengers[i].push(passenger);
+                        this.passengerId = this.subRuns[i].passengers[j].user.accountId;
+                        passenger = {
+                            passenger: this.subRuns[i].passengers[j],
+                            passengerIndex: j,
+                            nb: 1
+                        }
+                    }
+                }
+            }
+            this.passengers[i].push(passenger);
+        }
+        this.getPassengersPhotosAndRxState();
+    }
+
     getPassengersPhotosAndRxState(): void {
         let subRuns: SubRun[] = this.run.subRuns;
         for(let i = 0, k = subRuns.length; i < k; i++) {
             for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
                 this.getAvatars(subRuns[i].passengers[j].user.photo, i, j);
-                (subRuns[i].passengers[j].reservationState.toString() == 'PENDING' || subRuns[i].passengers[j].reservationState.toString() == ResState.PENDING.toString()) ? subRuns[i].passengers[j].reservationState = ResState.PENDING :
-                (subRuns[i].passengers[j].reservationState.toString() == 'ACCEPTED' || subRuns[i].passengers[j].reservationState.toString() == ResState.ACCEPTED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.ACCEPTED :
-                (subRuns[i].passengers[j].reservationState.toString() == 'REFUSED' || subRuns[i].passengers[j].reservationState.toString() == ResState.REFUSED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.REFUSED :
-                (subRuns[i].passengers[j].reservationState.toString() == 'CANCELLED'  || subRuns[i].passengers[j].reservationState.toString() == ResState.CANCELLED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.CANCELLED :
-                subRuns[i].passengers[j].reservationState = ResState.RUN_CANCELLED;
                 (subRuns[i].passengers[j].reservationState == ResState.PENDING) ? this.userState[i][j] = 'blue' :
                  (subRuns[i].passengers[j].reservationState == ResState.REFUSED) ? this.userState[i][j] = 'red' :
                 (subRuns[i].passengers[j].reservationState == ResState.ACCEPTED) ?  this.userState[i][j] = 'green' : this.userState[i][j] = 'purple';
@@ -137,7 +165,7 @@ export class ManagedRunDetailsComponent {
                             this.run.subRuns[subRunIndex].availableSeats--;
                             this.run.subRuns[subRunIndex].passengers[passengerIndex].reservationState = ResState.ACCEPTED;
                             this.runService.update(this.run).subscribe();
-                            this.getPassengersPhotosAndRxState();
+                            this.getPassengers();
                         }
                     },
                     {
@@ -146,7 +174,7 @@ export class ManagedRunDetailsComponent {
                         handler: () => {
                             this.run.subRuns[subRunIndex].passengers[passengerIndex].reservationState = ResState.REFUSED;
                             this.runService.update(this.run).subscribe();
-                            this.getPassengersPhotosAndRxState();
+                            this.getPassengers();
                         }
                     },
                     {
@@ -159,6 +187,21 @@ export class ManagedRunDetailsComponent {
                 ]
             });
             action.present();
+        } else {
+
+        }
+    }
+
+    setState() {
+        let subRuns: SubRun[] = this.run.subRuns;
+        for(let i = 0, k = subRuns.length; i < k; i++) {
+            for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
+                (subRuns[i].passengers[j].reservationState.toString() == 'PENDING' || subRuns[i].passengers[j].reservationState.toString() == ResState.PENDING.toString()) ? subRuns[i].passengers[j].reservationState = ResState.PENDING :
+                (subRuns[i].passengers[j].reservationState.toString() == 'ACCEPTED' || subRuns[i].passengers[j].reservationState.toString() == ResState.ACCEPTED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.ACCEPTED :
+                (subRuns[i].passengers[j].reservationState.toString() == 'REFUSED' || subRuns[i].passengers[j].reservationState.toString() == ResState.REFUSED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.REFUSED :
+                (subRuns[i].passengers[j].reservationState.toString() == 'CANCELLED'  || subRuns[i].passengers[j].reservationState.toString() == ResState.CANCELLED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.CANCELLED :
+                subRuns[i].passengers[j].reservationState = ResState.RUN_CANCELLED;
+            }
         }
     }
 
