@@ -160,7 +160,7 @@ getNbPassenger() {
         const toast = this.toast.create({
             message: 'la réservation à été effectué avec succès.',
             duration: 5000,
-            position: 'middle',
+            position: 'middle'
         });
         toast.present();
         this.nav.popToRoot();

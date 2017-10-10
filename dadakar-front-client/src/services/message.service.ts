@@ -24,7 +24,7 @@ export class MessageService {
         });
     }
 
-    add(message: Message) {
+    add(message: any) {
         return this.http.post(this.url + 'save', message, {headers : this.header}).map((res:Response) => res.json());
     }
 

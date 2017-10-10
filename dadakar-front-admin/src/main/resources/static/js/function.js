@@ -2,7 +2,6 @@
 	'use strict';
 	
 	function loadImg(target) {
-		console.log(target.id);
 		fetch("http://localhost:8180/dadakar/img/name:" + target.id, {
 				headers: {
 					"Authorization": $("#token").val(),
@@ -14,7 +13,6 @@
 				let img = document.getElementById(target.id);
 				let a = document.getElementById(target.id + "-" + img.getAttribute("alt"));
 				let url = URL.createObjectURL(blob);
-				console.log(url);
 				img.src = `${url}`;
 				a.href = `${url}`;
 			});	

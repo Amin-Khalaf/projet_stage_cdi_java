@@ -134,8 +134,6 @@ export class SearchResultPage {
                 run: run,
                 search: this.runService.getSearch()
             });
-        } else {
-            console.log('not connected')
         }
     }
 

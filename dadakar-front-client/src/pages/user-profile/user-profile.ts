@@ -3,6 +3,7 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ActionSheetController, AlertController, LoadingController, MenuController, ModalController, NavController, Platform } from 'ionic-angular';
 
+import { MessagesComponent } from '../../components/messages/messages';
 import { VehicleDetailsComponent } from '../../components/vehicle-details/vehicle-details';
 
 import { Account } from '../../models/account.model';
@@ -372,8 +373,13 @@ export class UserProfilePage {
     }
 
     readMessages(): void {
-        //TODO: this.nav.push(MsgPage);
-        console.log(this.messages);
+        let messages = this.modal.create(MessagesComponent, {
+            userId: this.user.userId
+        });
+        messages.onDidDismiss(() => {
+            this.getMessages();
+        });
+        messages.present();
     }
 
     saveAccount(): void {

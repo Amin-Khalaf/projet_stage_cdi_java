@@ -20,6 +20,8 @@ import { ManageRunsPage } from '../pages/manage-runs/manage-runs';
 import { MenuBannedComponent } from '../components/menu-banned/menu-banned';
 import { MenuConnectedComponent } from '../components/menu-connected/menu-connected';
 import { MenuNotConnectedComponent } from '../components/menu-not-connected/menu-not-connected';
+import { MessageComponent } from '../components/message/message';
+import { MessagesComponent } from '../components/messages/messages';
 import { AddressForm } from '../components/address-form/address-form';
 import { SearchResultPage } from '../pages/search-result/search-result';
 import { SignupPage } from '../pages/signup/signup';
@@ -62,6 +64,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MenuBannedComponent,
     MenuConnectedComponent,
     MenuNotConnectedComponent,
+    MessageComponent,
+    MessagesComponent,
     SearchResultPage,
     SignupPage,
     UserProfileComponent,
@@ -103,6 +107,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HomePage,
     ManagedRunDetailsComponent,
     ManageRunsPage,
+    MessageComponent,
+    MessagesComponent,
     SearchResultPage,
     SignupPage,
     UserProfileComponent,
