@@ -3,6 +3,7 @@ import { ActionSheetController, ModalController, NavController, NavParams, Platf
 import { LocalDate, LocalTime } from 'js-joda';
 
 import { UserProfileComponent } from '../../components/user-profile/user-profile';
+import { UserRatingComponent } from '../../components/user-rating/user-rating';
 
 import { Passenger } from '../../models/passenger.model';
 import { Rating } from '../../models/rating.model';
@@ -37,6 +38,7 @@ export class ManagedRunDetailsComponent {
     photo: string;
     photos: string[] = [];
     photoVehicule: string;
+    rateFirst: boolean;
     run: Run;
     search: Search;
     subRuns: SubRun[] = [];
@@ -58,6 +60,34 @@ export class ManagedRunDetailsComponent {
 
     dismiss(data: any): void {
         this.view.dismiss(data);
+    }
+
+    driverClick() {
+        //stop event if user want to view rates
+        if(this.rateFirst) {
+            this.rateFirst = false;
+        } else {
+            // interact only if user is not the driver
+            if(!this.isDriver) {
+                let buttons: any[] = [];
+                let buttonCancel = {text: 'Annuler', role: 'cancel', icon: !this.platform.is('ios') ? 'close' : '', handler: () => {}};
+                let buttonProfile = {text: 'Voir le profil', icon: !this.platform.is('ios') ? 'person' : '', handler: () => {
+                        this.viewProfile(this.run.driver);
+                    }
+                };
+                let buttonRate = {text: 'noter l\'utilisateur', icon: !this.platform.is('ios') ? 'star-outline' : '', handler: () => {
+                        this.rate(this.run.driver);
+                    }
+                };
+                buttons.push(buttonRate);
+                buttons.push(buttonProfile);
+                buttons.push(buttonCancel);
+                let action = this.actionSheet.create({
+                    buttons: buttons
+                });
+                action.present();
+            }
+        }
     }
 
     getAvatar(fileName: string, isVehicle: boolean): void {
@@ -113,7 +143,6 @@ export class ManagedRunDetailsComponent {
                 nb: 0
             }
             for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
-                console.log(this.subRuns[i].passengers[j]);
                 let condition: boolean;
                 this.isDriver ? condition = subRuns[i].passengers[j].reservationState == ResState.PENDING || subRuns[i].passengers[j].reservationState == ResState.ACCEPTED :
                 condition = true;
@@ -249,7 +278,19 @@ export class ManagedRunDetailsComponent {
     }
 
     rate(user: User) {
-        console.log("noter : " + user);
+        let rate = this.modal.create(UserRatingComponent, {
+            user: user,
+            raterAccountId: this.userId
+        });
+        rate.onDidDismiss(() => {
+            this.runService.findById(this.run.runId).subscribe(data => {
+                this.run = data;
+                this.nbRatings = this.run.driver.ratings.length;
+                this.subRuns = this.run.subRuns;
+                this.getRatings();
+            });
+        });
+        rate.present();
     }
 
     setState() {
@@ -274,6 +315,7 @@ export class ManagedRunDetailsComponent {
     }
 
     viewRates() {
+        this.rateFirst = true;
         this.nav.push(ViewRatingsPage, {
             user: this.run.driver
         });

@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text>Annuler</span>
+            </button>
+        </ion-buttons>
+        <ion-title>Evaluer {{user.firstName}}</ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="rate()">
+                <span *ngIf="!rated" ion-text>Enregistrer</span>
+                <span *ngIf="rated" ion-text>MàJ</span>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-card>
+        <img src="{{photo}}">
+        <div class="card-title">
+            <ul>
+                <li *ngFor="let icon of icons, let i = index">
+                    <h1><ion-icon class="yellow" [name]="icon" (click)="iconClick(i)"></ion-icon></h1>
+                </li>
+            </ul>
+        </div>
+        <ion-card-content>
+            <ion-textarea placeholder="Entrez votre commentaire" [(ngModel)]="comment"></ion-textarea>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

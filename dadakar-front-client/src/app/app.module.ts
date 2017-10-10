@@ -25,6 +25,7 @@ import { SearchResultPage } from '../pages/search-result/search-result';
 import { SignupPage } from '../pages/signup/signup';
 import { UserProfileComponent } from '../components/user-profile/user-profile';
 import { UserProfilePage } from '../pages/user-profile/user-profile';
+import { UserRatingComponent } from '../components/user-rating/user-rating';
 import { UserSignupPage } from '../pages/user-signup/user-signup';
 import { RateComponent } from '../components/rate/rate';
 import { RatingComponent } from '../components/rating/rating';
@@ -65,6 +66,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     SignupPage,
     UserProfileComponent,
     UserProfilePage,
+    UserRatingComponent,
     UserSignupPage,
     RateComponent,
     RatingComponent,
@@ -105,6 +107,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     SignupPage,
     UserProfileComponent,
     UserProfilePage,
+    UserRatingComponent,
     UserSignupPage,
     RateComponent,
     RatingComponent,
