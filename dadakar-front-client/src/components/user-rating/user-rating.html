@@ -8,7 +8,8 @@
         <ion-title>Evaluer {{user.firstName}}</ion-title>
         <ion-buttons start>
             <button ion-button (click)="rate()">
-                <span ion-text>Enregistrer</span>
+                <span *ngIf="!rated" ion-text>Enregistrer</span>
+                <span *ngIf="rated" ion-text>Mettre à jour</span>
             </button>
         </ion-buttons>
     </ion-toolbar>
