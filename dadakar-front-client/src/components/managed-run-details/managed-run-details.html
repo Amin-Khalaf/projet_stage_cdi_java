@@ -20,7 +20,7 @@
             </h1>
             <h3>Le {{run.subRuns[0].startDate | date: 'dd/MM/yyyy'}}</h3>
         </ion-item>
-        <ion-item>
+        <ion-item (click)="driverClick()">
             Conducteur : {{run.driver.firstName}} {{run.driver.lastName | uppercase }}<br>
             <div>
                 <rating score="{{note}}" max="5"></rating> <span (click)="viewRates()"> <u>{{nbRatings}} avis</u></span>

@@ -14,10 +14,17 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ul>
-        <li *ngFor="let icon of icons, let i = index">
-            <ion-icon [name]="icon" (click)="iconClick(i)"></ion-icon>
-        </li>
-    </ul>
-    <ion-textarea placeholder="Entrez votre commentaire" [(ngModel)]="rating.comment"></ion-textarea>
+    <ion-card>
+        <img src="{{photo}}">
+        <div class="card-title">
+            <ul>
+                <li *ngFor="let icon of icons, let i = index">
+                    <h1><ion-icon class="yellow" [name]="icon" (click)="iconClick(i)"></ion-icon></h1>
+                </li>
+            </ul>
+        </div>
+        <ion-card-content>
+            <ion-textarea placeholder="Entrez votre commentaire" [(ngModel)]="comment"></ion-textarea>
+        </ion-card-content>
+    </ion-card>
 </ion-content>
