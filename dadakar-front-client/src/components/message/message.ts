@@ -14,6 +14,7 @@ export class MessageComponent {
 
     mailbox: boolean;
     message: Message;
+    messageTab: string[];
     response: any = {
         horo: '',
         message: '',
@@ -25,6 +26,7 @@ export class MessageComponent {
 
     constructor(private msgService: MessageService, private params: NavParams, private toast: ToastController, private view: ViewController) {
         this.message = this.params.get("message");
+        this.messageTab = this.message.message.split('\n');
         this.mailbox = this.params.get("mailbox");
         this.response.object = 'Re : ' + this.message.object;
         this.response.message = '\n\nMessage d\'origine :\n' + this.message.message;

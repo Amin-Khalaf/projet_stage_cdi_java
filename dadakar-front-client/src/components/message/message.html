@@ -15,7 +15,11 @@
             <h3>{{message.object}}</h3>
         </ion-card-header>
         <ion-card-content>
-            <p>{{message.message}}</p>
+            <p>
+                <span *ngFor="let section of messageTab">
+                    {{section}}<br>
+                </span>
+            </p>
         </ion-card-content>
     </ion-card>
     <ion-card *ngIf="!message.replied && mailbox">
