@@ -18,6 +18,7 @@ public class Message {
 	private String object;
 	private String message;
 	private boolean seen;
+	private boolean replied;
 	
 	/* Constructors */
 	
@@ -89,12 +90,20 @@ public class Message {
 		this.seen = seen;
 	}
 
+	public boolean isReplied() {
+		return replied;
+	}
+
+	public void setReplied(boolean replied) {
+		this.replied = replied;
+	}
+
 	/* Methods */
 	
 	@Override
 	public String toString() {
 		return "Message [msgId=" + msgId + ", senderId=" + senderId + ", receiverId=" + receiverId + ", horo=" + horo
-				+ ", object=" + object + ", message=" + message + "]";
+				+ ", object=" + object + ", message=" + message + ", seen=" + seen + ", replied=" + replied + "]";
 	}
 
 }

@@ -3,9 +3,10 @@ import { LocalDateTime } from "js-joda";
 export interface Message {
     msgId?: string,
     senderId?: string,
-    reveiverId?: string,
+    receiverId?: string,
     horo?: LocalDateTime,
     object?: string,
     message?: string,
-    seen?: boolean
+    seen?: boolean,
+    replied?: boolean
 }

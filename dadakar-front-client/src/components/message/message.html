@@ -18,7 +18,7 @@
             <p>{{message.message}}</p>
         </ion-card-content>
     </ion-card>
-    <ion-card>
+    <ion-card *ngIf="!message.replied && mailbox">
         <ion-card-header>
             Répondre
         </ion-card-header>

@@ -12,21 +12,20 @@ import { MessageService } from '../../services/message.service';
 })
 export class MessageComponent {
 
+    mailbox: boolean;
     message: Message;
     response: any = {
-        msgId:'',
         horo: '',
         message: '',
         object: '',
-        reveiverId: '',
+        receiverId: '',
         seen: false,
         senderId: ''
     }
 
     constructor(private msgService: MessageService, private params: NavParams, private toast: ToastController, private view: ViewController) {
         this.message = this.params.get("message");
-        this.response.senderId = this.message.reveiverId;
-        this.response.reveiverId = this.message.senderId;
+        this.mailbox = this.params.get("mailbox");
         this.response.object = 'Re : ' + this.message.object;
         this.response.message = '\n\nMessage d\'origine :\n' + this.message.message;
     }
@@ -36,6 +35,8 @@ export class MessageComponent {
     }
 
     sendMessage() {
+        this.response.senderId = this.message.receiverId;
+        this.response.receiverId = this.message.senderId;
         this.response.horo = LocalDateTime.now().year() + "-" + LocalDateTime.now().monthValue() + "-" + LocalDateTime.now().dayOfMonth() + " " + LocalDateTime.now().hour() + ":" + LocalDateTime.now().minute();
         this.msgService.add(this.response).subscribe(() => {
             const toast = this.toast.create({
@@ -44,7 +45,10 @@ export class MessageComponent {
                 position: 'middle'
             });
             toast.present();
-            this.view.dismiss();
+            this.message.replied = true;
+            this.msgService.update(this.message).subscribe(() => {
+                this.view.dismiss();
+            });
         });
     }
 

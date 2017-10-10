@@ -13,9 +13,11 @@ import { MessageService } from '../../services/message.service';
 })
 export class MessagesComponent {
 
+    boxType: string = 'mailbox';
     messageType: string = 'all';
     messages: Message[] = [];
     messagesRead: Message[] = [];
+    messagesSend: Message[] = [];
     messagesUnread: Message[] = [];
     userId: string;
 
@@ -66,7 +68,17 @@ export class MessagesComponent {
                     else return 0;
                 });
             }
-            refresher.complete();
+            this.msgService.findBySenderId(this.userId).subscribe(data => {
+                if(data) {
+                    this.messagesSend = data;
+                    this.messagesSend = this.messagesSend.sort((a: Message, b: Message) => {
+                        if(a.horo < b.horo) return 1;
+                        else if(a.horo > b.horo) return -1;
+                        else return 0;
+                    });
+                }
+                refresher.complete();
+            });
         });
     }
 
@@ -97,12 +109,23 @@ export class MessagesComponent {
                     else return 0;
                 });
             }
+            this.msgService.findBySenderId(this.userId).subscribe(data => {
+                if(data) {
+                    this.messagesSend = data;
+                    this.messagesSend = this.messagesSend.sort((a: Message, b: Message) => {
+                        if(a.horo < b.horo) return 1;
+                        else if(a.horo > b.horo) return -1;
+                        else return 0;
+                    });
+                }
+            });
         });
     }
 
-    viewMessage(message: Message) {
+    viewMessage(message: Message, mailbox: boolean) {
         let messageView = this.modal.create(MessageComponent ,{
-            message: message
+            message: message,
+            mailbox: mailbox
         });
         messageView.onDidDismiss(() => {
             if(!message.seen) {
