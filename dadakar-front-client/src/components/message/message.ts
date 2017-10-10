@@ -13,8 +13,9 @@ import { MessageService } from '../../services/message.service';
 export class MessageComponent {
 
     message: Message;
-    response: Message = {
-        horo: LocalDateTime.now(),
+    response: any = {
+        msgId:'',
+        horo: '',
         message: '',
         object: '',
         reveiverId: '',
@@ -27,7 +28,7 @@ export class MessageComponent {
         this.response.senderId = this.message.reveiverId;
         this.response.reveiverId = this.message.senderId;
         this.response.object = 'Re : ' + this.message.object;
-        this.response.message = '\nMessage d\'origine :\n' + this.message.message;
+        this.response.message = '\n\nMessage d\'origine :\n' + this.message.message;
     }
 
     dismiss() {
@@ -35,6 +36,7 @@ export class MessageComponent {
     }
 
     sendMessage() {
+        this.response.horo = LocalDateTime.now().year() + "-" + LocalDateTime.now().monthValue() + "-" + LocalDateTime.now().dayOfMonth() + " " + LocalDateTime.now().hour() + ":" + LocalDateTime.now().minute();
         this.msgService.add(this.response).subscribe(() => {
             const toast = this.toast.create({
                 message: 'le message à bien été envoyé',

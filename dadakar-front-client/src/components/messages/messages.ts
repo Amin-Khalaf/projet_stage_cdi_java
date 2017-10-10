@@ -16,20 +16,12 @@ export class MessagesComponent {
     messageType: string = 'all';
     messages: Message[] = [];
     messagesRead: Message[] = [];
-    messageUnread: Message[] = [];
+    messagesUnread: Message[] = [];
     userId: string;
 
     constructor(private msgService: MessageService, private modal: ModalController, private params: NavParams, private view: ViewController) {
         this.userId = this.params.get("userId");
-        this.msgService.findByReceiverId(this.userId).subscribe(data => {
-            if(data) {
-                this.messages = data;
-                for(let i = 0, j = this.messages.length; i < j; i++) {
-                    if(this.messages[i].seen) this.messagesRead.push(this.messages[i])
-                    else this.messageUnread.push(this.messages[i]);
-                }
-            }
-        });
+        this.setMessages();
     }
 
     dismiss() {
@@ -43,7 +35,7 @@ export class MessagesComponent {
             case 'read':
                 return this.messagesRead;
             case 'unread':
-                return this.messageUnread;
+                return this.messagesUnread;
         }
     }
 
@@ -51,12 +43,60 @@ export class MessagesComponent {
         this.msgService.findByReceiverId(this.userId).subscribe(data => {
             if(data) {
                 this.messages = data;
+                this.messagesRead = [];
+                this.messagesUnread = [];
                 for(let i = 0, j = this.messages.length; i < j; i++) {
                     if(this.messages[i].seen) this.messagesRead.push(this.messages[i])
-                    else this.messageUnread.push(this.messages[i]);
+                    else this.messagesUnread.push(this.messages[i]);
                 }
+                //sorting message by descending date
+                this.messages = this.messages.sort((a: Message, b: Message) => {
+                    if(a.horo < b.horo) return 1;
+                    else if (a.horo > b.horo) return -1;
+                    else return 0;
+                });
+                this.messagesRead = this.messagesRead.sort((a: Message, b: Message) => {
+                    if(a.horo < b.horo) return 1;
+                    else if (a.horo > b.horo) return -1;
+                    else return 0;
+                });
+                this.messagesUnread = this.messagesUnread.sort((a: Message, b: Message) => {
+                    if(a.horo < b.horo) return 1;
+                    else if (a.horo > b.horo) return -1;
+                    else return 0;
+                });
             }
             refresher.complete();
+        });
+    }
+
+    setMessages() {
+        this.msgService.findByReceiverId(this.userId).subscribe(data => {
+            if(data) {
+                this.messages = data;
+                this.messagesRead = [];
+                this.messagesUnread = [];
+                for(let i = 0, j = this.messages.length; i < j; i++) {
+                    if(this.messages[i].seen) this.messagesRead.push(this.messages[i])
+                    else this.messagesUnread.push(this.messages[i]);
+                }
+                //sorting message by descending date
+                this.messages = this.messages.sort((a: Message, b: Message) => {
+                    if(a.horo < b.horo) return 1;
+                    else if (a.horo > b.horo) return -1;
+                    else return 0;
+                });
+                this.messagesRead = this.messagesRead.sort((a: Message, b: Message) => {
+                    if(a.horo < b.horo) return 1;
+                    else if (a.horo > b.horo) return -1;
+                    else return 0;
+                });
+                this.messagesUnread = this.messagesUnread.sort((a: Message, b: Message) => {
+                    if(a.horo < b.horo) return 1;
+                    else if (a.horo > b.horo) return -1;
+                    else return 0;
+                });
+            }
         });
     }
 
@@ -68,6 +108,7 @@ export class MessagesComponent {
             if(!message.seen) {
                 message.seen = true;
                 this.msgService.update(message).subscribe();
+                this.setMessages();
             }
         });
         messageView.present();
