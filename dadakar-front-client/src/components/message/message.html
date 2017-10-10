@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text>Fermer</span>
+            </button>
+        </ion-buttons>
+        <ion-title>{{message.object}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            <h5>Le {{message.horo | date:'dd/MM/yy HH:mm'}}</h5>
+            <h3>{{message.object}}</h3>
+        </ion-card-header>
+        <ion-card-content>
+            <p>{{message.message}}</p>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            Répondre
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item>
+                    <ion-label floating>Objet :</ion-label>
+                    <ion-input type="text" [(ngModel)]="response.object"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-textarea rows="5" placeholder="Entrez votre message ici..." [(ngModel)]="response.message"></ion-textarea>
+                </ion-item>
+                <ion-item>
+                    <button ion-button icon-only(click)="sendMessage()">
+                        <ion-icon name="share-alt"></ion-icon>
+                    </button>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

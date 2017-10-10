@@ -62,4 +62,8 @@
             </div>
         </form>
     </ion-list>
+    <div *ngIf="connected" text-center>
+        <span *ngIf="messageNotRead == 0" (click)="readMessages()"><u>pas de nouveaux messages</u></span>
+        <span *ngIf="messageNotRead > 0" (click)="readMessages()"><u>{{messageNotRead}} nouveau{{messageNotRead ==1 ? '' : 'x'}} message{{messageNotRead ==1 ? '' : 's'}}</u></span>
+    </div>
 </ion-content>
