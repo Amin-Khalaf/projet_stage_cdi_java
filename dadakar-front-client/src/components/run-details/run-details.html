@@ -68,9 +68,9 @@
                     <br>
                     {{subRun.startPlace.address.town}} - {{subRun.endPlace.address.town}}<br>
                     Le {{subRun.startDate | date: 'dd/MM/yyyy'}} {{subRun.startTime}} (heure estimée)<br>
-                    <span *ngIf="subRuns[i].passengers.length > 0">Passagers :</span>
-                    <span *ngIf="subRuns[i].passengers.length == 0">Pas encore de passagers</span>
-                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" (click)="viewProfile(passenger.user)" col-auto>
+                    <ion-col *ngIf="subRun.passengers.length > 0" col-12>Passagers :</ion-col>
+                    <ion-col *ngIf="subRun.passengers.length == 0" col-12>Pas encore de passagers</ion-col>
+                    <ion-col *ngFor="let passenger of subRun.passengers; let j = index" (click)="viewProfile(passenger.user)" col-6>
                         {{passenger.user.firstName}} {{passenger.user.lastName | uppercase}}<br>
                         <ion-thumbnail>
                             <img src="{{passengersPhotos[i][j]}}">

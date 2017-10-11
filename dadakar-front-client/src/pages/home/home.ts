@@ -74,11 +74,11 @@ export class HomePage implements OnInit {
 
     search(values: any, form: NgForm) {
         this.searchValues = {
-            startTown: 'Lille',//form.value.startTown,
-            startDistrict: 'Centre',//form.value.startDistrict,
+            startTown: 'Paris',//form.value.startTown,
+            startDistrict: '10 ème',//form.value.startDistrict,
             endTown: 'Dunkerque',//form.value.endTown,
             endDistrict: 'Nord', //form.value.endDistrict,
-            startDate: form.value.startDate
+            startDate: LocalDate.now().minusDays(1) //form.value.startDate
         }
         this.runService.setSearch(this.searchValues);
         this.navCtrl.push(SearchResultPage);
@@ -141,15 +141,17 @@ export class HomePage implements OnInit {
         this.messageNotRead = 0;
         this.userService.findByAccountId(this.accountId).subscribe(data => {
             let user: User = data;
-            this.userId = user.userId;
-            this.msgService.findByReceiverId(user.userId).subscribe(data => {
-                if(data) {
-                    this.messages = data;
-                    for(let i = 0, j = this.messages.length; i < j; i++) {
-                        if(!this.messages[i].seen) this.messageNotRead++;
+            if(user) {
+                this.userId = user.userId;
+                this.msgService.findByReceiverId(user.userId).subscribe(data => {
+                    if(data) {
+                        this.messages = data;
+                        for(let i = 0, j = this.messages.length; i < j; i++) {
+                            if(!this.messages[i].seen) this.messageNotRead++;
+                        }
                     }
-                }
-            });
+                });
+            }
         });
     }
 
