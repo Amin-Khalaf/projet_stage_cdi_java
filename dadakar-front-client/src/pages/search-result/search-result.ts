@@ -4,6 +4,8 @@ import { LoadingController, MenuController, ModalController, NavController } fro
 import { RunDetailsComponent } from '../../components/run-details/run-details';
 
 import { Run } from '../../models/run.model';
+import { SubRun } from '../../models/subrun.model';
+import { WayPoint } from '../../models/waypoint.model';
 
 import { BookRunPage } from '../../pages/book-run/book-run';
 
@@ -30,10 +32,12 @@ export class SearchResultPage {
     monnaie: string = config.monnaie;
     nbRuns: number;
     photos: string[] = [];
+    runPrice: number[] = [];
     runs: Run[] = [];
     startTown: string = this.runService.getSearch().startTown;
     endTown: string = this.runService.getSearch().endTown;
     private tempPrice: number = 0;
+    wantedSubRuns: SubRun[] = [];
 
 
     constructor(private authProvider: AuthProvider, private imgService: ImgService, private loader: LoadingController, private menu: MenuController, private modal: ModalController, private nav: NavController, private runService: RunService) {
@@ -85,12 +89,38 @@ export class SearchResultPage {
         }
     }
 
-    getFullPrice(run: Run): number {
+    getFullPrice(subRuns: SubRun[]): number {
         this.fullPrice = 0;
-        for(let i = 0, j = run.subRuns.length; i < j; i++) {
-            this.fullPrice += run.subRuns[i].price;
+        for(let i = 0, j = subRuns.length; i < j; i++) {
+            this.fullPrice += subRuns[i].price;
         }
         return this.fullPrice;
+    }
+
+    private findWantedSubRuns(run): void {
+        let tempStartingPoint: WayPoint;
+        for(let i = 0, j = run.subRuns.length; i < j; i++) {
+            // find first entry point
+            if(run.subRuns[i].startPlace.address.town == this.runService.getSearch().startTown && run.subRuns[i].startPlace.address.district == this.runService.getSearch().startDistrict) {
+                // add starting point
+                this.wantedSubRuns.push(run.subRuns[i]);
+                // if there is only one subrun => break otherwhise change startPlace
+                if(run.subRuns[i].endPlace.address.town == this.runService.getSearch().endTown && run.subRuns[i].endPlace.address.district == this.runService.getSearch().endDistrict) {
+                    break;
+                } else {
+                    tempStartingPoint = run.subRuns[i].endPlace;
+                }
+            } else if(tempStartingPoint != null && tempStartingPoint.address.town == run.subRuns[i].startPlace.address.town && tempStartingPoint.address.district == run.subRuns[i].startPlace.address.district) {
+                //add step
+                this.wantedSubRuns.push(run.subRuns[i]);
+                // if it is the last subrun => break otherwhise change startPlace
+                if(run.subRuns[i].endPlace.address.town == this.runService.getSearch().endTown && run.subRuns[i].endPlace.address.district == this.runService.getSearch().endDistrict) {
+                    break;
+                } else {
+                    tempStartingPoint = run.subRuns[i].endPlace;
+                }
+            }
+        }
     }
 
     private getItems() {
@@ -107,8 +137,10 @@ export class SearchResultPage {
                 this.runs = data;
                 this.nbRuns = this.runs.length;
                 for(let i = 0, j = this.nbRuns; i < j; i++) {
+                    this.findWantedSubRuns(this.runs[i]);
                     this.getAvatar(this.runs[i].driver.photo, i);
-                    this.tempPrice = this.getFullPrice(this.runs[i]);
+                    this.tempPrice = this.getFullPrice(this.wantedSubRuns);
+                    this.runPrice.push(this.tempPrice);
                     if(this.minPrice != 0) {
                         if(this.minPrice > this.tempPrice) {
                             this.minPrice = this.tempPrice;
