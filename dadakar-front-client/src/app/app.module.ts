@@ -29,6 +29,7 @@ import { RatingComponent } from '../components/rating/rating';
 import { RunCreate1Page } from '../pages/run-create1/run-create1';
 import { RunCreate2Page } from '../pages/run-create2/run-create2';
 import { RunCreate3Page } from '../pages/run-create3/run-create3';
+import { RunCreate4Page } from '../pages/run-create4/run-create4';
 import { RunDetailsComponent } from '../components/run-details/run-details';
 import { VehicleDetailsComponent } from '../components/vehicle-details/vehicle-details';
 import { ViewRatingsPage } from '../pages/view-ratings/view-ratings';
@@ -67,6 +68,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     RunCreate1Page,
     RunCreate2Page,
     RunCreate3Page,
+    RunCreate4Page,
     AddressForm,
     RunDetailsComponent,
     VehicleDetailsComponent,
@@ -105,6 +107,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     RunCreate1Page,
     RunCreate2Page,
     RunCreate3Page,
+    RunCreate4Page,
     RunDetailsComponent,
     VehicleDetailsComponent,
     ViewRatingsPage
