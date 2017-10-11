@@ -37,9 +37,9 @@ export class BookRunPage {
     photo: string;
     run: Run;
     search: Search;
-    subRunIndex: number;
+    subRunIndexes: number[] = [];
     user: User;
-    wantedSubRun: SubRun;
+    wantedSubRuns: SubRun[] = [];
 
 
   constructor(private authProvider: AuthProvider, private imgService: ImgService, private menu: MenuController, private nav: NavController, private params: NavParams, private runService: RunService, private toast: ToastController, private userService: UserService) {
@@ -52,18 +52,35 @@ export class BookRunPage {
       this.getUser();
       this.getRatings();
       this.getAvatar(this.run.driver.photo);
-      this.findWantedSubRun();
+      this.findWantedSubRuns();
   }
 
-  private findWantedSubRun(): void {
+  private findWantedSubRuns(): void {
+      let tempStartingPoint: WayPoint;
       for(let i = 0, j = this.run.subRuns.length; i < j; i++) {
-          let startPlace: WayPoint = this.run.subRuns[i].startPlace;
-          let endPlace: WayPoint = this.run.subRuns[i].endPlace;
-          if(startPlace.address.town == this.search.startTown || startPlace.address.district == this.search.startDistrict || endPlace.address.town == this.search.endTown || endPlace.address.district == this.search.endDistrict) {
-              this.subRunIndex = i;
-              this.wantedSubRun = this.run.subRuns[i];
-              this.max = this.wantedSubRun.availableSeats;
-              break;
+          // find first entry point
+          if(this.run.subRuns[i].startPlace.address.town == this.search.startTown && this.run.subRuns[i].startPlace.address.district == this.search.startDistrict) {
+              // add starting point
+              this.wantedSubRuns.push(this.run.subRuns[i]);
+              this.subRunIndexes.push(i);
+              this.max = this.run.subRuns[i].availableSeats;
+              // if there is only one subrun => break otherwhise change startPlace
+              if(this.run.subRuns[i].endPlace.address.town == this.search.endTown && this.run.subRuns[i].endPlace.address.district == this.search.endDistrict) {
+                  break;
+              } else {
+                  tempStartingPoint = this.run.subRuns[i].endPlace;
+              }
+          } else if(tempStartingPoint != null && tempStartingPoint.address.town == this.run.subRuns[i].startPlace.address.town && tempStartingPoint.address.district == this.run.subRuns[i].startPlace.address.district) {
+              //add step
+              this.wantedSubRuns.push(this.run.subRuns[i]);
+              this.subRunIndexes.push(i);
+              if(this.run.subRuns[i].availableSeats < this.max) this.max = this.run.subRuns[i].availableSeats;
+              // if it is the last subrun => break otherwhise change startPlace
+              if(this.run.subRuns[i].endPlace.address.town == this.search.endTown && this.run.subRuns[i].endPlace.address.district == this.search.endDistrict) {
+                  break;
+              } else {
+                  tempStartingPoint = this.run.subRuns[i].endPlace;
+              }
           }
       }
   }
@@ -145,16 +162,28 @@ getNbPassenger() {
   }
 
   reserver() {
-      let subRun: SubRun = this.run.subRuns[this.subRunIndex];
+      // setting full run price based on user subRuns price
+      let price: number = 0;
+      for(let i = 0, j = this.wantedSubRuns.length; i < j; i++) {
+          price += this.wantedSubRuns[i].price;
+      }
+      // setting passengers
+      let passengers: Passenger[] = [];
       for(let i = 0; i < this.nbPlaces; i++) {
           let passenger: Passenger = {
               luggageType: this.passengersLuggages[i] == 'PETIT' ? 0 : this.passengersLuggages[i] == 'MOYEN' ? 1 : 2,
               passengerId: '',
-              price: this.wantedSubRun.price,
+              price: price,
               reservationState: ResState.PENDING,
               user: this.user
           }
-          subRun.passengers.push(passenger);
+          passengers.push(passenger);
+      }
+      // adding passengers to subRuns
+      for(let i = 0, j = this.subRunIndexes.length; i < j; i++) {
+          for(let k = 0, l = passengers.length; k < l; k++) {
+              this.run.subRuns[this.subRunIndexes[i]].passengers.push(passengers[k]);
+          }
       }
       this.runService.update(this.run).subscribe(() => {
         const toast = this.toast.create({
