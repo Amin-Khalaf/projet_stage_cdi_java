@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 
-import { Luggage } from '../../models/enums/luggage.model';
 import { Vehicle } from '../../models/vehicle.model';
 
 import { RunCreate3Page } from '../run-create3/run-create3';
@@ -17,8 +16,7 @@ export class RunCreate2Page implements OnInit {
   formRunCreate2: FormGroup;
   runValues: any;
   minBackDate: string;
-  maxDate: string;
-  luggageTypes = [{ value: Luggage.PETIT, text: 'Petit' }, { value: Luggage.MOYEN, text: 'Moyen' }, { value: Luggage.GRAND, text: 'Grand' }];
+  luggageTypes = [{ value: 'PETIT', text: 'Petit' }, { value: 'MOYEN', text: 'Moyen' }, { value: 'GRAND', text: 'Grand' }];
   formIsValid: false;
   userVehicles: Vehicle[];
 
@@ -76,7 +74,9 @@ export class RunCreate2Page implements OnInit {
           distance: 0,
           district: this.runValues.addresses[i].district,
           town: this.runValues.addresses[i].town,
-          place: this.runValues.addresses[i].place
+          place: this.runValues.addresses[i].place,
+          toll: 0,
+          price: 0
         };
         backAddresses.push(newAddress);
       }
@@ -112,20 +112,20 @@ export class RunCreate2Page implements OnInit {
           // get the list of datetime and distance of each step (start -> (step1 ->)( ... ->) end)
           // google send back durations stocked as timestamp
           // set start datetime for first step and distance 0
-          this.runValues.backAddresses[0].dateTime = stepDateTime.toISOString();
+          this.runValues.backAddresses[0].dateTime = new Date(stepDateTime).toISOString();
           this.runValues.backAddresses[0].distance = 0;
           for (let i = 0; i < res.routes[0].legs.length; i++) {
             // set arrival datetime to next point
             stepDateTime.setTime(stepDateTime.getTime() + res.routes[0].legs[i].duration.value * 1000);
-            this.runValues.backAddresses[i + 1].dateTime = stepDateTime.toISOString();
+            this.runValues.backAddresses[i + 1].dateTime = new Date(stepDateTime).toISOString();
             // set distance to next point
             this.runValues.backAddresses[i + 1].distance = res.routes[0].legs[i].distance.value;
           }
-          console.log(this.runValues);
+          // console.log(this.runValues);
           // go to step 3
           this.navCtrl.push(RunCreate3Page, this.runValues);
         } else {
-          console.log(status);
+          // console.log(status);
           const toast = this.toastCtrl.create({
             message: 'Erreur lors de l\'appel du service de calcul de trajet ...',
             duration: 1500,

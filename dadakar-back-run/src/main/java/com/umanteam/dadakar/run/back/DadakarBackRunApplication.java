@@ -44,8 +44,8 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 
-		createRun();
-	//	populateAddresses();
+//		createRun();
+		populateAddresses();
 	}
 	
 //	@SuppressWarnings("unused")
@@ -80,7 +80,12 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 	@SuppressWarnings("unused")
 	private void populateAddresses(){
 		addressRepository.deleteAll();
-		Address address = new Address("Biscuiterie","Dakar");
+		Address address = null;
+		address = new Address("Bakel","Bakel");
+		addressRepository.insert(address);
+		address = new Address("Ballou","Ballou");
+		addressRepository.insert(address);
+		address = new Address("Biscuiterie","Dakar");
 		addressRepository.insert(address);
 		address = new Address("Cambérène","Dakar");
 		addressRepository.insert(address);
@@ -124,11 +129,39 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		addressRepository.insert(address);
 		address = new Address("Ouest","Pikine");
 		addressRepository.insert(address);
+		address = new Address("Kébémer","Kébémer");
+		addressRepository.insert(address);
+		address = new Address("Kédougou","Kédougou");
+		addressRepository.insert(address);
+		address = new Address("Kolda","Kolda");
+		addressRepository.insert(address);
+		address = new Address("Koumpenntoum","Koumpenntoum");
+		addressRepository.insert(address);
+		address = new Address("Manda","Manda");
+		addressRepository.insert(address);
+		address = new Address("Ourossogui","Ourossogui");
+		addressRepository.insert(address);
+		address = new Address("Ranérou","Ranérou");
+		addressRepository.insert(address);
+		address = new Address("Saint-Louis","Saint-Louis");
+		addressRepository.insert(address);
+		address = new Address("Saly","Saly");
+		addressRepository.insert(address);
+		address = new Address("Tambacounda","Tambacounda");
+		addressRepository.insert(address);
+		address = new Address("Tanaf","Tanaf");
+		addressRepository.insert(address);
 		address = new Address("Nord","Thies");
 		addressRepository.insert(address);
 		address = new Address("Sud","Thies");
 		addressRepository.insert(address);
-		address = new Address("Diassap","Diassap");
+		address = new Address("Thilogne","Thilogne");
+		addressRepository.insert(address);
+		address = new Address("Touba","Touba");
+		addressRepository.insert(address);
+		address = new Address("Vélingara","Vélingara");
+		addressRepository.insert(address);
+		address = new Address("Ziguinchor","Ziguinchor");
 		addressRepository.insert(address);
 	}
 	
