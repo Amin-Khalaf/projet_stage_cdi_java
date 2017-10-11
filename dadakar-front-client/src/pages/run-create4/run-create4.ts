@@ -166,12 +166,14 @@ export class RunCreate4Page implements OnInit {
             address: address
           };
           this.runValues.backAddresses[i].waypoint = waypoint;
-          let toll: Toll = {
-            name: this.runValues.addresses[i - 1].town + ',' + this.runValues.addresses[i - 1].district
-            + '-' + this.runValues.addresses[i].town + ',' + this.runValues.addresses[i].district,
-            price: this.runValues.backAddresses[i].toll
-          };
-          this.runValues.backAddresses[i].tollEntity = toll;
+          if (this.runValues.addresses[i].toll > 0) {
+            let toll: Toll = {
+              name: this.runValues.addresses[i - 1].town + ',' + this.runValues.addresses[i - 1].district
+              + '-' + this.runValues.addresses[i].town + ',' + this.runValues.addresses[i].district,
+              price: this.runValues.backAddresses[i].toll
+            };
+            this.runValues.backAddresses[i].tollEntity = toll;
+          }
         }
         // create run
         let run: Run = {
