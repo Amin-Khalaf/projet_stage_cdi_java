@@ -37,10 +37,10 @@
             <ion-item *ngFor="let run of getItems(runType, userType); let i = index" (click)="viewDetails(run)">
                 <h3 text-center text-wrap>
                     <span *ngFor="let subRun of getSubRuns(i, runType, userType); let j = index">
+                        <span *ngIf="j == 0">le {{subRun.startDate | date: 'dd/MM/yyyy'}} à {{subRun.startTime}} (heure estimée)</span><br>
                         <span *ngIf="j > 0"> - </span>
                         {{subRun.startPlace.address.town}}
                         <span *ngIf="j == subRuns.length - 1"> - {{subRun.endPlace.address.town}}</span><br>
-                        le {{subRun.startDate | date: 'dd/MM/yyyy'}} à {{subRun.startTime}} (heure estimée)
                     </span>
                 </h3>
             </ion-item>
