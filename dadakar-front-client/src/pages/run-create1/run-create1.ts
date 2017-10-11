@@ -113,7 +113,15 @@ export class RunCreate1Page implements OnInit {
     });
     loader.present();
     // store form data
-    let runValues = { user: this.user, addresses: [this.formRunCreate1.get('startAddress').value], startDateTrip: this.formRunCreate1.get('startDateTrip').value };
+    let runValues = {
+      user: this.user,
+      addresses: [this.formRunCreate1.get('startAddress').value],
+      backAddresses: null,
+      startDateTrip: this.formRunCreate1.get('startDateTrip').value,
+      nbPassengers: 0,
+      luggage: null,
+      flexibility: null
+    };
     let places = (<FormArray>this.formRunCreate1.get('places')).value;
     if (places != null && places.length > 0) {
       for (let place of places) {
@@ -153,20 +161,24 @@ export class RunCreate1Page implements OnInit {
         // get the list of datetime and distance of each step (start -> (step1 ->)( ... ->) end)
         // google send back durations stocked as timestamp
         // set start datetime for first step and distance 0
-        runValues.addresses[0].dateTime = stepDateTime.toISOString();
+        runValues.addresses[0].dateTime = new Date(stepDateTime).toISOString();
         runValues.addresses[0].distance = 0;
+        runValues.addresses[0].toll = 0; // toll will be needed later
+        runValues.addresses[0].price = { min: 0, price: 0, max: 0 }; // price will be needed later
         for (let i = 0; i < res.routes[0].legs.length; i++) {
           // set arrival datetime at step end  point
           stepDateTime.setTime(stepDateTime.getTime() + res.routes[0].legs[i].duration.value * 1000);
-          runValues.addresses[i + 1].dateTime = stepDateTime.toISOString();
+          runValues.addresses[i + 1].dateTime = new Date(stepDateTime).toISOString();
           // set distance at step end point
           runValues.addresses[i + 1].distance = res.routes[0].legs[i].distance.value;
+          runValues.addresses[i + 1].toll = 0; // toll will be needed later
+          runValues.addresses[i + 1].price = { min: 0, price: 0, max: 0 }; // price will be needed later
         }
-        console.log(runValues);
+        // console.log(runValues);
         // go to step 2
         this.navCtrl.push(RunCreate2Page, runValues);
       } else {
-        console.log(status);
+        // console.log(status);
         const toast = this.toastCtrl.create({
           message: 'Erreur lors de l\'appel du service de calcul de trajet ...',
           duration: 1500,
