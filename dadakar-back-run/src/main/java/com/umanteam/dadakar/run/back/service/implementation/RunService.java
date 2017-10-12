@@ -402,8 +402,25 @@ public class RunService implements IRunService {
 						districtFrom, townFrom, dateStart, districtTo, townTo, 0, false);
 		if (entity != null) {
 			for (Run runEntity : entity) {
-				RunDTO run = copyEntityToDto(runEntity);
-				runs.add(run);
+				// in some multi-steps run with go and back trip the same day, the query on a subrun sends back both runs
+				// need to avoid this
+				boolean sendRun = false;
+				SRLOOP : for (SubRun subrun : runEntity.getSubRuns()){
+					if (subrun.getEndPlace().getAddress().getDistrict().equals(districtTo)
+							&& subrun.getEndPlace().getAddress().getTown().equals(townTo)) {
+						for (WayPoint startingPoint: subrun.getStartingPoints()){
+							if (startingPoint.getAddress().getDistrict().equals(districtFrom)
+									&& startingPoint.getAddress().getTown().equals(townFrom)){
+								sendRun = true;
+								break SRLOOP;
+							}
+						}
+					}
+				}
+				if (sendRun){
+					RunDTO run = copyEntityToDto(runEntity);
+					runs.add(run);
+				}
 			}
 		}
 		return runs;

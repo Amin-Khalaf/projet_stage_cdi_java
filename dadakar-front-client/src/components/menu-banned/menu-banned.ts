@@ -5,6 +5,7 @@ import { AuthProvider } from '../../providers/auth';
 
 import { HomePage } from '../../pages/home/home';
 import { UserProfilePage } from '../../pages/user-profile/user-profile';
+import { AboutPage } from '../../pages/about/about';
 
 @Component({
   selector: 'menu-banned',
@@ -12,23 +13,23 @@ import { UserProfilePage } from '../../pages/user-profile/user-profile';
 })
 export class MenuBannedComponent {
 
-    constructor(private nav: App, private authProvider: AuthProvider) {}
+  constructor(private nav: App, private authProvider: AuthProvider) { }
 
-    home() {
-        this.nav.getActiveNavs()[0].popToRoot();
-    }
+  home() {
+    this.nav.getActiveNavs()[0].popToRoot();
+  }
 
-    myAccount() {
-        this.nav.getActiveNavs()[0].push(UserProfilePage);
-    }
+  myAccount() {
+    this.nav.getActiveNavs()[0].push(UserProfilePage);
+  }
 
-    logout() {
-        this.authProvider.logout();
-        this.nav.getActiveNavs()[0].popToRoot();
-    }
+  logout() {
+    this.authProvider.logout();
+    this.nav.getActiveNavs()[0].popToRoot();
+  }
 
-    about() {
-        this.nav.getActiveNavs()[0].push(HomePage);
-    }
+  about() {
+    this.nav.getActiveNavs()[0].push(AboutPage);
+  }
 
 }

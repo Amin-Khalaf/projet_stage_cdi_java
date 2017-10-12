@@ -1,75 +1,78 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>
-            Réserver
-        </ion-title>
-        <button ion-button [menuToggle]="activeMenu" right>
+  <ion-navbar>
+    <ion-title>
+      Réserver
+    </ion-title>
+    <button ion-button [menuToggle]="activeMenu" right>
             <ion-icon name="menu"></ion-icon>
         </button>
-    </ion-navbar>
+  </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <ion-list>
-        <ion-item>
-            <h1 text-center>
+  <ion-list>
+    <ion-item>
+      <h1 text-center>
                 <span *ngFor="let subRun of run.subRuns; let i = index">
                     <span *ngIf="i > 0"> - </span>
                     {{subRun.startPlace.address.town}}
                     <span *ngIf="i == run.subRuns.length - 1"> - {{subRun.endPlace.address.town}}</span>
                 </span>
             </h1>
-            <h3>Le {{run.subRuns[0].startDate | date: 'dd/MM/yyyy'}}</h3>
-        </ion-item>
-        <ion-item>
-            <div *ngFor="let wantedSubRun of wantedSubRuns">
-                <br>
-                Départ : {{wantedSubRun.startPlace.address.town}} - {{wantedSubRun.startPlace.address.district}}
-                <ul style="list-style: none">
-                    <li>{{ wantedSubRun.startPlace.meetingPoint}}</li>
-                    <li>{{wantedSubRun.startTime}} (heure estimée)</li>
-                </ul>
-                Arrivée : {{wantedSubRun.endPlace.address.town}} - {{wantedSubRun.endPlace.address.district}}
-                <ul style="list-style: none">
-                    <li>{{ wantedSubRun.endPlace.meetingPoint}}</li>
-                    <li>{{wantedSubRun.estimatedEndDate | date: 'dd/MM/yyyy'}} {{wantedSubRun.estimatedEndTime}} (heure estimée)</li>
-                </ul>
-                Nombre de places disponibles : {{wantedSubRun.availableSeats}}<br>
-                type de baggage permis : {{run.luggageType}}
-            </div>
-        </ion-item>
-        <ion-item>
-            Conducteur : {{run.driver.firstName}} {{run.driver.lastName | uppercase }}<br>
-            <div>
-                <rating score="{{note}}" max="5"></rating> <span (click)="viewRates()"> <u>{{nbRatings}} avis</u></span>
-            </div>
-            <ion-avatar item-end>
-                <img src="{{photo}}">
-            </ion-avatar>
-        </ion-item>
-        <ion-item>
-            <ion-label>Nombre de places à réserver : {{nbPlaces}}</ion-label>
-            <ion-range min="1" max="{{max}}" [(ngModel)]="nbPlaces" (ionChange)="getNbPassenger()">
-                <ion-label range-left>1</ion-label>
-                <ion-label range-right>{{max}}</ion-label>
-            </ion-range>
-        </ion-item>
-        <ion-label>Baggages :</ion-label>
-        <ion-item *ngFor="let i of nbPassengers">
-            <ion-label>Passager {{i}}</ion-label>
-            <ion-select okText="ok" cancelText="annuler"  [(ngModel)]="passengersLuggages[i-1]">
-                <ion-option value="PETIT" selected="true">Petit</ion-option>
-                <ion-option value="MOYEN" *ngIf="run.luggageType == 'GRAND' || run.luggageType == 'MOYEN'">Moyen</ion-option>
-                <ion-option value="GRAND" *ngIf="run.luggageType == 'GRAND'">Grand</ion-option>
-            </ion-select>
-        </ion-item>
-        <ion-item>
-            <ion-label>J'accepte les <a href="#">conditions générales</a></ion-label>
-            <ion-checkbox [(ngModel)]="generalConditionsAccepted"></ion-checkbox>
-        </ion-item>
-        <ion-item>
-            <button ion-button [disabled]="!generalConditionsAccepted" (click)="reserver()">
+      <h3>Le {{run.subRuns[0].startDate | date: 'dd/MM/yyyy'}}</h3>
+    </ion-item>
+    <ion-item>
+      <!-- <div *ngFor="let wantedSubRun of wantedSubRuns"> -->
+      <br> Départ : {{wantedSubRun.startPlace.address.town}} - {{wantedSubRun.startPlace.address.district}}
+      <ul style="list-style: none">
+        <li>{{ wantedSubRun.startPlace.meetingPoint}}</li>
+        <li>{{wantedSubRun.startTime}} (heure estimée)</li>
+      </ul>
+      Arrivée : {{wantedSubRun.endPlace.address.town}} - {{wantedSubRun.endPlace.address.district}}
+      <ul style="list-style: none">
+        <li>{{ wantedSubRun.endPlace.meetingPoint}}</li>
+        <li>{{wantedSubRun.estimatedEndDate | date: 'dd/MM/yyyy'}} {{wantedSubRun.estimatedEndTime}} (heure
+          estimée)
+        </li>
+      </ul>
+      Nombre de places disponibles : {{wantedSubRun.availableSeats}}<br> type de baggage permis : {{run.luggageType}}
+      <!-- </div> -->
+    </ion-item>
+    <ion-item>
+      Conducteur : {{run.driver.firstName}} {{run.driver.lastName | uppercase }}<br>
+      <div>
+        <rating score="{{note}}" max="5"></rating> <span (click)="viewRates()"> <u>{{nbRatings}} avis</u></span>
+      </div>
+      <ion-avatar item-end>
+        <img src="{{photo}}">
+      </ion-avatar>
+    </ion-item>
+    <ion-item>
+      <ion-label>Nombre de places à réserver : {{nbPlaces}}</ion-label>
+      <ion-range min="1" max="{{max}}" [(ngModel)]="nbPlaces" (ionChange)="getNbPassenger()">
+        <ion-label range-left>1</ion-label>
+        <ion-label range-right>{{max}}</ion-label>
+      </ion-range>
+    </ion-item>
+    <ion-label>Baggages :</ion-label>
+    <ion-item *ngFor="let i of nbPassengers">
+      <ion-label>Passager {{i}}</ion-label>
+      <ion-select okText="ok" cancelText="annuler" [(ngModel)]="passengersLuggages[i-1]">
+        <ion-option value="PETIT" selected="true">Petit</ion-option>
+        <ion-option value="MOYEN" *ngIf="run.luggageType == 'GRAND' || run.luggageType == 'MOYEN'">Moyen</ion-option>
+        <ion-option value="GRAND" *ngIf="run.luggageType == 'GRAND'">Grand</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      Prix total : {{ totalPrice | currency:monnaie:true:'1.2-2'}}
+    </ion-item>
+    <ion-item>
+      <ion-label>J'accepte les <a href="#">conditions générales</a></ion-label>
+      <ion-checkbox [(ngModel)]="generalConditionsAccepted"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <button ion-button block [disabled]="!generalConditionsAccepted" (click)="reserver()">
                 Valider ma reservation
             </button>
-        </ion-item>
-    </ion-list>
+    </ion-item>
+  </ion-list>
 </ion-content>

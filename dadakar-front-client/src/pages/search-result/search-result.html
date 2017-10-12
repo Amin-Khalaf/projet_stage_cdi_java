@@ -1,32 +1,53 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>
-            Résultat de la recherche
-        </ion-title>
-        <button ion-button [menuToggle]="activeMenu" right>
+  <ion-navbar>
+    <ion-title>
+      Résultat de la recherche
+    </ion-title>
+    <button ion-button [menuToggle]="activeMenu" right>
             <ion-icon name="menu"></ion-icon>
         </button>
-    </ion-navbar>
+  </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <h2>{{nbRuns}} {{startTown}} - {{endTown}} disponible{{nbRuns > 1 ? 's' : ''}}</h2>
-    <h3>de {{minPrice | currency:monnaie:true:'1.2-2'}} à {{maxPrice | currency:monnaie:true:'1.2-2'}}</h3>
-    <h4 *ngIf="!connected">Vous devez être connecté pour réserver.</h4>
-    <ion-list>
-        <ion-item-sliding *ngFor="let run of runs; let i = index">
-            <ion-item (click)="viewDetails(run)">
-                <ion-avatar item-start>
-                    <img src="{{photos[i]}}">
-                </ion-avatar>
-                <h3 item-start>{{run.driver.firstName}}</h3><h1 item-end>{{runPrice[i] | currency:monnaie:true:'1.2-2'}}</h1>
-            </ion-item>
-            <ion-item-options side="right">
-                <button ion-button [disabled]="!connected" (click)="reserve(run)">
+  <h2>{{nbRuns}} {{startTown}} - {{endTown}} disponible{{nbRuns > 1 ? 's' : ''}}</h2>
+  <h3>de {{minPrice | currency:monnaie:true:'1.2-2'}} à {{maxPrice | currency:monnaie:true:'1.2-2'}}</h3>
+  <h4 *ngIf="!connected">Vous devez être connecté pour réserver.</h4>
+  <ion-list>
+    <ion-item-sliding *ngFor="let run of runs; let i = index">
+      <ion-item (click)="viewDetails(run)">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-avatar>
+                <img src="{{photos[i]}}">
+              </ion-avatar>
+            </ion-col>
+            <ion-col>
+              <p>
+                départ : {{ dateTime[i].startDate | date: 'dd/MM/yyyy' }} {{ dateTime[i].startTime }}
+                <br /> Arrivée : {{ dateTime[i].endDate | date: 'dd/MM/yyyy' }} {{ dateTime[i].endTime
+                }}
+                <br /> {{ availableSeats[i] }} places disponibles
+              </p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <h3>{{run.driver.firstName}}</h3>
+            </ion-col>
+            <ion-col>
+              <h1>{{runPrice[i] | currency:monnaie:true:'1.2-2'}}</h1>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button [disabled]="!connected" (click)="reserve(run)">
                     <ion-icon name="cart">
                         Réserver
                     </ion-icon>
                 </button>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>

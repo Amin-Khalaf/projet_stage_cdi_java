@@ -38,6 +38,7 @@ import { RunCreate4Page } from '../pages/run-create4/run-create4';
 import { RunDetailsComponent } from '../components/run-details/run-details';
 import { VehicleDetailsComponent } from '../components/vehicle-details/vehicle-details';
 import { ViewRatingsPage } from '../pages/view-ratings/view-ratings';
+import { AboutPage } from '../pages/about/about'
 
 import { AuthProvider } from "../providers/auth";
 
@@ -82,7 +83,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     AddressForm,
     RunDetailsComponent,
     VehicleDetailsComponent,
-    ViewRatingsPage
+    ViewRatingsPage,
+    AboutPage
   ],
   imports: [
     BrowserModule,
@@ -125,7 +127,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     RunCreate4Page,
     RunDetailsComponent,
     VehicleDetailsComponent,
-    ViewRatingsPage
+    ViewRatingsPage,
+    AboutPage
   ],
   providers: [
     AuthProvider,
