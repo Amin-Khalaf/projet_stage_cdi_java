@@ -122,13 +122,6 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		address = new Address("Sicap-Liberté","Dakar");
 		addressRepository.insert(address);
 		address = new Address("Yoff","Dakar");
-		addressRepository.insert(address);
-		address = new Address("Est","Pikine");
-		addressRepository.insert(address);
-		address = new Address("Nord","Pikine");
-		addressRepository.insert(address);
-		address = new Address("Ouest","Pikine");
-		addressRepository.insert(address);
 		address = new Address("Kébémer","Kébémer");
 		addressRepository.insert(address);
 		address = new Address("Kédougou","Kédougou");
@@ -140,6 +133,13 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		address = new Address("Manda","Manda");
 		addressRepository.insert(address);
 		address = new Address("Ourossogui","Ourossogui");
+		addressRepository.insert(address);
+		addressRepository.insert(address);
+		address = new Address("Est","Pikine");
+		addressRepository.insert(address);
+		address = new Address("Nord","Pikine");
+		addressRepository.insert(address);
+		address = new Address("Ouest","Pikine");
 		addressRepository.insert(address);
 		address = new Address("Ranérou","Ranérou");
 		addressRepository.insert(address);
