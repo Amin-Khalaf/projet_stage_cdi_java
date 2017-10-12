@@ -33,7 +33,7 @@ export class RunDetailsComponent {
     search: Search;
     subRuns: SubRun[] = [];
     vehicle: Vehicle;
-    wantedSubRun: SubRun;
+    wantedSubRuns: SubRun[] = [];
 
     constructor(private imgService: ImgService, private modal: ModalController, private nav: NavController, private params: NavParams, private view: ViewController) {
         this.connected = this.params.get('connected');
@@ -44,7 +44,7 @@ export class RunDetailsComponent {
         this.getAvatar(this.run.driver.photo, false);
         this.getRatings();
         this.findVehicle();
-        this.findWantedSubRun();
+        this.findWantedSubRuns();
         this.getPassengersPhotos();
     }
 
@@ -52,13 +52,28 @@ export class RunDetailsComponent {
         this.view.dismiss(data);
     }
 
-    findWantedSubRun(): void {
+    findWantedSubRuns(): void {
+        let tempStartingPoint: WayPoint;
         for(let i = 0, j = this.run.subRuns.length; i < j; i++) {
-            let startPlace: WayPoint = this.run.subRuns[i].startPlace;
-            let endPlace: WayPoint = this.run.subRuns[i].endPlace;
-            if(startPlace.address.town == this.search.startTown || startPlace.address.district == this.search.startDistrict || endPlace.address.town == this.search.endTown || endPlace.address.district == this.search.endDistrict) {
-                this.wantedSubRun = this.run.subRuns[i];
-                break;
+            // find first entry point
+            if(this.run.subRuns[i].startPlace.address.town == this.search.startTown && this.run.subRuns[i].startPlace.address.district == this.search.startDistrict) {
+                // add starting point
+                this.wantedSubRuns.push(this.run.subRuns[i]);
+                // if there is only one subrun => break otherwhise change startPlace
+                if(this.run.subRuns[i].endPlace.address.town == this.search.endTown && this.run.subRuns[i].endPlace.address.district == this.search.endDistrict) {
+                    break;
+                } else {
+                    tempStartingPoint = this.run.subRuns[i].endPlace;
+                }
+            } else if(tempStartingPoint != null && tempStartingPoint.address.town == this.run.subRuns[i].startPlace.address.town && tempStartingPoint.address.district == this.run.subRuns[i].startPlace.address.district) {
+                //add step
+                this.wantedSubRuns.push(this.run.subRuns[i]);
+                // if it is the last subrun => break otherwhise change startPlace
+                if(this.run.subRuns[i].endPlace.address.town == this.search.endTown && this.run.subRuns[i].endPlace.address.district == this.search.endDistrict) {
+                    break;
+                } else {
+                    tempStartingPoint = this.run.subRuns[i].endPlace;
+                }
             }
         }
     }
@@ -101,6 +116,11 @@ export class RunDetailsComponent {
     }
 
     getAvatars(fileName: string, i: number, j: number): void {
+        console.log("pp");
+        console.log(this.passengersPhotos);
+        console.log("pp(i)");
+        console.log(this.passengersPhotos[i]);
+        if(typeof(this.passengersPhotos[i]) === 'undefined') this.passengersPhotos[i] = [];
         if(this.connected && fileName != '') {
             this.imgService.findByFileName(fileName).subscribe(data => {
                 if(data) {
@@ -112,12 +132,16 @@ export class RunDetailsComponent {
         } else {
             this.passengersPhotos[i][j] = '/assets/img/avatar.png';
         }
+        console.log("i: " + i + ", j : " + j);
+        console.log(this.passengersPhotos);
     }
 
     getPassengersPhotos(): void {
         let subRuns = this.run.subRuns;
         for(let i = 0, k = subRuns.length; i < k; i++) {
             for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
+                console.log("i : " + i + ", j : " + j);
+                console.log(subRuns[i].passengers[j].user.photo);
                 this.getAvatars(subRuns[i].passengers[j].user.photo, i, j);
             }
         }

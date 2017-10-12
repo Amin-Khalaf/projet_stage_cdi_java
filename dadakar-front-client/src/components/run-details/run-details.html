@@ -23,21 +23,23 @@
                     <span *ngIf="i == run.subRuns.length - 1"> - {{subRun.endPlace.address.town}}</span>
                 </span>
             </h1>
-            <h3>Le {{wantedSubRun.startDate | date: 'dd/MM/yyyy'}}</h3>
+            <h3>Le {{run.subRuns[0].startDate | date: 'dd/MM/yyyy'}}</h3>
         </ion-item>
         <ion-item>
-            Départ : {{wantedSubRun.startPlace.address.town}} - {{wantedSubRun.startPlace.address.district}}
-            <ul style="list-style: none">
-                <li>{{ wantedSubRun.startPlace.meetingPoint}}</li>
-                <li>{{wantedSubRun.startTime}} (heure estimée)</li>
-            </ul>
-            Arrivée : {{wantedSubRun.endPlace.address.town}} - {{wantedSubRun.endPlace.address.district}}
-            <ul style="list-style: none">
-                <li>{{ wantedSubRun.endPlace.meetingPoint}}</li>
-                <li>{{wantedSubRun.estimatedEndDate | date: 'dd/MM/yyyy'}} {{wantedSubRun.estimatedEndTime}} (heure estimée)</li>
-            </ul>
-            Nombre de places disponibles : {{wantedSubRun.availableSeats}}<br>
-            type de baggage permis : {{run.luggageType}}
+            <div *ngFor="let wantedSubRun of wantedSubRuns">
+                Départ : {{wantedSubRun.startPlace.address.town}} - {{wantedSubRun.startPlace.address.district}}
+                <ul style="list-style: none">
+                    <li>{{ wantedSubRun.startPlace.meetingPoint}}</li>
+                    <li>{{wantedSubRun.startTime}} (heure estimée)</li>
+                </ul>
+                Arrivée : {{wantedSubRun.endPlace.address.town}} - {{wantedSubRun.endPlace.address.district}}
+                <ul style="list-style: none">
+                    <li>{{ wantedSubRun.endPlace.meetingPoint}}</li>
+                    <li>{{wantedSubRun.estimatedEndDate | date: 'dd/MM/yyyy'}} {{wantedSubRun.estimatedEndTime}} (heure estimée)</li>
+                </ul>
+                Nombre de places disponibles : {{wantedSubRun.availableSeats}}<br>
+                type de baggage permis : {{run.luggageType}}<br>
+            </div>
         </ion-item>
         <ion-item>
             Conducteur : {{run.driver.firstName}} {{run.driver.lastName | uppercase }}<br>
@@ -63,9 +65,12 @@
             Itinéraire :
             <ion-grid>
                 <ion-row *ngFor="let subRun of run.subRuns; let i = index">
-                    {{subRun.startPlace.address.town}} - {{subRun.startDate | date: 'dd/MM/yyyy'}} {{subRun.startTime}} (heure estimée)<br>
-                    Passagers :
-                    <ion-col *ngFor="let passenger of subRuns[i].passengers; let j = index" (click)="viewProfile(passenger.user)" col-auto>
+                    <br>
+                    {{subRun.startPlace.address.town}} - {{subRun.endPlace.address.town}}<br>
+                    Le {{subRun.startDate | date: 'dd/MM/yyyy'}} {{subRun.startTime}} (heure estimée)<br>
+                    <ion-col *ngIf="subRun.passengers.length > 0" col-12>Passagers :</ion-col>
+                    <ion-col *ngIf="subRun.passengers.length == 0" col-12>Pas encore de passagers</ion-col>
+                    <ion-col *ngFor="let passenger of subRun.passengers; let j = index" (click)="viewProfile(passenger.user)" col-6>
                         {{passenger.user.firstName}} {{passenger.user.lastName | uppercase}}<br>
                         <ion-thumbnail>
                             <img src="{{passengersPhotos[i][j]}}">

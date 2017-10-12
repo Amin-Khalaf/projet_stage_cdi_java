@@ -55,7 +55,8 @@ export class ManagedRunDetailsComponent {
         this.isDriver = (this.userId == this.run.driver.accountId);
         this.getAvatar(this.run.driver.photo, false);
         this.getRatings();
-        this.getPassengers();
+        this.setState();
+        this.getPassengersPhotosAndRxState();
     }
 
     dismiss(data: any): void {
@@ -118,6 +119,7 @@ export class ManagedRunDetailsComponent {
 
     getAvatars(fileName: string, i: number, j: number): void {
         this.passengersPhotos = [[]];
+        this.passengersPhotos[i] = [];
         if(this.connected && fileName != '') {
             this.imgService.findByFileName(fileName).subscribe(data => {
                 if(data) {
@@ -131,48 +133,47 @@ export class ManagedRunDetailsComponent {
         }
     }
 
-    getPassengers() {
+    getSubRunPassengers(i: number): any[] {
+        let passenger = {
+            passenger: null,
+            passengerIndex: 0,
+            nb: 0,
+            state: ''
+        }
         this.passengerId = '';
-        this.passengers = [[]];
-        this.setState();
-        let subRuns: SubRun[] = this.run.subRuns;
-        for(let i = 0, k = subRuns.length; i < k; i++ ) {
-            let passenger = {
-                passenger: null,
-                passengerIndex: 0,
-                nb: 0
-            }
-            for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
-                let condition: boolean;
-                this.isDriver ? condition = subRuns[i].passengers[j].reservationState == ResState.PENDING || subRuns[i].passengers[j].reservationState == ResState.ACCEPTED :
-                condition = true;
-                if(condition) {
-                    if(this.subRuns[i].passengers[j].user.accountId == this.passengerId) {
-                        passenger.nb++
-                    } else {
-                        if(this.passengerId) this.passengers[i].push(passenger);
-                        this.passengerId = this.subRuns[i].passengers[j].user.accountId;
-                        passenger = {
-                            passenger: this.subRuns[i].passengers[j],
-                            passengerIndex: j,
-                            nb: 1
-                        }
+        let temp: any[] = [];
+        for(let j = 0, l = this.run.subRuns[i].passengers.length; j < l; j++) {
+            let condition: boolean;
+            this.isDriver ? condition = this.run.subRuns[i].passengers[j].reservationState == ResState.PENDING || this.run.subRuns[i].passengers[j].reservationState == ResState.ACCEPTED :
+            condition = true;
+            if(condition) {
+                if(this.run.subRuns[i].passengers[j].user.accountId == this.passengerId) {
+                    passenger.nb++
+                } else {
+                    if(this.passengerId) temp.push(passenger);
+                    this.passengerId = this.run.subRuns[i].passengers[j].user.accountId;
+                    let state: string;
+                    let resState: ResState = this.run.subRuns[i].passengers[j].reservationState;
+                    (resState == ResState.PENDING) ? state = 'blue' : (resState == ResState.REFUSED) ? state = 'red' : (resState == ResState.ACCEPTED) ? state = 'green' : state = 'purple';
+                    passenger = {
+                        passenger: this.run.subRuns[i].passengers[j],
+                        passengerIndex: j,
+                        nb: 1,
+                        state: state
                     }
                 }
             }
-            this.passengers[i].push(passenger);
         }
-        this.getPassengersPhotosAndRxState();
+        if(passenger.nb) temp.push(passenger);
+        return temp;
     }
 
     getPassengersPhotosAndRxState(): void {
         let subRuns: SubRun[] = this.run.subRuns;
         for(let i = 0, k = subRuns.length; i < k; i++) {
+            this.userState[i] = [];
             for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
                 this.getAvatars(subRuns[i].passengers[j].user.photo, i, j);
-                (subRuns[i].passengers[j].reservationState == ResState.PENDING) ? this.userState[i][j] = 'blue' :
-                 (subRuns[i].passengers[j].reservationState == ResState.REFUSED) ? this.userState[i][j] = 'red' :
-                (subRuns[i].passengers[j].reservationState == ResState.ACCEPTED) ?  this.userState[i][j] = 'green' : this.userState[i][j] = 'purple';
             }
         }
     }
@@ -191,19 +192,31 @@ export class ManagedRunDetailsComponent {
     passengerClick(subRunIndex: number, passenger: any) {
         let buttons: any[] = [];
         let buttonAccept = {text: 'Accepter', icon: !this.platform.is('ios') ? 'checkmark-circle' : '',handler: () => {
-                this.run.subRuns[subRunIndex].availableSeats-= passenger.nb;
-                for(let i = 0; i < passenger.nb; i++) this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex + i].reservationState = ResState.ACCEPTED;
-                this.runService.update(this.run).subscribe(() => this.getPassengers());
+                for(let i = 0, j = this.run.subRuns.length; i < j; i++) {
+                    for(let k = 0, l = this.run.subRuns[i].passengers.length; k < l; k++) {
+                        if(this.run.subRuns[i].passengers[k] == passenger.passenger) {
+                            this.run.subRuns[i].availableSeats-= passenger.nb;
+                            for(let m = 0; m < passenger.nb; m++) this.run.subRuns[i].passengers[k + m].reservationState = ResState.ACCEPTED;
+                        }
+                    }
+                }
+                this.runService.update(this.run).subscribe(() => {this.setState(); this.getPassengersPhotosAndRxState();});
             }
         };
         let buttonCancel = {text: 'Annuler', role: 'cancel', icon: !this.platform.is('ios') ? 'close' : '', handler: () => {}};
         let buttonCancelReservation = {text: 'Annuler la reservation', icon: !this.platform.is('ios') ? 'close-circle' : '', handler: () => {
-                // if run still reserved, free seats
-                if(this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex].reservationState == ResState.ACCEPTED) this.run.subRuns[subRunIndex].availableSeats += passenger.nb;
-                // change state to CANCELLED
-                for(let i = 0; i < passenger.nb; i++) this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex + i].reservationState = ResState.CANCELLED;
+                for(let i = 0, j = this.run.subRuns.length; i < j; i++) {
+                    for(let k = 0, l = this.run.subRuns[i].passengers.length; k < l; k++) {
+                        if(this.run.subRuns[i].passengers[k] == passenger.passenger) {
+                            // if run still reserved, free seats
+                            if(this.run.subRuns[i].passengers[k].reservationState == ResState.ACCEPTED) this.run.subRuns[i].availableSeats += passenger.nb;
+                            // change state to CANCELLED
+                            for(let m = 0; m < passenger.nb; m++) this.run.subRuns[i].passengers[k + m].reservationState = ResState.CANCELLED;
+                        }
+                    }
+                }
                 // save the run
-                this.runService.update(this.run).subscribe(() => this.getPassengers());
+                this.runService.update(this.run).subscribe(() => {this.setState(); this.getPassengersPhotosAndRxState();});
             }
         };
         let buttonProfile = {text: 'Voir le profil', icon: !this.platform.is('ios') ? 'person' : '', handler: () => {
@@ -216,19 +229,35 @@ export class ManagedRunDetailsComponent {
         };
         let buttonRefuse = {text: 'Refuser', icon: !this.platform.is('ios') ? 'close-circle' : '', handler: () => {
                 for(let i = 0; i < passenger.nb; i++) this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex + i].reservationState = ResState.REFUSED;
-                this.runService.update(this.run).subscribe(() => this.getPassengers());
+                this.runService.update(this.run).subscribe(() => {this.setState(); this.getPassengersPhotosAndRxState();});
             }
         };
         let buttonRestoreReservation = {text: 'Reserver à nouveau', icon: !this.platform.is('ios') ? 'refresh-circle' : '', handler: () => {
-                // change state to PENDING
-                for(let i = 0; i < passenger.nb; i++) this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex + i].reservationState = ResState.PENDING;
+                for(let i = 0, j = this.run.subRuns.length; i < j; i++) {
+                    for(let k = 0, l = this.run.subRuns[i].passengers.length; k < l; k++) {
+                        if(this.run.subRuns[i].passengers[k] == passenger.passenger) {
+                            // change state to PENDING
+                            for(let m = 0; m < passenger.nb; m++) this.run.subRuns[i].passengers[k + m].reservationState = ResState.PENDING;
+                        }
+                    }
+                }
                 // save the run
-                this.runService.update(this.run).subscribe(() => this.getPassengers());
+                this.runService.update(this.run).subscribe(() => {this.setState(); this.getPassengersPhotosAndRxState();});
             }
         };
         buttons.push(buttonCancel);
         if(this.isDriver) {
-            if(passenger.nb <= this.run.subRuns[subRunIndex].availableSeats && this.run.subRuns[subRunIndex].startDate >= LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)){
+            let availableSeats: number = -1;
+            for(let i = 0, j = this.run.subRuns.length; i < j; i++) {
+                for(let k = 0, l = this.run.subRuns[i].passengers.length; k < l; k++) {
+                    if(this.run.subRuns[i].passengers[i] == passenger.passenger) {
+                        // check availableSeats
+                        if(availableSeats == -1) availableSeats = this.run.subRuns[i].availableSeats;
+                        if(this.run.subRuns[i].availableSeats < availableSeats) availableSeats = this.run.subRuns[i].availableSeats;
+                    }
+                }
+            }
+            if(passenger.nb <= availableSeats && this.run.subRuns[subRunIndex].startDate >= LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)){
                 //driver and available seats ok to reserve and run not passed
                 buttons.push(buttonAccept);
                 buttons.push(buttonRefuse);
@@ -275,6 +304,16 @@ export class ManagedRunDetailsComponent {
                 }
             }
         }
+        // buttons.push(buttonRate);
+        // buttons.push(buttonRefuse);
+        // buttons.push(buttonAccept);
+        // buttons.push(buttonProfile);
+        // buttons.push(buttonCancelReservation);
+        // buttons.push(buttonRestoreReservation);
+        // let action = this.actionSheet.create({
+        //     buttons: buttons
+        // });
+        // action.present();
     }
 
     rate(user: User) {

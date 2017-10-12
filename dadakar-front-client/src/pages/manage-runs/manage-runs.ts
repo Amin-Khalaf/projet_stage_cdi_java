@@ -19,6 +19,8 @@ import { UserService } from '../../services/user.service';
 })
 export class ManageRunsPage {
 
+    temp: number = 0;
+
     activeMenu: string;
     connected: boolean;
     runsAllAll: Run[] = [];
@@ -31,6 +33,7 @@ export class ManageRunsPage {
     runsPassedDriver: Run[] = [];
     runsPassedPassenger: Run[] = [];
     runType: string = "all";
+    subRuns: SubRun[] = [];
     userAccountId: string;
     userType: string = "all";
 
@@ -129,6 +132,78 @@ export class ManageRunsPage {
                     case 'passenger':
                     return this.runsPassedPassenger;
                 }
+        }
+    }
+
+    getSubRuns(runIndex: number, runType: string, userType: string): SubRun[] {
+        this.subRuns = [];
+        switch(runType) {
+            case 'all':
+                switch(userType) {
+                    case 'all':
+                    this.getAsAll(this.runsAllAll[runIndex]);
+                    break;
+                    case 'driver':
+                    this.subRuns = this.runsAllDriver[runIndex].subRuns;
+                    break;
+                    case 'passenger':
+                    this.getAsPassenger(this.runsAllPassenger[runIndex]);
+                    break;
+                }
+                break;
+            case 'upcomming':
+                switch(userType) {
+                    case 'all':
+                    this.getAsAll(this.runsUpcommingAll[runIndex]);
+                    break;
+                    case 'driver':
+                    this.subRuns = this.runsUpcommingDriver[runIndex].subRuns;
+                    break;
+                    case 'passenger':
+                    this.getAsPassenger(this.runsUpcommingPassenger[runIndex]);
+                    break;
+                }
+                break;
+            case 'passed':
+                switch(userType) {
+                    case 'all':
+                    this.getAsAll(this.runsPassedAll[runIndex]);
+                    break;
+                    case 'driver':
+                    this.subRuns = this.runsPassedDriver[runIndex].subRuns;
+                    break;
+                    case 'passenger':
+                    this.getAsPassenger(this.runsPassedPassenger[runIndex]);
+                    break;
+                }
+                break;
+        }
+        return this.subRuns;
+    }
+
+    private getAsAll(run: Run): void {
+        if(run.driver.accountId == this.userAccountId) {
+            this.subRuns = run.subRuns;
+        } else {
+            for(let i = 0, j = run.subRuns.length; i < j; i++) {
+                for(let k = 0, l = run.subRuns[i].passengers.length; k < l; k++) {
+                    if(run.subRuns[i].passengers[k].user.accountId == this.userAccountId) {
+                        this.subRuns.push(run.subRuns[i]);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private getAsPassenger(run: Run): void {
+        for(let i = 0, j = run.subRuns.length; i < j; i++) {
+            for(let k = 0, l = run.subRuns[i].passengers.length; k < l; k++) {
+                if(run.subRuns[i].passengers[k].user.accountId == this.userAccountId) {
+                    this.subRuns.push(run.subRuns[i]);
+                    break;
+                }
+            }
         }
     }
 

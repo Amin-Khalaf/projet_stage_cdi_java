@@ -9,7 +9,7 @@
     </ion-navbar>
 </ion-header>
 <ion-content padding>
-    <h2>{{nbRuns}} {{startTown}} - {{endTown}} disponibles</h2>
+    <h2>{{nbRuns}} {{startTown}} - {{endTown}} disponible{{nbRuns > 1 ? 's' : ''}}</h2>
     <h3>de {{minPrice | currency:monnaie:true:'1.2-2'}} à {{maxPrice | currency:monnaie:true:'1.2-2'}}</h3>
     <h4 *ngIf="!connected">Vous devez être connecté pour réserver.</h4>
     <ion-list>
@@ -18,7 +18,7 @@
                 <ion-avatar item-start>
                     <img src="{{photos[i]}}">
                 </ion-avatar>
-                <h3 item-start>{{run.driver.firstName}}</h3><h1 item-end>{{getFullPrice(run) | currency:monnaie:true:'1.2-2'}}</h1>
+                <h3 item-start>{{run.driver.firstName}}</h3><h1 item-end>{{runPrice[i] | currency:monnaie:true:'1.2-2'}}</h1>
             </ion-item>
             <ion-item-options side="right">
                 <button ion-button [disabled]="!connected" (click)="reserve(run)">

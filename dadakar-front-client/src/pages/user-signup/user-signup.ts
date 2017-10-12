@@ -38,7 +38,7 @@ export class UserSignupPage {
         return name + ".jpeg";
     }
 
-    getPicture(source: number, location: string, form: NgForm): void {
+    getPicture(source: number, form: NgForm, location: string): void {
         let destination: Image;
         const option: CameraOptions = {
             destinationType: 0,
@@ -66,9 +66,8 @@ export class UserSignupPage {
                 this.drivingLicenceToSend = destination;
                 this.userDrivingLicence = 'data:image/jpeg;base64,' + value;
             }
-            form.controls[location].setValue('ok');
         });
-
+        form.controls[location].setValue('ok');
     }
 
     signup(values: any): void {

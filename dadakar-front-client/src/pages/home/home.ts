@@ -141,21 +141,23 @@ export class HomePage implements OnInit {
     this.findDistricts(town, index);
   }
 
-  private getMessages(): void {
-    this.messageNotRead = 0;
-    this.userService.findByAccountId(this.accountId).subscribe(data => {
-      let user: User = data;
-      this.userId = user.userId;
-      this.msgService.findByReceiverId(user.userId).subscribe(data => {
-        if (data) {
-          this.messages = data;
-          for (let i = 0, j = this.messages.length; i < j; i++) {
-            if (!this.messages[i].seen) this.messageNotRead++;
-          }
-        }
-      });
-    });
-  }
+    private getMessages(): void {
+        this.messageNotRead = 0;
+        this.userService.findByAccountId(this.accountId).subscribe(data => {
+            let user: User = data;
+            if(user) {
+                this.userId = user.userId;
+                this.msgService.findByReceiverId(user.userId).subscribe(data => {
+                    if(data) {
+                        this.messages = data;
+                        for(let i = 0, j = this.messages.length; i < j; i++) {
+                            if(!this.messages[i].seen) this.messageNotRead++;
+                        }
+                    }
+                });
+            }
+        });
+    }
 
   readMessages(): void {
     let messages = this.modal.create(MessagesComponent, {
