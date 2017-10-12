@@ -63,7 +63,7 @@ export class MenuNotConnectedComponent {
             this.authProvider
             .login(this.account)
             .finally(() => loading.dismiss())
-            .subscribe(() => {this.showLogin = !this.showLogin; }, err => this.handleError(err));
+            .subscribe(() => this.subLogin(), err => this.handleError(err));
 
         }
 

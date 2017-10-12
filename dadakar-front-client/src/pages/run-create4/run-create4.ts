@@ -131,6 +131,7 @@ export class RunCreate4Page implements OnInit {
         estimatedEndDate: LocalDate.parse(endDateStr),
         estimatedEndTime: LocalTime.parse(endTimeStr),
         availableSeats: this.runValues.nbPassengers,
+        passengers: [],
         startingPoints: [],
         tolls: [],
         price: this.runValues.addresses[i + 1].price.price

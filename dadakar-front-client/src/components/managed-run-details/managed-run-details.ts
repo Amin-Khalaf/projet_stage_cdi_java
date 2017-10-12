@@ -172,8 +172,10 @@ export class ManagedRunDetailsComponent {
         let subRuns: SubRun[] = this.run.subRuns;
         for(let i = 0, k = subRuns.length; i < k; i++) {
             this.userState[i] = [];
-            for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
-                this.getAvatars(subRuns[i].passengers[j].user.photo, i, j);
+            if(subRuns[i].passengers != null) {
+                for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
+                    this.getAvatars(subRuns[i].passengers[j].user.photo, i, j);
+                }
             }
         }
     }
@@ -335,12 +337,14 @@ export class ManagedRunDetailsComponent {
     setState() {
         let subRuns: SubRun[] = this.run.subRuns;
         for(let i = 0, k = subRuns.length; i < k; i++) {
-            for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
-                (subRuns[i].passengers[j].reservationState.toString() == 'PENDING' || subRuns[i].passengers[j].reservationState.toString() == ResState.PENDING.toString()) ? subRuns[i].passengers[j].reservationState = ResState.PENDING :
-                (subRuns[i].passengers[j].reservationState.toString() == 'ACCEPTED' || subRuns[i].passengers[j].reservationState.toString() == ResState.ACCEPTED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.ACCEPTED :
-                (subRuns[i].passengers[j].reservationState.toString() == 'REFUSED' || subRuns[i].passengers[j].reservationState.toString() == ResState.REFUSED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.REFUSED :
-                (subRuns[i].passengers[j].reservationState.toString() == 'CANCELLED'  || subRuns[i].passengers[j].reservationState.toString() == ResState.CANCELLED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.CANCELLED :
-                subRuns[i].passengers[j].reservationState = ResState.RUN_CANCELLED;
+            if(subRuns[i].passengers != null) {
+                for(let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
+                    (subRuns[i].passengers[j].reservationState.toString() == 'PENDING' || subRuns[i].passengers[j].reservationState.toString() == ResState.PENDING.toString()) ? subRuns[i].passengers[j].reservationState = ResState.PENDING :
+                    (subRuns[i].passengers[j].reservationState.toString() == 'ACCEPTED' || subRuns[i].passengers[j].reservationState.toString() == ResState.ACCEPTED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.ACCEPTED :
+                    (subRuns[i].passengers[j].reservationState.toString() == 'REFUSED' || subRuns[i].passengers[j].reservationState.toString() == ResState.REFUSED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.REFUSED :
+                    (subRuns[i].passengers[j].reservationState.toString() == 'CANCELLED'  || subRuns[i].passengers[j].reservationState.toString() == ResState.CANCELLED.toString()) ? subRuns[i].passengers[j].reservationState = ResState.CANCELLED :
+                    subRuns[i].passengers[j].reservationState = ResState.RUN_CANCELLED;
+                }
             }
         }
     }

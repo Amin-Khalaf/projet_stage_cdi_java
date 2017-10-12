@@ -48,7 +48,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		populateAddresses();
 	}
 	
-//	@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private void createRun() {
 		runRepo.deleteAll();
 		List<Passenger> passengers = new ArrayList<>();
@@ -77,7 +77,7 @@ public class DadakarBackRunApplication implements CommandLineRunner {
 		}
 	}
 		
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private void populateAddresses(){
 		addressRepository.deleteAll();
 		Address address = null;

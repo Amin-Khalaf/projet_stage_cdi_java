@@ -88,6 +88,51 @@ export class ManageRunsPage {
                                 if(passed) this.runsPassedPassenger.push(this.runsAllPassenger[i]);
                                 else this.runsUpcommingPassenger.push(this.runsAllPassenger[i]);
                             }
+                            this.runsAllAll.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
+                            this.runsAllDriver.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
+                            this.runsAllPassenger.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
+                            this.runsPassedAll.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
+                            this.runsPassedDriver.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
+                            this.runsPassedPassenger.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
+                            this.runsUpcommingAll.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
+                            this.runsUpcommingDriver.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
+                            this.runsUpcommingPassenger.sort((a, b) => {
+                                if(a.subRuns[0].startDate > b.subRuns[0].startDate) return -1;
+                                else if(a.subRuns[0].startDate < b.subRuns[0].startDate) return 1;
+                                else return 0;
+                            });
                             loading.dismiss();
                         });
                     });

@@ -363,8 +363,8 @@ public class RunService implements IRunService {
 	@Override
 	public List<RunDTO> findPassedRunsByUserId(String userId) {
 		List<RunDTO> runs = new ArrayList<>();
-		List<Run> entity = runRepository.findByDriverAccountIdIsOrSubRunsPassengersUserAccountIdIsAndSubRunsEstimatedEndDateLessThan(
-				userId, userId, LocalDate.now());
+		List<Run> entity = runRepository.findByDriverAccountIdIsAndSubRunsEstimatedEndDateLessThanOrSubRunsPassengersUserAccountIdIsAndSubRunsEstimatedEndDateLessThan(
+				userId, LocalDate.now(), userId, LocalDate.now());
 		if (entity != null) {
 			for (Run runEntity : entity) {
 				RunDTO run = copyEntityToDto(runEntity);
