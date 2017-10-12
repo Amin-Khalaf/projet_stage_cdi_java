@@ -5,14 +5,12 @@ import { LocalDate, LocalTime } from 'js-joda';
 import { UserProfileComponent } from '../../components/user-profile/user-profile';
 import { UserRatingComponent } from '../../components/user-rating/user-rating';
 
-import { Passenger } from '../../models/passenger.model';
 import { Rating } from '../../models/rating.model';
 import { Run } from '../../models/run.model';
 import { Search } from '../../models/search.model';
 import { SubRun } from '../../models/subrun.model';
 import { User } from '../../models/user.model';
 import { Vehicle } from '../../models/vehicle.model';
-import { WayPoint } from '../../models/waypoint.model';
 
 import { ResState } from '../../models/enums/resstate.model';
 

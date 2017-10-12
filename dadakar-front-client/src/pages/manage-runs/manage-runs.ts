@@ -6,12 +6,10 @@ import { ManagedRunDetailsComponent } from '../../components/managed-run-details
 
 import { Run } from '../../models/run.model';
 import { SubRun } from '../../models/subrun.model';
-import { User } from '../../models/user.model';
 
 import { AuthProvider } from '../../providers/auth';
 
 import { RunService } from '../../services/run.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
     selector: 'page-manage-runs',
@@ -37,7 +35,7 @@ export class ManageRunsPage {
     userAccountId: string;
     userType: string = "all";
 
-    constructor(private auth: AuthProvider, private loading: LoadingController, private menu: MenuController, private modal: ModalController, private runService: RunService, private userService: UserService) {
+    constructor(private auth: AuthProvider, private loading: LoadingController, private menu: MenuController, private modal: ModalController, private runService: RunService) {
         this.menuConnectedActive();
         this.auth.authUser.subscribe(jwt => {
             if(jwt) this.userAccountId = jwt.accountDTO.accountId;

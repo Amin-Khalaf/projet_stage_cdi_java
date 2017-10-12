@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { LoadingController, MenuController, ModalController, NavController } from 'ionic-angular';
-import { LocalDate, LocalTime, DateTimeFormatter } from 'js-joda';
 
 import { RunDetailsComponent } from '../../components/run-details/run-details';
 
@@ -110,7 +109,7 @@ export class SearchResultPage {
         // add availableSeats
         this.availableSeats.push(run.subRuns[i].availableSeats)
         // add start date and time
-        let startDateStr = run.subRuns[i].startDate;
+        // let startDateStr = run.subRuns[i].startDate;
         this.dateTime.push({
           startDate: run.subRuns[i].startDate,
           startTime: run.subRuns[i].startTime,
@@ -172,7 +171,7 @@ export class SearchResultPage {
             this.maxPrice = this.tempPrice;
           }
         }
-        console.log(this.dateTime);
+//        console.log(this.dateTime);
       } else {
         this.nbRuns = 0;
       }

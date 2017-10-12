@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuController, NavController, NavParams, ToastController } from 'ionic-angular'
 
-import { Luggage } from '../../models/enums/luggage.model';
 import { Passenger } from '../../models/passenger.model';
 import { Rating } from '../../models/rating.model';
 import { ResState } from '../../models/enums/resstate.model';
@@ -150,10 +149,12 @@ export class BookRunPage {
 
   private getUser() {
     this.authProvider.authUser.subscribe(jwt => {
-      let accountId: string = jwt.accountDTO.accountId;
-      this.userService.findByAccountId(accountId).subscribe(data => {
-        this.user = data;
-      });
+        if(jwt) {
+            let accountId: string = jwt.accountDTO.accountId;
+            this.userService.findByAccountId(accountId).subscribe(data => {
+                this.user = data;
+            });
+        }
     });
   }
 

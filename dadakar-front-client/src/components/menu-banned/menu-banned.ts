@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 
 import { AuthProvider } from '../../providers/auth';
 
-import { HomePage } from '../../pages/home/home';
 import { UserProfilePage } from '../../pages/user-profile/user-profile';
 import { AboutPage } from '../../pages/about/about';
 
