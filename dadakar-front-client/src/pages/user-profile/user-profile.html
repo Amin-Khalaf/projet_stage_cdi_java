@@ -44,7 +44,7 @@
             </ion-avatar>
             <h2 *ngIf="!accountIsUpdating" (click)="updateAccount()">{{account.username}}</h2>
             <h1 *ngIf="!nameIsUpdating" (click)="updateName()">{{u.lastName}} {{u.firstName}}</h1>
-            <h3 *ngIf="!mailIsUpdating" (click)="updateMail()">{{u.mail}}</h3>
+            <h3 *ngIf="!mailIsUpdating" (click)="updateMail()">{{u.mail != '' ? u.mail : 'e-m@il'}}</h3>
             <div>
                 <rating score="{{note}}" max="5"></rating> <span (click)="viewRates()"> <u>{{nbRatings}} avis</u></span>
             </div>

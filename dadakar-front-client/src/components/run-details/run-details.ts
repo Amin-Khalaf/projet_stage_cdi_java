@@ -167,16 +167,12 @@ export class RunDetailsComponent {
     } else {
       this.passengersPhotos[i][j] = '/assets/img/avatar.png';
     }
-    console.log("i: " + i + ", j : " + j);
-    console.log(this.passengersPhotos);
   }
 
   getPassengersPhotos(): void {
     let subRuns = this.run.subRuns;
     for (let i = 0, k = subRuns.length; i < k; i++) {
       for (let j = 0, l = subRuns[i].passengers.length; j < l; j++) {
-        console.log("i : " + i + ", j : " + j);
-        console.log(subRuns[i].passengers[j].user.photo);
         this.getAvatars(subRuns[i].passengers[j].user.photo, i, j);
       }
     }
