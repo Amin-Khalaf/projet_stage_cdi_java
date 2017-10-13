@@ -257,13 +257,13 @@ export class ManagedRunDetailsComponent {
                     }
                 }
             }
-            if(passenger.nb <= availableSeats && this.run.subRuns[subRunIndex].startDate >= LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)){
+            if(passenger.nb <= availableSeats && (this.run.subRuns[subRunIndex].startDate > LocalDate.now() ||(this.run.subRuns[subRunIndex].startDate == LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)))){
                 //driver and available seats ok to reserve and run not passed
                 buttons.push(buttonAccept);
                 buttons.push(buttonRefuse);
                 buttons.push(buttonProfile);
             } else {
-                if(this.run.subRuns[subRunIndex].startDate >= LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)) {
+                if(this.run.subRuns[subRunIndex].startDate > LocalDate.now() || (this.run.subRuns[subRunIndex].startDate == LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30))) {
                     //driver and run not passed but available seats not ok to reserve
                     buttons.push(buttonRefuse);
                     buttons.push(buttonProfile);
@@ -278,7 +278,7 @@ export class ManagedRunDetailsComponent {
             });
             action.present();
         } else {
-            if( this.run.subRuns[subRunIndex].startDate >= LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30)) {
+            if(this.run.subRuns[subRunIndex].startDate > LocalDate.now() || (this.run.subRuns[subRunIndex].startDate == LocalDate.now() && this.run.subRuns[subRunIndex].startTime > LocalTime.now().plusMinutes(30))) {
                 //passenger and run not passed
                 if(this.userId == this.run.subRuns[subRunIndex].passengers[passenger.passengerIndex].user.accountId) {
                     //user is this passenger can cancel if not, can re-book if cancel
