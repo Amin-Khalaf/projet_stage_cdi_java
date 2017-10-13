@@ -112,11 +112,13 @@ export class RunCreate2Page implements OnInit {
           // get the list of datetime and distance of each step (start -> (step1 ->)( ... ->) end)
           // google send back durations stocked as timestamp
           // set start datetime for first step and distance 0
+          this.runValues.backAddresses[0].duration = 0;
           this.runValues.backAddresses[0].dateTime = new Date(stepDateTime).toISOString();
           this.runValues.backAddresses[0].distance = 0;
           for (let i = 0; i < res.routes[0].legs.length; i++) {
             // set arrival datetime to next point
             stepDateTime.setTime(stepDateTime.getTime() + res.routes[0].legs[i].duration.value * 1000);
+            this.runValues.backAddresses[i + 1].duration = res.routes[0].legs[i].duration.value * 1000;
             this.runValues.backAddresses[i + 1].dateTime = new Date(stepDateTime).toISOString();
             // set distance to next point
             this.runValues.backAddresses[i + 1].distance = res.routes[0].legs[i].distance.value;

@@ -103,9 +103,11 @@ public class RunService implements IRunService {
 				if (subRun.getTolls() != null) {
 					List<Toll> tollsEntity = new ArrayList<>();
 					for (TollDTO toll : subRun.getTolls()) {
-						Toll tollEntity = new Toll();
-						BeanUtils.copyProperties(toll, tollEntity);
-						tollsEntity.add(tollEntity);
+						if (toll != null){
+							Toll tollEntity = new Toll();
+							BeanUtils.copyProperties(toll, tollEntity);
+							tollsEntity.add(tollEntity);
+						}
 					}
 					subRunEntity.setTolls(tollsEntity);
 				}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LocalDate } from 'js-joda';
 import { MenuController, ModalController, NavController, AlertController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
@@ -25,6 +25,8 @@ import { User } from '../../models/user.model';
   templateUrl: 'home.html'
 })
 export class HomePage implements OnInit {
+
+  @ViewChild('searchRunsForm') searchRunsForm: NgForm;
 
   accountId: string;
   activeMenu: string;
@@ -104,21 +106,24 @@ export class HomePage implements OnInit {
   }
 
   findDistricts(town: string, index: number) {
-    this.addressService.findByTown(town).subscribe(
-      data => {
-        if (data.length == 0) {
-          this.handleError('Aucun quartier trouvé');
+    if (town && town != '') {
+      this.addressService.findByTown(town).subscribe(
+        data => {
+          if (data.length == 0) {
+            this.handleError('Aucun quartier trouvé');
+          } else {
+            if (this.listDistricts.length >= index + 1) {
+              this.listDistricts[index] = data;
+            } else {
+              this.listDistricts.push(data);
+            }
+          }
+        },
+        error => {
+          this.handleError(error.json().error);
         }
-        if (this.listDistricts.length >= index + 1) {
-          this.listDistricts[index] = data;
-        } else {
-          this.listDistricts.push(data);
-        }
-      },
-      error => {
-        this.handleError(error.json().error);
-      }
-    );
+      );
+    }
   }
 
   ionViewWillEnter() {
@@ -134,6 +139,7 @@ export class HomePage implements OnInit {
         this.menuNotConnectedActive();
       }
     });
+    this.searchRunsForm.reset();
   }
 
   onSelectTown(town: string, index: number, values: any) {
@@ -141,23 +147,23 @@ export class HomePage implements OnInit {
     this.findDistricts(town, index);
   }
 
-    private getMessages(): void {
-        this.messageNotRead = 0;
-        this.userService.findByAccountId(this.accountId).subscribe(data => {
-            let user: User = data;
-            if(user) {
-                this.userId = user.userId;
-                this.msgService.findByReceiverId(user.userId).subscribe(data => {
-                    if(data) {
-                        this.messages = data;
-                        for(let i = 0, j = this.messages.length; i < j; i++) {
-                            if(!this.messages[i].seen) this.messageNotRead++;
-                        }
-                    }
-                });
+  private getMessages(): void {
+    this.messageNotRead = 0;
+    this.userService.findByAccountId(this.accountId).subscribe(data => {
+      let user: User = data;
+      if (user) {
+        this.userId = user.userId;
+        this.msgService.findByReceiverId(user.userId).subscribe(data => {
+          if (data) {
+            this.messages = data;
+            for (let i = 0, j = this.messages.length; i < j; i++) {
+              if (!this.messages[i].seen) this.messageNotRead++;
             }
+          }
         });
-    }
+      }
+    });
+  }
 
   readMessages(): void {
     let messages = this.modal.create(MessagesComponent, {
