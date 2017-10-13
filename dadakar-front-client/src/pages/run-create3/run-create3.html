@@ -48,7 +48,7 @@
               <ion-label floating>Date et heure</ion-label>
               <ion-datetime doneText="valider" cancelText="Annuler" name="dateTime{{ i }}" minuteValues="0,5,10,15,20,25,30,35,40,45,50,55"
                 displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD MMM YY HH mm" [(ngModel)]="address.dateTime"
-                [disabled]="i == 0"></ion-datetime>
+                (ionChange)="upDate('go', i)" [disabled]="i == 0"></ion-datetime>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -84,7 +84,7 @@
                 <ion-label floating>Date et heure</ion-label>
                 <ion-datetime doneText="valider" cancelText="Annuler" minuteValues="0,5,10,15,20,25,30,35,40,45,50,55"
                   displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD MMM YY HH mm" name="backDateTime{{ i }}"
-                  [(ngModel)]="backAddress.dateTime" [disabled]="i == 0"></ion-datetime>
+                  (ionChange)="upDate('back', i)" [(ngModel)]="backAddress.dateTime" [disabled]="i == 0"></ion-datetime>
               </ion-item>
             </ion-col>
           </ion-row>

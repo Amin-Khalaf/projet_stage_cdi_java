@@ -161,6 +161,7 @@ export class RunCreate1Page implements OnInit {
         // get the list of datetime and distance of each step (start -> (step1 ->)( ... ->) end)
         // google send back durations stocked as timestamp
         // set start datetime for first step and distance 0
+        runValues.addresses[0].duration = 0;
         runValues.addresses[0].dateTime = new Date(stepDateTime).toISOString();
         runValues.addresses[0].distance = 0;
         runValues.addresses[0].toll = 0; // toll will be needed later
@@ -168,6 +169,7 @@ export class RunCreate1Page implements OnInit {
         for (let i = 0; i < res.routes[0].legs.length; i++) {
           // set arrival datetime at step end  point
           stepDateTime.setTime(stepDateTime.getTime() + res.routes[0].legs[i].duration.value * 1000);
+          runValues.addresses[i + 1].duration = res.routes[0].legs[i].duration.value * 1000;
           runValues.addresses[i + 1].dateTime = new Date(stepDateTime).toISOString();
           // set distance at step end point
           runValues.addresses[i + 1].distance = res.routes[0].legs[i].distance.value;

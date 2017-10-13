@@ -30,4 +30,26 @@ export class RunCreate3Page implements OnInit {
     this.navCtrl.push(RunCreate4Page, this.runValues);
   }
 
+  upDate(trip: string, index: number) {
+    // update date time of addresses following the modified one
+    console.log(trip + ' : ' + index);
+    if (trip == 'go') {
+      this.changeDates(this.runValues.addresses, index);
+    } else {
+      this.changeDates(this.runValues.backAddresses, index);
+    }
+    console.log(this.runValues);
+  }
+
+  changeDates(addresses: any, index: number) {
+    console.log('changeDate');
+    let newDate = new Date(addresses[index].dateTime);
+    console.log(newDate);
+    for (let i = index + 1; i < this.runValues.addresses.length; i++) {
+      newDate.setTime(newDate.getTime() + addresses[i].duration);
+      console.log(i + " : " + newDate);
+      addresses[i].dateTime = new Date(newDate).toISOString();
+    }
+  }
+
 }
