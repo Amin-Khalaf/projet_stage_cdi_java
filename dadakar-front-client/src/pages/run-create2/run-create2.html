@@ -1,0 +1,124 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-title>Créer un trajet</ion-title>
+
+    <ion-buttons right>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="formRunCreate2" (ngSubmit)="onGoToStep3()">
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <h4>Retour</h4>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <p>
+            Si vous effectuez le trajet retour avec les mêmes étapes et options, cochez la case suivante et les trajets
+            aller et retour seront automatiquement créés. Si vous ne voulez pas proposer le trajet retour
+            ou s'il diffère de l'aller, décochez la case.
+          </p>
+          <ion-item>
+            <ion-label>Créer aussi le retour</ion-label>
+            <ion-checkbox formControlName="isRoundTrip" #isRoundTrip></ion-checkbox>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <!-- <ion-item>
+            <ion-icon item-start name="calendar"></ion-icon>
+            <ion-label floating>Aller</ion-label>
+            <ion-datetime doneText="valider" cancelText="Annuler" formControlName="startDateTrip" #startDateTrip
+              minuteValues="0,15,30,45" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD MMM YY HH mm"
+              [min]="tomorrow" (ionChange)="setBackMinDate(startDateTrip)" (ionChange)="validate(formRunCreate2.value)"></ion-datetime>
+          </ion-item> -->
+          <ion-item *ngIf="isRoundTrip.checked">
+            <ion-icon item-start name="calendar"></ion-icon>
+            <ion-label floating>Retour</ion-label>
+            <ion-datetime doneText="valider" cancelText="Annuler" formControlName="startDateBack" #startDateBack
+              minuteValues="0,5,10,15,20,25,30,35,40,45,50,55" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD MMM YY HH mm"
+              [min]="minBackDate" (ionChange)="validate(formRunCreate2.value)"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <h4>Véhicule</h4>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-icon item-start name="car"></ion-icon>
+            <ion-label floating>Sélectionnez votre véhicule</ion-label>
+            <ion-select interface="popover" formControlName="vehicles" #vehicles (ionChange)="validate(formRunCreate2.value)">
+              <ion-option *ngFor="let vehicle of userVehicles" value="{{ vehicle.vehicleId }}">{{ vehicle.name }}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <h4>Autres informations</h4>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-icon item-start name="people"></ion-icon>
+            <ion-label floating>Nombre de places disponibles</ion-label>
+            <ion-input type="number" formControlName="nbPassengers" #nbPassengers min=1 max=10 (ionChange)="validate(formRunCreate2.value)"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-icon item-start name="briefcase"></ion-icon>
+            <ion-label floating>Taille des bagages</ion-label>
+            <ion-select interface="popover" formControlName="luggage" #luggage (ionChange)="validate(formRunCreate2.value)">
+              <ion-option *ngFor="let luggageType of luggageTypes" value="{{ luggageType.value }}">{{ luggageType.text }}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-icon item-start name="timer"></ion-icon>
+            <ion-label floating>Flexibilité horaire</ion-label>
+            <ion-datetime formControlName="flexibility" #flexibility min="00:00" max="02:45" minuteValues="0,15,30,45"
+              displayFormat="HH:mm" pickerFormat="HH mm" (ionChange)="validate(formRunCreate2.value)"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <button type="submit" ion-button block color="primary" [disabled]="!formIsValid">Suivant</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

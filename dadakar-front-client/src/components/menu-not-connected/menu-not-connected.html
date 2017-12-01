@@ -1,0 +1,36 @@
+<ion-list>
+  <ion-item (click)="subLogin()">
+    <ion-icon name="log-in" item-start></ion-icon>
+    Connexion
+    <ion-icon [ios]="loginIconIOS" [md]="loginIconMD" item-end></ion-icon>
+  </ion-item>
+  <form #form="ngForm" (ngSubmit)="login(form.value, form)" novalidate>
+    <ion-item-group submenu [hidden]="!showLogin">
+      <ion-item>
+        <ion-label floating>N° de téléphone (login)</ion-label>
+        <ion-input type="tel" name="username" ngModel required #username="ngModel" [class.invalid]="username.errors && username.dirty"></ion-input>
+      </ion-item>
+      <ion-item class="error-message" *ngIf="username.errors?.required && username.dirty">
+        Vous devez spécifier un nom d'utilisateur
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Mot de passe</ion-label>
+        <ion-input type="password" name="password" ngModel required #password="ngModel" [class.invalid]="password.errors && password.dirty"></ion-input>
+      </ion-item>
+      <ion-item class="error-message" *ngIf="password.errors?.required && password.dirty">
+        Vous devez spécifier un mot de passe
+      </ion-item>
+      <div padding>
+        <button ion-button color="primary" block type="submit" [disabled]="!form.valid">Se connecter</button>
+      </div>
+    </ion-item-group>
+  </form>
+  <ion-item (click)="signup()">
+    <ion-icon name="person-add" item-start></ion-icon>
+    S'enregistrer
+  </ion-item>
+  <ion-item (click)="about()">
+    <ion-icon name="information-circle" item-start></ion-icon>
+    A propos
+  </ion-item>
+</ion-list>

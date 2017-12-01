@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss(null)">
+                <span ion-text>Fermer</span>
+            </button>
+    </ion-buttons>
+    <ion-title>Détails du trajet</ion-title>
+    <ion-buttons start *ngIf="connected">
+      <button ion-button (click)="dismiss(run)">
+                <span ion-text>Reserver</span>
+            </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <h1 text-center>
+                <span *ngFor="let subRun of run.subRuns; let i = index">
+                    <span *ngIf="i > 0"> - </span>
+                    {{subRun.startPlace.address.town}}
+                    <span *ngIf="i == run.subRuns.length - 1"> - {{subRun.endPlace.address.town}}</span>
+                </span>
+            </h1>
+      <h3>Le {{run.subRuns[0].startDate | date: 'dd/MM/yyyy'}}</h3>
+    </ion-item>
+    <ion-item>
+      <!-- <div *ngFor="let wantedSubRun of wantedSubRuns"> -->
+      Départ : {{wantedSubRun.startPlace.address.town}} - {{wantedSubRun.startPlace.address.district}}
+      <ul style="list-style: none">
+        <li>{{ wantedSubRun.startPlace.meetingPoint}}</li>
+        <li>{{wantedSubRun.startTime}} (heure estimée)</li>
+      </ul>
+      Arrivée : {{wantedSubRun.endPlace.address.town}} - {{wantedSubRun.endPlace.address.district}}
+      <ul style="list-style: none">
+        <li>{{ wantedSubRun.endPlace.meetingPoint}}</li>
+        <li>{{wantedSubRun.estimatedEndDate | date: 'dd/MM/yyyy'}} {{wantedSubRun.estimatedEndTime}} (heure
+          estimée)
+        </li>
+      </ul>
+      Nombre de places disponibles : {{wantedSubRun.availableSeats}}<br> Type de baggage permis : {{run.luggageType}}
+      <br />Prix par passager : {{ wantedSubRun.price | currency:monnaie:true:'1.2-2'}}
+      <!-- </div> -->
+    </ion-item>
+    <ion-item>
+      Conducteur : {{run.driver.firstName}} {{run.driver.lastName | uppercase }}<br>
+      <div>
+        <rating score="{{note}}" max="5"></rating> <span (click)="viewRates()"> <u>{{nbRatings}} avis</u></span>
+      </div>
+      <ion-avatar item-end>
+        <img src="{{photo}}">
+      </ion-avatar>
+    </ion-item>
+    <ion-item>
+      Véhicule :
+      <ul style="list-style: none">
+        <li text-wrap>{{vehicle.brand}} {{vehicle.model}}</li>
+        <li>{{vehicle.color}}</li>
+        <li text-wrap>immatriculation : {{vehicle.registrationNumber}}</li>
+      </ul>
+      <ion-avatar item-end>
+        <img src="{{photoVehicule}}">
+      </ion-avatar>
+    </ion-item>
+    <ion-item>
+      Itinéraire :
+      <ion-grid>
+        <ion-row *ngFor="let subRun of run.subRuns; let i = index">
+          <br> {{subRun.startPlace.address.town}} - {{subRun.endPlace.address.town}}<br> Le {{subRun.startDate
+          | date: 'dd/MM/yyyy'}} {{subRun.startTime}} (heure estimée)<br>
+          <ion-col *ngIf="subRun.passengers.length > 0" col-12>Passagers :</ion-col>
+          <ion-col *ngIf="subRun.passengers.length == 0" col-12>Pas encore de passagers</ion-col>
+          <ion-col *ngFor="let passenger of subRun.passengers; let j = index" (click)="viewProfile(passenger.user)"
+            col-6>
+            {{passenger.user.firstName}} {{passenger.user.lastName | uppercase}}<br>
+            <ion-thumbnail>
+              <img src="{{passengersPhotos[i][j]}}">
+            </ion-thumbnail>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>

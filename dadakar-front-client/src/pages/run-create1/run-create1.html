@@ -1,0 +1,105 @@
+<ion-header>
+
+  <ion-navbar>
+
+    <ion-title>Créer un trajet</ion-title>
+
+    <ion-buttons right>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="user.vehicles.length == 0">
+    <p>
+      Vous devez avoir un véhicule pour pouvoir proposer un trajet. Veuillez aller dans le menu Mon compte
+      pour paramétrer un véhicule.
+    </p>
+  </div>
+  <form [formGroup]="formRunCreate1" (ngSubmit)="onGoToStep2()" *ngIf="user.vehicles.length > 0">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h4>Addresse de départ</h4>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <app-address-form formGroupName="startAddress" #startAddress (sendChange)="validateForm()"></app-address-form>
+        </ion-col>
+      </ion-row>
+
+      <ion-row [hidden]="formRunCreate1.get('startAddress').get('place').value == null || formRunCreate1.get('startAddress').get('place').value == ''">
+        <ion-col>
+          <h4>Addresse d'arrivée</h4>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="formRunCreate1.get('startAddress').get('place').value == null || formRunCreate1.get('startAddress').get('place').value == ''">
+        <ion-col>
+          <app-address-form formGroupName="endAddress" #endAddress (sendChange)="validateForm()"></app-address-form>
+        </ion-col>
+      </ion-row>
+
+      <div formArrayName="places" [hidden]="formRunCreate1.get('endAddress').get('place').value == null || formRunCreate1.get('endAddress').get('place').value == ''">
+        <div *ngFor="let placeControl of formRunCreate1.get('places').controls, let i = index">
+          <ion-row>
+            <ion-col>
+              <h4>
+              Etape {{ i+1 }}
+            </h4>
+            </ion-col>
+            <ion-col>
+              <button type="button" small outline ion-button icon-only (click)="removePlace(i)">
+                <ion-icon name="remove"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <app-address-form formGroupName="{{i}}" (sendChange)="validateForm()"></app-address-form>
+            </ion-col>
+          </ion-row>
+        </div>
+        <ion-row>
+          <ion-col>
+            <button type="button" outline ion-button icon-right block (click)="onAddPlace()" (click)="validateForm()">
+          Ajouter une étape
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <ion-row [hidden]="formRunCreate1.get('endAddress').get('place').value == null || formRunCreate1.get('endAddress').get('place').value == ''">
+        <ion-col>
+          <h4>Date et heure de départ</h4>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="formRunCreate1.get('endAddress').get('place').value == null || formRunCreate1.get('endAddress').get('place').value == ''">
+        <ion-col>
+          <ion-item>
+            <ion-icon item-start name="calendar"></ion-icon>
+            <ion-label floating>date et heure</ion-label>
+            <ion-datetime doneText="valider" cancelText="Annuler" formControlName="startDateTrip" #startDateTrip
+              minuteValues="0,5,10,15,20,25,30,35,40,45,50,55" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD MMM YY HH mm"
+              [min]="tomorrow" (ionChange)="validateForm()"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-right color="primary" block type="submit" [disabled]="!formIsValid">
+              Suivant
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

@@ -1,0 +1,64 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Créer un trajet</ion-title>
+
+    <ion-buttons right>
+      <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form #f='ngForm' (ngSubmit)="validateRun(f)">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h4>Prix par passager</h4>
+        </ion-col>
+      </ion-row>
+
+      <div *ngFor="let address of runValues.addresses, let i= index">
+
+        <ion-row *ngIf="i != 0">
+          <ion-col>
+            <ion-item>
+              <ion-icon item-start name="cash"></ion-icon>
+              <ion-label floating>prix de l'étape</ion-label>
+              <ion-input type="number" name="price{{ i }}" [(ngModel)]="address.price.price" min={{address.price.min}}
+                max={{address.price.max}} (ionChange)="getTotalPrice()" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="i != 0">
+          <ion-col>
+            Le prix doit être compris entre {{ address.price.min }} et {{ address.price.max }}
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <h6>{{address.district}}, {{address.town}}</h6>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <ion-row>
+        <ion-col>
+          <h5> Prix total: {{ totalPrice }}</h5>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <button type="submit" ion-button block [disabled]="!formIsValid">Valider</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

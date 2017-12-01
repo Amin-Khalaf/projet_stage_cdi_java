@@ -1,0 +1,71 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Info Utilisateur</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="signup(form.value)" [disabled]="!form.valid" clear>
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form #form="ngForm" (ngSubmit)="signup(form.value)" novalidate>
+        <ion-list>
+            <ion-item>
+                <ion-label floating>Nom</ion-label>
+                <ion-input type="text" name="lastName" ngModel required #lastName="ngModel" [class.invalid]="lastName.errors && lastName.dirty"></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="lastName.errors?.required && lastName.dirty">
+                Vous devez spécifié votre nom
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Prénom</ion-label>
+                <ion-input type="text" name="firstName" ngModel required #firstName="ngModel" [class.invalid]="firstName.errors && firstName.dirty"></ion-input>
+            </ion-item>
+            <ion-item class="error-message" *ngIf="firstName.errors?.required && firstName.dirty">
+                Vous devez spécifié votre nom
+            </ion-item>
+            <ion-item>
+                <ion-label floating>e-Mail</ion-label>
+                <ion-input type="text" name="mail" ngModel #mail="ngModel"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input type="hidden" name="photo" ngModel required #photo="ngModel"></ion-input>
+                <button ion-button icon-only item-end (click)="getPicture(1, form, 'photo')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-button icon-only item-end (click)="getPicture(0, form, 'photo')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon name="image"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <img src="{{userPhoto}}" alt="photo" width="150" height="150" />
+            </ion-item>
+            <ion-item>
+                <ion-input type="hidden" name="idCard" ngModel #idCard="ngModel"></ion-input>
+                <button ion-button icon-only item-end (click)="getPicture(1, form, 'idCard')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-button icon-only item-end (click)="getPicture(0, form, 'idCard')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon item-end name="image"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <img src="{{userIdCard}}" alt="Carte d'identité" width="150" height="150" />
+            </ion-item>
+            <ion-item>
+                <ion-input type="hidden" name="drivingLicence" ngModel #drivingLicence="ngModel"></ion-input>
+                <button ion-button icon-only item-end (click)="getPicture(1, form, 'drivingLicence')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-button icon-only item-end (click)="getPicture(0, form, 'drivingLicence')" type="button" [disabled]="(firstName.errors?.required && lastName.errors?.required)">
+                    <ion-icon item-end name="image"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <img src="{{userDrivingLicence}}" alt="Permis de conduire" width="150" height="150" />
+            </ion-item>
+        </ion-list>
+    </form>
+</ion-content>

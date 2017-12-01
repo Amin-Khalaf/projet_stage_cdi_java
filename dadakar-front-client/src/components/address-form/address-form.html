@@ -1,0 +1,26 @@
+<form [formGroup]="addressForm">
+
+  <ion-item>
+    <ion-icon name="globe" item-start></ion-icon>
+    <ion-label floating>Ville</ion-label>
+    <ion-select interface="popover" formControlName="town" #town (ionChange)="onSelectTown(town.value, 0)"
+      (ionChange)="sendOnChange()" required>
+      <ion-option *ngFor="let town of towns" value="{{ town }}">{{ town }}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item [hidden]="town.value == ''">
+    <ion-icon name="podium" item-start></ion-icon>
+    <ion-label floating>Quartier</ion-label>
+    <ion-select interface="popover" formControlName="district" #district (ionChange)="sendOnChange()" required>
+      <ion-option *ngFor="let address of listDistricts[0]" value="{{ address.district }}">{{ address.district }}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item [hidden]="district.value == ''">
+    <ion-icon name="pin" item-start></ion-icon>
+    <ion-label floating>Lieu de rendez-vous</ion-label>
+    <ion-input formControlName="place" type="text" #place (ionChange)="sendOnChange()" required></ion-input>
+  </ion-item>
+
+</form>
